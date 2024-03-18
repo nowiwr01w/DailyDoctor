@@ -1,10 +1,7 @@
 package di
 
+import config.di.moduleConfig
 import org.kodein.di.DI
-
-private val moduleConfig = DI.Module("ConfigModule") {
-    
-}
 
 private val allModules = listOf(
     moduleConfig
