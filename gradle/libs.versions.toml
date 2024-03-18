@@ -107,7 +107,7 @@ android = [
     "compose-activity",
     "compose-ui-tooling",
     "compose-ui-tooling-preview",
-#    "napier",
+    "napier",
     "ktor-client-android",
     "accompanist-system-ui"
 ]
