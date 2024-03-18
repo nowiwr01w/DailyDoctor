@@ -4,7 +4,8 @@ import config.di.moduleConfig
 import org.kodein.di.DI
 
 private val allModules = listOf(
-    moduleConfig
+    moduleConfig,
+    moduleViewModels
 )
 
 val appModules = DI {
