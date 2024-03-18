@@ -14,11 +14,14 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import dailydoctor.composeapp.generated.resources.Res
 import dailydoctor.composeapp.generated.resources.compose_multiplatform
+import di.appModules
+import org.kodein.di.compose.withDI
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
-fun App() {
+fun App() = withDI(appModules) {
+    startLogger()
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
