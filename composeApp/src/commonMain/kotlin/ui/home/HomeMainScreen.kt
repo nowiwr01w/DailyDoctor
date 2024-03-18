@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import base.rememberViewModel
@@ -27,15 +29,16 @@ internal fun HomeMainScreen(
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(
             modifier = Modifier
-                .padding(vertical = 16.dp)
+                .padding(vertical = 24.dp)
                 .fillMaxWidth(0.75f)
                 .fillMaxHeight()
         ) {
             Toolbar()
+            Description()
         }
     }
 }
@@ -99,6 +102,32 @@ private fun AuthButton() {
             fontSize = 14.sp,
             lineHeight = 14.sp,
             modifier = Modifier.padding(vertical = 10.dp, horizontal = 18.dp)
+        )
+    }
+}
+
+@Composable
+private fun Description() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(top = 48.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = "Сайт отзывов о врачах №1 в Грузии",
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 28.sp,
+            lineHeight = 28.sp,
+            color = Color.Black
+        )
+        Text(
+            text = "по количеству отзывов, посетителей и страниц врачей\n(исследование РБК, сентябрь 2019)",
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp,
+            lineHeight = 16.sp,
+            color = Color.Black.copy(alpha = 0.5f),
+            modifier = Modifier.padding(top = 4.dp)
         )
     }
 }
