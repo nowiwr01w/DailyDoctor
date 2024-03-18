@@ -2,7 +2,6 @@ package ui.home
 
 import base.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
-import ui.home.HomeContract
 import ui.home.HomeContract.*
 
 class HomeViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
