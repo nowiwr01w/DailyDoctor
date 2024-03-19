@@ -1,6 +1,6 @@
 package ui.home
 
-import base.BaseViewModel
+import base.view_model.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import ui.home.HomeContract.*
 

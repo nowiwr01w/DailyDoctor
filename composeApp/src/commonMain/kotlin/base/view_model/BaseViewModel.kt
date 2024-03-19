@@ -1,16 +1,12 @@
-package base
+package base.view_model
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import androidx.compose.runtime.State as ComposeState
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
+import androidx.compose.runtime.State as ComposeState
 
 abstract class BaseViewModel<Event: BaseEvent, State: BaseState, Effect: BaseEffect>(
     private val coroutineScope: CoroutineScope

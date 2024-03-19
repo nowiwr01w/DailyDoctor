@@ -1,4 +1,0 @@
-package base
-
-interface BaseState {
-}

@@ -1,10 +1,12 @@
 package di
 
 import config.di.moduleConfig
+import data.di.moduleData
 import org.kodein.di.DI
 
 private val allModules = listOf(
     moduleConfig,
+    moduleData,
     moduleViewModels
 )
 
