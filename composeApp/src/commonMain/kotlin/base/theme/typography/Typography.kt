@@ -1,4 +1,4 @@
-package base.theme
+package base.theme.typography
 
 import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable

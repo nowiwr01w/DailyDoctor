@@ -1,1 +1,1 @@
-actual val platform = Platform.IOS
+actual val currentPlatform = Platform.IOS

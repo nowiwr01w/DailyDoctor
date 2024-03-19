@@ -7,4 +7,4 @@ enum class Platform {
 
 //expect val platform: Platform
 
-expect val platform: Platform
+expect val currentPlatform: Platform

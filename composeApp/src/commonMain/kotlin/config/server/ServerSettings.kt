@@ -1,7 +1,7 @@
 package config.server
 
 import Platform.ANDROID
-import platform
+import currentPlatform
 
 sealed interface ServerSettings {
     val serverUrl: String
@@ -11,7 +11,7 @@ sealed interface ServerSettings {
  * DEBUG
  */
 data class DebugServerSettings(
-    override val serverUrl: String = when (platform) {
+    override val serverUrl: String = when (currentPlatform) {
         ANDROID -> "http://10.0.2.2:8081"
         else -> "http://127.0.0.1:8081"
     }

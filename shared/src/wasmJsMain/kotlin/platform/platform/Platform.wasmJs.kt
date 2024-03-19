@@ -1,1 +1,1 @@
-actual val platform = Platform.WEB
+actual val currentPlatform = Platform.WEB

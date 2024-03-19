@@ -6,6 +6,7 @@ import org.kodein.di.DI
 
 private val allModules = listOf(
     moduleConfig,
+    moduleTheme,
     moduleData,
     moduleViewModels
 )

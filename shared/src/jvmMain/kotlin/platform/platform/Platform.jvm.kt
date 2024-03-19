@@ -1,1 +1,1 @@
-actual val platform = Platform.DESKTOP
+actual val currentPlatform = Platform.DESKTOP
