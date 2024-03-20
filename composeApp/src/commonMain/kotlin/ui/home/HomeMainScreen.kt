@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import base.theme.CustomTheme
 import base.view_model.rememberViewModel
 import dailydoctor.composeapp.generated.resources.Res
 import dailydoctor.composeapp.generated.resources.ic_app_logo_big
@@ -127,7 +128,7 @@ private fun Description() {
             fontWeight = FontWeight.SemiBold,
             fontSize = 28.sp,
             lineHeight = 28.sp,
-            color = Color.Black
+            color = CustomTheme.colors.textColors.blackTextColor
         )
         Text(
             text = "по количеству отзывов, посетителей и страниц врачей\n(исследование РБК, сентябрь 2019)",
