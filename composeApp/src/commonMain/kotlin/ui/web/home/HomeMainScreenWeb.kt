@@ -1,4 +1,4 @@
-package ui.home
+package ui.web.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,9 +31,10 @@ import dailydoctor.composeapp.generated.resources.ic_app_logo_big
 import dailydoctor.composeapp.generated.resources.ic_pin
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import ui.common.home.HomeViewModel
 
 @Composable
-internal fun HomeMainScreen(
+internal fun HomeMainScreenWeb(
     viewModel: HomeViewModel = rememberViewModel()
 ) {
     Column(

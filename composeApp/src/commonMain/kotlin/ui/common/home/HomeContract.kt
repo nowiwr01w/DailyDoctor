@@ -1,4 +1,4 @@
-package ui.home
+package ui.common.home
 
 import base.view_model.BaseEffect
 import base.view_model.BaseEvent
