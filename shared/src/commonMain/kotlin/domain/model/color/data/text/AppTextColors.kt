@@ -7,4 +7,5 @@ interface AppTextColors {
     val grayTextColor: Color
     val blueTextColor: Color
     val whiteTextColor: Color
+    val redTextColor: Color
 }
