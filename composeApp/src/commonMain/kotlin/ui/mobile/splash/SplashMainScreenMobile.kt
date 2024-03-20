@@ -1,5 +1,11 @@
 package ui.mobile.splash
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +34,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.common.splash.SplashContract
 import ui.common.splash.SplashContract.Event
+import ui.common.splash.SplashContract.SplashAnimationState
 import ui.common.splash.SplashContract.State
 import ui.common.splash.SplashViewModel
 
@@ -59,21 +67,64 @@ private fun SplashMainScreenContent(state: State) {
         modifier = Modifier
             .fillMaxSize()
             .background(colors.backgroundColors.whiteBackgroundColor)
+            .animateContentSize()
     ) {
-        Image(
-            painter = painterResource(Res.drawable.ic_app_logo_small),
-            contentDescription = "",
-            modifier = Modifier.size(64.dp)
-        )
-        LogoText(
-            text = "DAILY",
-            color = colors.textColors.blueTextColor,
+        if (state.animationState == SplashAnimationState.PROGRESS) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(32.dp)
+            )
+        }
+        AnimatedContainer(
+            expectedAnimationState = SplashAnimationState.ICON,
+            actualAnimationState = state.animationState
+        ) {
+            Image(
+                painter = painterResource(Res.drawable.ic_app_logo_small),
+                contentDescription = "",
+                modifier = Modifier.size(64.dp)
+            )
+        }
+        AnimatedContainer(
+            expectedAnimationState = SplashAnimationState.FIRST_TEXT,
+            actualAnimationState = state.animationState,
             modifier = Modifier.padding(top = 16.dp)
-        )
-        LogoText(
-            text = "DOCTOR",
-            color = colors.textColors.redTextColor
-        )
+        ) {
+            LogoText(
+                text = "DAILY",
+                color = colors.textColors.blueTextColor
+            )
+        }
+        AnimatedContainer(
+            expectedAnimationState = SplashAnimationState.SECOND_TEXT,
+            actualAnimationState = state.animationState,
+        ) {
+            LogoText(
+                text = "DOCTOR",
+                color = colors.textColors.redTextColor
+            )
+        }
+    }
+}
+
+/**
+ * ANIMATED CONTAINER
+ */
+@Composable
+private fun AnimatedContainer(
+    expectedAnimationState: SplashAnimationState,
+    actualAnimationState: SplashAnimationState,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    AnimatedVisibility(
+        visible = actualAnimationState.value >= expectedAnimationState.value,
+        modifier = modifier,
+        exit = ExitTransition.None,
+        enter = fadeIn(
+            animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
+        ),
+    ) {
+        content()
     }
 }
 
