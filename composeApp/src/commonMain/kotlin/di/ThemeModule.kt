@@ -1,6 +1,9 @@
 package di
 
 import Platform.*
+import base.theme.color.data.background.AppBackgroundColors
+import base.theme.color.data.background.classic.ClassicDarkBackgroundColors
+import base.theme.color.data.background.classic.ClassicLightBackgroundColors
 import base.theme.shape.AppShapes
 import base.theme.shape.DesktopShapes
 import base.theme.shape.MobileShapes
@@ -9,6 +12,7 @@ import base.theme.typography.AppTypography
 import base.theme.typography.DesktopTypography
 import base.theme.typography.MobileTypography
 import base.theme.typography.WebTypography
+import domain.repository.AppTheme.*
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 
@@ -42,5 +46,14 @@ val moduleTheme = DI.Module("ThemeModule") {
     }
     bindProvider<AppTypography>(WEB) {
         WebTypography()
+    }
+    /**
+     * COLORS
+     */
+    bindProvider<AppBackgroundColors>(LIGHT) {
+        ClassicLightBackgroundColors()
+    }
+    bindProvider<AppBackgroundColors>(DARK) {
+        ClassicDarkBackgroundColors()
     }
 }

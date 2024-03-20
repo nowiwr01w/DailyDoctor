@@ -1,6 +1,5 @@
 package config.di
 
-import config.AppBuildType
 import config.AppBuildType.LOCAL
 import config.AppBuildType.REMOTE
 import config.AppConfig
