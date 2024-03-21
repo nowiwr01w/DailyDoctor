@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import logMessage
 import ui.common.splash.SplashContract.*
 import ui.common.splash.SplashContract.SplashAnimationState.*
 
@@ -33,7 +32,6 @@ class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect
                 // TODO: Send analytics with [splash_start] param
             }
             .onEach { millis ->
-                logMessage("mi = $millis")
                 setAnimationState(millis)
                 delay(100)
             }
