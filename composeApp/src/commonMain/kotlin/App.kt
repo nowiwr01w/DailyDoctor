@@ -6,6 +6,7 @@ import di.appModules
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.kodein.di.compose.withDI
 import ui.desktop.splash.SplashMainScreenDesktop
+import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
 import ui.web.splash.SplashMainScreenWeb
 
@@ -22,5 +23,5 @@ fun App() = withDI(appModules) {
 private fun AppContent() = when (currentPlatform) {
     WEB -> SplashMainScreenWeb()
     DESKTOP -> SplashMainScreenDesktop()
-    else -> SplashMainScreenMobile()
+    else -> OnboardingMainScreenMobile()
 }
