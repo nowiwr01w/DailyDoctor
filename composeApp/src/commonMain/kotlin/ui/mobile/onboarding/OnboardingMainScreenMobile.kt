@@ -18,6 +18,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -114,6 +116,7 @@ private fun OnboardingItemView(
     item: OnboardingItem,
     onShowNextItemClicked: () -> Unit
 ) {
+    val iconWidth by rememberUpdatedState(0.8 * getScreenWidth())
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -124,15 +127,15 @@ private fun OnboardingItemView(
             painter = painterResource(item.image),
             contentDescription = "",
             modifier = Modifier
-                .padding(top = 32.dp)
-                .size(0.8 * getScreenWidth())
+                .padding(top = 16.dp)
+                .size(iconWidth)
         )
         Text(
             text = item.title,
             color = colors.textColors.blackTextColor,
             style = MaterialTheme.typography.h3,
             modifier = Modifier
-                .padding(top = 36.dp)
+                .padding(top = 32.dp)
                 .fillMaxWidth()
         )
         Box(
