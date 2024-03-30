@@ -1,75 +1,56 @@
 package navigation
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pushNew
-import com.arkivanov.decompose.value.Value
 import kotlinx.serialization.Serializable
 import navigation.MainNavigator.Child
-import navigation.MainNavigatorImpl.AppNavigationConfig.Onboarding
+import navigation.MainNavigator.Child.AuthChild
+import navigation.MainNavigator.Child.OnboardingChild
+import navigation.MainNavigator.Child.SplashChild
 import navigation.MainNavigatorImpl.AppNavigationConfig.Splash
-import navigation.auth.AuthNavigatorImpl
-import navigation.onboarding.OnboardingNavigatorImpl
-import navigation.splash.SplashNavigatorImpl
+import navigation.auth.AuthNavigator
+import navigation.di.AppStackNavigation
+import navigation.onboarding.OnboardingNavigator
+import navigation.splash.SplashNavigator
 import ui.common.onboarding.data.OnboardingItem
 
 class MainNavigatorImpl(
-    private val context: ComponentContext
-) : MainNavigator, ComponentContext by context {
-    
-    private val navigation = StackNavigation<AppNavigationConfig>()
-    
-    override val splashNavigator = buildSplashNavigator(context)
-    override val onboardingNavigator = buildOnboardingNavigator(context)
-    override val authNavigator = buildAuthNavigator(context)
-    
-    override val stack: Value<ChildStack<*, Child>>
-        get() = childStack(
-            source = navigation,
-            serializer = AppNavigationConfig.serializer(),
-            initialConfiguration = Splash,
-            handleBackButton = true,
-            childFactory = ::child
+    appContext: ComponentContext,
+    navigation: AppStackNavigation,
+    override val splashNavigator: SplashNavigator,
+    override val onboardingNavigator: OnboardingNavigator,
+    override val authNavigator: AuthNavigator,
+): MainNavigator, ComponentContext by appContext {
+
+    override val stack = childStack(
+        source = navigation,
+        serializer = AppNavigationConfig.serializer(),
+        initialConfiguration = Splash,
+        handleBackButton = true,
+        childFactory = { config, childContext ->
+            config.child.also { child ->
+                child.updateChildContext(childContext)
+            }
+        }
+    )
+
+    @Serializable
+    sealed class AppNavigationConfig(val child: Child) {
+        @Serializable
+        data object Splash: AppNavigationConfig(child = SplashChild)
+        @Serializable
+        data class Onboarding(val onboardingItem: OnboardingItem): AppNavigationConfig(
+            child = OnboardingChild(onboardingItem)
         )
-    
-    private fun child(config: AppNavigationConfig, context: ComponentContext) = when (config) {
-        is Splash -> Child.SplashChild
-        is Onboarding -> Child.OnboardingChild(config.onboardingItem)
-//        is Auth -> Child.AuthChild(buildAuthNavigator(context))
+        @Serializable
+        data object Auth: AppNavigationConfig(child = AuthChild)
     }
 
-    @OptIn(ExperimentalDecomposeApi::class)
-    private fun buildSplashNavigator(context: ComponentContext) = SplashNavigatorImpl(
-        context = context,
-        navigateToSpashCallback = { navigation.pushNew(Splash) }
-    )
-    
-    @OptIn(ExperimentalDecomposeApi::class)
-    private fun buildOnboardingNavigator(context: ComponentContext) = OnboardingNavigatorImpl(
-        context = context,
-        navigateToOnboardingCallback = { onboardingItem ->
-            navigation.pushNew(Onboarding(onboardingItem))
-        }
-    )
-    
-    @OptIn(ExperimentalDecomposeApi::class)
-    private fun buildAuthNavigator(context: ComponentContext) = AuthNavigatorImpl(
-        context = context,
-        navigateToAuthCallback = {
-//            navigation.pushNew(Auth)
-        }
-    )
-    
-    @Serializable
-    private sealed interface AppNavigationConfig {
-        @Serializable
-        data object Splash: AppNavigationConfig
-        @Serializable
-        data class Onboarding(val onboardingItem: OnboardingItem): AppNavigationConfig
-//        @Serializable
-//        data object Auth: AppNavigationConfig
+    private fun Child.updateChildContext(childContext: ComponentContext) = when (this) {
+        is SplashChild -> splashNavigator
+        is OnboardingChild -> onboardingNavigator
+        is AuthChild -> authNavigator
+    }.also { navigator ->
+        navigator.updateChildContext(childContext)
     }
 }

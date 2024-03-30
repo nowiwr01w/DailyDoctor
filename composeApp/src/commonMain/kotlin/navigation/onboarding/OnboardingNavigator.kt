@@ -1,7 +1,8 @@
 package navigation.onboarding
 
+import navigation.base.BaseNavigator
 import ui.common.onboarding.data.OnboardingItem
 
-interface OnboardingNavigator {
-    fun navigateToOnboarding(onboardingItem: OnboardingItem)
+abstract class OnboardingNavigator: BaseNavigator() {
+    abstract fun navigateToOnboarding(onboardingItem: OnboardingItem)
 }

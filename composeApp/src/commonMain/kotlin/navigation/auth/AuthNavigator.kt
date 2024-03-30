@@ -1,5 +1,7 @@
 package navigation.auth
 
-interface AuthNavigator {
-    fun navigateToAuth()
+import navigation.base.BaseNavigator
+
+abstract class AuthNavigator: BaseNavigator() {
+    abstract fun navigateToAuth()
 }

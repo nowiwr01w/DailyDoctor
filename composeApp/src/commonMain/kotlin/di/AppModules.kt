@@ -2,13 +2,15 @@ package di
 
 import config.di.moduleConfig
 import data.di.moduleData
+import navigation.di.moduleNavigation
 import org.kodein.di.DI
 
 private val allModules = listOf(
     moduleConfig,
     moduleTheme,
     moduleData,
-    moduleViewModels
+    moduleViewModels,
+    moduleNavigation,
 )
 
 val appModules = DI {

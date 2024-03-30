@@ -1,5 +1,7 @@
 package navigation.splash
 
-interface SplashNavigator {
-    fun navigateToSplash()
+import navigation.base.BaseNavigator
+
+abstract class SplashNavigator: BaseNavigator() {
+    abstract fun navigateToSplash()
 }

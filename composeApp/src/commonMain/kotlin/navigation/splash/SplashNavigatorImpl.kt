@@ -1,13 +1,17 @@
 package navigation.splash
 
-import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.pushNew
+import navigation.MainNavigatorImpl.AppNavigationConfig
+import navigation.MainNavigatorImpl.AppNavigationConfig.Splash
 
 class SplashNavigatorImpl(
-    context: ComponentContext,
-    private val navigateToSpashCallback: () -> Unit
-): SplashNavigator {
+    override val navigation: StackNavigation<AppNavigationConfig>
+): SplashNavigator() {
 
+    @OptIn(ExperimentalDecomposeApi::class)
     override fun navigateToSplash() {
-        navigateToSpashCallback()
+        navigation.pushNew(Splash)
     }
 }
