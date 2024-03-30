@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import base.theme.AppTheme
 import base.theme.CustomTheme.colors
 import base.view_model.EffectObserver
@@ -31,6 +31,7 @@ import navigation.MainNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import platform.getScreenWidth
 import ui.common.onboarding.OnboardingContract.Effect
 import ui.common.onboarding.OnboardingContract.Event
 import ui.common.onboarding.OnboardingContract.Listener
@@ -123,15 +124,15 @@ private fun OnboardingItemView(
             painter = painterResource(item.image),
             contentDescription = "",
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.4f)
+                .padding(top = 32.dp)
+                .size(0.8 * getScreenWidth())
         )
         Text(
             text = item.title,
             color = colors.textColors.blackTextColor,
             style = MaterialTheme.typography.h3,
             modifier = Modifier
-                .padding(top = 8.dp)
+                .padding(top = 36.dp)
                 .fillMaxWidth()
         )
         Box(
