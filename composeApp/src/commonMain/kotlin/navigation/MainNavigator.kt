@@ -1,5 +1,7 @@
 package navigation
 
+import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimator
+import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import navigation.auth.AuthNavigator
@@ -15,7 +17,9 @@ interface MainNavigator {
     val onboardingNavigator: OnboardingNavigator
     val authNavigator: AuthNavigator
     
-    sealed class Child {
+    sealed class Child(
+        val animation: StackAnimator = slide()
+    ) {
         data object SplashChild: Child()
         data class OnboardingChild(val onboardingItem: OnboardingItem): Child()
     }

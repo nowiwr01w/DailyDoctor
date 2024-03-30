@@ -1,9 +1,9 @@
+
 import Platform.DESKTOP
 import Platform.WEB
 import androidx.compose.runtime.Composable
 import base.theme.AppTheme
 import com.arkivanov.decompose.extensions.compose.stack.Children
-import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import di.appModules
 import navigation.MainNavigator
@@ -30,7 +30,7 @@ fun App(mainComponent: MainNavigator) = withDI(appModules) {
 private fun AppContent(navigator: MainNavigator) {
     Children(
         stack = navigator.stack,
-        animation = stackAnimation(slide())
+        animation = stackAnimation { child -> child.instance.animation }
     ) {
         when (val child = it.instance) {
             is SplashChild -> {
