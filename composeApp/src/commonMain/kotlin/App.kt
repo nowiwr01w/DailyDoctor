@@ -15,10 +15,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.withDI
 import ui.common.onboarding.data.OnboardingItem
-import ui.desktop.splash.SplashMainScreenDesktop
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
-import ui.web.splash.SplashMainScreenWeb
 
 @Composable
 @Preview
@@ -57,8 +55,8 @@ private fun AppContent(navigator: MainNavigator) {
  */
 @Composable
 private fun AppSplashScreen(navigator: MainNavigator) = when (currentPlatform) {
-    WEB -> SplashMainScreenWeb()
-    DESKTOP -> SplashMainScreenDesktop()
+    WEB -> SplashMainScreenMobile(navigator)
+    DESKTOP -> SplashMainScreenMobile(navigator)
     else -> SplashMainScreenMobile(navigator)
 }
 
