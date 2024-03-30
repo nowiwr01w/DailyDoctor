@@ -1,8 +1,16 @@
 
 import Platform.DESKTOP
 import Platform.WEB
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import base.theme.AppTheme
+import base.theme.CustomTheme.colors
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
@@ -25,7 +33,14 @@ fun App(context: ComponentContext) = withDI(appModules) {
     val mainNavigator = mainNavigatorFactory(context)
     startLogger()
     AppTheme {
-        AppContent(mainNavigator)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.backgroundColors.whiteBackgroundColor)
+                .windowInsetsPadding(WindowInsets.safeDrawing)
+        ) {
+            AppContent(mainNavigator)
+        }
     }
 }
 

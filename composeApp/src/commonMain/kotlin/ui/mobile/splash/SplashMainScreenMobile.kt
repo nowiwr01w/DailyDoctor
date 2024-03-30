@@ -70,7 +70,6 @@ private fun SplashMainScreenContent(state: State) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(colors.backgroundColors.whiteBackgroundColor)
             .animateContentSize()
     ) {
         if (state.animationState == SplashAnimationState.PROGRESS) {
