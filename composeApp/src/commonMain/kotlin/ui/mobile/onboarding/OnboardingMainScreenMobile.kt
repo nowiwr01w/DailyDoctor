@@ -2,7 +2,16 @@ package ui.mobile.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
@@ -18,40 +27,46 @@ import base.theme.AppTheme
 import base.theme.CustomTheme.colors
 import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
-import navigation.auth.AuthNavigator
+import navigation.MainNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.common.onboarding.OnboardingContract.*
+import ui.common.onboarding.OnboardingContract.Effect
+import ui.common.onboarding.OnboardingContract.Event
+import ui.common.onboarding.OnboardingContract.Listener
+import ui.common.onboarding.OnboardingContract.State
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.onboarding.data.OnboardingItem
-import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
 
 @Composable
 internal fun OnboardingMainScreenMobile(
-    navigator: AuthNavigator,
+    onboardingItem: OnboardingItem,
+    navigator: MainNavigator,
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
         override fun showNextOnboardingItem() {
-            // TODO: Navigate to the similar screen
+            viewModel.setEvent(Event.ShowNextOnboardingItem)
         }
         override fun onEnableNotificationsClick() {
             // TODO: Enable notifications
         }
-        override fun navigateToAuth() {
-            // TODO: Navigate to auth screen
-        }
     }
     
     LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init)
+        viewModel.setEvent(Event.Init(onboardingItem))
     }
     
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is Effect.RequestNotifications -> {
                 // TODO
+            }
+            is Effect.NavigateToAuth -> {
+
+            }
+            is Effect.NavigateToNextOnboardingItem -> {
+                navigator.onboardingNavigator.navigateToOnboarding(effect.onboardingItem)
             }
         }
     }
@@ -68,7 +83,7 @@ internal fun OnboardingMainScreenMobile(
 @Composable
 private fun OnboardingMainScreenContent(
     state: State,
-    listener: Listener?,
+    listener: Listener?
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -79,12 +94,7 @@ private fun OnboardingMainScreenContent(
             val currentOnboardingItem = state.currentOnboardingItem
             OnboardingItemView(
                 item = currentOnboardingItem,
-                onShowNextItemClicked = {
-                    when (currentOnboardingItem) {
-                        is NotificationsOnboardingItem -> listener?.navigateToAuth()
-                        else -> listener?.showNextOnboardingItem()
-                    }
-                }
+                onShowNextItemClicked = { listener?.showNextOnboardingItem() }
             )
         } else {
             CircularProgressIndicator(

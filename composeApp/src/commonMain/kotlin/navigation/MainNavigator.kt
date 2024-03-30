@@ -5,6 +5,7 @@ import com.arkivanov.decompose.value.Value
 import navigation.auth.AuthNavigator
 import navigation.onboarding.OnboardingNavigator
 import navigation.splash.SplashNavigator
+import ui.common.onboarding.data.OnboardingItem
 
 interface MainNavigator {
 
@@ -15,7 +16,7 @@ interface MainNavigator {
     val authNavigator: AuthNavigator
     
     sealed class Child {
-        data class SplashChild(val component: OnboardingNavigator): Child()
-        data class OnboardingChild(val component: AuthNavigator): Child()
+        data object SplashChild: Child()
+        data class OnboardingChild(val onboardingItem: OnboardingItem): Child()
     }
 }

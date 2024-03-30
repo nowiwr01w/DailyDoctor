@@ -14,6 +14,7 @@ import navigation.MainNavigatorImpl.AppNavigationConfig.Splash
 import navigation.auth.AuthNavigatorImpl
 import navigation.onboarding.OnboardingNavigatorImpl
 import navigation.splash.SplashNavigatorImpl
+import ui.common.onboarding.data.OnboardingItem
 
 class MainNavigatorImpl(
     private val context: ComponentContext
@@ -35,8 +36,8 @@ class MainNavigatorImpl(
         )
     
     private fun child(config: AppNavigationConfig, context: ComponentContext) = when (config) {
-        is Splash -> Child.SplashChild(buildOnboardingNavigator(context))    
-        is Onboarding -> Child.OnboardingChild(buildAuthNavigator(context))
+        is Splash -> Child.SplashChild
+        is Onboarding -> Child.OnboardingChild(config.onboardingItem)
 //        is Auth -> Child.AuthChild(buildAuthNavigator(context))
     }
 
@@ -49,7 +50,9 @@ class MainNavigatorImpl(
     @OptIn(ExperimentalDecomposeApi::class)
     private fun buildOnboardingNavigator(context: ComponentContext) = OnboardingNavigatorImpl(
         context = context,
-        navigateToOnboardingCallback = { navigation.pushNew(Onboarding) }
+        navigateToOnboardingCallback = { onboardingItem ->
+            navigation.pushNew(Onboarding(onboardingItem))
+        }
     )
     
     @OptIn(ExperimentalDecomposeApi::class)
@@ -65,7 +68,7 @@ class MainNavigatorImpl(
         @Serializable
         data object Splash: AppNavigationConfig
         @Serializable
-        data object Onboarding: AppNavigationConfig
+        data class Onboarding(val onboardingItem: OnboardingItem): AppNavigationConfig
 //        @Serializable
 //        data object Auth: AppNavigationConfig
     }

@@ -6,13 +6,12 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import di.appModules
+import navigation.MainNavigator
 import navigation.MainNavigator.Child.OnboardingChild
 import navigation.MainNavigator.Child.SplashChild
-import navigation.MainNavigatorImpl
-import navigation.auth.AuthNavigator
-import navigation.onboarding.OnboardingNavigator
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.kodein.di.compose.withDI
+import ui.common.onboarding.data.OnboardingItem
 import ui.desktop.splash.SplashMainScreenDesktop
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
@@ -20,7 +19,7 @@ import ui.web.splash.SplashMainScreenWeb
 
 @Composable
 @Preview
-fun App(mainComponent: MainNavigatorImpl) = withDI(appModules) {
+fun App(mainComponent: MainNavigator) = withDI(appModules) {
     startLogger()
     AppTheme {
         AppContent(mainComponent)
@@ -28,14 +27,19 @@ fun App(mainComponent: MainNavigatorImpl) = withDI(appModules) {
 }
 
 @Composable
-private fun AppContent(mainComponent: MainNavigatorImpl) {
+private fun AppContent(navigator: MainNavigator) {
     Children(
-        stack = mainComponent.stack,
+        stack = navigator.stack,
         animation = stackAnimation(slide())
     ) {
         when (val child = it.instance) {
-            is SplashChild -> AppSplashScreen(navigator = child.component)
-            is OnboardingChild -> AppOnboardingScreen(navigator = child.component)
+            is SplashChild -> {
+                AppSplashScreen(navigator = navigator)
+            }
+            is OnboardingChild -> AppOnboardingScreen(
+                navigator = navigator,
+                onboardingItem = child.onboardingItem
+            )
         }
     }
 }
@@ -44,7 +48,7 @@ private fun AppContent(mainComponent: MainNavigatorImpl) {
  * SPLASH SCREEN
  */
 @Composable
-private fun AppSplashScreen(navigator: OnboardingNavigator) = when (currentPlatform) {
+private fun AppSplashScreen(navigator: MainNavigator) = when (currentPlatform) {
     WEB -> SplashMainScreenWeb()
     DESKTOP -> SplashMainScreenDesktop()
     else -> SplashMainScreenMobile(navigator)
@@ -54,8 +58,19 @@ private fun AppSplashScreen(navigator: OnboardingNavigator) = when (currentPlatf
  * ONBOARDING SCREEN
  */
 @Composable
-private fun AppOnboardingScreen(navigator: AuthNavigator) = when (currentPlatform) {
-    WEB -> OnboardingMainScreenMobile(navigator)
-    DESKTOP -> OnboardingMainScreenMobile(navigator)
-    else -> OnboardingMainScreenMobile(navigator)
+private fun AppOnboardingScreen(
+    navigator: MainNavigator,
+    onboardingItem: OnboardingItem
+) {
+    val onboardingScreen: @Composable () -> Unit = {
+        OnboardingMainScreenMobile(
+            navigator = navigator,
+            onboardingItem = onboardingItem
+        )
+    }
+    when (currentPlatform) {
+        WEB -> onboardingScreen()
+        DESKTOP -> onboardingScreen()
+        else -> onboardingScreen()
+    }
 }

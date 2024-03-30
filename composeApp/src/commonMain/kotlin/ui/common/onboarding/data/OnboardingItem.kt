@@ -2,13 +2,16 @@ package ui.common.onboarding.data
 
 import dailydoctor.composeapp.generated.resources.Res
 import dailydoctor.composeapp.generated.resources.compose_multiplatform
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import ui.common.onboarding.data.OnboardingItem.*
 
 @OptIn(ExperimentalResourceApi::class)
+@Serializable
 sealed class OnboardingItem(
-    open val image: DrawableResource,
+    @Contextual open val image: DrawableResource,
     open val title: String,
     open val description: String,
     open val firstButtonText: String,

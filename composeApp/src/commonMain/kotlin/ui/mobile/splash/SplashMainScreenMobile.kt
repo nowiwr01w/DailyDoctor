@@ -29,10 +29,11 @@ import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
 import dailydoctor.composeapp.generated.resources.Res
 import dailydoctor.composeapp.generated.resources.ic_app_logo_small
-import navigation.onboarding.OnboardingNavigator
+import navigation.MainNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.common.onboarding.data.getOnboardingItems
 import ui.common.splash.SplashContract
 import ui.common.splash.SplashContract.Event
 import ui.common.splash.SplashContract.SplashAnimationState
@@ -41,7 +42,7 @@ import ui.common.splash.SplashViewModel
 
 @Composable
 internal fun SplashMainScreenMobile(
-    navigator: OnboardingNavigator,
+    navigator: MainNavigator,
     viewModel: SplashViewModel = rememberViewModel()
 ) {
     LaunchedEffect(Unit) {
@@ -50,7 +51,8 @@ internal fun SplashMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is SplashContract.Effect.NavigateToOnboarding -> {
-                navigator.navigateToOnboarding()
+                val onboardingItem = getOnboardingItems().first()
+                navigator.onboardingNavigator.navigateToOnboarding(onboardingItem)
             }
         }
     }

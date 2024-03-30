@@ -8,7 +8,8 @@ import ui.common.onboarding.data.OnboardingItem
 interface OnboardingContract {
     
     sealed interface Event: BaseEvent {
-        data object Init: Event
+        data class Init(val onboardingItem: OnboardingItem): Event
+        data object ShowNextOnboardingItem: Event
     }
     
     data class State(
@@ -16,12 +17,13 @@ interface OnboardingContract {
     ): BaseState
     
     sealed interface Effect: BaseEffect {
+        data object NavigateToAuth: Effect
         data object RequestNotifications: Effect
+        data class NavigateToNextOnboardingItem(val onboardingItem: OnboardingItem): Effect
     }
-    
+
     interface Listener {
         fun showNextOnboardingItem()
         fun onEnableNotificationsClick()
-        fun navigateToAuth()
     }
 }
