@@ -29,6 +29,7 @@ import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
 import dailydoctor.composeapp.generated.resources.Res
 import dailydoctor.composeapp.generated.resources.ic_app_logo_small
+import navigation.onboarding.OnboardingNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -40,6 +41,7 @@ import ui.common.splash.SplashViewModel
 
 @Composable
 internal fun SplashMainScreenMobile(
+    navigator: OnboardingNavigator,
     viewModel: SplashViewModel = rememberViewModel()
 ) {
     LaunchedEffect(Unit) {
@@ -47,8 +49,8 @@ internal fun SplashMainScreenMobile(
     }
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
-            is SplashContract.Effect.NavigateToHome -> {
-                // TODO
+            is SplashContract.Effect.NavigateToOnboarding -> {
+                navigator.navigateToOnboarding()
             }
         }
     }

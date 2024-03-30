@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import ui.common.onboarding.OnboardingContract.Effect
 import ui.common.onboarding.OnboardingContract.Event
 import ui.common.onboarding.OnboardingContract.State
+import ui.common.onboarding.data.getOnboardingItems
 
 class OnboardingViewModel(scope: CoroutineScope) : BaseViewModel<Event, State, Effect>(scope) {
 
@@ -17,6 +18,7 @@ class OnboardingViewModel(scope: CoroutineScope) : BaseViewModel<Event, State, E
     }
 
     private fun init() {
-
+        val currentOnboardingItem = getOnboardingItems().first()
+        setState { copy(currentOnboardingItem = currentOnboardingItem) }
     }
 }

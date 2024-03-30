@@ -37,6 +37,7 @@ class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect
             }
             .onCompletion {
                 // TODO: Send analytics with [splash_end] param
+                setEffect { Effect.NavigateToOnboarding }
             }
             .collect()
     }

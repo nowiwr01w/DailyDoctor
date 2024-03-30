@@ -18,6 +18,7 @@ import base.theme.AppTheme
 import base.theme.CustomTheme.colors
 import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
+import navigation.auth.AuthNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -28,6 +29,7 @@ import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
 
 @Composable
 internal fun OnboardingMainScreenMobile(
+    navigator: AuthNavigator,
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
