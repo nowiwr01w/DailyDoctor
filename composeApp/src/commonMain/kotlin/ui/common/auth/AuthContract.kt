@@ -3,7 +3,8 @@ package ui.common.auth
 import base.view_model.BaseEffect
 import base.view_model.BaseEvent
 import base.view_model.BaseState
-import ui.common.auth.data.AuthTextFieldType
+import domain.repository.auth.data.errors.AuthError
+import domain.repository.auth.data.errors.AuthTextFieldType
 import ui.common.auth.data.AuthType
 import ui.common.auth.data.AuthType.SIGN_UP
 import ui.core_ui.components.ButtonState
@@ -25,6 +26,7 @@ interface AuthContract {
         val email: String = "",
         val password: String = "",
         val passwordConfirmation: String = "",
+        val authError: AuthError? = null,
         val isUserInputHidden: Boolean = true,
         val buttonState: ButtonState = DEFAULT,
         val privacyPolicyUrl: String = ""

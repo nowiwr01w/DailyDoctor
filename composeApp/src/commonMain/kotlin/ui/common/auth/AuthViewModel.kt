@@ -1,7 +1,18 @@
 package ui.common.auth
 
 import base.view_model.BaseViewModel
+import domain.model.user.UserData
+import domain.model.user.UserDataSignIn
+import domain.model.user.UserDataSignUp
+import domain.repository.auth.data.errors.AuthTextFieldType
+import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
+import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
+import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
+import domain.usecase.auth.SignInUseCase
+import domain.usecase.auth.SignUpUseCase
+import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
+import logMessage
 import ui.common.auth.AuthContract.Effect
 import ui.common.auth.AuthContract.Event
 import ui.common.auth.AuthContract.Event.HandleUserInput
@@ -11,14 +22,16 @@ import ui.common.auth.AuthContract.Event.OnPrivacyPolicyClicked
 import ui.common.auth.AuthContract.Event.ToggleAuthMode
 import ui.common.auth.AuthContract.Event.ToggleUserInputVisibility
 import ui.common.auth.AuthContract.State
-import ui.common.auth.data.AuthTextFieldType
-import ui.common.auth.data.AuthTextFieldType.EMAIL
-import ui.common.auth.data.AuthTextFieldType.PASSWORD
-import ui.common.auth.data.AuthTextFieldType.PASSWORD_REPEAT
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
+import ui.core_ui.components.ButtonState.SEND_REQUEST
 
-class AuthViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
+class AuthViewModel(
+    scope: CoroutineScope,
+    private val signInUseCase: SignInUseCase,
+    private val signUpUseCase: SignUpUseCase,
+    private val authDataValidator: ValidateAuthDataUseCase,
+): BaseViewModel<Event, State, Effect>(scope) {
 
     override fun setInitialState() = State()
 
@@ -26,7 +39,7 @@ class AuthViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(
         when (event) {
             is Init -> init()
             is HandleUserInput -> handleUserInput(event.type, event.value)
-            is OnAuthClicked -> onAuthClicked()
+            is OnAuthClicked -> checkUserInput()
             is OnPrivacyPolicyClicked -> onPrivacyPolicyClicked()
             is ToggleAuthMode -> toggleAuthMode()
             is ToggleUserInputVisibility -> toggleUserInputVisibility()
@@ -41,11 +54,44 @@ class AuthViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(
         when (type) {
             EMAIL -> copy(email = value)
             PASSWORD -> copy(password = value)
-            PASSWORD_REPEAT -> copy(passwordConfirmation = value)
+            PASSWORD_CONFIRMATION -> copy(passwordConfirmation = value)
         }
     }
-    private fun onAuthClicked() {
 
+    private fun checkUserInput() = hide {
+        getUserData().let { userData ->
+            val error = authDataValidator.execute(userData)
+            if (error == null) {
+                auth(userData)
+            } else {
+                logMessage("error = $error")
+                // TODO: Show error snack bars
+            }
+            setState { copy(authError = error) }
+        }
+    }
+
+    private fun getUserData() = with(viewState.value) {
+        when (viewState.value.authMode) {
+            SIGN_IN -> UserDataSignIn(email.trim(), password)
+            SIGN_UP -> UserDataSignUp(email.trim(), password, passwordConfirmation)
+        }
+    }
+
+    private fun auth(userData: UserData) = hide {
+        setState { copy(buttonState = SEND_REQUEST) }
+        runCatching {
+            when (userData) {
+                is UserDataSignIn -> signInUseCase.execute(userData)
+                is UserDataSignUp -> signUpUseCase.execute(userData)
+            }
+        }.onSuccess {
+            logMessage("suc")
+            // TODO: Init app data + check verification
+        }.onFailure {
+            logMessage("fa = ${it.message}")
+            // TODO: Show error via AuthButton
+        }
     }
 
     private fun onPrivacyPolicyClicked() {

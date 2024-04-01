@@ -64,10 +64,10 @@ import ui.common.auth.AuthContract.Event
 import ui.common.auth.AuthContract.Listener
 import ui.common.auth.AuthContract.State
 import ui.common.auth.AuthViewModel
-import ui.common.auth.data.AuthTextFieldType
-import ui.common.auth.data.AuthTextFieldType.EMAIL
-import ui.common.auth.data.AuthTextFieldType.PASSWORD
-import ui.common.auth.data.AuthTextFieldType.PASSWORD_REPEAT
+import domain.repository.auth.data.errors.AuthTextFieldType
+import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
+import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
+import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
 import ui.core_ui.components.ButtonState.DEFAULT
@@ -247,7 +247,7 @@ private fun InputFields(
         if (state.authMode == SIGN_UP) {
             InputField(
                 state = state,
-                fieldType = PASSWORD_REPEAT,
+                fieldType = PASSWORD_CONFIRMATION,
                 text = state.passwordConfirmation,
                 hint = "Подтверждения пароля",
                 focusManager = focusManager,
@@ -314,13 +314,13 @@ private fun InputField(
             keyboardOptions = KeyboardOptions(
                 imeAction = when {
                     state.authMode == SIGN_IN && fieldType == PASSWORD -> ImeAction.Done
-                    state.authMode == SIGN_UP && fieldType == PASSWORD_REPEAT -> ImeAction.Done
+                    state.authMode == SIGN_UP && fieldType == PASSWORD_CONFIRMATION -> ImeAction.Done
                     else -> ImeAction.Next
                 },
                 keyboardType = if (fieldType == EMAIL) KeyboardType.Email else KeyboardType.Password
             ),
             trailingIcon = {
-                if (fieldType == PASSWORD || fieldType == PASSWORD_REPEAT) {
+                if (fieldType == PASSWORD || fieldType == PASSWORD_CONFIRMATION) {
                     val icon = when {
                         state.isUserInputHidden -> Res.drawable.ic_eye_closed
                         else -> Res.drawable.ic_eye_opened
