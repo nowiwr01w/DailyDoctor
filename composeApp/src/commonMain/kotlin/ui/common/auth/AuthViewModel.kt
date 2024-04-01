@@ -12,7 +12,6 @@ import domain.usecase.auth.SignInUseCase
 import domain.usecase.auth.SignUpUseCase
 import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
-import logMessage
 import ui.common.auth.AuthContract.Effect
 import ui.common.auth.AuthContract.Event
 import ui.common.auth.AuthContract.Event.HandleUserInput
@@ -52,9 +51,9 @@ class AuthViewModel(
 
     private fun handleUserInput(type: AuthTextFieldType, value: String) = setState {
         when (type) {
-            EMAIL -> copy(email = value)
-            PASSWORD -> copy(password = value)
-            PASSWORD_CONFIRMATION -> copy(passwordConfirmation = value)
+            EMAIL -> copy(email = value, authError = null)
+            PASSWORD -> copy(password = value, authError = null)
+            PASSWORD_CONFIRMATION -> copy(passwordConfirmation = value, authError = null)
         }
     }
 
@@ -64,7 +63,6 @@ class AuthViewModel(
             if (error == null) {
                 auth(userData)
             } else {
-                logMessage("error = $error")
                 // TODO: Show error snack bars
             }
             setState { copy(authError = error) }
@@ -86,10 +84,8 @@ class AuthViewModel(
                 is UserDataSignUp -> signUpUseCase.execute(userData)
             }
         }.onSuccess {
-            logMessage("suc")
             // TODO: Init app data + check verification
         }.onFailure {
-            logMessage("fa = ${it.message}")
             // TODO: Show error via AuthButton
         }
     }

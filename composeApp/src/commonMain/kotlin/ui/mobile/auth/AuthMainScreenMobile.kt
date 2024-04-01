@@ -56,6 +56,10 @@ import dailydoctor.composeapp.generated.resources.Res
 import dailydoctor.composeapp.generated.resources.ic_eye_closed
 import dailydoctor.composeapp.generated.resources.ic_eye_opened
 import dailydoctor.composeapp.generated.resources.ic_login
+import domain.repository.auth.data.errors.AuthTextFieldType
+import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
+import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
+import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import ui.common.auth.AuthContract.Effect.NavigateToPrivacyPolicyInfo
@@ -64,10 +68,6 @@ import ui.common.auth.AuthContract.Event
 import ui.common.auth.AuthContract.Listener
 import ui.common.auth.AuthContract.State
 import ui.common.auth.AuthViewModel
-import domain.repository.auth.data.errors.AuthTextFieldType
-import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
-import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
-import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
 import ui.core_ui.components.ButtonState.DEFAULT
@@ -230,7 +230,7 @@ private fun InputFields(
         val focusManager = LocalFocusManager.current
         InputField(
             state = state,
-            fieldType = EMAIL,
+            type = EMAIL,
             text = state.email,
             hint = "Почта",
             focusManager = focusManager,
@@ -238,7 +238,7 @@ private fun InputFields(
         )
         InputField(
             state = state,
-            fieldType = PASSWORD,
+            type = PASSWORD,
             text = state.password,
             hint = "Пароль",
             focusManager = focusManager,
@@ -247,7 +247,7 @@ private fun InputFields(
         if (state.authMode == SIGN_UP) {
             InputField(
                 state = state,
-                fieldType = PASSWORD_CONFIRMATION,
+                type = PASSWORD_CONFIRMATION,
                 text = state.passwordConfirmation,
                 hint = "Подтверждения пароля",
                 focusManager = focusManager,
@@ -261,7 +261,7 @@ private fun InputFields(
 @Composable
 private fun InputField(
     state: State,
-    fieldType: AuthTextFieldType,
+    type: AuthTextFieldType,
     text: String,
     hint: String,
     focusManager: FocusManager,
@@ -276,7 +276,7 @@ private fun InputField(
             value = text,
             textStyle = MaterialTheme.typography.body1,
             onValueChange = {
-                listener?.onUserInputChanged(fieldType, it)
+                listener?.onUserInputChanged(type, it)
             },
             colors = TextFieldDefaults.textFieldColors(
                 cursorColor = colors.textColors.redTextColor,
@@ -293,7 +293,11 @@ private fun InputField(
                 .border(
                     border = BorderStroke(
                         width = 1.25.dp,
-                        color = colors.borderColors.lightGrayColor
+                        color = if (state.authError != null && state.authError.list.contains(type)) {
+                            colors.borderColors.redColor
+                        } else {
+                            colors.borderColors.lightGrayColor
+                        }
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ),
@@ -313,14 +317,14 @@ private fun InputField(
             ),
             keyboardOptions = KeyboardOptions(
                 imeAction = when {
-                    state.authMode == SIGN_IN && fieldType == PASSWORD -> ImeAction.Done
-                    state.authMode == SIGN_UP && fieldType == PASSWORD_CONFIRMATION -> ImeAction.Done
+                    state.authMode == SIGN_IN && type == PASSWORD -> ImeAction.Done
+                    state.authMode == SIGN_UP && type == PASSWORD_CONFIRMATION -> ImeAction.Done
                     else -> ImeAction.Next
                 },
-                keyboardType = if (fieldType == EMAIL) KeyboardType.Email else KeyboardType.Password
+                keyboardType = if (type == EMAIL) KeyboardType.Email else KeyboardType.Password
             ),
             trailingIcon = {
-                if (fieldType == PASSWORD || fieldType == PASSWORD_CONFIRMATION) {
+                if (type == PASSWORD || type == PASSWORD_CONFIRMATION) {
                     val icon = when {
                         state.isUserInputHidden -> Res.drawable.ic_eye_closed
                         else -> Res.drawable.ic_eye_opened
@@ -340,7 +344,7 @@ private fun InputField(
                     }
                 }
             },
-            visualTransformation = if (state.isUserInputHidden && fieldType != EMAIL) {
+            visualTransformation = if (state.isUserInputHidden && type != EMAIL) {
                 PasswordVisualTransformation()
             } else {
                 VisualTransformation.None
