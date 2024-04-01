@@ -15,6 +15,8 @@ import ui.common.auth.data.AuthTextFieldType
 import ui.common.auth.data.AuthTextFieldType.EMAIL
 import ui.common.auth.data.AuthTextFieldType.PASSWORD
 import ui.common.auth.data.AuthTextFieldType.PASSWORD_REPEAT
+import ui.common.auth.data.AuthType.SIGN_IN
+import ui.common.auth.data.AuthType.SIGN_UP
 
 class AuthViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
 
@@ -51,10 +53,11 @@ class AuthViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(
     }
 
     private fun toggleAuthMode() {
-
+        val authMode = if (viewState.value.authMode == SIGN_IN) SIGN_UP else SIGN_IN
+        setState { copy(authMode = authMode) }
     }
 
-    private fun toggleUserInputVisibility() {
-
+    private fun toggleUserInputVisibility() = setState {
+        copy(isUserInputHidden = !isUserInputHidden)
     }
 }

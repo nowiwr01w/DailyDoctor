@@ -1,6 +1,8 @@
 package ui.mobile.auth
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -221,6 +223,9 @@ private fun InputFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp, start = 24.dp, end = 24.dp)
+            .animateContentSize(
+                animationSpec = tween()
+            )
     ) {
         val focusManager = LocalFocusManager.current
         InputField(
