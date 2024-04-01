@@ -12,6 +12,7 @@ import domain.usecase.auth.SignInUseCase
 import domain.usecase.auth.SignUpUseCase
 import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import ui.common.auth.AuthContract.Effect
 import ui.common.auth.AuthContract.Event
 import ui.common.auth.AuthContract.Event.HandleUserInput
@@ -23,6 +24,8 @@ import ui.common.auth.AuthContract.Event.ToggleUserInputVisibility
 import ui.common.auth.AuthContract.State
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
+import ui.core_ui.components.ButtonState.DEFAULT
+import ui.core_ui.components.ButtonState.ERROR
 import ui.core_ui.components.ButtonState.SEND_REQUEST
 
 class AuthViewModel(
@@ -86,8 +89,14 @@ class AuthViewModel(
         }.onSuccess {
             // TODO: Init app data + check verification
         }.onFailure {
-            // TODO: Show error via AuthButton
+            onAuthFailed()
         }
+    }
+
+    private suspend fun onAuthFailed() {
+        setState { copy(buttonState = ERROR) }
+        delay(3000)
+        setState { copy(buttonState = DEFAULT) }
     }
 
     private fun onPrivacyPolicyClicked() {
