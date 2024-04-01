@@ -6,8 +6,8 @@ import base.view_model.BaseState
 import ui.common.auth.data.AuthTextFieldType
 import ui.common.auth.data.AuthType
 import ui.common.auth.data.AuthType.SIGN_UP
-import ui.core.ButtonState
-import ui.core.ButtonState.DEFAULT
+import ui.core_ui.components.ButtonState
+import ui.core_ui.components.ButtonState.DEFAULT
 
 interface AuthContract {
 

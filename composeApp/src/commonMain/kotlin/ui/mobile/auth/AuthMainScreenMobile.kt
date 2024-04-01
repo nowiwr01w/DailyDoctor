@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -31,10 +33,13 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -57,10 +62,13 @@ import ui.common.auth.data.AuthTextFieldType
 import ui.common.auth.data.AuthTextFieldType.EMAIL
 import ui.common.auth.data.AuthTextFieldType.PASSWORD
 import ui.common.auth.data.AuthTextFieldType.PASSWORD_REPEAT
+import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
-import ui.core.ButtonState.DEFAULT
-import ui.core.CustomTextField
-import ui.core.StateButton
+import ui.core_ui.components.ButtonState.DEFAULT
+import ui.core_ui.components.CustomTextField
+import ui.core_ui.components.StateButton
+import ui.core_ui.extensions.appendLink
+import ui.core_ui.extensions.onTextClick
 
 @Composable
 internal fun AuthMainScreenMobile(
@@ -180,7 +188,9 @@ private fun AuthContent(
         AuthTitle(state)
         InputFields(state, listener)
         AuthButton(state, listener)
-//        Spacer(modifier = Modifier.weight(1f))
+        AlreadyHaveAnAccountText(state, listener)
+        Spacer(modifier = Modifier.weight(1f))
+        PrivacyPolicyInfo(state, listener)
     }
 }
 
@@ -338,7 +348,7 @@ private fun AuthButton(
         enabled = state.buttonState == DEFAULT,
         onClick = { listener.onAuthClicked() },
         modifier = Modifier
-            .padding(top = 32.dp, bottom = 32.dp, start = 24.dp, end = 24.dp)
+            .padding(top = 32.dp, start = 24.dp, end = 24.dp)
             .fillMaxWidth()
             .height(56.dp)
             .clip(RoundedCornerShape(24.dp))
@@ -353,7 +363,25 @@ private fun AlreadyHaveAnAccountText(
     state: State,
     listener: Listener
 ) {
-
+    val keyboard = LocalSoftwareKeyboardController.current
+    Box(
+        modifier = Modifier
+            .padding(top = 32.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .clickable {
+                if (state.authMode == SIGN_IN) {
+                    keyboard?.hide()
+                }
+                listener.onToggleAuthModeClicked()
+            }
+    ) {
+        Text(
+            text = if (state.authMode == SIGN_IN) "Ещё нет аккаунта" else "Уже есть аккаунт",
+            style = MaterialTheme.typography.h5,
+            color = colors.textColors.lightGrayTextColor,
+            modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+        )
+    }
 }
 
 /**
@@ -364,5 +392,22 @@ private fun PrivacyPolicyInfo(
     state: State,
     listener: Listener
 ) {
-
+    val privacyText = "политикой конфиденциальности"
+    val text = buildAnnotatedString {
+        append("Продолжая, вы соглашаетесь с нашей ")
+        appendLink(privacyText)
+    }
+    ClickableText(
+        text = text,
+        style = MaterialTheme.typography.h6.copy(
+            color = colors.textColors.lightGrayTextColor,
+            textAlign = TextAlign.Center
+        ),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
+        onClick = { offset ->
+            text.onTextClick(privacyText, offset) {
+//                listener?.openLink(PRIVACY_LINK)
+            }
+        }
+    )
 }

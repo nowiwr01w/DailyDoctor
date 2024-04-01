@@ -34,15 +34,15 @@ class MobileTypography: AppTypography {
         ),
         h5 = TextStyle(
             fontFamily = fontFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            lineHeight = 24.sp
+            fontWeight = FontWeight.Normal,
+            fontSize = 15.sp,
+            lineHeight = 20.sp
         ),
         h6 = TextStyle(
             fontFamily = fontFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            lineHeight = 24.sp
+            fontWeight = FontWeight.Normal,
+            fontSize = 13.sp,
+            lineHeight = 18.sp
         ),
         body1 = TextStyle(
             fontFamily = fontFamily,
@@ -72,8 +72,7 @@ class MobileTypography: AppTypography {
             fontFamily = fontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 17.sp,
-            lineHeight = 24.sp,
-            letterSpacing = 1.25.sp
+            lineHeight = 24.sp
         )
     )
 }

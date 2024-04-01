@@ -1,4 +1,4 @@
-package ui.core
+package ui.core_ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.InteractionSource
