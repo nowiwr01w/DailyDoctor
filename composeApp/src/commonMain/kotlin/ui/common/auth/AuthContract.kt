@@ -3,6 +3,9 @@ package ui.common.auth
 import base.view_model.BaseEffect
 import base.view_model.BaseEvent
 import base.view_model.BaseState
+import ui.common.auth.data.AuthTextFieldType
+import ui.common.auth.data.AuthType
+import ui.common.auth.data.AuthType.SIGN_UP
 import ui.core.ButtonState
 import ui.core.ButtonState.DEFAULT
 
@@ -18,10 +21,11 @@ interface AuthContract {
     }
 
     data class State(
-        val authMode: String = "",
+        val authMode: AuthType = SIGN_UP,
         val email: String = "",
-        val passwordConfirmation: String = "",
         val password: String = "",
+        val passwordConfirmation: String = "",
+        val isUserInputHidden: Boolean = true,
         val buttonState: ButtonState = DEFAULT,
         val privacyPolicyUrl: String = ""
     ): BaseState
@@ -32,7 +36,7 @@ interface AuthContract {
     }
 
     interface Listener {
-        fun onUserInputChanged(input: String)
+        fun onUserInputChanged(type: AuthTextFieldType,input: String)
         fun onToggleUserInputVisibilityClicked()
         fun onToggleAuthModeClicked()
         fun onAuthClicked()

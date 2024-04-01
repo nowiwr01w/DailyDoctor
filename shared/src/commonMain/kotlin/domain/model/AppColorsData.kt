@@ -8,11 +8,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import domain.model.color.data.background.AppBackgroundColors
+import domain.model.color.data.border.AppBorderColors
 import domain.model.color.data.text.AppTextColors
 
 data class AppColorsData(
     private val appTextColors: AppTextColors,
-    private val appBackgroundColors: AppBackgroundColors
+    private val appBackgroundColors: AppBackgroundColors,
+    private val appBorderColors: AppBorderColors
 ) {
     var textColors by mutableStateOf(appTextColors)
         private set
@@ -20,9 +22,13 @@ data class AppColorsData(
     var backgroundColors by mutableStateOf(appBackgroundColors)
         private set
 
+    var borderColors by mutableStateOf(appBorderColors)
+        private set
+
     fun updateColors(other: AppColorsData) {
         textColors = other.appTextColors
         backgroundColors = other.appBackgroundColors
+        borderColors = other.borderColors
     }
 }
 
