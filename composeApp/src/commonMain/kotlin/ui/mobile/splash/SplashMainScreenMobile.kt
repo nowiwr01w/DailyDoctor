@@ -142,7 +142,7 @@ private fun LogoText(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.h2,
+        style = MaterialTheme.typography.h1,
         letterSpacing = 1.5.sp,
         color = color,
         modifier = modifier

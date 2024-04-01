@@ -11,14 +11,14 @@ class MobileTypography: AppTypography {
         h1 = TextStyle(
             fontFamily = fontFamily,
             fontWeight = FontWeight.Black,
-            fontSize = 48.sp,
-            lineHeight = 64.sp
+            fontSize = 36.sp,
+            lineHeight = 40.sp
         ),
         h2 = TextStyle(
             fontFamily = fontFamily,
             fontWeight = FontWeight.Black,
-            fontSize = 36.sp,
-            lineHeight = 40.sp
+            fontSize = 27.sp,
+            lineHeight = 32.sp
         ),
         h3 = TextStyle(
             fontFamily = fontFamily,
@@ -71,8 +71,8 @@ class MobileTypography: AppTypography {
         button = TextStyle(
             fontFamily = fontFamily,
             fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
-            lineHeight = 16.sp,
+            fontSize = 17.sp,
+            lineHeight = 24.sp,
             letterSpacing = 1.25.sp
         )
     )

@@ -3,6 +3,8 @@ package ui.common.auth
 import base.view_model.BaseEffect
 import base.view_model.BaseEvent
 import base.view_model.BaseState
+import ui.core.ButtonState
+import ui.core.ButtonState.DEFAULT
 
 interface AuthContract {
 
@@ -20,7 +22,7 @@ interface AuthContract {
         val email: String = "",
         val passwordConfirmation: String = "",
         val password: String = "",
-        val buttonState: String = "",
+        val buttonState: ButtonState = DEFAULT,
         val privacyPolicyUrl: String = ""
     ): BaseState
 

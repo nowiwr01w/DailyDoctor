@@ -4,16 +4,20 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -32,6 +36,8 @@ import ui.common.auth.AuthContract.Event
 import ui.common.auth.AuthContract.Listener
 import ui.common.auth.AuthContract.State
 import ui.common.auth.AuthViewModel
+import ui.core.ButtonState.DEFAULT
+import ui.core.StateButton
 
 @Composable
 internal fun AuthMainScreenMobile(
@@ -145,9 +151,12 @@ private fun AuthContent(
     modifier: Modifier
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
+        AuthTitle(state)
+        Spacer(modifier = Modifier.weight(1f))
+        AuthButton(state, listener)
     }
 }
 
@@ -166,9 +175,11 @@ private fun InputFieldsContainer(
  * TITLE
  */
 @Composable
-private fun Title(state: State) = Text(
+private fun AuthTitle(state: State) = Text(
     text = "Авторизация",
-    color = colors.textColors.blackTextColor
+    color = colors.textColors.blackTextColor,
+    style = MaterialTheme.typography.h2,
+    modifier = Modifier.padding(top = 32.dp)
 )
 
 /**
@@ -191,11 +202,21 @@ private fun InputField() {
  * AUTH BUTTON
  */
 @Composable
-private fun Button(
+private fun AuthButton(
     state: State,
     listener: Listener
 ) {
-
+    StateButton(
+        text = if (state.authMode == "") "Войти" else "Зарегистрироваться",
+        state = state.buttonState,
+        enabled = state.buttonState == DEFAULT,
+        onClick = { listener.onAuthClicked() },
+        modifier = Modifier
+            .padding(top = 32.dp, bottom = 32.dp, start = 24.dp, end = 24.dp)
+            .fillMaxWidth()
+            .height(56.dp)
+            .clip(RoundedCornerShape(24.dp))
+    )
 }
 
 /**
