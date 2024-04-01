@@ -3,6 +3,7 @@ package di
 import kotlinx.coroutines.CoroutineScope
 import org.kodein.di.DI
 import org.kodein.di.bindFactory
+import ui.common.auth.AuthViewModel
 import ui.common.home.HomeViewModel
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.splash.SplashViewModel
@@ -19,6 +20,12 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
      */
     bindFactory<CoroutineScope, OnboardingViewModel> { scope ->
         OnboardingViewModel(scope)
+    }
+    /**
+     * AUTH
+     */
+    bindFactory<CoroutineScope, AuthViewModel> { scope ->
+        AuthViewModel(scope)
     }
     /**
      * HOME

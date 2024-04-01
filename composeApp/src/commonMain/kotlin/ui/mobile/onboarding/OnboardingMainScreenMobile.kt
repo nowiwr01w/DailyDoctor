@@ -40,6 +40,7 @@ import ui.common.onboarding.OnboardingContract.Listener
 import ui.common.onboarding.OnboardingContract.State
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.onboarding.data.OnboardingItem
+import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
 
 @Composable
 internal fun OnboardingMainScreenMobile(
@@ -52,7 +53,7 @@ internal fun OnboardingMainScreenMobile(
             viewModel.setEvent(Event.ShowNextOnboardingItem)
         }
         override fun onEnableNotificationsClick() {
-            // TODO: Enable notifications
+            navigator.authNavigator.navigateToAuth()
         }
     }
     
@@ -97,7 +98,12 @@ private fun OnboardingMainScreenContent(
             val currentOnboardingItem = state.currentOnboardingItem
             OnboardingItemView(
                 item = currentOnboardingItem,
-                onShowNextItemClicked = { listener?.showNextOnboardingItem() }
+                onShowNextItemClicked = {
+                    when (currentOnboardingItem) {
+                        is NotificationsOnboardingItem -> listener?.onEnableNotificationsClick()
+                        else -> listener?.showNextOnboardingItem()
+                    }
+                }
             )
         } else {
             CircularProgressIndicator(

@@ -4,7 +4,7 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.pushNew
 import navigation.MainNavigatorImpl.AppNavigationConfig
-import navigation.MainNavigatorImpl.AppNavigationConfig.Splash
+import navigation.MainNavigatorImpl.AppNavigationConfig.Auth
 
 class AuthNavigatorImpl(
     override val navigation: StackNavigation<AppNavigationConfig>
@@ -12,6 +12,6 @@ class AuthNavigatorImpl(
 
     @OptIn(ExperimentalDecomposeApi::class)
     override fun navigateToAuth() {
-        navigation.pushNew(Splash)
+        navigation.pushNew(Auth)
     }
 }

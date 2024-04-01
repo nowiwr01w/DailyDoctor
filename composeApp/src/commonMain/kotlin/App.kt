@@ -23,6 +23,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.withDI
 import ui.common.onboarding.data.OnboardingItem
+import ui.mobile.auth.AuthMainScreenMobile
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
 
@@ -58,9 +59,7 @@ private fun AppContent(navigator: MainNavigator) {
                 navigator = navigator,
                 onboardingItem = child.onboardingItem
             )
-            is AuthChild -> {
-                // TODO: AuthScreen
-            }
+            is AuthChild -> AuthMainScreenMobile()
         }
     }
 }
