@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,11 +20,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -75,8 +79,8 @@ internal fun AuthMainScreenMobile(
     viewModel: AuthViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
-        override fun onUserInputChanged(type: AuthTextFieldType, input: String) {
-            viewModel.setEvent(Event.HandleUserInput)
+        override fun onUserInputChanged(type: AuthTextFieldType, value: String) {
+            viewModel.setEvent(Event.HandleUserInput(type, value))
         }
         override fun onToggleUserInputVisibilityClicked() {
             viewModel.setEvent(Event.ToggleUserInputVisibility)
@@ -258,80 +262,87 @@ private fun InputField(
     focusManager: FocusManager,
     listener: Listener?
 ) {
-    CustomTextField(
-        value = text,
-        textStyle = MaterialTheme.typography.body1,
-        onValueChange = {
-            listener?.onUserInputChanged(fieldType, it)
-        },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedBorderColor = Color.Transparent,
-            disabledBorderColor = Color.Transparent,
-            errorBorderColor = Color.Transparent,
-            focusedBorderColor = Color.Transparent
-        ),
-        modifier = Modifier
-            .padding(top = 16.dp)
-            .fillMaxWidth()
-            .height(56.dp)
-            .border(
-                border = BorderStroke(
-                    width = 1.25.dp,
-                    color = colors.borderColors.lightGrayColor
-                ),
-                shape = RoundedCornerShape(12.dp)
-            ),
-        placeholder = {
-            Text(
-                text = hint,
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(top = 3.dp)
-            )
-        },
-        keyboardActions = KeyboardActions(
-            onNext = {
-                focusManager.moveFocus(FocusDirection.Down)
-            },
-            onDone = {
-                listener?.onAuthClicked()
-            }
-        ),
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-//            imeAction = when {
-//                state.authType == SIGN_IN && fieldType == PASSWORD -> ImeAction.Done
-//                state.authType == SIGN_UP && fieldType == PASSWORD_REPEAT -> ImeAction.Done
-//                else -> ImeAction.Next
-//            },
-            keyboardType = if (fieldType == EMAIL) KeyboardType.Email else KeyboardType.Password
-        ),
-        trailingIcon = {
-            if (fieldType == PASSWORD || fieldType == PASSWORD_REPEAT) {
-                val icon = when {
-                    state.isUserInputHidden -> Res.drawable.ic_eye_closed
-                    else -> Res.drawable.ic_eye_opened
-                }
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .clickable {
-                            listener?.onToggleUserInputVisibilityClicked()
-                        }
-                ) {
-                    Icon(
-                        painter = painterResource(icon),
-                        contentDescription = "Show or hide password icon",
-                        modifier = Modifier.padding(8.dp)
-                    )
-                }
-            }
-        },
-        visualTransformation = if (state.isUserInputHidden && fieldType != EMAIL) {
-            PasswordVisualTransformation()
-        } else {
-            VisualTransformation.None
-        }
+    val customTextSelectionColors = TextSelectionColors(
+        handleColor = colors.textColors.redTextColor,
+        backgroundColor = colors.textColors.redTextColor.copy(alpha = 0.4f)
     )
+    CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
+        CustomTextField(
+            value = text,
+            textStyle = MaterialTheme.typography.body1,
+            onValueChange = {
+                listener?.onUserInputChanged(fieldType, it)
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                cursorColor = colors.textColors.redTextColor,
+                backgroundColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth()
+                .height(56.dp)
+                .border(
+                    border = BorderStroke(
+                        width = 1.25.dp,
+                        color = colors.borderColors.lightGrayColor
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ),
+            placeholder = {
+                Text(
+                    text = hint,
+                    style = MaterialTheme.typography.body1
+                )
+            },
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                },
+                onDone = {
+                    listener?.onAuthClicked()
+                }
+            ),
+            keyboardOptions = KeyboardOptions(
+                imeAction = when {
+                    state.authMode == SIGN_IN && fieldType == PASSWORD -> ImeAction.Done
+                    state.authMode == SIGN_UP && fieldType == PASSWORD_REPEAT -> ImeAction.Done
+                    else -> ImeAction.Next
+                },
+                keyboardType = if (fieldType == EMAIL) KeyboardType.Email else KeyboardType.Password
+            ),
+            trailingIcon = {
+                if (fieldType == PASSWORD || fieldType == PASSWORD_REPEAT) {
+                    val icon = when {
+                        state.isUserInputHidden -> Res.drawable.ic_eye_closed
+                        else -> Res.drawable.ic_eye_opened
+                    }
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(16.dp))
+                            .clickable {
+                                listener?.onToggleUserInputVisibilityClicked()
+                            }
+                    ) {
+                        Icon(
+                            painter = painterResource(icon),
+                            contentDescription = "Show or hide password icon",
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                }
+            },
+            visualTransformation = if (state.isUserInputHidden && fieldType != EMAIL) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            },
+            contentPadding = PaddingValues(start = 12.dp, top = 19.dp)
+        )
+    }
 }
 
 /**

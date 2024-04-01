@@ -1,6 +1,6 @@
 package domain.model.color.classic
 
-import domain.model.AppColorsData
+import domain.model.color.AppColorsData
 import domain.model.color.data.background.classic.ClassicLightBackgroundColors
 import domain.model.color.data.border.classic.ClassicLightBorderColors
 import domain.model.color.data.text.classic.ClassicLightTextColors

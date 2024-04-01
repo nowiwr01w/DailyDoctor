@@ -1,7 +1,7 @@
 package domain.model.color.classic
 
-import domain.model.AppColors
-import domain.model.AppColorsData
+import domain.model.color.AppColors
+import domain.model.color.AppColorsData
 
 data class AppClassicColors(
     override val appColorsLight: AppColorsData = classicAppColorsLight,

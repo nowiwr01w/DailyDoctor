@@ -1,4 +1,4 @@
-package domain.model
+package domain.model.color
 
 interface AppColors {
     val appColorsLight: AppColorsData

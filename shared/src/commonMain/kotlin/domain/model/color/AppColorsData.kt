@@ -1,4 +1,4 @@
-package domain.model
+package domain.model.color
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider

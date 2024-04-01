@@ -1,6 +1,6 @@
 package domain.repository.brand
 
-import domain.model.AppColors
+import domain.model.color.AppColors
 import domain.model.color.classic.AppClassicColors
 
 sealed class AppBrand(

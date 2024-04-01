@@ -11,8 +11,8 @@ import androidx.compose.ui.text.font.FontFamily
 import base.theme.shape.AppShapes
 import base.theme.typography.AppTypography
 import currentPlatform
-import domain.model.AppColorsData
-import domain.model.ProvideCustomColors
+import domain.model.color.AppColorsData
+import domain.model.color.ProvideCustomColors
 import domain.model.color.classic.AppClassicColors
 import domain.repository.brand.AppBrand
 import domain.repository.brand.AppBrand.AppBrandClassic

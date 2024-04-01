@@ -16,7 +16,7 @@ interface AuthContract {
         data object ToggleAuthMode: Event
         data object ToggleUserInputVisibility: Event
         data object OnPrivacyPolicyClicked: Event
-        data object HandleUserInput: Event
+        data class HandleUserInput(val type: AuthTextFieldType, val value: String): Event
         data object OnAuthClicked: Event
     }
 
@@ -36,7 +36,7 @@ interface AuthContract {
     }
 
     interface Listener {
-        fun onUserInputChanged(type: AuthTextFieldType,input: String)
+        fun onUserInputChanged(type: AuthTextFieldType, value: String)
         fun onToggleUserInputVisibilityClicked()
         fun onToggleAuthModeClicked()
         fun onAuthClicked()

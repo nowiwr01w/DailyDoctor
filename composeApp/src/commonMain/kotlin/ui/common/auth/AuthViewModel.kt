@@ -11,6 +11,10 @@ import ui.common.auth.AuthContract.Event.OnPrivacyPolicyClicked
 import ui.common.auth.AuthContract.Event.ToggleAuthMode
 import ui.common.auth.AuthContract.Event.ToggleUserInputVisibility
 import ui.common.auth.AuthContract.State
+import ui.common.auth.data.AuthTextFieldType
+import ui.common.auth.data.AuthTextFieldType.EMAIL
+import ui.common.auth.data.AuthTextFieldType.PASSWORD
+import ui.common.auth.data.AuthTextFieldType.PASSWORD_REPEAT
 
 class AuthViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
 
@@ -19,7 +23,7 @@ class AuthViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(
     override fun handleEvents(event: Event) {
         when (event) {
             is Init -> init()
-            is HandleUserInput -> handleUserInput()
+            is HandleUserInput -> handleUserInput(event.type, event.value)
             is OnAuthClicked -> onAuthClicked()
             is OnPrivacyPolicyClicked -> onPrivacyPolicyClicked()
             is ToggleAuthMode -> toggleAuthMode()
@@ -31,10 +35,13 @@ class AuthViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(
 
     }
 
-    private fun handleUserInput() {
-
+    private fun handleUserInput(type: AuthTextFieldType, value: String) = setState {
+        when (type) {
+            EMAIL -> copy(email = value)
+            PASSWORD -> copy(password = value)
+            PASSWORD_REPEAT -> copy(passwordConfirmation = value)
+        }
     }
-
     private fun onAuthClicked() {
 
     }
