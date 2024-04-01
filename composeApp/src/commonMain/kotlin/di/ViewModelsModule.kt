@@ -11,6 +11,7 @@ import ui.common.auth.AuthViewModel
 import ui.common.home.HomeViewModel
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.splash.SplashViewModel
+import ui.common.verification.VerificationViewModel
 
 val moduleViewModels = DI.Module("ViewModelsModule") {
     /**
@@ -35,6 +36,9 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
             signUpUseCase = instance<SignUpUseCase>(),
             authDataValidator = instance<ValidateAuthDataUseCase>()
         )
+    }
+    bindFactory<CoroutineScope, VerificationViewModel> { scope ->
+        VerificationViewModel(scope)
     }
     /**
      * HOME

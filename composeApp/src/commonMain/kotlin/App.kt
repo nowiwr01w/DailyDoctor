@@ -19,6 +19,7 @@ import navigation.MainNavigator
 import navigation.MainNavigator.Child.AuthChild
 import navigation.MainNavigator.Child.OnboardingChild
 import navigation.MainNavigator.Child.SplashChild
+import navigation.MainNavigator.Child.VerificationChild
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.withDI
@@ -26,6 +27,7 @@ import ui.common.onboarding.data.OnboardingItem
 import ui.mobile.auth.AuthMainScreenMobile
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
+import ui.mobile.verification.VerificationMainScreenMobile
 
 @Composable
 @Preview
@@ -59,7 +61,12 @@ private fun AppContent(navigator: MainNavigator) {
                 navigator = navigator,
                 onboardingItem = child.onboardingItem
             )
-            is AuthChild -> AuthMainScreenMobile()
+            is AuthChild -> {
+                AuthMainScreenMobile(navigator)
+            }
+            is VerificationChild -> {
+                VerificationMainScreenMobile()
+            }
         }
     }
 }

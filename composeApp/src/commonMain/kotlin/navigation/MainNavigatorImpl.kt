@@ -7,6 +7,7 @@ import navigation.MainNavigator.Child
 import navigation.MainNavigator.Child.AuthChild
 import navigation.MainNavigator.Child.OnboardingChild
 import navigation.MainNavigator.Child.SplashChild
+import navigation.MainNavigator.Child.VerificationChild
 import navigation.MainNavigatorImpl.AppNavigationConfig.Splash
 import navigation.auth.AuthNavigator
 import navigation.di.AppStackNavigation
@@ -37,19 +38,27 @@ class MainNavigatorImpl(
     @Serializable
     sealed class AppNavigationConfig(val child: Child) {
         @Serializable
-        data object Splash: AppNavigationConfig(child = SplashChild)
+        data object Splash: AppNavigationConfig(
+            child = SplashChild
+        )
         @Serializable
         data class Onboarding(val onboardingItem: OnboardingItem): AppNavigationConfig(
             child = OnboardingChild(onboardingItem)
         )
         @Serializable
-        data object Auth: AppNavigationConfig(child = AuthChild)
+        data object Auth: AppNavigationConfig(
+            child = AuthChild
+        )
+        @Serializable
+        data object Verification: AppNavigationConfig(
+            child = VerificationChild
+        )
     }
 
     private fun Child.updateChildContext(childContext: ComponentContext) = when (this) {
         is SplashChild -> splashNavigator
         is OnboardingChild -> onboardingNavigator
-        is AuthChild -> authNavigator
+        is AuthChild, VerificationChild -> authNavigator
     }.also { navigator ->
         navigator.updateChildContext(childContext)
     }

@@ -60,6 +60,7 @@ import domain.repository.auth.data.errors.AuthTextFieldType
 import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
 import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
 import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
+import navigation.MainNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import ui.common.auth.AuthContract.Effect.NavigateToPrivacyPolicyInfo
@@ -78,6 +79,7 @@ import ui.core_ui.extensions.onTextClick
 
 @Composable
 internal fun AuthMainScreenMobile(
+    navigator: MainNavigator,
     viewModel: AuthViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
@@ -105,7 +107,7 @@ internal fun AuthMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is NavigateToVerification -> {
-                // TODO
+                navigator.authNavigator.navigateToVerification()
             }
             is NavigateToPrivacyPolicyInfo -> {
                 // TODO

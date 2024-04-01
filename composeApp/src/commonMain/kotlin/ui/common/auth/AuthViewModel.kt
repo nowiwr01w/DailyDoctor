@@ -87,6 +87,7 @@ class AuthViewModel(
                 is UserDataSignUp -> signUpUseCase.execute(userData)
             }
         }.onSuccess {
+            setEffect { Effect.NavigateToVerification }
             // TODO: Init app data + check verification
         }.onFailure {
             onAuthFailed()
