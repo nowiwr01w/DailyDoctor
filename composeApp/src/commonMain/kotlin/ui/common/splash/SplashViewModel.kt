@@ -8,8 +8,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import ui.common.splash.SplashContract.*
-import ui.common.splash.SplashContract.SplashAnimationState.*
+import ui.common.splash.SplashContract.Effect
+import ui.common.splash.SplashContract.Event
+import ui.common.splash.SplashContract.State
+import ui.common.splash.data.SplashAnimationState
 
 class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
 
@@ -26,7 +28,10 @@ class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect
     }
 
     private fun startTimer() = hide {
-        (0..6000 step 100).asSequence()
+        val animationDuration = SplashAnimationState.entries
+            .last()
+            .showUntilAtMillis
+        (0..animationDuration step 100).asSequence()
             .asFlow()
             .onStart {
                 // TODO: Send analytics with [splash_start] param
@@ -43,11 +48,8 @@ class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect
     }
 
     private fun setAnimationState(millis: Int) = setState {
-        val animationState = when {
-            millis >= 4500 -> PROGRESS
-            millis >= 3000 -> SECOND_TEXT
-            millis >= 1500 -> FIRST_TEXT
-            else -> ICON
+        val animationState = SplashAnimationState.entries.first { item ->
+            millis <= item.showUntilAtMillis
         }
         copy(animationState = animationState)
     }

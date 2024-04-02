@@ -7,11 +7,11 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
@@ -21,9 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import base.theme.AppTheme
 import base.theme.CustomTheme.colors
 import base.view_model.EffectObserver
@@ -35,11 +35,15 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.common.onboarding.data.getOnboardingItems
-import ui.common.splash.SplashContract
-import ui.common.splash.SplashContract.Event
-import ui.common.splash.SplashContract.SplashAnimationState
-import ui.common.splash.SplashContract.State
+import ui.common.splash.SplashContract.*
 import ui.common.splash.SplashViewModel
+import ui.common.splash.data.SplashAnimationState
+import ui.common.splash.data.SplashAnimationState.*
+
+internal const val SPLASH_ANIMATION_DURATION = 1500
+internal const val SPLASH_VISIBILITY_DURATION = 1250
+internal const val SPLASH_PROGRESS_ANIMATION_DURATION = 3000
+internal const val SPLASH_PROGRESS_VISIBILITY_DURATION = 300
 
 @Composable
 internal fun SplashMainScreenMobile(
@@ -49,68 +53,126 @@ internal fun SplashMainScreenMobile(
     LaunchedEffect(Unit) {
         viewModel.setEvent(Event.Init)
     }
+
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
-            is SplashContract.Effect.NavigateToOnboarding -> {
+            is Effect.NavigateToOnboarding -> {
                 val onboardingItem = getOnboardingItems().first()
                 navigator.onboardingNavigator.navigateToOnboarding(onboardingItem)
             }
         }
     }
+
     SplashMainScreenContent(state = viewModel.viewState.value)
 }
 
 /**
  * CONTENT
  */
-@OptIn(ExperimentalResourceApi::class)
 @Composable
-private fun SplashMainScreenContent(state: State) {
+private fun SplashMainScreenContent(state: State) = ConstraintLayout(
+    modifier = Modifier
+        .fillMaxSize()
+        .background(colors.backgroundColors.whiteBackgroundColor)
+) {
+    val (content, progress) = createRefs()
+
+    val contentModifier = Modifier
+        .fillMaxWidth()
+        .animateContentSize()
+        .constrainAs(content) {
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .animateContentSize()
+        modifier = contentModifier
     ) {
-        AnimatedContainer(
-            expectedAnimationState = SplashAnimationState.ICON,
-            actualAnimationState = state.animationState
-        ) {
-            Image(
-                painter = painterResource(Res.drawable.ic_app_logo_small),
-                contentDescription = "",
-                modifier = Modifier.size(64.dp)
-            )
+        AppLogo(state)
+        DailyText(state)
+        DoctorText(state)
+    }
+
+    val progressModifier = Modifier
+        .size(24.dp)
+        .constrainAs(progress) {
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            top.linkTo(content.bottom)
+            bottom.linkTo(parent.bottom)
         }
-        AnimatedContainer(
-            expectedAnimationState = SplashAnimationState.FIRST_TEXT,
-            actualAnimationState = state.animationState,
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            LogoText(
-                text = "DAILY",
-                color = colors.textColors.blueTextColor
-            )
-        }
-        AnimatedContainer(
-            expectedAnimationState = SplashAnimationState.SECOND_TEXT,
-            actualAnimationState = state.animationState,
-        ) {
-            LogoText(
-                text = "DOCTOR",
-                color = colors.textColors.redTextColor
-            )
-        }
-        Spacer(modifier = Modifier.height(150.dp))
-        AnimatedContainer(
-            expectedAnimationState = SplashAnimationState.PROGRESS,
-            actualAnimationState = state.animationState,
-        ) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(32.dp)
-            )
-        }
+    Progress(
+        state = state,
+        modifier = progressModifier
+    )
+}
+
+/**
+ * APP LOGO
+ */
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun AppLogo(state: State) = AnimatedContainer(
+    expectedAnimationState = ICON,
+    actualAnimationState = state.animationState
+) {
+    Image(
+        painter = painterResource(Res.drawable.ic_app_logo_small),
+        contentDescription = "",
+        modifier = Modifier.size(64.dp)
+    )
+}
+
+/**
+ * DAILY TEXT
+ */
+@Composable
+private fun DailyText(state: State) = AnimatedContainer(
+    expectedAnimationState = FIRST_TEXT,
+    actualAnimationState = state.animationState,
+) {
+    Text(
+        text = "DAILY",
+        style = MaterialTheme.typography.h1,
+        color = colors.textColors.blueTextColor,
+        letterSpacing = 1.5.sp,
+        modifier = Modifier.padding(top = 16.dp)
+    )
+}
+
+/**
+ * DOCTOR TEXT
+ */
+@Composable
+private fun DoctorText(state: State) = AnimatedContainer(
+    expectedAnimationState = SECOND_TEXT,
+    actualAnimationState = state.animationState,
+) {
+    Text(
+        text = "DOCTOR",
+        style = MaterialTheme.typography.h1,
+        color = colors.textColors.redTextColor,
+        letterSpacing = 1.5.sp,
+    )
+}
+
+@Composable
+private fun Progress(
+    state: State,
+    modifier: Modifier
+) {
+    AnimatedContainer(
+        modifier = modifier,
+        expectedAnimationState = PROGRESS,
+        actualAnimationState = state.animationState
+    ) {
+        CircularProgressIndicator(
+            color = colors.backgroundColors.redBackgroundColor,
+            strokeWidth = 3.dp
+        )
     }
 }
 
@@ -129,29 +191,14 @@ private fun AnimatedContainer(
         modifier = modifier,
         exit = ExitTransition.None,
         enter = fadeIn(
-            animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
-        ),
+            animationSpec = tween(
+                durationMillis = actualAnimationState.animationDuration,
+                easing = LinearEasing
+            )
+        )
     ) {
         content()
     }
-}
-
-/**
- * LOGO TEXT
- */
-@Composable
-private fun LogoText(
-    text: String,
-    color: Color,
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.h1,
-        letterSpacing = 1.5.sp,
-        color = color,
-        modifier = modifier
-    )
 }
 
 /**
