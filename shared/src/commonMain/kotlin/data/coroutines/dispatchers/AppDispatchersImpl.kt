@@ -1,6 +1,6 @@
-package data.dispatchers
+package data.coroutines.dispatchers
 
-import domain.dispatchers.AppDispatchers
+import domain.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

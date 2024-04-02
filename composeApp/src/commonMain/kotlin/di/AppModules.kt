@@ -1,6 +1,7 @@
 package di
 
 import config.di.moduleConfig
+import data.di.moduleCoroutines
 import data.di.moduleData
 import data.di.moduleUserDataValidators
 import domain.di.moduleDomain
@@ -10,6 +11,7 @@ import ui.core_ui.di.moduleCoreUI
 
 private val allModules = listOf(
     moduleConfig,
+    moduleCoroutines,
     moduleTheme,
     moduleUserDataValidators,
     moduleDomain,

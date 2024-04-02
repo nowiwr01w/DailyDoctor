@@ -1,6 +1,6 @@
 package data.repository.auth
 
-import domain.dispatchers.AppDispatchers
+import domain.coroutines.dispatchers.AppDispatchers
 import domain.model.user.UserData
 import domain.model.user.UserDataSignUp
 import domain.repository.auth.ValidateAuthDataRepository
