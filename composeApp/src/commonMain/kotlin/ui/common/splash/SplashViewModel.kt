@@ -26,7 +26,7 @@ class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect
     }
 
     private fun startTimer() = hide {
-        (0..5000 step 100).asSequence()
+        (0..6000 step 100).asSequence()
             .asFlow()
             .onStart {
                 // TODO: Send analytics with [splash_start] param
@@ -44,10 +44,10 @@ class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect
 
     private fun setAnimationState(millis: Int) = setState {
         val animationState = when {
-            millis >= 4000 -> SECOND_TEXT
-            millis >= 3000 -> FIRST_TEXT
-            millis >= 2000 -> ICON
-            else -> PROGRESS
+            millis >= 4500 -> PROGRESS
+            millis >= 3000 -> SECOND_TEXT
+            millis >= 1500 -> FIRST_TEXT
+            else -> ICON
         }
         copy(animationState = animationState)
     }

@@ -7,10 +7,11 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
@@ -72,11 +73,6 @@ private fun SplashMainScreenContent(state: State) {
             .fillMaxSize()
             .animateContentSize()
     ) {
-        if (state.animationState == SplashAnimationState.PROGRESS) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(32.dp)
-            )
-        }
         AnimatedContainer(
             expectedAnimationState = SplashAnimationState.ICON,
             actualAnimationState = state.animationState
@@ -104,6 +100,15 @@ private fun SplashMainScreenContent(state: State) {
             LogoText(
                 text = "DOCTOR",
                 color = colors.textColors.redTextColor
+            )
+        }
+        Spacer(modifier = Modifier.height(150.dp))
+        AnimatedContainer(
+            expectedAnimationState = SplashAnimationState.PROGRESS,
+            actualAnimationState = state.animationState,
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(32.dp)
             )
         }
     }
