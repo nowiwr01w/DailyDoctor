@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import base.theme.AppTheme
-import base.theme.CustomTheme.colors
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
@@ -22,8 +26,10 @@ import navigation.MainNavigator.Child.SplashChild
 import navigation.MainNavigator.Child.VerificationChild
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.kodein.di.compose.rememberFactory
+import org.kodein.di.compose.rememberInstance
 import org.kodein.di.compose.withDI
 import ui.common.onboarding.data.OnboardingItem
+import ui.core_ui.statusbar.StatusBarColorHelper
 import ui.mobile.auth.AuthMainScreenMobile
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
@@ -35,14 +41,28 @@ fun App(context: ComponentContext) = withDI(appModules) {
     val mainNavigatorFactory by rememberFactory<ComponentContext, MainNavigator>()
     val mainNavigator = mainNavigatorFactory(context)
     startLogger()
+    val statusBarColorHelper by rememberInstance<StatusBarColorHelper>()
+    statusBarColorHelper.init(rememberCoroutineScope())
+
+    /** STATUS BAR COLOR **/
+    val color = remember { mutableStateOf(Color.Transparent) }
+    val changeStatusBarColor: @Composable () -> Unit = {
+        statusBarColorHelper.statusBarColor
+            .collectAsState(Color.Transparent)
+            .value
+            .let { mColor ->
+                color.value = mColor
+            }
+    }
     AppTheme {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colors.backgroundColors.whiteBackgroundColor)
+                .background(color.value)
                 .windowInsetsPadding(WindowInsets.safeDrawing)
         ) {
             AppContent(mainNavigator)
+            changeStatusBarColor()
         }
     }
 }

@@ -6,6 +6,7 @@ import data.di.moduleUserDataValidators
 import domain.di.moduleDomain
 import navigation.di.moduleNavigation
 import org.kodein.di.DI
+import ui.core_ui.di.moduleCoreUI
 
 private val allModules = listOf(
     moduleConfig,
@@ -14,7 +15,8 @@ private val allModules = listOf(
     moduleDomain,
     moduleData,
     moduleViewModels,
-    moduleNavigation
+    moduleNavigation,
+    moduleCoreUI
 )
 
 val appModules = DI {
