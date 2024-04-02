@@ -149,7 +149,7 @@ private fun AuthMainScreenContent(
                 end.linkTo(parent.end)
                 top.linkTo(parent.top, 32.dp)
             }
-        Icon(modifier = iconModifier)
+        TopIcon(modifier = iconModifier)
 
         val authContentModifier = Modifier
             .fillMaxWidth()
@@ -174,7 +174,7 @@ private fun AuthMainScreenContent(
  */
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-private fun Icon(modifier: Modifier) = Image(
+internal fun TopIcon(modifier: Modifier) = Image(
     painter = painterResource(Res.drawable.ic_login),
     contentDescription = "",
     modifier = modifier
@@ -193,7 +193,7 @@ private fun AuthContent(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AuthTitle(state)
+        TopTitle("Авторизация")
         InputFields(state, listener)
         AuthButton(state, listener)
         AlreadyHaveAnAccountText(state, listener)
@@ -206,8 +206,8 @@ private fun AuthContent(
  * TITLE
  */
 @Composable
-private fun AuthTitle(state: State) = Text(
-    text = "Авторизация",
+internal fun TopTitle(text: String) = Text(
+    text = text,
     color = colors.textColors.blackTextColor,
     style = MaterialTheme.typography.h2,
     modifier = Modifier.padding(top = 32.dp)
