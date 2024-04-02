@@ -50,8 +50,10 @@ internal fun OnboardingMainScreenMobile(
     navigator: MainNavigator,
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
-    val authStatusBarColor = colors.backgroundColors.grayBackgroundColor
     val statusBarColorHelper by rememberInstance<StatusBarColorHelper>()
+    val (onboardingBackgroundColor, authStatusBarColor) = with(colors.backgroundColors) {
+        whiteBackgroundColor to grayBackgroundColor
+    }
 
     val listener = object : Listener {
         override fun showNextOnboardingItem() {
@@ -64,6 +66,7 @@ internal fun OnboardingMainScreenMobile(
     }
     
     LaunchedEffect(Unit) {
+        statusBarColorHelper.setStatusBarColor(onboardingBackgroundColor)
         viewModel.setEvent(Event.Init(onboardingItem))
     }
     
@@ -96,9 +99,11 @@ private fun OnboardingMainScreenContent(
     listener: Listener?
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colors.backgroundColors.whiteBackgroundColor)
     ) {
         if (state.currentOnboardingItem != null) {
             val currentOnboardingItem = state.currentOnboardingItem
