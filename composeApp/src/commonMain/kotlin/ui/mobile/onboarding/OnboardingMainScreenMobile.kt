@@ -33,6 +33,7 @@ import navigation.MainNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.kodein.di.compose.rememberInstance
 import platform.getScreenWidth
 import ui.common.onboarding.OnboardingContract.Effect
 import ui.common.onboarding.OnboardingContract.Event
@@ -41,6 +42,7 @@ import ui.common.onboarding.OnboardingContract.State
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.onboarding.data.OnboardingItem
 import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
+import ui.core_ui.statusbar.StatusBarColorHelper
 
 @Composable
 internal fun OnboardingMainScreenMobile(
@@ -48,11 +50,15 @@ internal fun OnboardingMainScreenMobile(
     navigator: MainNavigator,
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
+    val authStatusBarColor = colors.backgroundColors.grayBackgroundColor
+    val statusBarColorHelper by rememberInstance<StatusBarColorHelper>()
+
     val listener = object : Listener {
         override fun showNextOnboardingItem() {
             viewModel.setEvent(Event.ShowNextOnboardingItem)
         }
         override fun onEnableNotificationsClick() {
+            statusBarColorHelper.setStatusBarColor(authStatusBarColor)
             navigator.authNavigator.navigateToAuth()
         }
     }

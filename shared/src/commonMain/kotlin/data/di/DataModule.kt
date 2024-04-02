@@ -1,6 +1,5 @@
 package data.di
 
-import data.dispatchers.AppDispatchersImpl
 import data.repository.auth.AuthRepositoryImpl
 import data.repository.auth.ValidateAuthDataRepositoryImpl
 import data.repository.brand.AppBrandRepositoryImpl
@@ -8,7 +7,7 @@ import data.repository.theme.AppThemeRepositoryImpl
 import data.usecase.brand.GetAppBrandUseCaseImpl
 import data.usecase.theme.GetAppThemeModeUseCaseImpl
 import data.usecase.theme.SetAppThemeModeUseCaseImpl
-import domain.dispatchers.AppDispatchers
+import domain.coroutines.dispatchers.AppDispatchers
 import domain.repository.auth.AuthRepository
 import domain.repository.auth.ValidateAuthDataRepository
 import domain.repository.brand.AppBrandRepository
@@ -24,12 +23,6 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 
 val moduleData = DI.Module("DataModule") {
-    /**
-     * DISPATCHERS
-     */
-    bindSingleton<AppDispatchers> {
-        AppDispatchersImpl()
-    }
     /**
      * THEME
      */
