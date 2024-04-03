@@ -135,26 +135,26 @@ compose-plugin = "1.6.0"
 ##############
 ### GRADLE ###
 ##############
-agp = "8.2.0"
+agp = "8.2.2"
 ##############
 ### KOTLIN ###
 ##############
 kotlin = "1.9.22"
 kotlin-date-time = "0.5.0"
-kotlin-serialization-json = "1.6.2"
+kotlin-serialization-json = "1.6.3"
 ###############
 ### COMPOSE ###
 ###############
-compose = "1.6.2"
+compose = "1.6.5"
 compose-activity = "1.8.2"
-compose-constraint = "0.3.0-alpha01"
+compose-constraint = "0.3.1"
 android-ktx = "1.12.0"
 android-appcompat = "1.6.1"
 ##################
 ### NAVIGATION ###
 ##################
-decompose = "3.0.0-alpha04"
-essenty = "2.0.0-alpha02"
+decompose = "3.0.0-alpha09"
+essenty = "2.0.0-alpha07"
 ##############
 ### KODEIN ###
 ##############
@@ -175,7 +175,7 @@ logback = "1.5.3"
 ###########################
 ### LOAD NETWORK IMAGES ###
 ###########################
-image-loader = "1.7.2-SNAPSHOT"
+image-loader = "1.7.8"
 ############
 ### KTOR ###
 ############

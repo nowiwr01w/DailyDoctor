@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -16,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import base.theme.CustomTheme
+import base.theme.CustomTheme.colors
 import base.view_model.rememberViewModel
 import ui.common.verification.VerificationContract.Listener
 import ui.common.verification.VerificationContract.State
@@ -48,7 +50,7 @@ private fun VerificationMainScreenContent(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(CustomTheme.colors.backgroundColors.grayBackgroundColor)
+            .background(colors.backgroundColors.grayBackgroundColor)
     ) {
         val (icon, inputFieldsContainer) = createRefs()
 
@@ -71,7 +73,7 @@ private fun VerificationMainScreenContent(
             .fillMaxSize()
             .padding(top = authContentTransitionDp)
             .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-            .background(CustomTheme.colors.backgroundColors.whiteBackgroundColor)
+            .background(colors.backgroundColors.whiteBackgroundColor)
             .constrainAs(inputFieldsContainer) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
@@ -99,5 +101,17 @@ private fun VerificationContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopTitle("Верификация")
+        Subtitle()
     }
 }
+
+/**
+ * DESCRIPTION
+ */
+@Composable
+private fun Subtitle() = Text(
+    text = "Мы отправили код на указанную вами почту. Введите его в поле ниже.",
+    color = colors.textColors.blackTextColor,
+    style = MaterialTheme.typography.body1,
+    modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+)
