@@ -3,17 +3,17 @@ import Platform.DESKTOP
 import Platform.WEB
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import base.theme.AppTheme
 import base.theme.CustomTheme.colors
 import com.arkivanov.decompose.ComponentContext
@@ -29,7 +29,9 @@ import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.rememberInstance
 import org.kodein.di.compose.withDI
 import ui.common.onboarding.data.OnboardingItem
-import ui.core_ui.statusbar.StatusBarColorHelper
+import ui.core_ui.window_insets.AppWindowColorsHelper
+import ui.core_ui.window_insets.LocalWindowInsets
+import ui.core_ui.window_insets.WindowColorsData
 import ui.mobile.auth.AuthMainScreenMobile
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
@@ -41,20 +43,60 @@ fun App(context: ComponentContext) = withDI(appModules) {
     val mainNavigator = mainNavigatorFactory(context)
     startLogger()
     AppTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(subscribeOnStatusBarColorChanges().value)
-                .windowInsetsPadding(WindowInsets.safeDrawing)
-        ) {
-            AppContent(mainNavigator)
-        }
+        AppContentFullScreen(mainNavigator)
     }
 }
 
 @Composable
-private fun AppContent(navigator: MainNavigator) {
+private fun AppContentFullScreen(navigator: MainNavigator) = ConstraintLayout(
+    modifier = Modifier.fillMaxSize()
+) {
+    val windowInsets = LocalWindowInsets.current
+    val (statusBar, navigationBar, content) = createRefs()
+    val (statusBarColor, navigationBarColor) = subscribeOnAppWindowColorsChanges().value
+
+    val statusBarModifier = Modifier
+        .fillMaxWidth()
+        .height(windowInsets.topPadding)
+        .background(statusBarColor)
+        .constrainAs(statusBar) {
+            top.linkTo(parent.top)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        }
+    Box(modifier = statusBarModifier)
+
+    val navigationBarModifier = Modifier
+        .fillMaxWidth()
+        .height(windowInsets.bottomPadding)
+        .background(navigationBarColor)
+        .constrainAs(navigationBar) {
+            bottom.linkTo(parent.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        }
+    Box(modifier = navigationBarModifier)
+
+    val appContentModifier = Modifier.constrainAs(content) {
+        height = Dimension.fillToConstraints
+        start.linkTo(parent.start)
+        end.linkTo(parent.end)
+        top.linkTo(statusBar.bottom)
+        bottom.linkTo(navigationBar.top)
+    }
+    AppContent(
+        navigator = navigator,
+        modifier = appContentModifier
+    )
+}
+
+@Composable
+private fun AppContent(
+    navigator: MainNavigator,
+    modifier: Modifier
+) {
     Children(
+        modifier = modifier,
         stack = navigator.stack,
         animation = stackAnimation { child -> child.instance.animation }
     ) {
@@ -111,14 +153,21 @@ private fun AppOnboardingScreen(
  * SUBSCRIBE ON STATUS BAR COLOR CHANGES
  */
 @Composable
-private fun subscribeOnStatusBarColorChanges(): State<Color> {
-    val statusBarColorHelper by rememberInstance<StatusBarColorHelper>()
-    val startAppBackgroundColor = colors.backgroundColors.whiteBackgroundColor
-    val color = remember { mutableStateOf(startAppBackgroundColor) }
+private fun subscribeOnAppWindowColorsChanges(): State<WindowColorsData> {
+    val appWindowColorsHelper by rememberInstance<AppWindowColorsHelper>()
+    val appWindowColorsData = WindowColorsData(
+        statusBarColor = colors.backgroundColors.whiteBackgroundColor,
+        navigationBarColor = colors.backgroundColors.whiteBackgroundColor
+    )
+    val appWindowColors = remember {
+        mutableStateOf(appWindowColorsData)
+    }
     LaunchedEffect(Unit) {
-        statusBarColorHelper.statusBarColor.collect { newColor ->
-            color.value = newColor
+        appWindowColorsHelper.appWindowColors.collect { newColors ->
+            if (newColors != null) {
+                appWindowColors.value = newColors
+            }
         }
     }
-    return color
+    return appWindowColors
 }

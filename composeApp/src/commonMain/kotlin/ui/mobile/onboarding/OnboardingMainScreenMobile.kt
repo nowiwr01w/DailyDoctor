@@ -42,7 +42,8 @@ import ui.common.onboarding.OnboardingContract.State
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.onboarding.data.OnboardingItem
 import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
-import ui.core_ui.statusbar.StatusBarColorHelper
+import ui.core_ui.window_insets.WindowColorsData
+import ui.core_ui.window_insets.AppWindowColorsHelper
 
 @Composable
 internal fun OnboardingMainScreenMobile(
@@ -50,9 +51,12 @@ internal fun OnboardingMainScreenMobile(
     navigator: MainNavigator,
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
-    val statusBarColorHelper by rememberInstance<StatusBarColorHelper>()
-    val (onboardingBackgroundColor, authStatusBarColor) = with(colors.backgroundColors) {
-        whiteBackgroundColor to grayBackgroundColor
+    val appWindowColorsHelper by rememberInstance<AppWindowColorsHelper>()
+    val onboardingScreenColors = with(colors.backgroundColors) {
+        WindowColorsData(whiteBackgroundColor, whiteBackgroundColor)
+    }
+    val authScreenColors = with(colors.backgroundColors) {
+        WindowColorsData(grayBackgroundColor, whiteBackgroundColor)
     }
 
     val listener = object : Listener {
@@ -60,13 +64,13 @@ internal fun OnboardingMainScreenMobile(
             viewModel.setEvent(Event.ShowNextOnboardingItem)
         }
         override fun onEnableNotificationsClick() {
-            statusBarColorHelper.setStatusBarColor(authStatusBarColor)
+            appWindowColorsHelper.setAppWindowColors(authScreenColors)
             navigator.authNavigator.navigateToAuth()
         }
     }
     
     LaunchedEffect(Unit) {
-        statusBarColorHelper.setStatusBarColor(onboardingBackgroundColor)
+        appWindowColorsHelper.setAppWindowColors(onboardingScreenColors)
         viewModel.setEvent(Event.Init(onboardingItem))
     }
     

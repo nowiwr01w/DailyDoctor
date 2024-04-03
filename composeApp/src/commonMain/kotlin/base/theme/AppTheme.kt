@@ -1,12 +1,17 @@
 package base.theme
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
 import base.theme.shape.AppShapes
 import base.theme.typography.AppTypography
@@ -23,6 +28,8 @@ import domain.usecase.brand.GetAppBrandUseCase
 import domain.usecase.execute
 import domain.usecase.theme.GetAppThemeModeUseCase
 import org.kodein.di.compose.rememberInstance
+import ui.core_ui.window_insets.LocalWindowInsetsData
+import ui.core_ui.window_insets.ProviderLocalWindowInsets
 
 @Composable
 fun AppTheme(
@@ -36,12 +43,14 @@ fun AppTheme(
         brand = getAppBrand().value
     )
 
-    ProvideCustomColors(colors = appThemedColors.value) {
-        MaterialTheme(
-            typography = typography.getTypography(FontFamily.Default), // TODO: Change dynamically
-            shapes = shapes.shapes,
-            content = content
-        )
+    ProviderLocalWindowInsets(insetsData = getWindowInsets().value) {
+        ProvideCustomColors(colors = appThemedColors.value) {
+            MaterialTheme(
+                typography = typography.getTypography(FontFamily.Default), // TODO: Change dynamically
+                shapes = shapes.shapes,
+                content = content
+            )
+        }
     }
 }
 
@@ -77,4 +86,15 @@ private fun getAppColors(theme: AppTheme, brand: AppBrand): State<AppColorsData>
         DARK -> brand.appColors.appColorsDark
     }
     return appThemedColors
+}
+
+@Composable
+private fun getWindowInsets(): State<LocalWindowInsetsData> {
+    val data = with(LocalDensity.current) {
+        LocalWindowInsetsData(
+            appTopPadding = WindowInsets.statusBars.getTop(this).toDp(),
+            appBottomPadding = WindowInsets.navigationBars.getBottom(this).toDp()
+        )
+    }
+    return derivedStateOf { data }
 }
