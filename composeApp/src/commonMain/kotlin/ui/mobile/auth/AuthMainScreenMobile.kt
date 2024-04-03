@@ -93,7 +93,7 @@ internal fun AuthMainScreenMobile(
             viewModel.setEvent(Event.ToggleAuthMode)
         }
         override fun onAuthClicked() {
-            viewModel.setEvent(Event.OnAuthClicked)
+            navigator.authNavigator.navigateToVerification()
         }
         override fun onPrivacyPolicyClicked() {
             viewModel.setEvent(Event.OnPrivacyPolicyClicked)
