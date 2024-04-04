@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ import androidx.constraintlayout.compose.Dimension
 import base.theme.CustomTheme.colors
 import base.view_model.rememberViewModel
 import platform.getScreenWidth
+import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.Listener
 import ui.common.verification.VerificationContract.State
 import ui.common.verification.VerificationViewModel
@@ -49,6 +51,11 @@ internal fun VerificationMainScreenMobile(
     val listener = object : Listener {
 
     }
+
+    LaunchedEffect(Unit) {
+        viewModel.setEvent(Event.Init)
+    }
+
     VerificationMainScreenContent(
         state = viewModel.viewState.value,
         listener = listener
@@ -120,7 +127,7 @@ private fun VerificationContent(
         Description()
         VerificationCode()
         Spacer(modifier = Modifier.weight(1f))
-        ResendText()
+        ResendText(state)
         VerifyButton()
     }
 }
@@ -192,9 +199,9 @@ fun VerificationCodeItem() {
  * RESEND TEXT
  */
 @Composable
-private fun ResendText() {
+private fun ResendText(state: State) {
     Text(
-        text = "Не пришел код?\nСможем прислать ещё один через 60 сек",
+        text = "Не пришел код?\nСможем прислать ещё один через ${state.timerSeconds} сек",
         style = MaterialTheme.typography.h5,
         color = colors.textColors.lightGrayTextColor,
         textAlign = TextAlign.Center,
