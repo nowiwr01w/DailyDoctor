@@ -3,9 +3,10 @@ package ui.mobile.verification
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,20 +15,38 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -38,8 +57,10 @@ import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.Listener
 import ui.common.verification.VerificationContract.State
 import ui.common.verification.VerificationViewModel
-import ui.core_ui.components.AutoSizeText
-import ui.core_ui.components.ButtonState
+import ui.common.verification.data.VerificationEnterCodeOperation
+import ui.common.verification.data.VerificationEnterCodeOperation.RemoveDigit
+import ui.common.verification.data.VerificationEnterCodeOperation.SetDigit
+import ui.core_ui.components.CustomTextField
 import ui.core_ui.components.StateButton
 import ui.mobile.auth.TopIcon
 import ui.mobile.auth.TopTitle
@@ -49,7 +70,15 @@ internal fun VerificationMainScreenMobile(
     viewModel: VerificationViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
-
+        override fun onVerifyClicked() {
+            viewModel.setEvent(Event.OnVerifyClicked)
+        }
+        override fun onResendCodeClicked() {
+            viewModel.setEvent(Event.OnResendCodeClicked)
+        }
+        override fun handeUserInput(operation: VerificationEnterCodeOperation) {
+            viewModel.setEvent(Event.HandeUserInput(operation))
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -125,10 +154,10 @@ private fun VerificationContent(
     ) {
         TopTitle("Верификация")
         Description()
-        VerificationCode()
+        VerificationCode(state, listener)
         Spacer(modifier = Modifier.weight(1f))
-        ResendText(state)
-        VerifyButton()
+        ResendText(state, listener)
+        VerifyButton(state, listener)
     }
 }
 
@@ -147,16 +176,23 @@ private fun Description() = Text(
  * CODE FIELDS
  */
 @Composable
-fun VerificationCode() {
+private fun VerificationCode(
+    state: State,
+    listener: Listener
+) {
     Row(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 32.dp)
     ) {
-        repeat(6) { index ->
-            VerificationCodeItem()
-            if (index != 5) {
+        repeat(state.code.size) { index ->
+            VerificationCodeItem(
+                index = index,
+                state = state,
+                listener = listener
+            )
+            if (index != state.code.lastIndex) {
                 Spacer(modifier = Modifier.width(8.dp))
             }
         }
@@ -167,30 +203,90 @@ fun VerificationCode() {
  * INPUT FIELD CODE ITEM
  */
 @Composable
-fun VerificationCodeItem() {
-    val verificationCodeItemWidth by rememberUpdatedState(
+private fun VerificationCodeItem(
+    index: Int,
+    state: State,
+    listener: Listener
+) {
+    val verificationCodeItemSize by rememberUpdatedState(
         newValue = (getScreenWidth() - 5 * 16.dp) / 6
     )
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .width(verificationCodeItemWidth)
-            .height(3 / 2 * verificationCodeItemWidth)
-            .clip(MaterialTheme.shapes.large)
-            .border(
-                width = 2.dp,
-                color = colors.borderColors.lightGrayColor,
-                shape = MaterialTheme.shapes.large
-            )
-    ) {
-        AutoSizeText(
-            text = "5",
-            color = colors.textColors.blackTextColor.copy(
-                alpha = 0.75f
+    val verticalInputPadding by rememberUpdatedState(
+        (verificationCodeItemSize - 28.dp) / 2
+    )
+    val customTextSelectionColors = TextSelectionColors(
+        handleColor = colors.backgroundColors.redBackgroundColor,
+        backgroundColor = colors.backgroundColors.redBackgroundColor.copy(alpha = 0.4f)
+    )
+    CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
+        val focusManager = LocalFocusManager.current
+        var enteredDigit by remember { mutableStateOf("") }
+        CustomTextField(
+            value = if (index <= state.code.lastIndex) state.code[index] else "",
+            contentPadding = PaddingValues(top = verticalInputPadding),
+            onValueChange = { digit ->
+                enteredDigit = digit.lastOrNull()?.toString() ?: ""
+                if (enteredDigit.isNotEmpty()) {
+                    listener.handeUserInput(SetDigit(index, enteredDigit))
+                    with(focusManager) {
+                        if (index == state.code.lastIndex) clearFocus() else moveFocus(FocusDirection.Next)
+                    }
+                }
+            },
+            textStyle = MaterialTheme.typography.h3.copy(
+                lineHeight = 24.sp,
+                textAlign = TextAlign.Center,
+                color = colors.textColors.blackTextColor.copy(alpha = 0.75f)
             ),
-            style = MaterialTheme.typography.h3.copy(
-                fontWeight = FontWeight.Normal
-            )
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colors.textColors.blackTextColor,
+                cursorColor = colors.backgroundColors.redBackgroundColor,
+                backgroundColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent
+            ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = when {
+                    index == state.code.lastIndex && enteredDigit.isNotEmpty() -> ImeAction.Done
+                    else -> ImeAction.Next
+                }
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    if (enteredDigit.isNotEmpty()) {
+                        focusManager.clearFocus()
+                    }
+                },
+                onNext = {
+                    if (enteredDigit.isNotEmpty()) {
+                        focusManager.moveFocus(FocusDirection.Next)
+                    }
+                }
+            ),
+            modifier = Modifier
+                .size(verificationCodeItemSize)
+                .clip(MaterialTheme.shapes.large)
+                .border(
+                    width = 2.dp,
+                    color = colors.borderColors.lightGrayColor,
+                    shape = MaterialTheme.shapes.large
+                )
+                .onKeyEvent { keyEvent ->
+                    when (keyEvent.key) {
+                        Key.Backspace -> {
+                            listener.handeUserInput(RemoveDigit(index))
+                            if (index != 0) {
+                                focusManager.moveFocus(FocusDirection.Previous)
+                            } else {
+                                false
+                            }
+                        }
+                        else -> false
+                    }
+                }
         )
     }
 }
@@ -199,15 +295,26 @@ fun VerificationCodeItem() {
  * RESEND TEXT
  */
 @Composable
-private fun ResendText(state: State) {
+private fun ResendText(
+    state: State,
+    listener: Listener
+) {
     Text(
-        text = "Не пришел код?\nСможем прислать ещё один через ${state.timerSeconds} сек",
+        text = when {
+            state.timerSeconds == 0 -> "Мне нужен новый код"
+            else -> "Не пришел код?\nСможем прислать ещё один через ${state.timerSeconds} сек"
+        },
         style = MaterialTheme.typography.h5,
         color = colors.textColors.lightGrayTextColor,
         textAlign = TextAlign.Center,
         modifier = Modifier
-            .fillMaxWidth()
             .padding(bottom = 16.dp)
+            .wrapContentSize()
+            .clip(MaterialTheme.shapes.large)
+            .clickable(enabled = state.timerSeconds == 0) {
+                listener.onResendCodeClicked()
+            }
+            .padding(vertical = 4.dp, horizontal = 8.dp)
     )
 }
 
@@ -215,11 +322,14 @@ private fun ResendText(state: State) {
  * VERIFY BUTTON
  */
 @Composable
-private fun VerifyButton() {
+private fun VerifyButton(
+    state: State,
+    listener: Listener
+) {
     StateButton(
         text = "Вот вам код",
-        state = ButtonState.DEFAULT,
-        onClick = {},
+        state = state.buttonState,
+        onClick = { listener.onVerifyClicked() },
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             .fillMaxWidth()
