@@ -1,6 +1,5 @@
 package ui.mobile.verification
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -106,11 +106,6 @@ private fun VerificationMainScreenContent(
     ) {
         val (icon, inputFieldsContainer) = createRefs()
 
-        val isKeyboardOpen = false // TODO: expect function for iOS
-        val authContentTransitionDp by animateDpAsState(
-            targetValue = if (isKeyboardOpen) 8.dp else 160.dp
-        )
-
         val iconModifier = Modifier
             .size(96.dp)
             .clip(CircleShape)
@@ -123,7 +118,7 @@ private fun VerificationMainScreenContent(
 
         val authContentModifier = Modifier
             .fillMaxSize()
-            .padding(top = authContentTransitionDp)
+            .padding(top = 160.dp)
             .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
             .background(colors.backgroundColors.whiteBackgroundColor)
             .constrainAs(inputFieldsContainer) {
@@ -149,7 +144,7 @@ private fun VerificationContent(
     modifier: Modifier
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopTitle("Верификация")
@@ -327,7 +322,7 @@ private fun VerifyButton(
     listener: Listener
 ) {
     StateButton(
-        text = "Вот вам код",
+        text = "Подтвердить",
         state = state.buttonState,
         onClick = { listener.onVerifyClicked() },
         modifier = Modifier

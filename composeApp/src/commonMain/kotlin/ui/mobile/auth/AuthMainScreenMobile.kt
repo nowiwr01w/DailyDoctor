@@ -1,6 +1,7 @@
 package ui.mobile.auth
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -75,6 +76,7 @@ import ui.core_ui.components.ButtonState.DEFAULT
 import ui.core_ui.components.CustomTextField
 import ui.core_ui.components.StateButton
 import ui.core_ui.extensions.appendLink
+import ui.core_ui.extensions.isKeyboardOpened
 import ui.core_ui.extensions.onTextClick
 
 @Composable
@@ -136,9 +138,10 @@ private fun AuthMainScreenContent(
     ) {
         val (icon, inputFieldsContainer) = createRefs()
 
-        val isKeyboardOpen = false // TODO: expect function for iOS
+        val isKeyboardOpen by isKeyboardOpened()
         val authContentTransitionDp by animateDpAsState(
-            targetValue = if (isKeyboardOpen) 8.dp else 160.dp
+            targetValue = if (isKeyboardOpen) 8.dp else 160.dp,
+            animationSpec = tween(durationMillis = 150, easing = LinearEasing)
         )
 
         val iconModifier = Modifier
