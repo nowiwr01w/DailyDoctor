@@ -1,4 +1,3 @@
-
 import Platform.DESKTOP
 import Platform.WEB
 import androidx.compose.foundation.background
@@ -29,9 +28,9 @@ import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.rememberInstance
 import org.kodein.di.compose.withDI
 import ui.common.onboarding.data.OnboardingItem
-import ui.core_ui.window_insets.AppWindowColorsHelper
-import ui.core_ui.window_insets.LocalWindowInsets
-import ui.core_ui.window_insets.WindowColorsData
+import ui.core_ui.helpers.window_insets.AppWindowColorsHelper
+import ui.core_ui.helpers.window_insets.WindowColorsData
+import ui.core_ui.helpers.window_insets.data.LocalWindowInsets
 import ui.mobile.auth.AuthMainScreenMobile
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile

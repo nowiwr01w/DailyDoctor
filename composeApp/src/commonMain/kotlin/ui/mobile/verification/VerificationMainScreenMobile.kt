@@ -297,7 +297,7 @@ private fun ResendText(
     Text(
         text = when {
             state.timerSeconds == 0 -> "Мне нужен новый код"
-            else -> "Не пришел код?\nСможем прислать ещё один через ${state.timerSeconds} сек"
+            else -> "Не пришёл код?\nОтправим ещё один через ${state.timerSeconds} сек"
         },
         style = MaterialTheme.typography.h5,
         color = colors.textColors.lightGrayTextColor,

@@ -42,8 +42,8 @@ import ui.common.onboarding.OnboardingContract.State
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.onboarding.data.OnboardingItem
 import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
-import ui.core_ui.window_insets.WindowColorsData
-import ui.core_ui.window_insets.AppWindowColorsHelper
+import ui.core_ui.helpers.window_insets.AppWindowColorsHelper
+import ui.core_ui.helpers.window_insets.WindowColorsData
 
 @Composable
 internal fun OnboardingMainScreenMobile(

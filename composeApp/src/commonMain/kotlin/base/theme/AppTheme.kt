@@ -28,8 +28,8 @@ import domain.usecase.brand.GetAppBrandUseCase
 import domain.usecase.execute
 import domain.usecase.theme.GetAppThemeModeUseCase
 import org.kodein.di.compose.rememberInstance
-import ui.core_ui.window_insets.LocalWindowInsetsData
-import ui.core_ui.window_insets.ProviderLocalWindowInsets
+import ui.core_ui.helpers.window_insets.data.LocalWindowInsetsData
+import ui.core_ui.helpers.window_insets.data.ProviderLocalWindowInsets
 
 @Composable
 fun AppTheme(

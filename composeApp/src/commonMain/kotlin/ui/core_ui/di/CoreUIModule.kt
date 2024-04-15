@@ -4,7 +4,8 @@ import domain.coroutines.app_scope.AppScope
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
-import ui.core_ui.window_insets.AppWindowColorsHelper
+import ui.core_ui.helpers.snack_bar.SnackBarHelper
+import ui.core_ui.helpers.window_insets.AppWindowColorsHelper
 
 val moduleCoreUI = DI.Module("CoreUIModule") {
     /**
@@ -12,5 +13,11 @@ val moduleCoreUI = DI.Module("CoreUIModule") {
      */
     bindSingleton {
         AppWindowColorsHelper(appScope = instance<AppScope>())
+    }
+    /**
+     * SHOW SNACK BAR WITH CUSTOM PARAMS
+     */
+    bindSingleton {
+        SnackBarHelper(appScope = instance<AppScope>())
     }
 }

@@ -1,4 +1,4 @@
-package ui.core_ui.window_insets
+package ui.core_ui.helpers.window_insets
 
 import androidx.compose.ui.graphics.Color
 import domain.coroutines.app_scope.AppScope
