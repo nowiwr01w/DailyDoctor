@@ -1,5 +1,6 @@
 import Platform.DESKTOP
 import Platform.WEB
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -28,6 +31,8 @@ import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.rememberInstance
 import org.kodein.di.compose.withDI
 import ui.common.onboarding.data.OnboardingItem
+import ui.core_ui.components.snack_bar.SnackBar
+import ui.core_ui.helpers.snack_bar.SnackBarHelper
 import ui.core_ui.helpers.window_insets.AppWindowColorsHelper
 import ui.core_ui.helpers.window_insets.WindowColorsData
 import ui.core_ui.helpers.window_insets.data.LocalWindowInsets
@@ -115,6 +120,7 @@ private fun AppContent(
             }
         }
     }
+    subscribeOnSnackBar()() // (*)(*)
 }
 
 /**
@@ -169,4 +175,14 @@ private fun subscribeOnAppWindowColorsChanges(): State<WindowColorsData> {
         }
     }
     return appWindowColors
+}
+
+/**
+ * SUBSCRIBE ON SNACK BAR
+ */
+private fun subscribeOnSnackBar(): @Composable () -> Unit = {
+    val snackBarHelper by rememberInstance<SnackBarHelper>()
+    val snackBarParams by snackBarHelper.params.collectAsState()
+    val transition = updateTransition(snackBarParams)
+    SnackBar(transition)
 }

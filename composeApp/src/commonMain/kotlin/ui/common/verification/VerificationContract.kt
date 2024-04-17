@@ -4,8 +4,8 @@ import base.view_model.BaseEffect
 import base.view_model.BaseEvent
 import base.view_model.BaseState
 import ui.common.verification.data.VerificationEnterCodeOperation
-import ui.core_ui.components.ButtonState
-import ui.core_ui.components.ButtonState.DEFAULT
+import ui.core_ui.components.button.ButtonState
+import ui.core_ui.components.button.ButtonState.DEFAULT
 
 internal const val TIMER_RESEND_VERIFICATION_SECONDS = 60
 

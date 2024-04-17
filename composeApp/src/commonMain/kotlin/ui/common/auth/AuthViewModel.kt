@@ -24,9 +24,9 @@ import ui.common.auth.AuthContract.Event.ToggleUserInputVisibility
 import ui.common.auth.AuthContract.State
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
-import ui.core_ui.components.ButtonState.DEFAULT
-import ui.core_ui.components.ButtonState.ERROR
-import ui.core_ui.components.ButtonState.SEND_REQUEST
+import ui.core_ui.components.button.ButtonState.DEFAULT
+import ui.core_ui.components.button.ButtonState.ERROR
+import ui.core_ui.components.button.ButtonState.SEND_REQUEST
 
 class AuthViewModel(
     scope: CoroutineScope,

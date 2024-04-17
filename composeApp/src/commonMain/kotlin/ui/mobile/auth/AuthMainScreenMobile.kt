@@ -72,9 +72,9 @@ import ui.common.auth.AuthContract.State
 import ui.common.auth.AuthViewModel
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
-import ui.core_ui.components.ButtonState.DEFAULT
-import ui.core_ui.components.CustomTextField
-import ui.core_ui.components.StateButton
+import ui.core_ui.components.button.ButtonState.DEFAULT
+import ui.core_ui.components.input_field.CustomTextField
+import ui.core_ui.components.button.StateButton
 import ui.core_ui.extensions.appendLink
 import ui.core_ui.extensions.isKeyboardOpened
 import ui.core_ui.extensions.onTextClick

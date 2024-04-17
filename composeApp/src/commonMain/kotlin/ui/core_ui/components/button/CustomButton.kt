@@ -1,4 +1,4 @@
-package ui.core_ui.components
+package ui.core_ui.components.button
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
@@ -32,11 +32,11 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import redColor
 import secondaryBackgroundColor
-import ui.core_ui.components.ButtonState.DEFAULT
-import ui.core_ui.components.ButtonState.ERROR
-import ui.core_ui.components.ButtonState.INIT_LOADING
-import ui.core_ui.components.ButtonState.SEND_REQUEST
-import ui.core_ui.components.ButtonState.SUCCESS
+import ui.core_ui.components.button.ButtonState.DEFAULT
+import ui.core_ui.components.button.ButtonState.ERROR
+import ui.core_ui.components.button.ButtonState.INIT_LOADING
+import ui.core_ui.components.button.ButtonState.SEND_REQUEST
+import ui.core_ui.components.button.ButtonState.SUCCESS
 
 /**
  * BUTTON

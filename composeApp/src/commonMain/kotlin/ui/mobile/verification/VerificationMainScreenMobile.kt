@@ -60,8 +60,8 @@ import ui.common.verification.VerificationViewModel
 import ui.common.verification.data.VerificationEnterCodeOperation
 import ui.common.verification.data.VerificationEnterCodeOperation.RemoveDigit
 import ui.common.verification.data.VerificationEnterCodeOperation.SetDigit
-import ui.core_ui.components.CustomTextField
-import ui.core_ui.components.StateButton
+import ui.core_ui.components.button.StateButton
+import ui.core_ui.components.input_field.CustomTextField
 import ui.mobile.auth.TopIcon
 import ui.mobile.auth.TopTitle
 

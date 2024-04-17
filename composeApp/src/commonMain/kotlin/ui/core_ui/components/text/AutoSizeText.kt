@@ -1,4 +1,4 @@
-package ui.core_ui.components
+package ui.core_ui.components.text
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

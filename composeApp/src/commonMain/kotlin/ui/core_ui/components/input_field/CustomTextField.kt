@@ -1,4 +1,4 @@
-package ui.core_ui.components
+package ui.core_ui.components.input_field
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.InteractionSource
