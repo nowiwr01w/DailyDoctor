@@ -12,7 +12,6 @@ import ui.common.home.HomeViewModel
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.splash.SplashViewModel
 import ui.common.verification.VerificationViewModel
-import ui.core_ui.helpers.snack_bar.SnackBarHelper
 
 val moduleViewModels = DI.Module("ViewModelsModule") {
     /**
@@ -39,10 +38,7 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
         )
     }
     bindFactory<CoroutineScope, VerificationViewModel> { scope ->
-        VerificationViewModel(
-            scope = scope,
-            snackBarHelper = instance<SnackBarHelper>()
-        )
+        VerificationViewModel(scope)
     }
     /**
      * HOME

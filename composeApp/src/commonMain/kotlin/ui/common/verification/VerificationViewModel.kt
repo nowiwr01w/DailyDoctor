@@ -1,7 +1,6 @@
 package ui.common.verification
 
 import base.view_model.BaseViewModel
-import core.AppMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
@@ -12,14 +11,8 @@ import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.State
 import ui.common.verification.data.VerificationEnterCodeOperation
-import ui.core_ui.helpers.snack_bar.SnackBarHelper
-import ui.core_ui.helpers.snack_bar.data.SnackBarParams
-import ui.core_ui.helpers.snack_bar.data.SnackBarType
 
-class VerificationViewModel(
-    scope: CoroutineScope,
-    private val snackBarHelper: SnackBarHelper
-): BaseViewModel<Event, State, Effect>(scope) {
+class VerificationViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
 
     override fun setInitialState() = State()
 
@@ -34,16 +27,6 @@ class VerificationViewModel(
 
     private fun init() {
         startTimer()
-        showSnackBar()
-    }
-
-    private fun showSnackBar() = hide {
-        snackBarHelper.showSnackBar(
-            SnackBarParams.TopFloatingParams(
-                type = SnackBarType.SUCCESS,
-                message = AppMessage.AppMessageText("Дарова ебать че каво")
-            )
-        )
     }
 
     private fun startTimer() = hide {

@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import core.AppMessage
-import logMessage
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import ui.core_ui.helpers.snack_bar.data.SnackBarDisplayType.BOTTOM_ROUNDED
@@ -37,7 +36,6 @@ import ui.core_ui.helpers.window_insets.data.LocalWindowInsets
 @Composable
 fun SnackBar(transition: Transition<SnackBarParams?>) {
     val statusBarHeight = LocalWindowInsets.current.topPadding
-    logMessage("currentState = ${transition.currentState}, targetState = ${transition.targetState}")
     val snackBarParams = when {
         transition.targetState == null -> transition.currentState
         else -> transition.targetState
@@ -59,9 +57,9 @@ fun SnackBar(transition: Transition<SnackBarParams?>) {
         null -> RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)
     }
     val backgroundColor = when (snackBarParams?.type) {
-        DEFAULT -> Color(0xFFE8EAF0)
-        SUCCESS -> Color(0xFF32B153)
-        WARNING -> Color(0xFFF7CD46)
+        DEFAULT -> Color(0xFF475569)
+        SUCCESS -> Color(0xFF16A34A)
+        WARNING -> Color(0xFFD97706)
         ERROR -> Color(0xFFE34446)
         null -> Color(0xFF32B153)
     }
@@ -110,7 +108,12 @@ fun SnackBar(transition: Transition<SnackBarParams?>) {
             modifier = Modifier
                 .fillMaxWidth()
                 .align(alignment)
-                .padding(start = 16.dp, end = 16.dp, top = topTextPadding, bottom = bottomTextPadding)
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = topTextPadding,
+                    bottom = bottomTextPadding
+                )
         )
     }
 }
