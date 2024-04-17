@@ -13,12 +13,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import core.AppMessage
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import ui.core_ui.helpers.snack_bar.data.SnackBarDisplayType.BOTTOM_ROUNDED
@@ -32,18 +34,26 @@ import ui.core_ui.helpers.snack_bar.data.SnackBarType.SUCCESS
 import ui.core_ui.helpers.snack_bar.data.SnackBarType.WARNING
 import ui.core_ui.helpers.window_insets.data.LocalWindowInsets
 
+private const val SNACK_BAR_ANIMATION_MILLIS = 500
+
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun SnackBar(transition: Transition<SnackBarParams?>) {
-    val statusBarHeight = LocalWindowInsets.current.topPadding
     val snackBarParams = when {
         transition.targetState == null -> transition.currentState
         else -> transition.targetState
     }
+    LaunchedEffect(snackBarParams?.duration) {
+        snackBarParams?.duration?.timeMillis?.let { millis ->
+            delay(millis + SNACK_BAR_ANIMATION_MILLIS) // + hide animation duration
+            snackBarParams.endCallback()
+        }
+    }
+    val statusBarHeight = LocalWindowInsets.current.topPadding
     val snackBarOffset = transition.animateDp(
         label = "Animate SnackBar Offset",
         transitionSpec = {
-            tween(durationMillis = 500)
+            tween(durationMillis = SNACK_BAR_ANIMATION_MILLIS)
         },
         targetValueByState = { currentParams ->
             if (currentParams == null) (-200).dp else 0.dp
