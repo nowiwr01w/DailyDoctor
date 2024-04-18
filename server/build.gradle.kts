@@ -2,6 +2,7 @@ plugins {
     application
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlinJvm)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 group = "nowiwr01p.daily.doctor"
@@ -13,6 +14,7 @@ application {
 
 dependencies {
     implementation(projects.shared)
+    implementation(libs.bundles.base)
     implementation(libs.bundles.server)
     implementation(libs.bundles.server.test)
 }
