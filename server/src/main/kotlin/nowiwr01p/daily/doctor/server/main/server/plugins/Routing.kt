@@ -1,20 +1,24 @@
 package nowiwr01p.daily.doctor.server.main.server.plugins
 
 import io.ktor.server.application.Application
-import io.ktor.server.response.respond
-import io.ktor.server.routing.get
+import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
-import kotlinx.serialization.Serializable
+import nowiwr01p.daily.doctor.server.main.routing.RoutingUser
+import nowiwr01p.daily.doctor.server.main.routing.RoutingUsers
+import org.kodein.di.DI
+import org.kodein.di.instance
 
-fun Application.configureRouting() = routing {
-    get("/user") {
-        val user = User(228, "Huj")
-        call.respond(user)
-    }
+fun Application.configureRouting(di: DI) = routing {
+    configureUsersRouting(di)
+    configureUserByIdRouting(di)
 }
 
-@Serializable
-data class User(
-    val id: Int,
-    val name: String
-)
+private fun Route.configureUsersRouting(di: DI) {
+    val getUsersRoutingUsers by di.instance<RoutingUsers>()
+    getUsersRoutingUsers.getUsers(this)
+}
+
+private fun Route.configureUserByIdRouting(di: DI) {
+    val getRoutingUserById by di.instance<RoutingUser>()
+    getRoutingUserById.getUserById(route = this)
+}

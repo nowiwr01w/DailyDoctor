@@ -15,6 +15,7 @@ application {
 dependencies {
     implementation(projects.modelShared)
     implementation(projects.server.domain)
+    implementation(projects.server.data) // TODO: This now how this should works
     implementation(projects.database)
     implementation(libs.bundles.database)
     implementation(libs.bundles.server)

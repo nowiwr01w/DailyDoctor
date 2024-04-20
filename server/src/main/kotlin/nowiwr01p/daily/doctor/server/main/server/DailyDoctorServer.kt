@@ -3,8 +3,7 @@ package nowiwr01p.daily.doctor.server.main.server
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import nowiwr01p.daily.doctor.database.connectDatabase
-import nowiwr01p.daily.doctor.database.testTransaction
+import nowiwr01p.daily.doctor.database.DailyDoctorDatabase
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureCookies
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureHeaders
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureLogging
@@ -15,20 +14,19 @@ import org.kodein.di.DIAware
 
 class DailyDoctorServer(override val di: DI): DIAware {
     init {
-        connectDatabase()
-        testTransaction()
-        connectServer()
+        DailyDoctorDatabase(di).connect()
+        connectServer(di)
     }
 }
 
-private fun connectServer() = embeddedServer(
+private fun connectServer(di: DI) = embeddedServer(
     factory = Netty,
     port = 8080,
-    module = Application::setApplicationModule
+    module = { setApplicationModule(di) }
 ).start(wait = true)
 
-private fun Application.setApplicationModule() {
-    configureRouting()
+private fun Application.setApplicationModule(di: DI) {
+    configureRouting(di)
     configureLogging()
     configureSerialization()
 //    configureHttps()
