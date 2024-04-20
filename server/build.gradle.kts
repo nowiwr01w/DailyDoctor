@@ -13,6 +13,7 @@ application {
 }
 
 dependencies {
+    implementation(projects.model)
     implementation(projects.shared)
     implementation(libs.bundles.base)
     implementation(libs.bundles.server)
