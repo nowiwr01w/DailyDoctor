@@ -58,7 +58,7 @@ kotlin {
             implementation(libs.bundles.ios)
         }
         commonMain.dependencies {
-            implementation(projects.model)
+            implementation(projects.modelShared)
             implementation(projects.appShared)
             implementation(compose.runtime)
             implementation(compose.foundation)

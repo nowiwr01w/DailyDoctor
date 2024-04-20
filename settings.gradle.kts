@@ -27,7 +27,7 @@ dependencyResolutionManagement {
 }
 
 include(":app_presentation")
-include(":model")
+include(":model_shared")
 include(":server")
 include(":app_shared")
 include(":app_shared:data")

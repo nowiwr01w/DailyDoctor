@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.model)
+    implementation(projects.modelShared)
     implementation(projects.database)
     implementation(libs.bundles.database)
     implementation(libs.bundles.server)
