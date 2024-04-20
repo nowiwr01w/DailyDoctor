@@ -135,7 +135,9 @@ server = [
     "ktor-server-core",
     "ktor-server-netty",
     "ktor-server-auth",
-    "ktor-forwarded-header",
+    "ktor-forwarded-header"
+]
+database = [
     "exposed",
     "postgree"
 ]

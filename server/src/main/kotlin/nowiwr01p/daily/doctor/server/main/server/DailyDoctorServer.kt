@@ -3,8 +3,8 @@ package nowiwr01p.daily.doctor.server.main.server
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import nowiwr01p.daily.doctor.server.main.database.connectDatabase
-import nowiwr01p.daily.doctor.server.main.database.testTransaction
+import nowiwr01p.daily.doctor.database.connectDatabase
+import nowiwr01p.daily.doctor.database.testTransaction
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureCookies
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureHeaders
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureLogging

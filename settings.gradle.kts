@@ -26,11 +26,12 @@ dependencyResolutionManagement {
     }
 }
 
-include(":composeApp")
+include(":app_presentation")
 include(":model")
 include(":server")
-include(":shared")
-include(":shared:data")
-include(":shared:domain")
+include(":app-shared")
+include(":app-shared:data")
+include(":app-shared:domain")
 include(":server:domain")
 include(":server:data")
+include(":database")
