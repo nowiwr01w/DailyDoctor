@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "model"
+            baseName = "shared.domain"
         }
     }
 
@@ -44,7 +44,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.model"
+    namespace = "nowiwr01p.daily.doctor.shared.domain"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
