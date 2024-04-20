@@ -1,4 +1,4 @@
-package domain.usecase
+package com.nowiwr01p.model.usecase
 
 interface UseCase<T, R> {
     suspend fun execute(input: T): R

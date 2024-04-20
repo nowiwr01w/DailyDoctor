@@ -3,7 +3,7 @@ package domain.usecase.auth
 import domain.model.user.UserData
 import domain.repository.auth.ValidateAuthDataRepository
 import domain.repository.auth.data.errors.AuthError
-import domain.usecase.UseCase
+import com.nowiwr01p.model.usecase.UseCase
 
 class ValidateAuthDataUseCase(
     private val repository: ValidateAuthDataRepository

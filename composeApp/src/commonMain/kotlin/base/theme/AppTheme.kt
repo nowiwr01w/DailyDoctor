@@ -25,7 +25,7 @@ import domain.repository.theme.AppTheme
 import domain.repository.theme.AppTheme.DARK
 import domain.repository.theme.AppTheme.LIGHT
 import domain.usecase.brand.GetAppBrandUseCase
-import domain.usecase.execute
+import com.nowiwr01p.model.usecase.execute
 import domain.usecase.theme.GetAppThemeModeUseCase
 import org.kodein.di.compose.rememberInstance
 import ui.core_ui.helpers.window_insets.data.LocalWindowInsetsData
