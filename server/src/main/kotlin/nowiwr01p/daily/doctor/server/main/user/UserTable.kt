@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.user
+package nowiwr01p.daily.doctor.server.main.user
 
 import com.nowiwr01p.model.User
 import org.jetbrains.exposed.dao.id.IntIdTable

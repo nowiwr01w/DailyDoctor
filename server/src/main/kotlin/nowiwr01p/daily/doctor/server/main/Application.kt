@@ -1,15 +1,15 @@
-package nowiwr01p.daily.doctor
+package nowiwr01p.daily.doctor.server.main
 
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import nowiwr01p.daily.doctor.plugins.configureCookies
-import nowiwr01p.daily.doctor.plugins.configureHeaders
-import nowiwr01p.daily.doctor.plugins.configureLogging
-import nowiwr01p.daily.doctor.plugins.configureRouting
-import nowiwr01p.daily.doctor.plugins.configureSerialization
-import nowiwr01p.daily.doctor.user.UserTable
-import nowiwr01p.daily.doctor.user.toUser
+import nowiwr01p.daily.doctor.server.main.plugins.configureCookies
+import nowiwr01p.daily.doctor.server.main.plugins.configureHeaders
+import nowiwr01p.daily.doctor.server.main.plugins.configureLogging
+import nowiwr01p.daily.doctor.server.main.plugins.configureRouting
+import nowiwr01p.daily.doctor.server.main.plugins.configureSerialization
+import nowiwr01p.daily.doctor.server.main.user.UserTable
+import nowiwr01p.daily.doctor.server.main.user.toUser
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger

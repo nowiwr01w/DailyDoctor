@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.plugins
+package nowiwr01p.daily.doctor.server.main.plugins
 
 import io.ktor.server.application.Application
 import io.ktor.server.application.install

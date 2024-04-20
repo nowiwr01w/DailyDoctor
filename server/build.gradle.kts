@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
-group = "nowiwr01p.daily.doctor"
+group = "nowiwr01p.daily.doctor.server.main"
 version = "1.0.0"
 application {
     mainClass.set("nowiwr01p.daily.doctor.ApplicationKt")
@@ -14,7 +14,7 @@ application {
 
 dependencies {
     implementation(projects.model)
-    implementation(projects.shared)
+    implementation(projects.server.domain)
     implementation(libs.bundles.base)
     implementation(libs.bundles.server)
     implementation(libs.bundles.server.test)
