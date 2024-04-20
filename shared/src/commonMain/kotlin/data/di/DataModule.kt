@@ -7,7 +7,7 @@ import data.repository.theme.AppThemeRepositoryImpl
 import data.usecase.brand.GetAppBrandUseCaseImpl
 import data.usecase.theme.GetAppThemeModeUseCaseImpl
 import data.usecase.theme.SetAppThemeModeUseCaseImpl
-import domain.coroutines.dispatchers.AppDispatchers
+import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import domain.repository.auth.AuthRepository
 import domain.repository.auth.ValidateAuthDataRepository
 import domain.repository.brand.AppBrandRepository

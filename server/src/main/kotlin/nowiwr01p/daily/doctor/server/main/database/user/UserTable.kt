@@ -1,6 +1,6 @@
-package nowiwr01p.daily.doctor.server.main.user
+package nowiwr01p.daily.doctor.server.main.database.user
 
-import com.nowiwr01p.model.User
+import com.nowiwr01p.model.model.User
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ResultRow
 

@@ -1,6 +1,6 @@
 package ui.core_ui.di
 
-import domain.coroutines.app_scope.AppScope
+import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance

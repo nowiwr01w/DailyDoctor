@@ -1,7 +1,7 @@
 package di
 
+import com.nowiwr01p.model.di.moduleBaseCoroutines
 import config.di.moduleConfig
-import data.di.moduleCoroutines
 import data.di.moduleData
 import data.di.moduleUserDataValidators
 import domain.di.moduleDomain
@@ -11,7 +11,7 @@ import ui.core_ui.di.moduleCoreUI
 
 private val allModules = listOf(
     moduleConfig,
-    moduleCoroutines,
+    moduleBaseCoroutines,
     moduleTheme,
     moduleUserDataValidators,
     moduleDomain,

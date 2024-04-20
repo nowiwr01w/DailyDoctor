@@ -1,4 +1,4 @@
-package domain.coroutines.app_scope
+package com.nowiwr01p.model.coroutines.app_scope
 
 import kotlinx.coroutines.CoroutineScope
 

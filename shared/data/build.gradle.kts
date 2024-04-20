@@ -46,6 +46,10 @@ kotlin {
 android {
     namespace = "nowiwr01p.daily.doctor.shared.data"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }

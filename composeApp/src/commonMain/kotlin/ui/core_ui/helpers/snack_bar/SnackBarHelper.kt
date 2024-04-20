@@ -1,6 +1,6 @@
 package ui.core_ui.helpers.snack_bar
 
-import domain.coroutines.app_scope.AppScope
+import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

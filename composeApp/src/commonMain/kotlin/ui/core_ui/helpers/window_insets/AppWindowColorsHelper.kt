@@ -1,7 +1,7 @@
 package ui.core_ui.helpers.window_insets
 
 import androidx.compose.ui.graphics.Color
-import domain.coroutines.app_scope.AppScope
+import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

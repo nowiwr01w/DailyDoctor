@@ -6,4 +6,5 @@ plugins {
 
 dependencies {
     implementation(projects.model)
+    implementation(libs.bundles.server)
 }

@@ -1,4 +1,4 @@
-package domain.coroutines.dispatchers
+package com.nowiwr01p.model.coroutines.dispatchers
 
 import kotlinx.coroutines.CoroutineDispatcher
 

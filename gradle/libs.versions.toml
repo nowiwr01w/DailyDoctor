@@ -37,7 +37,8 @@ kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 ############
 ### KODEIN ###
 ############
-kodein = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
+kodein = { module = "org.kodein.di:kodein-di", version.ref = "kodein" }
+kodein-compose = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
 #################
 ### DATASTORE ###
 #################
@@ -82,8 +83,8 @@ exposed = { module = "org.jetbrains.exposed:exposed-spring-boot-starter", versio
 accompanist-system-ui = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 
 [bundles]
-base = [
-    "kodein",
+base-app = [
+    "kodein-compose",
     "decompose",
     "decompose-extensions",
     "essenty-lifecycle",
@@ -124,7 +125,13 @@ web = [
     "ktor-client-js"
 ]
 server = [
+    "kodein",
+    "coroutines",
+    "kotlin-date-time",
+    "kotlin-serialization-json",
     "logback",
+    "ktor-serialization",
+    "ktor-kotlin-serialization",
     "ktor-server-core",
     "ktor-server-netty",
     "ktor-server-auth",

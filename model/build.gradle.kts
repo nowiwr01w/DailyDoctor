@@ -38,6 +38,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(libs.kodein.compose)
+                implementation(libs.coroutines)
                 implementation(libs.kotlin.serialization.json)
             }
         }
@@ -47,6 +49,10 @@ kotlin {
 android {
     namespace = "nowiwr01p.daily.doctor.model"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }

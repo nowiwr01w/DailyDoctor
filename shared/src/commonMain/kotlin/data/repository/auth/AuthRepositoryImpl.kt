@@ -1,6 +1,6 @@
 package data.repository.auth
 
-import domain.coroutines.dispatchers.AppDispatchers
+import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import domain.model.user.UserData
 import domain.repository.auth.AuthRepository
 import domain.repository.auth.data.user.User
