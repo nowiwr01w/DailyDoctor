@@ -72,8 +72,9 @@ ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor-
 ktor-forwarded-header = { module = "io.ktor:ktor-server-forwarded-header", version.ref = "ktor-server" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor-server" }
 ###############
-### EXPOSED ###
+### BACKEND ###
 ###############
+postgree = { module = "org.postgresql:postgresql", version.ref = "postgree" }
 exposed = { module = "org.jetbrains.exposed:exposed-spring-boot-starter", version.ref = "exposed" }
 ###################
 ### ACCOMPANIST ###
@@ -128,7 +129,8 @@ server = [
     "ktor-server-netty",
     "ktor-server-auth",
     "ktor-forwarded-header",
-    "exposed"
+    "exposed",
+    "postgree"
 ]
 server-test = [
     "ktor-server-tests",
@@ -194,10 +196,11 @@ ktor = "3.0.0-wasm2"
 ktor-desktop = "3.0.0-eap-852"
 ktor-server = "2.3.10"
 ktor-plugin = "3.0.0-beta-1-eap-58"
-###############
-### EXPOSED ###
-###############
+##############
+### BACEND ###
+##############
 exposed = "0.49.0"
+postgree = "42.7.3"
 ###################
 ### ACCOMPANIST ###
 ###################
