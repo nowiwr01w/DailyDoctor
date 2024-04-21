@@ -1,6 +1,6 @@
 package nowiwr01p.daily.doctor.server.data.usecase
 
-import nowiwr01p.daily.doctor.server.domain.repository.UserRepositoryServer
+import nowiwr01p.daily.doctor.server.domain.repository.user.UserRepositoryServer
 import nowiwr01p.daily.doctor.server.domain.usecase.GetServerUsersUseCase
 
 class GetServerUsersUseCaseImpl(

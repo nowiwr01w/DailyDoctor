@@ -9,10 +9,8 @@ class RoutingUser(
     private val getServerUserByIdUseCase: GetServerUserByIdUseCase
 ) {
     fun getUserById(route: Route) = route.get("/user/{id}") {
-        val requestedUserId = call.parameters["id"]
-            ?.toIntOrNull()
-            ?: throw IllegalStateException("No userId provided")
-        if (requestedUserId <= 0) {
+        val requestedUserId = call.parameters["id"] ?: throw IllegalStateException("No userId provided")
+        if (requestedUserId.isEmpty()) {
             throw IllegalStateException("Bad request")
         }
         call.respond(getServerUserByIdUseCase.execute(requestedUserId))

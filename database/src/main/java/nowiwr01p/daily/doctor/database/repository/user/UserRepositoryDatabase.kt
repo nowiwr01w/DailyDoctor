@@ -4,5 +4,5 @@ import com.nowiwr01p.model.model.User
 
 interface UserRepositoryDatabase {
     suspend fun getUsers(): List<User>
-    suspend fun getUsersById(id: Int): User
+    suspend fun getUsersById(id: String): User
 }

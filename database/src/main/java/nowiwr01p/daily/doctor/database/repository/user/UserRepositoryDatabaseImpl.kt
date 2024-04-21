@@ -12,7 +12,7 @@ class UserRepositoryDatabaseImpl: BaseRepository(), UserRepositoryDatabase {
         UserTable.selectAll().map { it.toUser() }.toList()
     }
 
-    override suspend fun getUsersById(id: Int) = transaction {
+    override suspend fun getUsersById(id: String) = transaction {
         UserTable.selectAll().where { UserTable.id eq id }
             .firstOrNull()
             ?.toUser() ?: buildError()

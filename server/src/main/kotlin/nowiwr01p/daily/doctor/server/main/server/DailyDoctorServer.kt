@@ -4,6 +4,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import nowiwr01p.daily.doctor.database.DailyDoctorDatabase
+import nowiwr01p.daily.doctor.server.main.server.plugins.configureAuthentication
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureCookies
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureHeaders
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureLogging
@@ -26,6 +27,7 @@ private fun connectServer(di: DI) = embeddedServer(
 ).start(wait = true)
 
 private fun Application.setApplicationModule(di: DI) {
+    configureAuthentication(di)
     configureRouting(di)
     configureLogging()
     configureSerialization()
