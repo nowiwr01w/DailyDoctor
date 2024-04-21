@@ -1,7 +1,5 @@
 package di
 
-import domain.usecase.auth.SignInUseCase
-import domain.usecase.auth.SignUpUseCase
 import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
 import org.kodein.di.DI
@@ -12,6 +10,8 @@ import ui.common.home.HomeViewModel
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.splash.SplashViewModel
 import ui.common.verification.VerificationViewModel
+import usecase.auth.AppSignInUseCase
+import usecase.auth.AppSignUpUseCase
 
 val moduleViewModels = DI.Module("ViewModelsModule") {
     /**
@@ -32,8 +32,8 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
     bindFactory<CoroutineScope, AuthViewModel> { scope ->
         AuthViewModel(
             scope = scope,
-            signInUseCase = instance<SignInUseCase>(),
-            signUpUseCase = instance<SignUpUseCase>(),
+            signInUseCase = instance<AppSignInUseCase>(),
+            signUpUseCase = instance<AppSignUpUseCase>(),
             authDataValidator = instance<ValidateAuthDataUseCase>()
         )
     }

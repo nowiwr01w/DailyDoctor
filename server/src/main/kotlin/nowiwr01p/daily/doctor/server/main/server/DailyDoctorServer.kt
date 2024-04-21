@@ -27,11 +27,11 @@ private fun connectServer(di: DI) = embeddedServer(
 ).start(wait = true)
 
 private fun Application.setApplicationModule(di: DI) {
-    configureAuthentication(di)
     configureRouting(di)
+    configureAuthentication(di)
+    configureCookies()
+    configureHeaders()
     configureLogging()
     configureSerialization()
 //    configureHttps()
-    configureHeaders()
-    configureCookies()
 }

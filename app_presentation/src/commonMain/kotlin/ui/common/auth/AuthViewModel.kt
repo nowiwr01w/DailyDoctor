@@ -1,6 +1,8 @@
 package ui.common.auth
 
 import base.view_model.BaseViewModel
+import com.nowiwr01p.model.api.request.SignInRequest
+import com.nowiwr01p.model.api.request.SignUpRequest
 import domain.model.user.UserData
 import domain.model.user.UserDataSignIn
 import domain.model.user.UserDataSignUp
@@ -8,8 +10,6 @@ import domain.repository.auth.data.errors.AuthTextFieldType
 import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
 import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
 import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
-import domain.usecase.auth.SignInUseCase
-import domain.usecase.auth.SignUpUseCase
 import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -27,11 +27,13 @@ import ui.common.auth.data.AuthType.SIGN_UP
 import ui.core_ui.components.button.ButtonState.DEFAULT
 import ui.core_ui.components.button.ButtonState.ERROR
 import ui.core_ui.components.button.ButtonState.SEND_REQUEST
+import usecase.auth.AppSignInUseCase
+import usecase.auth.AppSignUpUseCase
 
 class AuthViewModel(
     scope: CoroutineScope,
-    private val signInUseCase: SignInUseCase,
-    private val signUpUseCase: SignUpUseCase,
+    private val signInUseCase: AppSignInUseCase,
+    private val signUpUseCase: AppSignUpUseCase,
     private val authDataValidator: ValidateAuthDataUseCase,
 ): BaseViewModel<Event, State, Effect>(scope) {
 
@@ -83,10 +85,17 @@ class AuthViewModel(
         setState { copy(buttonState = SEND_REQUEST) }
         runCatching {
             when (userData) {
-                is UserDataSignIn -> signInUseCase.execute(userData)
-                is UserDataSignUp -> signUpUseCase.execute(userData)
+                is UserDataSignIn -> {
+                    val request = SignInRequest(email = userData.email, password = userData.password)
+                    signInUseCase.execute(request)
+                }
+                is UserDataSignUp -> {
+                    val request = SignUpRequest(email = userData.email, password = userData.password)
+                    signUpUseCase.execute(request)
+                }
             }
         }.onSuccess {
+            delay(3000)
             setEffect { Effect.NavigateToVerification }
             // TODO: Init app data + check verification
         }.onFailure {

@@ -15,14 +15,12 @@ class RoutingAuth(
      */
     fun signUp(route: Route) = route.post("v1/auth/signUp") {
         runCatching {
-            val signUpRequest = call.receiveNullable<SignUpRequest>() ?: run {
-                throw IllegalStateException("Missing CreateUserRequest")
-            }
+            val signUpRequest = call.receiveNullable<SignUpRequest>()!!
             serverSignUpUseCase.execute(signUpRequest)
         }.onSuccess { apiUser ->
             call.respond(apiUser)
         }.onFailure { error ->
-            call.respond(error.message.orEmpty())
+            call.respond(mapOf("error" to error.message.orEmpty()))
         }
     }
 }
