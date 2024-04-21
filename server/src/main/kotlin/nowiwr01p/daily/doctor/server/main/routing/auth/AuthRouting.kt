@@ -1,37 +1,45 @@
-package nowiwr01p.daily.doctor.server.main.routing
+package nowiwr01p.daily.doctor.server.main.routing.auth
 
 import com.nowiwr01p.model.api.request.SignInRequest
 import com.nowiwr01p.model.api.request.SignUpRequest
+import com.nowiwr01p.model.api.route.AuthRoutes.SingInRoute
+import com.nowiwr01p.model.api.route.AuthRoutes.SingUpRoute
 import io.ktor.server.request.receiveNullable
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import nowiwr01p.daily.doctor.server.domain.usecase.ServerSignInUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.ServerSignUpUseCase
+import nowiwr01p.daily.doctor.server.main.routing.BaseRouting
 
-class RoutingAuth(
+class AuthRouting(
     private val serverSignInUseCase: ServerSignInUseCase,
     private val serverSignUpUseCase: ServerSignUpUseCase
-) {
-    fun signIn(route: Route) = route.post("v1/auth/signIn") {
+): BaseRouting() {
+
+    fun signIn(route: Route) = route.post(SingInRoute.route) {
         runCatching {
-            val signInRequest = call.receiveNullable<SignInRequest>()!!
+            val signInRequest = call.receiveNullable<SignInRequest>() ?: run {
+                sendNoRequestError<SignInRequest>()
+            }
             serverSignInUseCase.execute(signInRequest)
         }.onSuccess { apiUser ->
             call.respond(apiUser)
         }.onFailure { error ->
-            call.respond(mapOf("error" to error.message.orEmpty()))
+            sendInternalError(error.message)
         }
     }
 
-    fun signUp(route: Route) = route.post("v1/auth/signUp") {
+    fun signUp(route: Route) = route.post(SingUpRoute.route) {
         runCatching {
-            val signUpRequest = call.receiveNullable<SignUpRequest>()!!
+            val signUpRequest = call.receiveNullable<SignUpRequest>() ?: kotlin.run {
+                sendNoRequestError<SignUpRequest>()
+            }
             serverSignUpUseCase.execute(signUpRequest)
         }.onSuccess { apiUser ->
             call.respond(apiUser)
         }.onFailure { error ->
-            call.respond(mapOf("error" to error.message.orEmpty()))
+            sendInternalError(error.message)
         }
     }
 }
