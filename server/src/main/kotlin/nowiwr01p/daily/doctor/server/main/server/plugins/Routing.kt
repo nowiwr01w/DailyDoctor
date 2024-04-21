@@ -13,5 +13,6 @@ fun Application.configureRouting(di: DI) = routing {
 
 private fun Route.configureAuthRouting(di: DI) {
     val createUserRouting by di.instance<RoutingAuth>()
+    createUserRouting.signIn(this)
     createUserRouting.signUp(this)
 }

@@ -1,5 +1,6 @@
 package nowiwr01p.daily.doctor.server.main.di
 
+import nowiwr01p.daily.doctor.server.domain.usecase.ServerSignInUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.ServerSignUpUseCase
 import nowiwr01p.daily.doctor.server.main.routing.RoutingAuth
 import org.kodein.di.DI
@@ -12,6 +13,7 @@ val moduleServerUserRouting = DI.Module("ServerUserRoutingModule") {
      */
     bindProvider {
         RoutingAuth(
+            serverSignInUseCase = instance<ServerSignInUseCase>(),
             serverSignUpUseCase = instance<ServerSignUpUseCase>()
         )
     }
