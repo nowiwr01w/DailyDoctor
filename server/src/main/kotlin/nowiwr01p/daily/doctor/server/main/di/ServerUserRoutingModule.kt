@@ -1,28 +1,18 @@
 package nowiwr01p.daily.doctor.server.main.di
 
-import nowiwr01p.daily.doctor.server.domain.usecase.GetServerUserByIdUseCase
-import nowiwr01p.daily.doctor.server.domain.usecase.CreateServerUserUseCase
-import nowiwr01p.daily.doctor.server.main.routing.RoutingUser
-import nowiwr01p.daily.doctor.server.main.routing.RoutingUsers
+import nowiwr01p.daily.doctor.server.domain.usecase.ServerSignUpUseCase
+import nowiwr01p.daily.doctor.server.main.routing.RoutingAuth
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 
 val moduleServerUserRouting = DI.Module("ServerUserRoutingModule") {
     /**
-     * USER BY ID
+     * AUTH
      */
     bindProvider {
-        RoutingUser(
-            getServerUserByIdUseCase = instance<GetServerUserByIdUseCase>()
-        )
-    }
-    /**
-     * USERS
-     */
-    bindProvider {
-        RoutingUsers(
-            createServerUserUseCase = instance<CreateServerUserUseCase>()
+        RoutingAuth(
+            serverSignUpUseCase = instance<ServerSignUpUseCase>()
         )
     }
 }

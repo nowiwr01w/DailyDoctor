@@ -1,4 +1,4 @@
-package com.nowiwr01p.model.api.response
+package com.nowiwr01p.model.api.response.user
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

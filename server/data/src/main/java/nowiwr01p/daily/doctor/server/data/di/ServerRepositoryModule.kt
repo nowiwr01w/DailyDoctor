@@ -1,7 +1,7 @@
 package nowiwr01p.daily.doctor.server.data.di
 
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
-import nowiwr01p.daily.doctor.database.repository.user.UserRepositoryDatabase
+import nowiwr01p.daily.doctor.database.repository.user.DatabaseAuthRepository
 import nowiwr01p.daily.doctor.server.data.repository.user.UserRepositoryServerImpl
 import nowiwr01p.daily.doctor.server.domain.repository.user.UserRepositoryServer
 import org.kodein.di.DI
@@ -15,7 +15,7 @@ val moduleServerRepository = DI.Module("ServerUseModule") {
     bindProvider<UserRepositoryServer> {
         UserRepositoryServerImpl(
             dispatchers = instance<AppDispatchers>(),
-            userRepositoryDatabase = instance<UserRepositoryDatabase>()
+            repository = instance<DatabaseAuthRepository>()
         )
     }
 }

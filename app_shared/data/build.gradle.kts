@@ -42,6 +42,7 @@ kotlin {
                 implementation(libs.coroutines)
                 implementation(projects.modelShared)
                 implementation(projects.appShared.domain)
+                implementation(libs.bundles.base.app)
             }
         }
     }

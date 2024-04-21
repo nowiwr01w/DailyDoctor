@@ -1,36 +1,36 @@
 package di
 
-import api.UserApiImpl
-import api.user.UserApi
+import api.auth.AuthApi
+import api.auth.AuthApiImpl
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
-import repository.user.AppUserRepository
-import repository.user.AppUserRepositoryImpl
-import usecase.user.LoadAppUserByIdUseCase
-import usecase.user.LoadAppUserByIdUseCaseImpl
-import usecase.user.LoadAppUsersUseCase
-import usecase.user.LoadAppUsersUseCaseImpl
+import repository.auth.AppAuthRepository
+import repository.auth.AppAuthRepositoryImpl
+import usecase.auth.AppSignInUseCase
+import usecase.auth.AppSignInUseCaseImpl
+import usecase.auth.AppSignUpUseCase
+import usecase.auth.AppSignUpUseCaseImpl
 
 val moduleAppData = DI.Module("AppDataModule") {
     /**
-     * USER
+     * AUTH
      */
-    bindSingleton<UserApi> {
-        UserApiImpl(kodein = di)
+    bindSingleton<AuthApi> {
+        AuthApiImpl(kodein = di)
     }
-    bindProvider<AppUserRepository> {
-        AppUserRepositoryImpl(
-            api = instance<UserApi>(),
+    bindProvider<AppAuthRepository> {
+        AppAuthRepositoryImpl(
+            api = instance<AuthApi>(),
             dispatchers = instance<AppDispatchers>()
         )
     }
-    bindProvider<LoadAppUsersUseCase> {
-        LoadAppUsersUseCaseImpl(repository = instance<AppUserRepository>())
+    bindProvider<AppSignInUseCase> {
+        AppSignInUseCaseImpl(repository = instance<AppAuthRepository>())
     }
-    bindProvider<LoadAppUserByIdUseCase> {
-        LoadAppUserByIdUseCaseImpl(repository = instance<AppUserRepository>())
+    bindProvider<AppSignUpUseCase> {
+        AppSignUpUseCaseImpl(repository = instance<AppAuthRepository>())
     }
 }
