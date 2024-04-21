@@ -38,6 +38,24 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(projects.modelShared)
+                implementation(libs.bundles.base.app)
+            }
+        }
+        androidMain.dependencies {
+            implementation(libs.bundles.android)
+        }
+        iosMain.dependencies {
+            implementation(libs.bundles.ios)
+        }
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.bundles.desktop)
+            }
+        }
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(libs.bundles.web)
             }
         }
     }

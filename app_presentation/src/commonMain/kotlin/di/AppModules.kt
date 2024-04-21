@@ -18,7 +18,9 @@ private val allModules = listOf(
     moduleData,
     moduleViewModels,
     moduleNavigation,
-    moduleCoreUI
+    moduleCoreUI,
+    moduleDomainApp,
+    moduleAppData
 )
 
 val appModules = DI {

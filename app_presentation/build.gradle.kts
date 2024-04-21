@@ -59,6 +59,8 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.modelShared)
+            implementation(projects.appShared.domain)
+            implementation(projects.appShared.data)
             implementation(projects.appShared)
             implementation(compose.runtime)
             implementation(compose.foundation)
