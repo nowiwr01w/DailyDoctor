@@ -1,7 +1,7 @@
 package nowiwr01p.daily.doctor.server.main.di
 
 import nowiwr01p.daily.doctor.server.domain.usecase.GetServerUserByIdUseCase
-import nowiwr01p.daily.doctor.server.domain.usecase.GetServerUsersUseCase
+import nowiwr01p.daily.doctor.server.domain.usecase.CreateServerUserUseCase
 import nowiwr01p.daily.doctor.server.main.routing.RoutingUser
 import nowiwr01p.daily.doctor.server.main.routing.RoutingUsers
 import org.kodein.di.DI
@@ -22,7 +22,7 @@ val moduleServerUserRouting = DI.Module("ServerUserRoutingModule") {
      */
     bindProvider {
         RoutingUsers(
-            getServerUsersUseCase = instance<GetServerUsersUseCase>()
+            createServerUserUseCase = instance<CreateServerUserUseCase>()
         )
     }
 }

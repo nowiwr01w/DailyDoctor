@@ -1,15 +1,14 @@
 package nowiwr01p.daily.doctor.database.table
 
 import com.nowiwr01p.model.model.User
+import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.Table
 
-object UserTable: Table("users") {
-    val id = varchar("id", 512)
-    val name = varchar("name", 64)
+object UserTable: UUIDTable("users") {
+    val email = varchar("email", 64).uniqueIndex()
 }
 
 fun ResultRow.toUser() = User(
-    id = get(UserTable.id),
-    name = get(UserTable.name)
+    id = get(UserTable.id).value.toString(),
+    email = get(UserTable.email)
 )

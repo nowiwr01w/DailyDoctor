@@ -9,13 +9,13 @@ import org.kodein.di.DI
 import org.kodein.di.instance
 
 fun Application.configureRouting(di: DI) = routing {
-    configureUsersRouting(di)
+    configureCreateUserRouting(di)
     configureUserByIdRouting(di)
 }
 
-private fun Route.configureUsersRouting(di: DI) {
-    val getUsersRoutingUsers by di.instance<RoutingUsers>()
-    getUsersRoutingUsers.getUsers(this)
+private fun Route.configureCreateUserRouting(di: DI) {
+    val createUserRouting by di.instance<RoutingUsers>()
+    createUserRouting.createUser(this)
 }
 
 private fun Route.configureUserByIdRouting(di: DI) {
