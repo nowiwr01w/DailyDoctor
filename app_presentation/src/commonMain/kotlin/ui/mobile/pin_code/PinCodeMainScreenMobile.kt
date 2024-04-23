@@ -42,10 +42,15 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.kodein.di.compose.rememberInstance
 import platform.getScreenWidth
+import ui.common.pin_code.PinCodeContract
 import ui.common.pin_code.PinCodeContract.Listener
 import ui.common.pin_code.PinCodeContract.State
 import ui.common.pin_code.PinCodeViewModel
 import ui.common.pin_code.data.PinCodeData
+import ui.common.pin_code.data.PinCodeData.*
+import ui.common.pin_code.data.*
+import ui.common.pin_code.data.PinCodeIconType
+import ui.common.pin_code.data.PinCodeOperation
 import ui.common.pin_code.data.PinCodeState
 import ui.common.pin_code.data.PinCodeState.DEFAULT
 import ui.common.pin_code.data.PinCodeState.ERROR
@@ -66,7 +71,12 @@ fun PinCodeMainScreenMobile(
     }
 
     val listener = object : Listener {
-
+        override fun handleUserInput(operation: PinCodeOperation) {
+            viewModel.setEvent(PinCodeContract.Event.HandleUserInput(operation))
+        }
+        override fun requestBiometric() {
+            // TODO
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -230,13 +240,16 @@ private fun DotItem(
     modifier: Modifier
 ) {
     val color = when (pinCodeState) {
-        DEFAULT, SEND_REQUEST -> colors.backgroundColors.grayBackgroundColor.copy(alpha = 0.2f)
+        DEFAULT -> colors.backgroundColors.grayBackgroundColor.copy(
+            alpha = if (isActive) 1f else 0.2f
+        )
+        SEND_REQUEST -> Color(0xFF16A34A) // TODO
         SUCCESS -> Color(0xFF16A34A)
         ERROR -> Color(0xFFE34446)
     }
     val backgroundColor by animateColorAsState(
         targetValue = color,
-        animationSpec = tween(easing = LinearEasing)
+        animationSpec = tween(durationMillis = 150, easing = LinearEasing)
     )
     Box(
         modifier = modifier
@@ -270,7 +283,8 @@ private fun PinCodeView(
         items(pinCodeData) { data ->
             PinCodeViewItem(
                 data = data,
-                onDigitClicked = {  }
+                state = state,
+                listener = listener
             )
         }
     }
@@ -280,22 +294,51 @@ private fun PinCodeView(
 @Composable
 private fun PinCodeViewItem(
     data: PinCodeData,
-    onDigitClicked: () -> Unit
+    state: State,
+    listener: Listener
 ) {
+    val onItemClicked: () -> Unit = {
+        when (data) {
+            is PinCodeDigit -> {
+                val operation = PinCodeOperation.AddDigit(data.value)
+                listener.handleUserInput(operation)
+            }
+            is PinCodeIcon -> when (data.type) {
+                PinCodeIconType.BIOMETRIC -> {
+                    listener.requestBiometric()
+                }
+                PinCodeIconType.REMOVE_DIGIT -> {
+                    listener.handleUserInput(PinCodeOperation.RemoveDigit)
+                }
+            }
+        }
+    }
+    val isItemClickEnabled = when {
+        state.pinCode.length < 4 -> when {
+            data is PinCodeDigit -> true
+            data is PinCodeIcon -> {
+                data.type == PinCodeIconType.BIOMETRIC || data.type == PinCodeIconType.REMOVE_DIGIT
+            }
+            else -> false
+        }
+        else -> false
+    }
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .size(64.dp)
             .clip(CircleShape)
-            .clickable { onDigitClicked() }
+            .clickable(enabled = isItemClickEnabled) {
+                onItemClicked()
+            }
     ) {
         when (data) {
-            is PinCodeData.PinCodeDigit -> Text(
+            is PinCodeDigit -> Text(
                 text = data.value,
                 color = colors.textColors.blackTextColor,
                 style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Medium)
             )
-            is PinCodeData.PinCodeIcon -> Image(
+            is PinCodeIcon -> Image(
                 painter = painterResource(data.value),
                 contentDescription = "Pin table icon",
                 colorFilter = ColorFilter.tint(

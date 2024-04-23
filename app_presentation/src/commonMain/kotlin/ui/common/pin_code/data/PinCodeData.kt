@@ -16,8 +16,14 @@ sealed class PinCodeData(
     ): PinCodeData(value)
 
     data class PinCodeIcon(
+        val type: PinCodeIconType,
         override val value: DrawableResource
     ): PinCodeData(value)
+}
+
+enum class PinCodeIconType {
+    BIOMETRIC,
+    REMOVE_DIGIT
 }
 
 @OptIn(ExperimentalResourceApi::class)
@@ -31,7 +37,13 @@ internal val pinCodeData = listOf(
     PinCodeDigit("7"),
     PinCodeDigit("8"),
     PinCodeDigit("9"),
-    PinCodeIcon(Res.drawable.ic_fingerprint),
+    PinCodeIcon(
+        type = PinCodeIconType.BIOMETRIC,
+        value = Res.drawable.ic_fingerprint
+    ),
     PinCodeDigit("0"),
-    PinCodeIcon(Res.drawable.ic_delete)
+    PinCodeIcon(
+        type = PinCodeIconType.REMOVE_DIGIT,
+        value = Res.drawable.ic_delete
+    )
 )

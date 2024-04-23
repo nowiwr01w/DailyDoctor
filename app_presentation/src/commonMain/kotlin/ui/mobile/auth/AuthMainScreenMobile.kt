@@ -95,7 +95,8 @@ internal fun AuthMainScreenMobile(
             viewModel.setEvent(Event.ToggleAuthMode)
         }
         override fun onAuthClicked() {
-            viewModel.setEvent(Event.OnAuthClicked)
+//            viewModel.setEvent(Event.OnAuthClicked)
+            navigator.pinCodeNavigator.navigateToPinCode()
         }
         override fun onPrivacyPolicyClicked() {
             viewModel.setEvent(Event.OnPrivacyPolicyClicked)
