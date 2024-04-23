@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 import navigation.MainNavigatorImpl.AppNavigationConfig
 import navigation.auth.AuthNavigator
 import navigation.onboarding.OnboardingNavigator
+import navigation.pin_code.PinCodeNavigator
 import navigation.splash.SplashNavigator
 import ui.common.onboarding.data.OnboardingItem
 
@@ -18,6 +19,7 @@ interface MainNavigator {
     val splashNavigator: SplashNavigator
     val onboardingNavigator: OnboardingNavigator
     val authNavigator: AuthNavigator
+    val pinCodeNavigator: PinCodeNavigator
 
     @Serializable
     sealed class Child(
@@ -27,5 +29,6 @@ interface MainNavigator {
         data class OnboardingChild(val onboardingItem: OnboardingItem): Child()
         data object AuthChild: Child()
         data object VerificationChild: Child()
+        data object PinCodeChild: Child()
     }
 }

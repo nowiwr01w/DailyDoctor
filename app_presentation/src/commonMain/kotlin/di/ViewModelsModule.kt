@@ -8,6 +8,7 @@ import org.kodein.di.instance
 import ui.common.auth.AuthViewModel
 import ui.common.home.HomeViewModel
 import ui.common.onboarding.OnboardingViewModel
+import ui.common.pin_code.PinCodeViewModel
 import ui.common.splash.SplashViewModel
 import ui.common.verification.VerificationViewModel
 import usecase.auth.AppSignInUseCase
@@ -37,8 +38,17 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
             authDataValidator = instance<ValidateAuthDataUseCase>()
         )
     }
+    /**
+     * VERIFICATION
+     */
     bindFactory<CoroutineScope, VerificationViewModel> { scope ->
         VerificationViewModel(scope)
+    }
+    /**
+     * PIN CODE
+     */
+    bindFactory<CoroutineScope, PinCodeViewModel> { scope ->
+        PinCodeViewModel(scope)
     }
     /**
      * HOME

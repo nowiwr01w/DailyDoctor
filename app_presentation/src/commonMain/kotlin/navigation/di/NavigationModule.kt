@@ -9,6 +9,8 @@ import navigation.auth.AuthNavigator
 import navigation.auth.AuthNavigatorImpl
 import navigation.onboarding.OnboardingNavigator
 import navigation.onboarding.OnboardingNavigatorImpl
+import navigation.pin_code.PinCodeNavigator
+import navigation.pin_code.PinCodeNavigatorImpl
 import navigation.splash.SplashNavigator
 import navigation.splash.SplashNavigatorImpl
 import org.kodein.di.DI
@@ -37,6 +39,12 @@ val moduleNavigation = DI.Module("NavigationModule") {
         AuthNavigatorImpl(navigation)
     }
     /**
+     * PIN CODE
+     */
+    bindFactory<AppStackNavigation, PinCodeNavigator> { navigation ->
+        PinCodeNavigatorImpl(navigation)
+    }
+    /**
      * MAIN
      */
     bindFactory<ComponentContext, MainNavigator> { context ->
@@ -46,7 +54,8 @@ val moduleNavigation = DI.Module("NavigationModule") {
             navigation = navigation,
             splashNavigator = instance<AppStackNavigation, SplashNavigator>(arg = navigation),
             onboardingNavigator = instance<AppStackNavigation, OnboardingNavigator>(arg = navigation),
-            authNavigator = instance<AppStackNavigation, AuthNavigator>(arg = navigation)
+            authNavigator = instance<AppStackNavigation, AuthNavigator>(arg = navigation),
+            pinCodeNavigator = instance<AppStackNavigation, PinCodeNavigator>(arg = navigation)
         )
     }
 }

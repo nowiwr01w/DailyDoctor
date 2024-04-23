@@ -1,3 +1,4 @@
+
 import Platform.DESKTOP
 import Platform.WEB
 import androidx.compose.animation.core.updateTransition
@@ -25,6 +26,7 @@ import di.appModules
 import navigation.MainNavigator
 import navigation.MainNavigator.Child.AuthChild
 import navigation.MainNavigator.Child.OnboardingChild
+import navigation.MainNavigator.Child.PinCodeChild
 import navigation.MainNavigator.Child.SplashChild
 import navigation.MainNavigator.Child.VerificationChild
 import org.kodein.di.compose.rememberFactory
@@ -38,6 +40,7 @@ import ui.core_ui.helpers.window_insets.WindowColorsData
 import ui.core_ui.helpers.window_insets.data.LocalWindowInsets
 import ui.mobile.auth.AuthMainScreenMobile
 import ui.mobile.onboarding.OnboardingMainScreenMobile
+import ui.mobile.pin_code.PinCodeMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
 import ui.mobile.verification.VerificationMainScreenMobile
 
@@ -116,7 +119,10 @@ private fun AppContent(
                 AuthMainScreenMobile(navigator)
             }
             is VerificationChild -> {
-                VerificationMainScreenMobile()
+                VerificationMainScreenMobile(navigator)
+            }
+            is PinCodeChild -> {
+                PinCodeMainScreenMobile(navigator)
             }
         }
     }

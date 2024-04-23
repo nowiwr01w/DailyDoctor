@@ -52,6 +52,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import base.theme.CustomTheme.colors
 import base.view_model.rememberViewModel
+import navigation.MainNavigator
 import platform.getScreenWidth
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.Listener
@@ -67,6 +68,7 @@ import ui.mobile.auth.TopTitle
 
 @Composable
 internal fun VerificationMainScreenMobile(
+    navigator: MainNavigator,
     viewModel: VerificationViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {

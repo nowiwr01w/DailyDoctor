@@ -6,12 +6,14 @@ import kotlinx.serialization.Serializable
 import navigation.MainNavigator.Child
 import navigation.MainNavigator.Child.AuthChild
 import navigation.MainNavigator.Child.OnboardingChild
+import navigation.MainNavigator.Child.PinCodeChild
 import navigation.MainNavigator.Child.SplashChild
 import navigation.MainNavigator.Child.VerificationChild
 import navigation.MainNavigatorImpl.AppNavigationConfig.Splash
 import navigation.auth.AuthNavigator
 import navigation.di.AppStackNavigation
 import navigation.onboarding.OnboardingNavigator
+import navigation.pin_code.PinCodeNavigator
 import navigation.splash.SplashNavigator
 import ui.common.onboarding.data.OnboardingItem
 
@@ -21,6 +23,7 @@ class MainNavigatorImpl(
     override val splashNavigator: SplashNavigator,
     override val onboardingNavigator: OnboardingNavigator,
     override val authNavigator: AuthNavigator,
+    override val pinCodeNavigator: PinCodeNavigator
 ): MainNavigator, ComponentContext by appContext {
 
     override val stack = childStack(
@@ -53,12 +56,17 @@ class MainNavigatorImpl(
         data object Verification: AppNavigationConfig(
             child = VerificationChild
         )
+        @Serializable
+        data object PinCode: AppNavigationConfig(
+            child = PinCodeChild
+        )
     }
 
     private fun Child.updateChildContext(childContext: ComponentContext) = when (this) {
         is SplashChild -> splashNavigator
         is OnboardingChild -> onboardingNavigator
         is AuthChild, VerificationChild -> authNavigator
+        is PinCodeChild -> pinCodeNavigator
     }.also { navigator ->
         navigator.updateChildContext(childContext)
     }
