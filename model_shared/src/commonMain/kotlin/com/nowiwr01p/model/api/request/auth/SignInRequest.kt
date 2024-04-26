@@ -1,4 +1,4 @@
-package com.nowiwr01p.model.api.request
+package com.nowiwr01p.model.api.request.auth
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

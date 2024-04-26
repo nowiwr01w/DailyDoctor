@@ -1,4 +1,4 @@
-package com.nowiwr01p.model.api.request
+package com.nowiwr01p.model.api.request.auth
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -12,5 +12,5 @@ data class SignUpRequest(
     @SerialName("captchaCode")
     val captchaCode: String = "",
     @SerialName("agreementVersion")
-    val agreementVersion: String = ""
+    val agreementVersion: Int = 0
 ): BaseAuthRequest

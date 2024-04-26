@@ -1,7 +1,7 @@
 package nowiwr01p.daily.doctor.server.main.routing.auth
 
-import com.nowiwr01p.model.api.request.SignInRequest
-import com.nowiwr01p.model.api.request.SignUpRequest
+import com.nowiwr01p.model.api.request.auth.SignInRequest
+import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.route.AuthRoutes.SingInRoute
 import com.nowiwr01p.model.api.route.AuthRoutes.SingUpRoute
 import io.ktor.server.request.receiveNullable
@@ -32,12 +32,12 @@ class AuthRouting(
 
     fun signUp(route: Route) = route.post(SingUpRoute.route) {
         runCatching {
-            val signUpRequest = call.receiveNullable<SignUpRequest>() ?: kotlin.run {
+            val signUpRequest = call.receiveNullable<SignUpRequest>() ?: run {
                 sendNoRequestError<SignUpRequest>()
             }
             serverSignUpUseCase.execute(signUpRequest)
-        }.onSuccess { apiUser ->
-            call.respond(apiUser)
+        }.onSuccess { signUpResponse ->
+            call.respond(signUpResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }

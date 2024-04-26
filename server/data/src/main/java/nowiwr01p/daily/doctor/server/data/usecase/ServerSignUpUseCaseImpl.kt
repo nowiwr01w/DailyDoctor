@@ -1,6 +1,6 @@
 package nowiwr01p.daily.doctor.server.data.usecase
 
-import com.nowiwr01p.model.api.request.SignUpRequest
+import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import nowiwr01p.daily.doctor.server.domain.repository.user.UserRepositoryServer
 import nowiwr01p.daily.doctor.server.domain.usecase.ServerSignUpUseCase
 

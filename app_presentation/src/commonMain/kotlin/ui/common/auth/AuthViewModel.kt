@@ -1,8 +1,8 @@
 package ui.common.auth
 
 import base.view_model.BaseViewModel
-import com.nowiwr01p.model.api.request.SignInRequest
-import com.nowiwr01p.model.api.request.SignUpRequest
+import com.nowiwr01p.model.api.request.auth.SignInRequest
+import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import domain.model.user.UserData
 import domain.model.user.UserDataSignIn
 import domain.model.user.UserDataSignUp

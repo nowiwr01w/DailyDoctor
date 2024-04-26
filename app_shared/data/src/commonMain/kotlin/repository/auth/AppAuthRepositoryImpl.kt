@@ -1,8 +1,8 @@
 package repository.auth
 
 import api.auth.AuthApi
-import com.nowiwr01p.model.api.request.SignInRequest
-import com.nowiwr01p.model.api.request.SignUpRequest
+import com.nowiwr01p.model.api.request.auth.SignInRequest
+import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.withContext
 

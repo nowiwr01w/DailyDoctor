@@ -1,7 +1,7 @@
 package nowiwr01p.daily.doctor.server.data.repository.user
 
-import com.nowiwr01p.model.api.request.SignInRequest
-import com.nowiwr01p.model.api.request.SignUpRequest
+import com.nowiwr01p.model.api.request.auth.SignInRequest
+import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.withContext
 import nowiwr01p.daily.doctor.database.repository.user.DatabaseAuthRepository
