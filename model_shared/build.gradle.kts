@@ -44,6 +44,12 @@ kotlin {
             }
         }
     }
+
+    /**
+     * Cannot locate tasks that match ':model_shared:testClasses'
+     * as task 'testClasses' not found in project ':model_shared'.
+     */
+    task("testClasses") // TODO
 }
 
 android {
