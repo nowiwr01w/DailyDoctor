@@ -2,14 +2,18 @@ package base.view_model
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.State as ComposeState
 
 abstract class BaseViewModel<Event: BaseEvent, State: BaseState, Effect: BaseEffect>(
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope // each screen scope
 ) {
     /**
      * STATE
@@ -45,16 +49,20 @@ abstract class BaseViewModel<Event: BaseEvent, State: BaseState, Effect: BaseEff
     private val _effect = Channel<Effect>()
     val effect = _effect.receiveAsFlow()
 
-    protected fun setEffect(builder: () -> Effect) = coroutineScope.launch(Dispatchers.Main) {
+    protected fun setEffect(builder: () -> Effect) = coroutineScope.launch(Dispatchers.Default) {
         _effect.send(builder())
     }
     /**
      * EXECUTE CODE IN ANOTHER THREAD
      */
     fun BaseViewModel<*, *, *>.hide(
-        dispatcher: CoroutineDispatcher? = null,
+        handler: CoroutineExceptionHandler? = null,
         block: suspend CoroutineScope.() -> Unit
     ): Job {
-        return coroutineScope.launch(dispatcher ?: Dispatchers.Default) { block() }
+        return if (handler == null) {
+            coroutineScope.launch(Dispatchers.Default) { block() }
+        } else {
+            coroutineScope.launch(Dispatchers.Default + handler) { block() }
+        }
     }
 }

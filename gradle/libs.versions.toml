@@ -31,7 +31,6 @@ essenty-instance-keeper = { module = "com.arkivanov.essenty:instance-keeper", ve
 ##############
 ### KOTLIN ###
 ##############
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlin-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-date-time" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
@@ -48,6 +47,7 @@ datastore = { module = "com.russhwolf:multiplatform-settings", version.ref = "da
 ### COROUTINES ###
 ##################
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 ###############
 ### LOGGERS ###
 ###############
@@ -80,10 +80,10 @@ ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor-
 ###############
 postgree = { module = "org.postgresql:postgresql", version.ref = "postgree" }
 exposed = { module = "org.jetbrains.exposed:exposed-spring-boot-starter", version.ref = "exposed" }
-###################
-### ACCOMPANIST ###
-###################
-accompanist-system-ui = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
+#########################
+### KOTTIE AKA LOTTIE ###
+#########################
+kottie = { module = "io.github.ismai117:kottie", version.ref = "kottie" }
 
 [bundles]
 base-app = [
@@ -95,6 +95,7 @@ base-app = [
     "essenty-instance-keeper",
     "datastore",
     "coroutines",
+    "coroutines-test",
     "kotlin-date-time",
     "kotlin-serialization-json",
     "ktor-client-core",
@@ -103,7 +104,8 @@ base-app = [
     "ktor-serialization",
     "ktor-kotlin-serialization",
     "compose-constraintLayout",
-    "coil"
+    "coil",
+    "kottie"
 ]
 ios = [
     "napier",
@@ -122,8 +124,7 @@ android = [
     "compose-ui-tooling",
     "compose-ui-tooling-preview",
     "napier",
-    "ktor-client-android",
-    "accompanist-system-ui"
+    "ktor-client-android"
 ]
 web = [
     "ktor-client-js"
@@ -215,7 +216,7 @@ ktor-plugin = "3.0.0-beta-1"
 ##############
 exposed = "0.49.0"
 postgree = "42.7.3"
-###################
-### ACCOMPANIST ###
-###################
-accompanist = "0.34.0"
+#########################
+### KOTTIE AKA LOTTIE ###
+#########################
+kottie = "1.8.3"

@@ -11,6 +11,7 @@ import ui.common.onboarding.OnboardingViewModel
 import ui.common.pin_code.PinCodeViewModel
 import ui.common.splash.SplashViewModel
 import ui.common.verification.VerificationViewModel
+import ui.core_ui.helpers.snack_bar.SnackBarHelper
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignUpUseCase
 
@@ -35,7 +36,8 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
             scope = scope,
             signInUseCase = instance<AppSignInUseCase>(),
             signUpUseCase = instance<AppSignUpUseCase>(),
-            authDataValidator = instance<ValidateAuthDataUseCase>()
+            authDataValidator = instance<ValidateAuthDataUseCase>(),
+            snackBarHelper = instance<SnackBarHelper>()
         )
     }
     /**

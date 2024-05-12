@@ -36,7 +36,6 @@ import ui.core_ui.helpers.window_insets.data.LocalWindowInsets
 
 private const val SNACK_BAR_ANIMATION_MILLIS = 500
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun SnackBar(transition: Transition<SnackBarParams?>) {
     val snackBarParams = when {
@@ -61,10 +60,10 @@ fun SnackBar(transition: Transition<SnackBarParams?>) {
     )
     val shape = when (snackBarParams?.displayType) {
         STRAIGHT -> RoundedCornerShape(0.dp)
-        TOP_ROUNDED -> RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
-        BOTTOM_ROUNDED -> RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)
-        FULL_ROUNDED -> RoundedCornerShape(8.dp)
-        null -> RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)
+        TOP_ROUNDED -> RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+        BOTTOM_ROUNDED -> RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+        FULL_ROUNDED -> RoundedCornerShape(16.dp)
+        null -> RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
     }
     val backgroundColor = when (snackBarParams?.type) {
         DEFAULT -> Color(0xFF475569)

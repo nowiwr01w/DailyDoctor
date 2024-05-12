@@ -1,10 +1,8 @@
 package ui.core_ui.helpers.snack_bar.data
 
 import core.AppMessage
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
 
-@OptIn(ExperimentalResourceApi::class)
 sealed class SnackBarParams(
     open val type: SnackBarType,
     open val displayType: SnackBarDisplayType,
