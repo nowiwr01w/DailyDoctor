@@ -1,21 +1,34 @@
 package nowiwr01p.daily.doctor.server.data.di
 
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
-import nowiwr01p.daily.doctor.database.repository.user.DatabaseAuthRepository
-import nowiwr01p.daily.doctor.server.data.repository.user.UserRepositoryServerImpl
-import nowiwr01p.daily.doctor.server.domain.repository.user.UserRepositoryServer
+import nowiwr01p.daily.doctor.database.repository.auth.DatabaseAuthRepository
+import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepository
+import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepositoryImpl
+import nowiwr01p.daily.doctor.server.data.repository.auth.ServerAuthRepositoryImpl
+import nowiwr01p.daily.doctor.server.data.repository.verification.ServerVerificationRepositoryImpl
+import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
+import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 
-val moduleServerRepository = DI.Module("ServerUseModule") {
+val moduleServerRepository = DI.Module("ServerRepositoryModule") {
     /**
-     * USER
+     * AUTH
      */
-    bindProvider<UserRepositoryServer> {
-        UserRepositoryServerImpl(
+    bindProvider<ServerAuthRepository> {
+        ServerAuthRepositoryImpl(
             dispatchers = instance<AppDispatchers>(),
             repository = instance<DatabaseAuthRepository>()
+        )
+    }
+    /**
+     * VERIFICATION
+     */
+    bindProvider<ServerVerificationRepository> {
+        ServerVerificationRepositoryImpl(
+            dispatchers = instance<AppDispatchers>(),
+            repository = instance<DatabaseVerificationRepository>()
         )
     }
 }

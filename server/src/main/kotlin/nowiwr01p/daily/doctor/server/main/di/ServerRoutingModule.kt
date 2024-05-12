@@ -1,0 +1,30 @@
+package nowiwr01p.daily.doctor.server.main.di
+
+import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignInUseCase
+import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignUpUseCase
+import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerSendVerificationCodeUseCase
+import nowiwr01p.daily.doctor.server.main.routing.auth.AuthRouting
+import nowiwr01p.daily.doctor.server.main.routing.verification.VerificationRouting
+import org.kodein.di.DI
+import org.kodein.di.bindProvider
+import org.kodein.di.instance
+
+val moduleServerUserRouting = DI.Module("ServerRoutingModule") {
+    /**
+     * AUTH
+     */
+    bindProvider {
+        AuthRouting(
+            serverSignInUseCase = instance<ServerSignInUseCase>(),
+            serverSignUpUseCase = instance<ServerSignUpUseCase>()
+        )
+    }
+    /**
+     * VERIFICATION
+     */
+    bindProvider {
+        VerificationRouting(
+            serverSendVerificationCodeUseCase = instance<ServerSendVerificationCodeUseCase>()
+        )
+    }
+}

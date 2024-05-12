@@ -8,8 +8,8 @@ import io.ktor.server.request.receiveNullable
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
-import nowiwr01p.daily.doctor.server.domain.usecase.ServerSignInUseCase
-import nowiwr01p.daily.doctor.server.domain.usecase.ServerSignUpUseCase
+import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignInUseCase
+import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignUpUseCase
 import nowiwr01p.daily.doctor.server.main.routing.BaseRouting
 
 class AuthRouting(

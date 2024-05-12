@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.database.repository.user
+package nowiwr01p.daily.doctor.database.repository.auth
 
 import com.nowiwr01p.model.api.request.auth.BaseAuthRequest
 import com.nowiwr01p.model.api.request.auth.SignInRequest

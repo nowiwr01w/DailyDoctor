@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.server.domain.usecase
+package nowiwr01p.daily.doctor.server.domain.usecase.auth
 
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.response.auth.SignUpResponse
