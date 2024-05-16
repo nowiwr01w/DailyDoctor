@@ -1,9 +1,9 @@
 package nowiwr01p.daily.doctor.server.data.di
 
 import nowiwr01p.daily.doctor.server.data.repository.token.UserTokenConfigImpl
-import nowiwr01p.daily.doctor.server.data.repository.token.UserTokenRepositoryServerImpl
+import nowiwr01p.daily.doctor.server.data.repository.token.ServerUserTokenRepositoryImpl
 import nowiwr01p.daily.doctor.server.domain.repository.token.UserTokenConfig
-import nowiwr01p.daily.doctor.server.domain.repository.token.UserTokenRepositoryServer
+import nowiwr01p.daily.doctor.server.domain.repository.token.ServerUserTokenRepository
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
@@ -23,7 +23,7 @@ val moduleServerToken = DI.Module("ServerTokenModule") {
     /**
      * USER TOKEN REPOSITORY
      */
-    bindProvider<UserTokenRepositoryServer> {
-        UserTokenRepositoryServerImpl(config = instance<UserTokenConfig>())
+    bindProvider<ServerUserTokenRepository> {
+        ServerUserTokenRepositoryImpl(config = instance<UserTokenConfig>())
     }
 }

@@ -8,4 +8,5 @@ import com.nowiwr01p.model.model.User
 interface DatabaseAuthRepository {
     suspend fun signIn(request: SignInRequest): User
     suspend fun signUp(request: SignUpRequest): SignUpResponse
+    fun getUser(email: String): User?
 }

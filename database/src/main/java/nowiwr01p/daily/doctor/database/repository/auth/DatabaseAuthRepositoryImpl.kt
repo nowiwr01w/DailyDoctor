@@ -1,6 +1,5 @@
 package nowiwr01p.daily.doctor.database.repository.auth
 
-import com.nowiwr01p.model.api.request.auth.BaseAuthRequest
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.response.auth.SignUpResponse
@@ -13,12 +12,12 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class DatabaseAuthRepositoryImpl: BaseRepository(), DatabaseAuthRepository {
 
     override suspend fun signIn(request: SignInRequest) = transaction {
-        val existedUser = getExistedUser(request)?.toUser()
+        val existedUser = getUser(request.email)
         existedUser ?: buildError("Wrong email or password.")
     }
 
     override suspend fun signUp(request: SignUpRequest) = transaction {
-        if (getExistedUser(request) != null) {
+        if (getUser(request.email) != null) {
             buildError("This email cannot be used for registration.")
         }
         val insertedUser = UserEntity.new {
@@ -38,7 +37,9 @@ class DatabaseAuthRepositoryImpl: BaseRepository(), DatabaseAuthRepository {
         )
     }
 
-    private fun getExistedUser(request: BaseAuthRequest) = UserEntity
-        .find { UserTable.email eq request.email }
-        .firstOrNull()
+    override fun getUser(email: String) = transaction {
+        UserEntity.find { UserTable.email eq email }
+            .firstOrNull()
+            ?.toUser()
+    }
 }

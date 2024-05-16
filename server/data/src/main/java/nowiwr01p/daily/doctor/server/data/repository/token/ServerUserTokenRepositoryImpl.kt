@@ -4,12 +4,12 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.nowiwr01p.model.model.User
 import nowiwr01p.daily.doctor.server.domain.repository.token.UserTokenConfig
-import nowiwr01p.daily.doctor.server.domain.repository.token.UserTokenRepositoryServer
+import nowiwr01p.daily.doctor.server.domain.repository.token.ServerUserTokenRepository
 import java.util.Date
 
-class UserTokenRepositoryServerImpl(
+class ServerUserTokenRepositoryImpl(
     private val config: UserTokenConfig
-): UserTokenRepositoryServer {
+): ServerUserTokenRepository {
 
     override suspend fun generateUserToken(user: User) = JWT.create()
         .withSubject(user.id)

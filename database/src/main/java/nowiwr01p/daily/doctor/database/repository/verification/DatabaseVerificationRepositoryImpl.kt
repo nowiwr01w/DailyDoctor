@@ -2,7 +2,6 @@ package nowiwr01p.daily.doctor.database.repository.verification
 
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
-import com.nowiwr01p.model.api.response.verification.CheckVerificationCodeResponse
 import com.nowiwr01p.model.api.response.verification.SendVerificationCodeResponse
 import com.nowiwr01p.model.repository.BaseRepository
 import nowiwr01p.daily.doctor.database.table.user.UserEntity
@@ -34,21 +33,20 @@ class DatabaseVerificationRepositoryImpl: BaseRepository(), DatabaseVerification
         )
     }
 
-    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) = transaction {
-        val lastSentCode = VerificationCodeEntity
-            .find { VerificationCodeTable.email eq request.email }
-            .firstOrNull()
-        if (lastSentCode == null) {
-            buildError("We somewhat can't process your verification. Please, try again.")
-        } else {
-            if (request.code == lastSentCode.code) {
-                setUserVerified(request.email)
-                deleteUserCodes(request.email)
-                CheckVerificationCodeResponse(
-                    revokeSessionTimestamp = System.currentTimeMillis() + 10 * 60 * 1000 // TODO: Change to AuthToken
-                )
+    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) {
+        transaction {
+            val lastSentCode = VerificationCodeEntity
+                .find { VerificationCodeTable.email eq request.email }
+                .firstOrNull()
+            if (lastSentCode == null) {
+                buildError("We somewhat can't process your verification. Please, try again.")
             } else {
-                buildError("Wrong code.")
+                if (request.code == lastSentCode.code) {
+                    setUserVerified(request.email)
+                    deleteUserCodes(request.email)
+                } else {
+                    buildError("Wrong code.")
+                }
             }
         }
     }
