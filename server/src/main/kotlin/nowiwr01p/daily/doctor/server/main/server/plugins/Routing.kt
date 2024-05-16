@@ -22,4 +22,5 @@ private fun Route.configureAuthRouting(di: DI) {
 private fun Route.configureVerificationCodeRouting(di: DI) {
     val verificationRouting by di.instance<VerificationRouting>()
     verificationRouting.sendVerificationCode(this)
+    verificationRouting.checkVerificationCode(this)
 }

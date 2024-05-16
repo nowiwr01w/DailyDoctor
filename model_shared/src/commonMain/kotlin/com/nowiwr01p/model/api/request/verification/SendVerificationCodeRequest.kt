@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class VerificationCodeRequest(
+data class SendVerificationCodeRequest(
     @SerialName("email")
     val email: String,
     @SerialName("timestamp")

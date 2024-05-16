@@ -1,11 +1,12 @@
-package nowiwr01p.daily.doctor.database.repository.verification
+package api.verification
 
+import api.Api
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
 import com.nowiwr01p.model.api.response.verification.CheckVerificationCodeResponse
 import com.nowiwr01p.model.api.response.verification.SendVerificationCodeResponse
 
-interface DatabaseVerificationRepository {
+interface VerificationApi: Api {
     suspend fun sendVerificationCode(request: SendVerificationCodeRequest): SendVerificationCodeResponse
     suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): CheckVerificationCodeResponse
 }

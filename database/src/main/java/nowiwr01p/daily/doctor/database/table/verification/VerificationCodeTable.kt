@@ -18,7 +18,5 @@ class VerificationCodeEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var timestamp by VerificationCodeTable.timestamp
     var code by VerificationCodeTable.code
 
-//    fun toVerificationCode() =
-
     companion object : UUIDEntityClass<VerificationCodeEntity>(VerificationCodeTable)
 }

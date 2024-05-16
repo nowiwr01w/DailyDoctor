@@ -14,12 +14,12 @@ class DatabaseAuthRepositoryImpl: BaseRepository(), DatabaseAuthRepository {
 
     override suspend fun signIn(request: SignInRequest) = transaction {
         val existedUser = getExistedUser(request)?.toUser()
-        existedUser ?: throw IllegalStateException("Wrong email or password.")
+        existedUser ?: buildError("Wrong email or password.")
     }
 
     override suspend fun signUp(request: SignUpRequest) = transaction {
         if (getExistedUser(request) != null) {
-            throw IllegalArgumentException("This email cannot be used for registration.")
+            buildError("This email cannot be used for registration.")
         }
         val insertedUser = UserEntity.new {
             email = request.email
@@ -29,7 +29,7 @@ class DatabaseAuthRepositoryImpl: BaseRepository(), DatabaseAuthRepository {
         }
         val insertedToken = SignUpTokenEntity.new {
             email = insertedUser.email
-            token = "1234"
+            token = "1234" // TODO: Add token
         }
         SignUpResponse(
             email = insertedUser.email,

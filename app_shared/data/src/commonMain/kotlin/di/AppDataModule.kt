@@ -2,6 +2,8 @@ package di
 
 import api.auth.AuthApi
 import api.auth.AuthApiImpl
+import api.verification.VerificationApi
+import api.verification.VerificationApiImpl
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -9,10 +11,14 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import repository.auth.AppAuthRepository
 import repository.auth.AppAuthRepositoryImpl
+import repository.verification.AppVerificationRepository
+import repository.verification.AppVerificationRepositoryImpl
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignInUseCaseImpl
 import usecase.auth.AppSignUpUseCase
 import usecase.auth.AppSignUpUseCaseImpl
+import usecase.verification.AppCheckVerificationCodeUseCode
+import usecase.verification.AppCheckVerificationCodeUseCodeImpl
 
 val moduleAppData = DI.Module("AppDataModule") {
     /**
@@ -32,5 +38,20 @@ val moduleAppData = DI.Module("AppDataModule") {
     }
     bindProvider<AppSignUpUseCase> {
         AppSignUpUseCaseImpl(repository = instance<AppAuthRepository>())
+    }
+    /**
+     * VERIFICATION
+     */
+    bindSingleton<VerificationApi> {
+        VerificationApiImpl(kodein = di)
+    }
+    bindProvider<AppVerificationRepository> {
+        AppVerificationRepositoryImpl(
+            api = instance<VerificationApi>(),
+            dispatchers = instance<AppDispatchers>()
+        )
+    }
+    bindProvider<AppCheckVerificationCodeUseCode> {
+        AppCheckVerificationCodeUseCodeImpl(repository = instance<AppVerificationRepository>())
     }
 }

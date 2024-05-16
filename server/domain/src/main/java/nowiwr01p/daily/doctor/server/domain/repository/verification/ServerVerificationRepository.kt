@@ -1,8 +1,11 @@
 package nowiwr01p.daily.doctor.server.domain.repository.verification
 
-import com.nowiwr01p.model.api.request.verification.VerificationCodeRequest
-import com.nowiwr01p.model.api.response.verification.VerificationCodeResponse
+import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
+import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
+import com.nowiwr01p.model.api.response.verification.CheckVerificationCodeResponse
+import com.nowiwr01p.model.api.response.verification.SendVerificationCodeResponse
 
 interface ServerVerificationRepository {
-    suspend fun sendVerificationCode(request: VerificationCodeRequest): VerificationCodeResponse
+    suspend fun sendVerificationCode(request: SendVerificationCodeRequest): SendVerificationCodeResponse
+    suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): CheckVerificationCodeResponse
 }

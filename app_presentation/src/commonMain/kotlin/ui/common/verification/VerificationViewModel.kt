@@ -1,18 +1,28 @@
 package ui.common.verification
 
 import base.view_model.BaseViewModel
+import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.Clock
 import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.State
 import ui.common.verification.data.VerificationEnterCodeOperation
+import ui.core_ui.components.button.ButtonState.DEFAULT
+import ui.core_ui.components.button.ButtonState.ERROR
+import ui.core_ui.components.button.ButtonState.SEND_REQUEST
+import ui.core_ui.components.button.ButtonState.SUCCESS
+import usecase.verification.AppCheckVerificationCodeUseCode
 
-class VerificationViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
+class VerificationViewModel(
+    scope: CoroutineScope,
+    private val checkVerificationCodeUseCode: AppCheckVerificationCodeUseCode
+): BaseViewModel<Event, State, Effect>(scope) {
 
     override fun setInitialState() = State()
 
@@ -58,10 +68,22 @@ class VerificationViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
     }
 
     private fun verify() = hide {
+        setState { copy(buttonState = SEND_REQUEST) }
         runCatching {
-
+            val checkVerificationCodeRequest = CheckVerificationCodeRequest(
+                code = viewState.value.code.joinToString(separator = ""),
+                email = "nowiwr01p@pm.me", // TODO: Grab user email
+                timestamp = Clock.System.now().epochSeconds
+            )
+            checkVerificationCodeUseCode.execute(checkVerificationCodeRequest)
         }.onSuccess {
-
+            setState { copy(buttonState = SUCCESS) }
+            delay(3000)
+            setEffect { Effect.NavigateToHome }
+        }.onFailure {
+            setState { copy(buttonState = ERROR) }
+            delay(3000)
+            setState { copy(buttonState = DEFAULT) }
         }
     }
 }

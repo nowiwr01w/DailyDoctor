@@ -2,6 +2,7 @@ package nowiwr01p.daily.doctor.server.main.di
 
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignInUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignUpUseCase
+import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerCheckVerificationCodeUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerSendVerificationCodeUseCase
 import nowiwr01p.daily.doctor.server.main.routing.auth.AuthRouting
 import nowiwr01p.daily.doctor.server.main.routing.verification.VerificationRouting
@@ -24,7 +25,8 @@ val moduleServerUserRouting = DI.Module("ServerRoutingModule") {
      */
     bindProvider {
         VerificationRouting(
-            serverSendVerificationCodeUseCase = instance<ServerSendVerificationCodeUseCase>()
+            serverSendVerificationCodeUseCase = instance<ServerSendVerificationCodeUseCase>(),
+            serverCheckVerificationCodeUseCase = instance<ServerCheckVerificationCodeUseCase>()
         )
     }
 }

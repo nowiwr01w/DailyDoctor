@@ -51,9 +51,11 @@ import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import base.theme.CustomTheme.colors
+import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
 import navigation.MainNavigator
 import platform.getScreenWidth
+import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.Listener
 import ui.common.verification.VerificationContract.State
@@ -85,6 +87,14 @@ internal fun VerificationMainScreenMobile(
 
     LaunchedEffect(Unit) {
         viewModel.setEvent(Event.Init)
+    }
+
+    EffectObserver(viewModel.effect) { effect ->
+        when (effect) {
+            is Effect.NavigateToHome -> {
+                // TODO
+            }
+        }
     }
 
     VerificationMainScreenContent(
