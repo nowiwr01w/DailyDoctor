@@ -176,7 +176,6 @@ private fun AuthMainScreenContent(
 /**
  * TOP ICON
  */
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun TopIcon(modifier: Modifier) = Image(
     painter = painterResource(Res.drawable.ic_login),
@@ -263,7 +262,6 @@ private fun InputFields(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun InputField(
     state: State,
@@ -368,11 +366,15 @@ private fun AuthButton(
     state: State,
     listener: Listener
 ) {
+    val focusManager = LocalFocusManager.current
     StateButton(
         text = if (state.authMode == SIGN_UP) "Зарегистрироваться" else "Войти",
         state = state.buttonState,
         enabled = state.buttonState == DEFAULT,
-        onClick = { listener.onAuthClicked() },
+        onClick = {
+            listener.onAuthClicked()
+            focusManager.clearFocus()
+        },
         modifier = Modifier
             .padding(top = 32.dp, start = 24.dp, end = 24.dp)
             .fillMaxWidth()
