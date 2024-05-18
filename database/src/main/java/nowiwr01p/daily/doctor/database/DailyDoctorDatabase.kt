@@ -1,6 +1,5 @@
 package nowiwr01p.daily.doctor.database
 
-import nowiwr01p.daily.doctor.database.table.sign_up_token.SignUpTokenTable
 import nowiwr01p.daily.doctor.database.table.user.UserTable
 import nowiwr01p.daily.doctor.database.table.verification.VerificationCodeTable
 import org.jetbrains.exposed.sql.Database
@@ -23,7 +22,6 @@ class DailyDoctorDatabase(override val di: DI): DIAware {
     private fun createTables() = transaction {
         SchemaUtils.create(
             UserTable,
-            SignUpTokenTable,
             VerificationCodeTable
         )
     }

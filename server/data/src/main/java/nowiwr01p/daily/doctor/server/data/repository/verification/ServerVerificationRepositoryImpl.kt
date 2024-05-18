@@ -8,13 +8,14 @@ import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.withContext
 import nowiwr01p.daily.doctor.database.repository.auth.DatabaseAuthRepository
 import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepository
+import nowiwr01p.daily.doctor.database.storage.user.DatabaseUserStorage
 import nowiwr01p.daily.doctor.server.domain.repository.token.ServerUserTokenRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 
 class ServerVerificationRepositoryImpl(
     private val dispatchers: AppDispatchers,
     private val userTokenRepository: ServerUserTokenRepository,
-    private val authRepository: DatabaseAuthRepository,
+    private val userStorage: DatabaseUserStorage,
     private val verificationRepository: DatabaseVerificationRepository
 ) : ServerVerificationRepository {
 
@@ -31,7 +32,7 @@ class ServerVerificationRepositoryImpl(
     ): AuthTokenResponse {
         return withContext(dispatchers.io) {
             verificationRepository.checkVerificationCode(request)
-            val user = authRepository.getUser(request.email)!!
+            val user = userStorage.getUser(request.email)!!
             val authToken = userTokenRepository.generateUserToken(user)
             AuthTokenResponse(authToken)
         }

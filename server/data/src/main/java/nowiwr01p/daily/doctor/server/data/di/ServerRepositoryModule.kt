@@ -3,6 +3,7 @@ package nowiwr01p.daily.doctor.server.data.di
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import nowiwr01p.daily.doctor.database.repository.auth.DatabaseAuthRepository
 import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepository
+import nowiwr01p.daily.doctor.database.storage.user.DatabaseUserStorage
 import nowiwr01p.daily.doctor.server.data.repository.auth.ServerAuthRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.verification.ServerVerificationRepositoryImpl
 import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
@@ -30,7 +31,7 @@ val moduleServerRepository = DI.Module("ServerRepositoryModule") {
         ServerVerificationRepositoryImpl(
             dispatchers = instance<AppDispatchers>(),
             verificationRepository = instance<DatabaseVerificationRepository>(),
-            authRepository = instance<DatabaseAuthRepository>(),
+            userStorage = instance<DatabaseUserStorage>(),
             userTokenRepository = instance<ServerUserTokenRepository>()
         )
     }
