@@ -1,0 +1,24 @@
+package nowiwr01p.daily.doctor.database.di.storage
+
+import nowiwr01p.daily.doctor.database.data.storage.user.DatabaseUserStorageImpl
+import nowiwr01p.daily.doctor.database.data.storage.verification.DatabaseVerificationStorageImpl
+import nowiwr01p.daily.doctor.database.domain.storage.user.DatabaseUserStorage
+import nowiwr01p.daily.doctor.database.domain.storage.verification.DatabaseVerificationStorage
+import org.kodein.di.DI
+import org.kodein.di.bindProvider
+
+internal val moduleDatabaseStorage = DI.Module("DatabaseStorageModule") {
+    /**
+     * USER
+     */
+    bindProvider<DatabaseUserStorage> {
+        DatabaseUserStorageImpl()
+    }
+
+    /**
+     * VERIFICATION
+     */
+    bindProvider<DatabaseVerificationStorage> {
+        DatabaseVerificationStorageImpl()
+    }
+}

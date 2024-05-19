@@ -17,6 +17,8 @@ dependencies {
     implementation(projects.server.domain)
     implementation(projects.server.data) // TODO: This now how this should works
     implementation(projects.database)
+    implementation(projects.database.di)
+    implementation(projects.database.domain)
     implementation(libs.bundles.database)
     implementation(libs.bundles.server)
     implementation(libs.bundles.server.test)

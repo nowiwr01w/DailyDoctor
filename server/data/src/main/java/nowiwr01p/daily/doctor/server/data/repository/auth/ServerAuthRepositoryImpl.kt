@@ -7,8 +7,8 @@ import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
 import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.withContext
-import nowiwr01p.daily.doctor.database.repository.auth.DatabaseAuthRepository
-import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepository
+import nowiwr01p.daily.doctor.database.domain.repository.auth.DatabaseAuthRepository
+import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVerificationRepository
 import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
 
 class ServerAuthRepositoryImpl(

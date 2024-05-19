@@ -1,7 +1,7 @@
 package nowiwr01p.daily.doctor.database
 
-import nowiwr01p.daily.doctor.database.table.user.UserTable
-import nowiwr01p.daily.doctor.database.table.verification.VerificationCodeTable
+import nowiwr01p.daily.doctor.database.tables.table.user.UserTable
+import nowiwr01p.daily.doctor.database.tables.table.verification.VerificationCodeTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction

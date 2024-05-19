@@ -7,7 +7,7 @@ import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.api.response.verification.SendVerificationCodeResponse
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.withContext
-import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepository
+import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVerificationRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 
 class ServerVerificationRepositoryImpl(
