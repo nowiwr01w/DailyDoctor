@@ -3,6 +3,8 @@ package nowiwr01p.daily.doctor.server.data.repository.auth
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
+import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
+import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.withContext
 import nowiwr01p.daily.doctor.database.repository.auth.DatabaseAuthRepository
@@ -16,8 +18,14 @@ class ServerAuthRepositoryImpl(
 ): ServerAuthRepository {
 
     override suspend fun signIn(request: SignInRequest) = withContext(dispatchers.io) {
-        authRepository.signIn(request).also {
-            sendVerificationCode(request.email) // TODO: Check if not verified
+        authRepository.signIn(request).let { user ->
+            val token = "555" // TODO: Generate token and save
+            if (user.isEmailVerified) {
+                PinCodeTokenResponse(token)
+            } else {
+                sendVerificationCode(request.email)
+                VerificationTokenResponse(token)
+            }
         }
     }
 

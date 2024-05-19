@@ -23,8 +23,8 @@ class AuthRouting(
                 sendNoRequestError<SignInRequest>()
             }
             serverSignInUseCase.execute(signInRequest)
-        }.onSuccess { apiUser ->
-            call.respond(apiUser)
+        }.onSuccess { tokenResponse ->
+            call.respond(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -36,8 +36,8 @@ class AuthRouting(
                 sendNoRequestError<SignUpRequest>()
             }
             serverSignUpUseCase.execute(signUpRequest)
-        }.onSuccess { signUpResponse ->
-            call.respond(signUpResponse)
+        }.onSuccess { tokenResponse ->
+            call.respond(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }

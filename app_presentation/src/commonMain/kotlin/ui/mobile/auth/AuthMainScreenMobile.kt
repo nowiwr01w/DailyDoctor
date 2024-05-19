@@ -62,8 +62,8 @@ import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
 import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
 import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
 import navigation.MainNavigator
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import ui.common.auth.AuthContract.Effect.NavigateToPin
 import ui.common.auth.AuthContract.Effect.NavigateToPrivacyPolicyInfo
 import ui.common.auth.AuthContract.Effect.NavigateToVerification
 import ui.common.auth.AuthContract.Event
@@ -109,6 +109,9 @@ internal fun AuthMainScreenMobile(
 
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
+            is NavigateToPin -> {
+                navigator.pinCodeNavigator.navigateToPinCode()
+            }
             is NavigateToVerification -> {
                 navigator.authNavigator.navigateToVerification()
             }

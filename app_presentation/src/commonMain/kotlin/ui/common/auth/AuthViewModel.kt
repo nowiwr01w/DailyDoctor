@@ -3,6 +3,8 @@ package ui.common.auth
 import base.view_model.BaseViewModel
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
+import com.nowiwr01p.model.api.response.token.TokenResponse
+import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
 import core.AppMessage
 import domain.model.user.UserData
 import domain.model.user.UserDataSignIn
@@ -103,27 +105,30 @@ class AuthViewModel(
                     signUpUseCase.execute(request)
                 }
             }
-        }.onSuccess {
-            onAuthSucceed()
+        }.onSuccess { tokenResponse ->
+            onAuthSucceed(tokenResponse)
             // TODO: Init app data + check verification
-        }.onFailure {
-            onAuthFailed()
+        }.onFailure { error ->
+            onAuthFailed(error.message.orEmpty())
         }
     }
 
-    private suspend fun onAuthSucceed() {
+    private suspend fun onAuthSucceed(tokenResponse: TokenResponse) {
         setState { copy(buttonState = SUCCESS) }
-        // TODO: Check if user is verified = show SnackBar and navigate to home
-        showSnackBar(
-            type = SnackBarType.SUCCESS,
-            message = AppMessage.AppMessageText("Добро пожаловать!")
-        )
         delay(3000)
-        setEffect { Effect.NavigateToVerification }
+        val navigateToNextScreenEffect = when (tokenResponse) {
+            is VerificationTokenResponse -> Effect.NavigateToVerification(tokenResponse.token)
+            else -> Effect.NavigateToPin(tokenResponse.token)
+        }
+        setEffect { navigateToNextScreenEffect }
     }
 
-    private suspend fun onAuthFailed() {
+    private suspend fun onAuthFailed(errorMessage: String) {
         setState { copy(buttonState = ERROR) }
+        showSnackBar(
+            type = SnackBarType.ERROR,
+            message = AppMessage.AppMessageText(errorMessage)
+        )
         delay(3000)
         setState { copy(buttonState = DEFAULT) }
     }
