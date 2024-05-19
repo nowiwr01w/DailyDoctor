@@ -14,11 +14,6 @@ class DatabaseVerificationRepositoryImpl(
 ): BaseRepository(), DatabaseVerificationRepository {
 
     override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) = transaction {
-        verificationStorage.getVerificationCode(request.email).let { lastAskedCode ->
-            if (lastAskedCode != null) {
-                verificationStorage.deleteVerificationCodes(request.email)
-            }
-        }
         SendVerificationCodeResponse(
             id = verificationStorage.createVerificationCode(request).id
         )
@@ -26,16 +21,16 @@ class DatabaseVerificationRepositoryImpl(
 
     override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) {
         transaction {
-            val lastSentCode = verificationStorage.getVerificationCode(request.email)
+            val lastSentCode = verificationStorage.getVerificationCode(request.verificationToken)
             when {
                 lastSentCode == null -> buildError(
-                    message = "We somewhat can't process your verification. Please, try again."
+                    message = "We somewhat can't process your verification. Please, try login again."
                 )
                 else -> if (request.code != lastSentCode.code) {
                     buildError("Wrong code.")
                 } else {
                     userStorage.setVerificationStatus(request.email)
-                    verificationStorage.deleteVerificationCodes(request.email)
+                    verificationStorage.deleteVerificationCodes(request.verificationToken) // TODO: Remove all inactive codes instead
                 }
             }
         }

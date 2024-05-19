@@ -10,5 +10,5 @@ data class SignInRequest(
     @SerialName("password")
     override val password: String = "",
     @SerialName("captchaCode")
-    val captchaCode: String = ""
+    override val captchaCode: String = ""
 ): BaseAuthRequest

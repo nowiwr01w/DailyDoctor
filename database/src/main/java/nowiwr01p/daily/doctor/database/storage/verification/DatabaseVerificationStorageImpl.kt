@@ -7,24 +7,24 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
 
-    override fun getVerificationCode(email: String) = transaction {
-        VerificationCodeEntity.find { VerificationCodeTable.email eq email }
+    override fun getVerificationCode(verificationToken: String) = transaction {
+        VerificationCodeEntity.find { VerificationCodeTable.verificationToken eq verificationToken }
             .firstOrNull()
             ?.toVerificationCode()
     }
 
     override fun createVerificationCode(request: SendVerificationCodeRequest) = transaction {
         VerificationCodeEntity.new {
-            email = request.email
-            code = "1234567890".toList().shuffled()
+            verificationToken = "1234" // TODO: Generate Token
+            code = "1234567890".toList().shuffled() // TODO: Move logic to separated class
                 .joinToString(separator = "")
                 .take(6)
         }.toVerificationCode()
     }
 
-    override fun deleteVerificationCodes(email: String): Unit = transaction {
+    override fun deleteVerificationCodes(verificationToken: String): Unit = transaction {
         VerificationCodeEntity
-            .find { VerificationCodeTable.email eq email }
+            .find { VerificationCodeTable.verificationToken eq verificationToken }
             .onEach { it.delete() }
     }
 }

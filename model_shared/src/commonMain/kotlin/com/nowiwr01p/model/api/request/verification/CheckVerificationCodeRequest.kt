@@ -5,8 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CheckVerificationCodeRequest(
+    @SerialName("email")
+    val email: String,
     @SerialName("code")
     val code: String,
-    @SerialName("email")
-    val email: String
+    @SerialName("verificationToken")
+    val verificationToken: String
 )

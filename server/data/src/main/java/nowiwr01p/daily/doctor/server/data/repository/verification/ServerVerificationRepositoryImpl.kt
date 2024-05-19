@@ -2,11 +2,11 @@ package nowiwr01p.daily.doctor.server.data.repository.verification
 
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
-import com.nowiwr01p.model.api.response.verification.AuthTokenResponse
+import com.nowiwr01p.model.api.response.token.PinCodeConfirmationTokenResponse
+import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.api.response.verification.SendVerificationCodeResponse
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.withContext
-import nowiwr01p.daily.doctor.database.repository.auth.DatabaseAuthRepository
 import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepository
 import nowiwr01p.daily.doctor.database.storage.user.DatabaseUserStorage
 import nowiwr01p.daily.doctor.server.domain.repository.token.ServerUserTokenRepository
@@ -29,12 +29,12 @@ class ServerVerificationRepositoryImpl(
 
     override suspend fun checkVerificationCode(
         request: CheckVerificationCodeRequest
-    ): AuthTokenResponse {
+    ): TokenResponse {
         return withContext(dispatchers.io) {
             verificationRepository.checkVerificationCode(request)
-            val user = userStorage.getUser(request.email)!!
-            val authToken = userTokenRepository.generateUserToken(user)
-            AuthTokenResponse(authToken)
+            PinCodeConfirmationTokenResponse(
+                token = "1234" // TODO: Generate token
+            )
         }
     }
 }

@@ -10,7 +10,7 @@ data class SignUpRequest(
     @SerialName("password")
     override val password: String = "",
     @SerialName("captchaCode")
-    val captchaCode: String = "",
+    override val captchaCode: String = "",
     @SerialName("agreementVersion")
     val agreementVersion: Int = 0
 ): BaseAuthRequest

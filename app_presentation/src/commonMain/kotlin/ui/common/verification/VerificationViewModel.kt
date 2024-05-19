@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.Clock
 import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.State
@@ -17,11 +16,11 @@ import ui.core_ui.components.button.ButtonState.DEFAULT
 import ui.core_ui.components.button.ButtonState.ERROR
 import ui.core_ui.components.button.ButtonState.SEND_REQUEST
 import ui.core_ui.components.button.ButtonState.SUCCESS
-import usecase.verification.AppCheckVerificationCodeUseCode
+import usecase.verification.AppCheckVerificationCodeUseCase
 
 class VerificationViewModel(
     scope: CoroutineScope,
-    private val checkVerificationCodeUseCode: AppCheckVerificationCodeUseCode
+    private val checkVerificationCodeUseCode: AppCheckVerificationCodeUseCase
 ): BaseViewModel<Event, State, Effect>(scope) {
 
     override fun setInitialState() = State()
@@ -71,8 +70,9 @@ class VerificationViewModel(
         setState { copy(buttonState = SEND_REQUEST) }
         runCatching {
             val checkVerificationCodeRequest = CheckVerificationCodeRequest(
+                email = "nowiwr01p@pm.me", // TODO: Grab user email
                 code = viewState.value.code.joinToString(separator = ""),
-                email = "nowiwr01p@pm.me" // TODO: Grab user email
+                verificationToken = "1234" // TODO: Grab verification token
             )
             checkVerificationCodeUseCode.execute(checkVerificationCodeRequest)
         }.onSuccess {

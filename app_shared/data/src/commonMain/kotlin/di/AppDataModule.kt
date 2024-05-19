@@ -17,8 +17,8 @@ import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignInUseCaseImpl
 import usecase.auth.AppSignUpUseCase
 import usecase.auth.AppSignUpUseCaseImpl
-import usecase.verification.AppCheckVerificationCodeUseCode
-import usecase.verification.AppCheckVerificationCodeUseCodeImpl
+import usecase.verification.AppCheckVerificationCodeUseCase
+import usecase.verification.AppCheckVerificationCodeUseCaseImpl
 
 val moduleAppData = DI.Module("AppDataModule") {
     /**
@@ -51,7 +51,7 @@ val moduleAppData = DI.Module("AppDataModule") {
             dispatchers = instance<AppDispatchers>()
         )
     }
-    bindProvider<AppCheckVerificationCodeUseCode> {
-        AppCheckVerificationCodeUseCodeImpl(repository = instance<AppVerificationRepository>())
+    bindProvider<AppCheckVerificationCodeUseCase> {
+        AppCheckVerificationCodeUseCaseImpl(repository = instance<AppVerificationRepository>())
     }
 }

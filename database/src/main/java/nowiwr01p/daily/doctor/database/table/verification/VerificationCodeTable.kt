@@ -7,14 +7,14 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.UUID
 
 object VerificationCodeTable : UUIDTable("verification_codes") {
-    val email = varchar("email", 64).uniqueIndex()
     val code = varchar("code", 6)
+    val verificationToken = varchar("verificationToken", 64).uniqueIndex()
 }
 
 class VerificationCodeEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
-    var email by VerificationCodeTable.email
     var code by VerificationCodeTable.code
+    var verificationToken by VerificationCodeTable.verificationToken
 
     fun toVerificationCode() = VerificationCode(
         id = id.value.toString(),

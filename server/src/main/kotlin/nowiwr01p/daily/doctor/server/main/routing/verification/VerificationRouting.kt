@@ -5,6 +5,7 @@ import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
 import com.nowiwr01p.model.api.route.VerificationRoutes.CheckVerificationCodeRoute
 import com.nowiwr01p.model.api.route.VerificationRoutes.SendVerificationCodeRoute
 import io.ktor.server.request.receiveNullable
+import io.ktor.server.request.receiveText
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
