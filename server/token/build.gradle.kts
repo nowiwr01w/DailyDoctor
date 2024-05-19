@@ -8,5 +8,8 @@ dependencies {
      * SHARED MODELS
      */
     implementation(projects.modelShared)
-    implementation(libs.bundles.database)
+    /**
+     * DEPENDENCIES
+     */
+    implementation(libs.bundles.server)
 }

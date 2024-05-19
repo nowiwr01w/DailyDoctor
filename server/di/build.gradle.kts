@@ -1,15 +1,7 @@
 plugins {
-    application
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.kotlinSerialization)
-}
-
-group = "nowiwr01p.daily.doctor.server.main"
-version = "1.0.0"
-application {
-    mainClass.set("nowiwr01p.daily.doctor.ApplicationKt")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["development"] ?: "false"}")
 }
 
 dependencies {
@@ -20,19 +12,18 @@ dependencies {
     /**
      * SERVER
      */
-    implementation(projects.server.di)
+    implementation(projects.server.domain)
+    implementation(projects.server.data)
     implementation(projects.server.works)
     implementation(projects.server.token)
     implementation(projects.server.routes)
     /**
      * DATABASE
      */
-    implementation(projects.database)
+    implementation(projects.database.di)
     implementation(projects.database.domain)
     /**
      * DEPENDENCIES
      */
-    implementation(libs.bundles.database)
     implementation(libs.bundles.server)
-    implementation(libs.bundles.server.test)
 }

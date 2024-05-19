@@ -4,8 +4,17 @@ plugins {
 }
 
 dependencies {
+    /**
+     * SHARED MODELS
+     */
     implementation(projects.modelShared)
-    implementation(projects.database.domain)
+    /**
+     * DATABASE
+     */
+    implementation(projects.database.di)
     implementation(projects.database.tables)
+    /**
+     * DEPENDENCIES
+     */
     implementation(libs.bundles.database)
 }

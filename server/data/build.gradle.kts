@@ -5,8 +5,20 @@ plugins {
 }
 
 dependencies {
+    /**
+     * SHARED MODELS
+     */
     implementation(projects.modelShared)
+    /**
+     * SERVER
+     */
     implementation(projects.server.domain)
+    /**
+     * DATABASE
+     */
     implementation(projects.database.domain)
+    /**
+     * DEPENDENCIES
+     */
     implementation(libs.bundles.server)
 }
