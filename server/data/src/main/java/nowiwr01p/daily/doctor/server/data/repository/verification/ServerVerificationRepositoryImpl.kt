@@ -8,14 +8,10 @@ import com.nowiwr01p.model.api.response.verification.SendVerificationCodeRespons
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.withContext
 import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepository
-import nowiwr01p.daily.doctor.database.storage.user.DatabaseUserStorage
-import nowiwr01p.daily.doctor.server.domain.repository.token.ServerUserTokenRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 
 class ServerVerificationRepositoryImpl(
     private val dispatchers: AppDispatchers,
-    private val userTokenRepository: ServerUserTokenRepository,
-    private val userStorage: DatabaseUserStorage,
     private val verificationRepository: DatabaseVerificationRepository
 ) : ServerVerificationRepository {
 
@@ -36,5 +32,9 @@ class ServerVerificationRepositoryImpl(
                 token = "1234" // TODO: Generate token
             )
         }
+    }
+
+    override suspend fun deleteExpiredVerificationCodes() = withContext(dispatchers.io) {
+        verificationRepository.deleteExpiredVerificationCodes()
     }
 }

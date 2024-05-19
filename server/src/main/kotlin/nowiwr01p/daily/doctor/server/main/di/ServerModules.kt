@@ -14,15 +14,12 @@ private val baseServerModules = listOf(
     moduleServerToken
 )
 
-private val routingServerModules = listOf(
-    moduleServerUserRouting
-)
 
-private val databaseModules = listOf(
-    moduleDatabase
+private val allServerModules = (baseServerModules
+    + moduleServerRouting
+    + moduleServerWork
+    + moduleDatabase
 )
-
-private val allServerModules = baseServerModules + routingServerModules + databaseModules
 
 val serverModules = DI {
     importAll(

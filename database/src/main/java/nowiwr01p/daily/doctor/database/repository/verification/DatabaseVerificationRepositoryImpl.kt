@@ -30,9 +30,12 @@ class DatabaseVerificationRepositoryImpl(
                     buildError("Wrong code.")
                 } else {
                     userStorage.setVerificationStatus(request.email)
-                    verificationStorage.deleteVerificationCodes(request.verificationToken) // TODO: Remove all inactive codes instead
                 }
             }
         }
+    }
+
+    override suspend fun deleteExpiredVerificationCodes() = transaction {
+        verificationStorage.deleteExpiredVerificationCodes()
     }
 }

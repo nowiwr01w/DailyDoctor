@@ -10,7 +10,7 @@ import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 
-val moduleServerUserRouting = DI.Module("ServerRoutingModule") {
+val moduleServerRouting = DI.Module("ServerRoutingModule") {
     /**
      * AUTH
      */

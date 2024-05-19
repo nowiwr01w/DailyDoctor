@@ -15,6 +15,7 @@ class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
 
     override fun createVerificationCode(request: SendVerificationCodeRequest) = transaction {
         VerificationCodeEntity.new {
+            timestamp = System.currentTimeMillis()
             verificationToken = "1234" // TODO: Generate Token
             code = "1234567890".toList().shuffled() // TODO: Move logic to separated class
                 .joinToString(separator = "")
@@ -22,9 +23,17 @@ class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
         }.toVerificationCode()
     }
 
-    override fun deleteVerificationCodes(verificationToken: String): Unit = transaction {
-        VerificationCodeEntity
-            .find { VerificationCodeTable.verificationToken eq verificationToken }
-            .onEach { it.delete() }
+    override fun deleteExpiredVerificationCodes() { // TODO: Create micro service
+        transaction {
+            val codes = VerificationCodeEntity.find {
+                val expiredTime = System.currentTimeMillis() - VERIFICATION_CODE_EXPIRE_TIME
+                VerificationCodeTable.timestamp lessEq expiredTime
+            }
+            codes.onEach { it.delete() }
+        }
+    }
+
+    companion object {
+        const val VERIFICATION_CODE_EXPIRE_TIME = 1 * 60 * 1000
     }
 }

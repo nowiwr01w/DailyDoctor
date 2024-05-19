@@ -8,4 +8,5 @@ import com.nowiwr01p.model.api.response.verification.SendVerificationCodeRespons
 interface ServerVerificationRepository {
     suspend fun sendVerificationCode(request: SendVerificationCodeRequest): SendVerificationCodeResponse
     suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): TokenResponse
+    suspend fun deleteExpiredVerificationCodes()
 }

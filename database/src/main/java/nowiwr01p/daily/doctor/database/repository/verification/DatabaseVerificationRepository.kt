@@ -7,4 +7,5 @@ import com.nowiwr01p.model.api.response.verification.SendVerificationCodeRespons
 interface DatabaseVerificationRepository {
     suspend fun sendVerificationCode(request: SendVerificationCodeRequest): SendVerificationCodeResponse
     suspend fun checkVerificationCode(request: CheckVerificationCodeRequest)
+    suspend fun deleteExpiredVerificationCodes()
 }

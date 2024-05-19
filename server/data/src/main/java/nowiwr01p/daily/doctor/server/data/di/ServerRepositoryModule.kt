@@ -3,11 +3,9 @@ package nowiwr01p.daily.doctor.server.data.di
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import nowiwr01p.daily.doctor.database.repository.auth.DatabaseAuthRepository
 import nowiwr01p.daily.doctor.database.repository.verification.DatabaseVerificationRepository
-import nowiwr01p.daily.doctor.database.storage.user.DatabaseUserStorage
 import nowiwr01p.daily.doctor.server.data.repository.auth.ServerAuthRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.verification.ServerVerificationRepositoryImpl
 import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
-import nowiwr01p.daily.doctor.server.domain.repository.token.ServerUserTokenRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -30,9 +28,7 @@ val moduleServerRepository = DI.Module("ServerRepositoryModule") {
     bindProvider<ServerVerificationRepository> {
         ServerVerificationRepositoryImpl(
             dispatchers = instance<AppDispatchers>(),
-            verificationRepository = instance<DatabaseVerificationRepository>(),
-            userStorage = instance<DatabaseUserStorage>(),
-            userTokenRepository = instance<ServerUserTokenRepository>()
+            verificationRepository = instance<DatabaseVerificationRepository>()
         )
     }
 }

@@ -10,22 +10,30 @@ import nowiwr01p.daily.doctor.server.main.server.plugins.configureHeaders
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureLogging
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureRouting
 import nowiwr01p.daily.doctor.server.main.server.plugins.configureSerialization
+import nowiwr01p.daily.doctor.server.main.work.executeServerWork
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 
 class DailyDoctorServer(override val di: DI): DIAware {
     init {
-        DailyDoctorDatabase(di).connect()
+        connectDatabase(di)
+        executeServerWork(di)
         connectServer(di)
     }
 }
 
+/**
+ * CONNECT SERVER
+ */
 private fun connectServer(di: DI) = embeddedServer(
     factory = Netty,
     port = 8080,
     module = { setApplicationModule(di) }
 ).start(wait = true)
 
+/**
+ * SERVER MODULES
+ */
 private fun Application.setApplicationModule(di: DI) {
     configureRouting(di)
     configureAuthentication(di)
@@ -35,3 +43,8 @@ private fun Application.setApplicationModule(di: DI) {
     configureSerialization()
 //    configureHttps()
 }
+
+/**
+ * CONNECT DATABASE
+ */
+private fun connectDatabase(di: DI) = DailyDoctorDatabase(di).connect()
