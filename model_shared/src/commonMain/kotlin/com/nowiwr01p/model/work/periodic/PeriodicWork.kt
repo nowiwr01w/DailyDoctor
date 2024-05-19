@@ -19,14 +19,9 @@ abstract class PeriodicWork(di: DI): Work() {
     private val appScope by di.instance<AppScope>()
 
     protected abstract val periodType: TimeInSeconds
-    protected abstract suspend fun onEach(seconds: Long)
-
-    protected open suspend fun onStart() {}
-    protected open suspend fun onCompletion() {}
-    protected open suspend fun catchErrors(error: Throwable) {}
 
     override fun startWork() = appScope.scope.launch {
-        (0..periodType.seconds).asSequence().asFlow()
+        (0..Long.MAX_VALUE).asSequence().asFlow()
             .onStart { onStart() }
             .onEach { seconds ->
                 onEach(seconds)

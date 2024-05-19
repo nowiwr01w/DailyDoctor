@@ -4,6 +4,7 @@ import com.nowiwr01p.model.work.Work
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -15,15 +16,11 @@ abstract class TimerWork(
 ): Work() {
 
     protected abstract val timerType: TimerType
-    protected abstract suspend fun onEach(seconds: Int)
-
-    protected open suspend fun onStart() {}
-    protected open suspend fun onCompletion() {}
 
     override fun startWork() = scope.launch {
         val timerPeriod = when (timerType) {
             is TimerType.Up -> (0..timerType.value)
-            is TimerType.Down -> (timerType.value downTo 0)
+            is TimerType.Down -> (timerType.value downTo 1)
         }
         timerPeriod.asSequence().asFlow()
             .onStart { onStart() }
@@ -31,7 +28,11 @@ abstract class TimerWork(
                 delay(1000)
                 onEach(seconds)
             }
-            .onCompletion { onCompletion() }
+            .onCompletion {
+                delay(1000)
+                onCompletion()
+            }
+            .catch { catchErrors(it) }
             .collect()
     }.let { workJob ->
         job = workJob
