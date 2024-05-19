@@ -23,7 +23,6 @@ class DatabaseAuthRepositoryImpl(
         userStorage.createUser(request)
         return SignUpResponse(
             email = request.email,
-            timeStamp = System.currentTimeMillis(),
             pinCodeConfirmationToken = "1234" // TODO: Change to VerificationToken
         )
     }

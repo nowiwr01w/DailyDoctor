@@ -72,8 +72,7 @@ class VerificationViewModel(
         runCatching {
             val checkVerificationCodeRequest = CheckVerificationCodeRequest(
                 code = viewState.value.code.joinToString(separator = ""),
-                email = "nowiwr01p@pm.me", // TODO: Grab user email
-                timestamp = Clock.System.now().epochSeconds
+                email = "nowiwr01p@pm.me" // TODO: Grab user email
             )
             checkVerificationCodeUseCode.execute(checkVerificationCodeRequest)
         }.onSuccess {

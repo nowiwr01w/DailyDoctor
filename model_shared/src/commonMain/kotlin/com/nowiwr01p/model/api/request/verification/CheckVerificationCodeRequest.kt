@@ -8,7 +8,5 @@ data class CheckVerificationCodeRequest(
     @SerialName("code")
     val code: String,
     @SerialName("email")
-    val email: String,
-    @SerialName("timestamp")
-    val timestamp: Long
+    val email: String
 )
