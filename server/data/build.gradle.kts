@@ -12,6 +12,7 @@ dependencies {
     /**
      * SERVER
      */
+    implementation(projects.server.token)
     implementation(projects.server.domain)
     /**
      * DATABASE

@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.server.token.repository
+package nowiwr01p.daily.doctor.server.token.user.repository
 
 import com.nowiwr01p.model.model.User
 

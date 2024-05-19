@@ -13,7 +13,7 @@ interface VerificationContract {
 
     sealed interface Event: BaseEvent {
         data object Init: Event
-        data object OnVerifyClicked: Event
+        data class OnVerifyClicked(val email: String, val verificationToken: String): Event
         data object OnResendCodeClicked: Event
         data class HandeUserInput(val operation: VerificationEnterCodeOperation): Event
     }

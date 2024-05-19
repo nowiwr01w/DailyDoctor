@@ -34,7 +34,7 @@ interface AuthContract {
 
     sealed interface Effect: BaseEffect {
         data class NavigateToPin(val token: String): Effect
-        data class NavigateToVerification(val token: String): Effect
+        data class NavigateToVerification(val email: String, val token: String): Effect
         data object NavigateToPrivacyPolicyInfo: Effect
     }
 

@@ -113,7 +113,7 @@ internal fun AuthMainScreenMobile(
                 navigator.pinCodeNavigator.navigateToPinCode()
             }
             is NavigateToVerification -> {
-                navigator.authNavigator.navigateToVerification()
+                navigator.authNavigator.navigateToVerification(effect.email, effect.token)
             }
             is NavigateToPrivacyPolicyInfo -> {
                 // TODO

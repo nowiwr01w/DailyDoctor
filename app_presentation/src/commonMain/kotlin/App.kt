@@ -118,9 +118,11 @@ private fun AppContent(
             is AuthChild -> {
                 AuthMainScreenMobile(navigator)
             }
-            is VerificationChild -> {
-                VerificationMainScreenMobile(navigator)
-            }
+            is VerificationChild -> VerificationMainScreenMobile(
+                email = child.email,
+                verificationToken = child.verificationToken,
+                navigator = navigator
+            )
             is PinCodeChild -> {
                 PinCodeMainScreenMobile(navigator)
             }

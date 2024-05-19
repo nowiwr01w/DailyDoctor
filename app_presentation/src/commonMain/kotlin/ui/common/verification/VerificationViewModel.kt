@@ -28,7 +28,7 @@ class VerificationViewModel(
     override fun handleEvents(event: Event) {
         when (event) {
             is Event.Init -> init()
-            is Event.OnVerifyClicked -> verify()
+            is Event.OnVerifyClicked -> verify(event.email, event.verificationToken)
             is Event.OnResendCodeClicked -> resend()
             is Event.HandeUserInput -> handleUserInput(event.operation)
         }
@@ -66,13 +66,13 @@ class VerificationViewModel(
         }
     }
 
-    private fun verify() = hide {
+    private fun verify(email: String, verificationToken: String) = hide {
         setState { copy(buttonState = SEND_REQUEST) }
         runCatching {
             val checkVerificationCodeRequest = CheckVerificationCodeRequest(
-                email = "nowiwr01p@pm.me", // TODO: Grab user email
+                email = email,
                 code = viewState.value.code.joinToString(separator = ""),
-                verificationToken = "1234" // TODO: Grab verification token
+                verificationToken = verificationToken
             )
             checkVerificationCodeUseCode.execute(checkVerificationCodeRequest)
         }.onSuccess {

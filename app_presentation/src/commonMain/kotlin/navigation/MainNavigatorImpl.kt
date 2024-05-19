@@ -53,8 +53,8 @@ class MainNavigatorImpl(
             child = AuthChild
         )
         @Serializable
-        data object Verification: AppNavigationConfig(
-            child = VerificationChild
+        data class Verification(val email: String, val verificationToken: String): AppNavigationConfig(
+            child = VerificationChild(email, verificationToken)
         )
         @Serializable
         data object PinCode: AppNavigationConfig(
@@ -65,7 +65,7 @@ class MainNavigatorImpl(
     private fun Child.updateChildContext(childContext: ComponentContext) = when (this) {
         is SplashChild -> splashNavigator
         is OnboardingChild -> onboardingNavigator
-        is AuthChild, VerificationChild -> authNavigator
+        is AuthChild, is VerificationChild -> authNavigator
         is PinCodeChild -> pinCodeNavigator
     }.also { navigator ->
         navigator.updateChildContext(childContext)

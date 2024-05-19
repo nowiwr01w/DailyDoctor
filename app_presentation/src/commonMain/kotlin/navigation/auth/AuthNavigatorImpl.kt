@@ -16,7 +16,7 @@ class AuthNavigatorImpl(
         navigation.pushNew(Auth)
     }
 
-    override fun navigateToVerification() {
-        navigation.pushNew(Verification)
+    override fun navigateToVerification(email: String, verificationToken: String) {
+        navigation.pushNew(Verification(email, verificationToken))
     }
 }

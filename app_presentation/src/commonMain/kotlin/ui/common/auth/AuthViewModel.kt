@@ -106,18 +106,21 @@ class AuthViewModel(
                 }
             }
         }.onSuccess { tokenResponse ->
-            onAuthSucceed(tokenResponse)
+            onAuthSucceed(userData.email, tokenResponse)
             // TODO: Init app data + check verification
         }.onFailure { error ->
             onAuthFailed(error.message.orEmpty())
         }
     }
 
-    private suspend fun onAuthSucceed(tokenResponse: TokenResponse) {
+    private suspend fun onAuthSucceed(email: String, tokenResponse: TokenResponse) {
         setState { copy(buttonState = SUCCESS) }
         delay(3000)
         val navigateToNextScreenEffect = when (tokenResponse) {
-            is VerificationTokenResponse -> Effect.NavigateToVerification(tokenResponse.token)
+            is VerificationTokenResponse -> Effect.NavigateToVerification(
+                email = email,
+                token = tokenResponse.token
+            )
             else -> Effect.NavigateToPin(tokenResponse.token)
         }
         setEffect { navigateToNextScreenEffect }

@@ -4,5 +4,5 @@ import navigation.base.BaseNavigator
 
 abstract class AuthNavigator: BaseNavigator() {
     abstract fun navigateToAuth()
-    abstract fun navigateToVerification()
+    abstract fun navigateToVerification(email: String, verificationToken: String)
 }

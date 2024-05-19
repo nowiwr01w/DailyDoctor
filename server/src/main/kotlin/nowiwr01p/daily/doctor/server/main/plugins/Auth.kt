@@ -9,7 +9,7 @@ import io.ktor.server.auth.jwt.jwt
 import io.ktor.server.response.respond
 import org.kodein.di.DI
 import org.kodein.di.instance
-import nowiwr01p.daily.doctor.server.token.config.UserTokenConfig
+import nowiwr01p.daily.doctor.server.token.user.config.UserTokenConfig
 
 fun Application.configureAuthentication(di: DI) = install(Authentication) {
     val config by di.instance<UserTokenConfig>()

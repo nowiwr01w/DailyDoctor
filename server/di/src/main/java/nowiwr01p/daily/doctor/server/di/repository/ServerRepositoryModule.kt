@@ -7,6 +7,7 @@ import nowiwr01p.daily.doctor.server.data.repository.auth.ServerAuthRepositoryIm
 import nowiwr01p.daily.doctor.server.data.repository.verification.ServerVerificationRepositoryImpl
 import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
+import nowiwr01p.daily.doctor.server.token.common.usecase.ServerGenerateCommonTokenUseCase
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
@@ -19,7 +20,8 @@ internal val moduleServerRepository = DI.Module("ServerRepositoryModule") {
         ServerAuthRepositoryImpl(
             dispatchers = instance<AppDispatchers>(),
             authRepository = instance<DatabaseAuthRepository>(),
-            verificationRepository = instance<DatabaseVerificationRepository>()
+            verificationRepository = instance<DatabaseVerificationRepository>(),
+            generateCommonTokenUseCase = instance<ServerGenerateCommonTokenUseCase>()
         )
     }
     /**
@@ -28,7 +30,8 @@ internal val moduleServerRepository = DI.Module("ServerRepositoryModule") {
     bindProvider<ServerVerificationRepository> {
         ServerVerificationRepositoryImpl(
             dispatchers = instance<AppDispatchers>(),
-            verificationRepository = instance<DatabaseVerificationRepository>()
+            verificationRepository = instance<DatabaseVerificationRepository>(),
+            generateCommonTokenUseCase = instance<ServerGenerateCommonTokenUseCase>()
         )
     }
 }

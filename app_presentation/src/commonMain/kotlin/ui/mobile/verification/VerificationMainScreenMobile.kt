@@ -70,12 +70,14 @@ import ui.mobile.auth.TopTitle
 
 @Composable
 internal fun VerificationMainScreenMobile(
+    email: String,
+    verificationToken: String,
     navigator: MainNavigator,
     viewModel: VerificationViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
         override fun onVerifyClicked() {
-            viewModel.setEvent(Event.OnVerifyClicked)
+            viewModel.setEvent(Event.OnVerifyClicked(email, verificationToken))
         }
         override fun onResendCodeClicked() {
             viewModel.setEvent(Event.OnResendCodeClicked)

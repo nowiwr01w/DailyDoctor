@@ -2,7 +2,6 @@ package nowiwr01p.daily.doctor.database.data.repository.verification
 
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
-import com.nowiwr01p.model.api.response.verification.SendVerificationCodeResponse
 import com.nowiwr01p.model.repository.BaseRepository
 import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVerificationRepository
 import nowiwr01p.daily.doctor.database.domain.storage.user.DatabaseUserStorage
@@ -14,10 +13,10 @@ class DatabaseVerificationRepositoryImpl(
     private val verificationStorage: DatabaseVerificationStorage
 ): BaseRepository(), DatabaseVerificationRepository {
 
-    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) = transaction {
-        SendVerificationCodeResponse(
-            id = verificationStorage.createVerificationCode(request).id
-        )
+    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) {
+        transaction {
+            verificationStorage.createVerificationCode(request)
+        }
     }
 
     override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) {

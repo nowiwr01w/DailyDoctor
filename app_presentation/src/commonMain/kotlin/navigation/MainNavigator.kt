@@ -28,7 +28,7 @@ interface MainNavigator {
         data object SplashChild: Child()
         data class OnboardingChild(val onboardingItem: OnboardingItem): Child()
         data object AuthChild: Child()
-        data object VerificationChild: Child()
+        data class VerificationChild(val email: String, val verificationToken: String): Child()
         data object PinCodeChild: Child()
     }
 }

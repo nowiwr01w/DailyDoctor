@@ -17,7 +17,7 @@ class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
     override fun createVerificationCode(request: SendVerificationCodeRequest) = transaction {
         VerificationCodeEntity.new {
             timestamp = System.currentTimeMillis()
-            verificationToken = "1234" // TODO: Generate Token
+            verificationToken = request.token
             code = "1234567890".toList().shuffled() // TODO: Move logic to separated class
                 .joinToString(separator = "")
                 .take(6)

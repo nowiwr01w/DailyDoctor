@@ -4,9 +4,8 @@ import api.Api
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
 import com.nowiwr01p.model.api.response.token.TokenResponse
-import com.nowiwr01p.model.api.response.verification.SendVerificationCodeResponse
 
 interface VerificationApi: Api {
-    suspend fun sendVerificationCode(request: SendVerificationCodeRequest): SendVerificationCodeResponse
+    suspend fun sendVerificationCode(request: SendVerificationCodeRequest): TokenResponse
     suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): TokenResponse
 }

@@ -1,9 +1,9 @@
-package nowiwr01p.daily.doctor.server.token.repository
+package nowiwr01p.daily.doctor.server.token.user.repository
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.nowiwr01p.model.model.User
-import nowiwr01p.daily.doctor.server.token.config.UserTokenConfig
+import nowiwr01p.daily.doctor.server.token.user.config.UserTokenConfig
 import java.util.Date
 
 class ServerUserTokenRepositoryImpl(

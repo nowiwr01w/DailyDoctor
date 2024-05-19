@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.server.token.config
+package nowiwr01p.daily.doctor.server.token.user.config
 
 data class UserTokenConfigImpl(
     override val issuer: String,
