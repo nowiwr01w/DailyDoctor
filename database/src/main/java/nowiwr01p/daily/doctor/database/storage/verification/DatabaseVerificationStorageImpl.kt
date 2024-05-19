@@ -14,12 +14,12 @@ class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
     }
 
     override fun createVerificationCode(request: SendVerificationCodeRequest) = transaction {
-        val entity = VerificationCodeEntity.new {
+        VerificationCodeEntity.new {
             email = request.email
-            timestamp = request.timestamp
-            code = "1234567890".toList().shuffled().joinToString(separator = "").take(6)
-        }
-        entity.toVerificationCode()
+            code = "1234567890".toList().shuffled()
+                .joinToString(separator = "")
+                .take(6)
+        }.toVerificationCode()
     }
 
     override fun deleteVerificationCodes(email: String): Unit = transaction {

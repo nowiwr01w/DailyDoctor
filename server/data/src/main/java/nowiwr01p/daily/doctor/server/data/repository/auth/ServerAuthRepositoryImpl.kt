@@ -17,7 +17,7 @@ class ServerAuthRepositoryImpl(
 
     override suspend fun signIn(request: SignInRequest) = withContext(dispatchers.io) {
         authRepository.signIn(request).also {
-            sendVerificationCode(request.email) // TODO: Check if verification is turned on in RemoteConfig
+            sendVerificationCode(request.email) // TODO: Check if not verified
         }
     }
 
@@ -27,10 +27,8 @@ class ServerAuthRepositoryImpl(
         }
     }
 
-    private suspend fun sendVerificationCode(email: String) = SendVerificationCodeRequest(
-        email = email,
-        timestamp = System.currentTimeMillis()
-    ).let { request ->
+    private suspend fun sendVerificationCode(email: String) = withContext(dispatchers.io) {
+        val request = SendVerificationCodeRequest(email)
         verificationRepository.sendVerificationCode(request)
     }
 }

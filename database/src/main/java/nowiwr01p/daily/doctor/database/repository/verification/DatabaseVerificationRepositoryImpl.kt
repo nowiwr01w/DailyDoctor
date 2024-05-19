@@ -6,11 +6,6 @@ import com.nowiwr01p.model.api.response.verification.SendVerificationCodeRespons
 import com.nowiwr01p.model.repository.BaseRepository
 import nowiwr01p.daily.doctor.database.storage.user.DatabaseUserStorage
 import nowiwr01p.daily.doctor.database.storage.verification.DatabaseVerificationStorage
-import nowiwr01p.daily.doctor.database.table.user.UserEntity
-import nowiwr01p.daily.doctor.database.table.user.UserTable
-import nowiwr01p.daily.doctor.database.table.verification.VerificationCodeEntity
-import nowiwr01p.daily.doctor.database.table.verification.VerificationCodeTable
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class DatabaseVerificationRepositoryImpl(
@@ -20,9 +15,6 @@ class DatabaseVerificationRepositoryImpl(
 
     override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) = transaction {
         verificationStorage.getVerificationCode(request.email).let { lastAskedCode ->
-            if (lastAskedCode != null && System.currentTimeMillis() <= lastAskedCode.timestamp + 60_000) {
-                buildError("Verification code can't be requested.")
-            }
             if (lastAskedCode != null) {
                 verificationStorage.deleteVerificationCodes(request.email)
             }

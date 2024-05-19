@@ -8,21 +8,17 @@ import java.util.UUID
 
 object VerificationCodeTable : UUIDTable("verification_codes") {
     val email = varchar("email", 64).uniqueIndex()
-    val timestamp = long("timestamp")
     val code = varchar("code", 6)
 }
 
 class VerificationCodeEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var email by VerificationCodeTable.email
-    var timestamp by VerificationCodeTable.timestamp
     var code by VerificationCodeTable.code
 
     fun toVerificationCode() = VerificationCode(
         id = id.value.toString(),
-        email = email,
-        code = code,
-        timestamp = timestamp
+        code = code
     )
 
     companion object : UUIDEntityClass<VerificationCodeEntity>(VerificationCodeTable)
@@ -30,7 +26,5 @@ class VerificationCodeEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
 data class VerificationCode(
     val id: String,
-    val email: String,
-    val code: String,
-    val timestamp: Long
+    val code: String
 )
