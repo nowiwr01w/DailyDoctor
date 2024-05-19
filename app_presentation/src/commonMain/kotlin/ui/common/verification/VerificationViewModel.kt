@@ -78,7 +78,7 @@ class VerificationViewModel(
         }.onSuccess {
             setState { copy(buttonState = SUCCESS) }
             delay(3000)
-            setEffect { Effect.NavigateToHome }
+            setEffect { Effect.NavigateToPinCode }
         }.onFailure {
             setState { copy(buttonState = ERROR) }
             delay(3000)

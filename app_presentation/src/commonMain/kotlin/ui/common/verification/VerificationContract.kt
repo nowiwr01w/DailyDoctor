@@ -25,7 +25,7 @@ interface VerificationContract {
     ): BaseState
 
     sealed interface Effect: BaseEffect {
-        data object NavigateToHome: Effect
+        data object NavigateToPinCode: Effect
     }
 
     interface Listener {

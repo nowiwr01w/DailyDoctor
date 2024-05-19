@@ -91,8 +91,8 @@ internal fun VerificationMainScreenMobile(
 
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
-            is Effect.NavigateToHome -> {
-                // TODO
+            is Effect.NavigateToPinCode -> {
+               navigator.pinCodeNavigator.navigateToPinCode()
             }
         }
     }
