@@ -25,7 +25,7 @@ class DatabaseVerificationRepositoryImpl(
                 lastSentCode == null -> buildError(
                     message = "We somewhat can't process your verification. Please, try login again."
                 )
-                else -> if (request.code != lastSentCode.code) {
+                else -> if (request.code != lastSentCode) {
                     buildError("Wrong code.")
                 } else {
                     userStorage.setVerificationStatus(request.email)

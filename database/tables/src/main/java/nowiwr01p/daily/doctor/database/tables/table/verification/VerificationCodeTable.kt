@@ -1,6 +1,5 @@
 package nowiwr01p.daily.doctor.database.tables.table.verification
 
-import nowiwr01p.daily.doctor.database.tables.model.VerificationCode
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -18,11 +17,6 @@ class VerificationCodeEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var code by VerificationCodeTable.code
     var timestamp by VerificationCodeTable.timestamp
     var verificationToken by VerificationCodeTable.verificationToken
-
-    fun toVerificationCode() = VerificationCode(
-        id = id.value.toString(),
-        code = code
-    )
 
     companion object : UUIDEntityClass<VerificationCodeEntity>(VerificationCodeTable)
 }

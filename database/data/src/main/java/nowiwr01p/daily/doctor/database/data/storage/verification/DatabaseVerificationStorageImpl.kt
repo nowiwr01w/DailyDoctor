@@ -16,15 +16,16 @@ class DatabaseVerificationStorageImpl(
     override fun getVerificationCode(verificationToken: String) = transaction {
         VerificationCodeEntity.find { VerificationCodeTable.verificationToken eq verificationToken }
             .firstOrNull()
-            ?.toVerificationCode()
+            ?.code
     }
 
     override fun createVerificationCode(token: String) = transaction {
-        VerificationCodeEntity.new {
+        val verificationCodeEntity = VerificationCodeEntity.new {
             timestamp = System.currentTimeMillis()
             verificationToken = token
             code = generator.generateVerificationCode()
-        }.toVerificationCode()
+        }
+        verificationCodeEntity.code
     }
 
     override fun deleteExpiredVerificationCodes() { // TODO: Create micro service
