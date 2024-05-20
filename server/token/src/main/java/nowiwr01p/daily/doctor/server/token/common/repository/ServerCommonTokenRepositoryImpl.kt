@@ -1,5 +1,6 @@
 package nowiwr01p.daily.doctor.server.token.common.repository
 
+import com.nowiwr01p.model.const.Symbols
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -45,15 +46,4 @@ class ServerCommonTokenRepositoryImpl(
 
         tokenList.awaitAll().joinToString(separator = "")
     }
-}
-
-private object Symbols {
-
-    private const val ALPHABET = "abcdefghijklmpopqrstuvwxyz"
-    private const val DIGITS = "1234567890"
-    private const val SPECIAL_CHARACTERS = "!@#$%^&*()-_=+{}[]|/"
-
-    val allSymbols = listOf(
-        ALPHABET, DIGITS, ALPHABET.uppercase(), SPECIAL_CHARACTERS
-    )
 }

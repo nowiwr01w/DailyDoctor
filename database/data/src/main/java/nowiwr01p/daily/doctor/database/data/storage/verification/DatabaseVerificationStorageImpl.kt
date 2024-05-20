@@ -1,6 +1,7 @@
 package nowiwr01p.daily.doctor.database.data.storage.verification
 
 import com.nowiwr01p.model.time.TimeInSeconds
+import nowiwr01p.daily.doctor.database.domain.generator.VerificationCodeGenerator
 import nowiwr01p.daily.doctor.database.domain.storage.verification.DatabaseVerificationStorage
 import nowiwr01p.daily.doctor.database.tables.table.verification.VerificationCodeEntity
 import nowiwr01p.daily.doctor.database.tables.table.verification.VerificationCodeTable
@@ -8,7 +9,9 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.lessEq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
+class DatabaseVerificationStorageImpl(
+    private val generator: VerificationCodeGenerator
+): DatabaseVerificationStorage {
 
     override fun getVerificationCode(verificationToken: String) = transaction {
         VerificationCodeEntity.find { VerificationCodeTable.verificationToken eq verificationToken }
@@ -20,9 +23,7 @@ class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
         VerificationCodeEntity.new {
             timestamp = System.currentTimeMillis()
             verificationToken = token
-            code = "1234567890".toList().shuffled() // TODO: Move logic to separated class
-                .joinToString(separator = "")
-                .take(6)
+            code = generator.generateVerificationCode()
         }.toVerificationCode()
     }
 
