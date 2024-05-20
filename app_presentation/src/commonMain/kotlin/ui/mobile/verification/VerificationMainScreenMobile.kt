@@ -310,7 +310,7 @@ private fun ResendText(
 ) {
     Text(
         text = when {
-            state.timerSeconds == 0 -> "Мне нужен новый код"
+            state.timerSeconds == 0L -> "Мне нужен новый код"
             else -> "Не пришёл код?\nОтправим ещё один через ${state.timerSeconds} сек"
         },
         style = MaterialTheme.typography.h5,
@@ -320,7 +320,7 @@ private fun ResendText(
             .padding(bottom = 16.dp)
             .wrapContentSize()
             .clip(MaterialTheme.shapes.large)
-            .clickable(enabled = state.timerSeconds == 0) {
+            .clickable(enabled = state.timerSeconds == 0L) {
                 listener.onResendCodeClicked()
             }
             .padding(vertical = 4.dp, horizontal = 8.dp)

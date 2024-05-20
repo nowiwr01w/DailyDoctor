@@ -1,13 +1,10 @@
 package ui.common.verification
 
+import ResendVerificationCodeCountDownWork
 import base.view_model.BaseViewModel
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
 import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.State
@@ -20,10 +17,13 @@ import usecase.verification.AppCheckVerificationCodeUseCase
 
 class VerificationViewModel(
     scope: CoroutineScope,
-    private val checkVerificationCodeUseCode: AppCheckVerificationCodeUseCase
+    private val checkVerificationCodeUseCode: AppCheckVerificationCodeUseCase,
+    private val resendVerificationCodeCountDownWork: ResendVerificationCodeCountDownWork
 ): BaseViewModel<Event, State, Effect>(scope) {
 
-    override fun setInitialState() = State()
+    override fun setInitialState() = State(
+        timerSeconds = resendVerificationCodeCountDownWork.timerType.startValue
+    )
 
     override fun handleEvents(event: Event) {
         when (event) {
@@ -39,16 +39,9 @@ class VerificationViewModel(
     }
 
     private fun startTimer() = hide {
-        (TIMER_RESEND_VERIFICATION_SECONDS downTo 0 step 1).asSequence()
-            .asFlow()
-            .onEach { secondsLeft ->
-                setState { copy(timerSeconds = secondsLeft) }
-                delay(1000)
-            }
-            .onCompletion {
-                // TODO: Send analytics with (user_id, verification_end_timer) param
-            }
-            .collect()
+        resendVerificationCodeCountDownWork.startWork(scope = this) { secondsLeft ->
+            setState { copy(timerSeconds = secondsLeft) }
+        }
     }
 
     private fun handleUserInput(operation: VerificationEnterCodeOperation) = with(viewState.value) {

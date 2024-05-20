@@ -6,9 +6,6 @@ abstract class Work {
 
     protected lateinit var job: Job
 
-    abstract fun startWork()
-    protected abstract suspend fun onEach(seconds: Long)
-
     protected fun isWorkActive() = job.isActive
 
     protected open suspend fun onStart() {}

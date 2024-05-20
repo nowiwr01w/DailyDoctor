@@ -11,22 +11,23 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-abstract class TimerWork(
-    private val scope: CoroutineScope
-): Work() {
+abstract class TimerWork: Work() {
 
-    protected abstract val timerType: TimerType
+    abstract val timerType: TimerType
 
-    override fun startWork() = scope.launch {
+    private lateinit var coroutineScope: CoroutineScope
+    private lateinit var onTickCallback: suspend (Long) -> Unit
+
+    private fun startWork() = coroutineScope.launch {
         val timerPeriod = when (timerType) {
             is TimerType.Up -> (0..timerType.value)
-            is TimerType.Down -> (timerType.value downTo 1)
+            is TimerType.Down -> (timerType.value downTo 0)
         }
         timerPeriod.asSequence().asFlow()
             .onStart { onStart() }
             .onEach { seconds ->
+                onTickCallback(seconds)
                 delay(1000)
-                onEach(seconds)
             }
             .onCompletion {
                 delay(1000)
@@ -36,5 +37,11 @@ abstract class TimerWork(
             .collect()
     }.let { workJob ->
         job = workJob
+    }
+
+    fun startWork(scope: CoroutineScope, onEachSecondCallback: suspend (Long) -> Unit) {
+        coroutineScope = scope
+        onTickCallback = onEachSecondCallback
+        startWork()
     }
 }

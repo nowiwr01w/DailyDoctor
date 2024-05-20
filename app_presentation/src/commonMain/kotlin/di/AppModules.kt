@@ -17,6 +17,7 @@ private val allModules = listOf(
     moduleDomain,
     moduleData,
     moduleViewModels,
+    moduleAppWorks,
     moduleNavigation,
     moduleCoreUI,
     moduleDomainApp,

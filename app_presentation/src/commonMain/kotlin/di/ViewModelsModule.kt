@@ -1,5 +1,6 @@
 package di
 
+import ResendVerificationCodeCountDownWork
 import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
 import org.kodein.di.DI
@@ -47,7 +48,8 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
     bindFactory<CoroutineScope, VerificationViewModel> { scope ->
         VerificationViewModel(
             scope = scope,
-            checkVerificationCodeUseCode = instance<AppCheckVerificationCodeUseCase>()
+            checkVerificationCodeUseCode = instance<AppCheckVerificationCodeUseCase>(),
+            resendVerificationCodeCountDownWork = instance<ResendVerificationCodeCountDownWork>()
         )
     }
     /**

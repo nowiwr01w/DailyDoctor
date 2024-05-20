@@ -7,8 +7,6 @@ import ui.common.verification.data.VerificationEnterCodeOperation
 import ui.core_ui.components.button.ButtonState
 import ui.core_ui.components.button.ButtonState.DEFAULT
 
-internal const val TIMER_RESEND_VERIFICATION_SECONDS = 60
-
 interface VerificationContract {
 
     sealed interface Event: BaseEvent {
@@ -20,7 +18,7 @@ interface VerificationContract {
 
     data class State(
         val code: List<String> = listOf("", "", "", "", "", ""),
-        val timerSeconds: Int = TIMER_RESEND_VERIFICATION_SECONDS,
+        val timerSeconds: Long,
         val buttonState: ButtonState = DEFAULT
     ): BaseState
 
