@@ -39,6 +39,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(projects.modelShared)
+                implementation(projects.appShared.domain)
                 implementation(libs.bundles.base.app)
             }
         }

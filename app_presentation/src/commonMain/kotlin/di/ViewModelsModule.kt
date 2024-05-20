@@ -1,6 +1,6 @@
 package di
 
-import ResendVerificationCodeCountDownWork
+import ResendVerificationCodeTimerWork
 import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
 import org.kodein.di.DI
@@ -49,7 +49,7 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
         VerificationViewModel(
             scope = scope,
             checkVerificationCodeUseCode = instance<AppCheckVerificationCodeUseCase>(),
-            resendVerificationCodeCountDownWork = instance<ResendVerificationCodeCountDownWork>()
+            resendVerificationCodeTimerWork = instance<ResendVerificationCodeTimerWork>()
         )
     }
     /**

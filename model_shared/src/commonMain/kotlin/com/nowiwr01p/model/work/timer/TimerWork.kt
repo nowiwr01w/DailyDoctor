@@ -2,6 +2,7 @@ package com.nowiwr01p.model.work.timer
 
 import com.nowiwr01p.model.work.Work
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.catch
@@ -15,10 +16,21 @@ abstract class TimerWork: Work() {
 
     abstract val timerType: TimerType
 
-    private lateinit var coroutineScope: CoroutineScope
+    protected lateinit var coroutineScope: CoroutineScope
     private lateinit var onTickCallback: suspend (Long) -> Unit
 
-    private fun startWork() = coroutineScope.launch {
+    fun startWork(
+        scope: CoroutineScope,
+        onEachSecondCallback: suspend (Long) -> Unit
+    ): Job {
+        coroutineScope = scope
+        onTickCallback = onEachSecondCallback
+        return coroutineScope.launch { startWork() }.also { workJob ->
+            job = workJob
+        }
+    }
+
+    private suspend fun startWork() {
         val timerPeriod = when (timerType) {
             is TimerType.Up -> (0..timerType.value)
             is TimerType.Down -> (timerType.value downTo 0)
@@ -35,13 +47,5 @@ abstract class TimerWork: Work() {
             }
             .catch { catchErrors(it) }
             .collect()
-    }.let { workJob ->
-        job = workJob
-    }
-
-    fun startWork(scope: CoroutineScope, onEachSecondCallback: suspend (Long) -> Unit) {
-        coroutineScope = scope
-        onTickCallback = onEachSecondCallback
-        startWork()
     }
 }

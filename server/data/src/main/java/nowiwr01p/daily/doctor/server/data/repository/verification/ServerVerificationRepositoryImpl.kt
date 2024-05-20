@@ -17,9 +17,10 @@ class ServerVerificationRepositoryImpl(
     private val generateCommonTokenUseCase: ServerGenerateCommonTokenUseCase
 ) : ServerVerificationRepository {
 
-    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) {
-        withContext(dispatchers.io) {
-            verificationRepository.sendVerificationCode(request)
+    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest): TokenResponse {
+        return withContext(dispatchers.io) {
+            val token = generateCommonTokenUseCase.execute()
+            verificationRepository.sendVerificationCode(token)
         }
     }
 

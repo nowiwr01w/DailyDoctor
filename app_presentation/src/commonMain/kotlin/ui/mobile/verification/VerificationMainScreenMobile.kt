@@ -80,7 +80,7 @@ internal fun VerificationMainScreenMobile(
             viewModel.setEvent(Event.OnVerifyClicked(email, verificationToken))
         }
         override fun onResendCodeClicked() {
-            viewModel.setEvent(Event.OnResendCodeClicked)
+            viewModel.setEvent(Event.OnResendCodeClicked(email))
         }
         override fun handeUserInput(operation: VerificationEnterCodeOperation) {
             viewModel.setEvent(Event.HandeUserInput(operation))

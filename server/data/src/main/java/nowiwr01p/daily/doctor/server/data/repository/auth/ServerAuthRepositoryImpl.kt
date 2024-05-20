@@ -2,9 +2,8 @@ package nowiwr01p.daily.doctor.server.data.repository.auth
 
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
-import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
 import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
-import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
+import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import com.nowiwr01p.model.usecase.execute
 import kotlinx.coroutines.withContext
@@ -33,15 +32,13 @@ class ServerAuthRepositoryImpl(
         sendVerificationCode(request.email)
     }
 
-    private suspend fun sendVerificationCode(email: String) = run {
+    private suspend fun sendVerificationCode(email: String): TokenResponse {
         val token = generateCommonTokenUseCase.execute()
-        val request = SendVerificationCodeRequest(email = email, token = token)
-        verificationRepository.sendVerificationCode(request)
-        VerificationTokenResponse(token)
+        return verificationRepository.sendVerificationCode(token) // TODO: Send also via Email API
     }
 
-    private suspend fun savePinCode(email: String) = run { // TODO: Save token
-        val token = generateCommonTokenUseCase.execute()
-        PinCodeTokenResponse(token)
+    private suspend fun savePinCode(email: String): TokenResponse {
+        val token = generateCommonTokenUseCase.execute() // TODO: Save token
+        return PinCodeTokenResponse(token)
     }
 }

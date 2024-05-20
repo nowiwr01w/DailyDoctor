@@ -1,6 +1,6 @@
 package ui.common.verification
 
-import ResendVerificationCodeCountDownWork
+import ResendVerificationCodeTimerWork
 import base.view_model.BaseViewModel
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import kotlinx.coroutines.CoroutineScope
@@ -18,18 +18,20 @@ import usecase.verification.AppCheckVerificationCodeUseCase
 class VerificationViewModel(
     scope: CoroutineScope,
     private val checkVerificationCodeUseCode: AppCheckVerificationCodeUseCase,
-    private val resendVerificationCodeCountDownWork: ResendVerificationCodeCountDownWork
+    private val resendVerificationCodeTimerWork: ResendVerificationCodeTimerWork
 ): BaseViewModel<Event, State, Effect>(scope) {
 
+    private var verificationToken = ""
+
     override fun setInitialState() = State(
-        timerSeconds = resendVerificationCodeCountDownWork.timerType.startValue
+        timerSeconds = resendVerificationCodeTimerWork.timerType.startValue
     )
 
     override fun handleEvents(event: Event) {
         when (event) {
             is Event.Init -> init()
             is Event.OnVerifyClicked -> verify(event.email, event.verificationToken)
-            is Event.OnResendCodeClicked -> resend()
+            is Event.OnResendCodeClicked -> resend(event.email)
             is Event.HandeUserInput -> handleUserInput(event.operation)
         }
     }
@@ -39,7 +41,7 @@ class VerificationViewModel(
     }
 
     private fun startTimer() = hide {
-        resendVerificationCodeCountDownWork.startWork(scope = this) { secondsLeft ->
+        resendVerificationCodeTimerWork.startWork(scope = this) { secondsLeft ->
             setState { copy(timerSeconds = secondsLeft) }
         }
     }
@@ -51,15 +53,16 @@ class VerificationViewModel(
         setState { copy(code = updatedCode) }
     }
 
-    private fun resend() = hide {
+    private fun resend(email: String) = hide {
         runCatching {
-
-        }.onSuccess {
-            startTimer()
+            resendVerificationCodeTimerWork.resendCode(email)
+        }.onSuccess { token ->
+            verificationToken = token
         }
     }
 
-    private fun verify(email: String, verificationToken: String) = hide {
+    private fun verify(email: String, token: String) = hide {
+        verificationToken = token
         setState { copy(buttonState = SEND_REQUEST) }
         runCatching {
             val checkVerificationCodeRequest = CheckVerificationCodeRequest(
