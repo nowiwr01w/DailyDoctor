@@ -3,6 +3,7 @@ package api
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
@@ -52,6 +53,12 @@ abstract class BaseApi(override val di: DI): DIAware {
                 setBody(requestBody)
             }
             generateHeaders()
+        }.body<T>()
+    }
+
+    protected suspend inline fun <reified T> deleteHttp(route: String): T {
+        return client.delete {
+            url("$BASE_URL/$route")
         }.body<T>()
     }
 

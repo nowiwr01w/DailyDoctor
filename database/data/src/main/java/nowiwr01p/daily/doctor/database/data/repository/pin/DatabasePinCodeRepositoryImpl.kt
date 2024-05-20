@@ -1,5 +1,9 @@
 package nowiwr01p.daily.doctor.database.data.repository.pin
 
+import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
+import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
+import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
+import com.nowiwr01p.model.api.response.token.TokenResponse
 import nowiwr01p.daily.doctor.database.domain.repository.pin.DatabasePinCodeRepository
 import nowiwr01p.daily.doctor.database.domain.storage.pin.DatabasePinCodeStorage
 
@@ -7,16 +11,19 @@ class DatabasePinCodeRepositoryImpl(
     private val storage: DatabasePinCodeStorage
 ): DatabasePinCodeRepository {
 
-    override suspend fun createPinCode() {
+    override suspend fun createPinCode(request: CreatePinCodeRequest): TokenResponse {
         storage.createPinCode()
+        TODO()
     }
 
-    override suspend fun checkPinCode() {
+    override suspend fun checkPinCode(request: CheckPinCodeRequest): TokenResponse {
         storage.checkPinCode()
+        TODO()
     }
 
-    override suspend fun changePinCode() {
+    override suspend fun changePinCode(request: ChangePinCodeRequest): TokenResponse {
         storage.changePinCode()
+        TODO()
     }
 
     override suspend fun deletePinCode() {

@@ -4,6 +4,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
 import nowiwr01p.daily.doctor.server.routes.auth.AuthRouting
+import nowiwr01p.daily.doctor.server.routes.pin_code.PinCodeRouting
 import nowiwr01p.daily.doctor.server.routes.verification.VerificationRouting
 import org.kodein.di.DI
 import org.kodein.di.instance
@@ -11,6 +12,7 @@ import org.kodein.di.instance
 fun Application.configureRouting(di: DI) = routing {
     configureAuthRouting(di)
     configureVerificationCodeRouting(di)
+    configurePinCodeRouting(di)
 }
 
 private fun Route.configureAuthRouting(di: DI) {
@@ -23,4 +25,12 @@ private fun Route.configureVerificationCodeRouting(di: DI) {
     val verificationRouting by di.instance<VerificationRouting>()
     verificationRouting.sendVerificationCode(this)
     verificationRouting.checkVerificationCode(this)
+}
+
+private fun Route.configurePinCodeRouting(di: DI) {
+    val pinCodeRouting by di.instance<PinCodeRouting>()
+    pinCodeRouting.createPinCode(this)
+    pinCodeRouting.checkPinCode(this)
+    pinCodeRouting.changePinCode(this)
+    pinCodeRouting.deletePinCode(this)
 }

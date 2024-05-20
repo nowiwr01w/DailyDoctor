@@ -3,6 +3,5 @@ package com.nowiwr01p.model.api.request.pin
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreatePinCodeRequest(
-    val code: String
-)
+class ChangePinCodeRequest {
+}

@@ -7,6 +7,11 @@ import io.ktor.server.routing.RoutingContext
 
 abstract class BaseRouting {
 
+    protected suspend fun RoutingContext.sendSuccess() = call.respond(
+        status = HttpStatusCode.OK,
+        message = OK
+    )
+
     protected suspend inline fun <reified T> RoutingContext.sendNoRequestError(): Nothing {
         sendError(
             code = HttpStatusCode.InternalServerError,
@@ -28,6 +33,7 @@ abstract class BaseRouting {
     }
 
     private companion object {
+        const val OK = "Ok"
         const val SERVER_ERROR = "Unexpected error"
     }
 }

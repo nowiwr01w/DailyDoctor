@@ -1,8 +1,13 @@
 package nowiwr01p.daily.doctor.database.domain.repository.pin
 
+import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
+import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
+import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
+import com.nowiwr01p.model.api.response.token.TokenResponse
+
 interface DatabasePinCodeRepository {
-    suspend fun createPinCode()
-    suspend fun checkPinCode()
-    suspend fun changePinCode()
+    suspend fun createPinCode(request: CreatePinCodeRequest): TokenResponse
+    suspend fun checkPinCode(request: CheckPinCodeRequest): TokenResponse
+    suspend fun changePinCode(request: ChangePinCodeRequest): TokenResponse
     suspend fun deletePinCode()
 }
