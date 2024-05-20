@@ -15,6 +15,9 @@ import ui.common.verification.VerificationViewModel
 import ui.core_ui.helpers.snack_bar.SnackBarHelper
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignUpUseCase
+import usecase.pin.AppChangePinCodeUseCase
+import usecase.pin.AppCheckPinCodeUseCase
+import usecase.pin.AppCreatePinCodeUseCase
 import usecase.verification.AppCheckVerificationCodeUseCase
 
 val moduleViewModels = DI.Module("ViewModelsModule") {
@@ -56,7 +59,12 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
      * PIN CODE
      */
     bindFactory<CoroutineScope, PinCodeViewModel> { scope ->
-        PinCodeViewModel(scope)
+        PinCodeViewModel(
+            scope = scope,
+            checkPinCodeUseCase = instance<AppCheckPinCodeUseCase>(),
+            createPinCodeUseCase = instance<AppCreatePinCodeUseCase>(),
+            changePinCodeUseCase = instance<AppChangePinCodeUseCase>()
+        )
     }
     /**
      * HOME

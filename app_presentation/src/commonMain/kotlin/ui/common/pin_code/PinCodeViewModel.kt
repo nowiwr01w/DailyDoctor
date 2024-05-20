@@ -6,8 +6,16 @@ import ui.common.pin_code.PinCodeContract.Effect
 import ui.common.pin_code.PinCodeContract.Event
 import ui.common.pin_code.PinCodeContract.State
 import ui.common.pin_code.data.PinCodeOperation
+import usecase.pin.AppChangePinCodeUseCase
+import usecase.pin.AppCheckPinCodeUseCase
+import usecase.pin.AppCreatePinCodeUseCase
 
-class PinCodeViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope)  {
+class PinCodeViewModel(
+    scope: CoroutineScope,
+    private val checkPinCodeUseCase: AppCheckPinCodeUseCase,
+    private val createPinCodeUseCase: AppCreatePinCodeUseCase,
+    private val changePinCodeUseCase: AppChangePinCodeUseCase
+): BaseViewModel<Event, State, Effect>(scope)  {
 
     override fun setInitialState() = State()
 

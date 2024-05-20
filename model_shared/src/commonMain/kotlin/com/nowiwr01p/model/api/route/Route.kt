@@ -25,6 +25,7 @@ sealed class VerificationRoutes(override val route: String): Route {
  */
 sealed class PinCodeRoutes(override val route: String): Route {
     data object CreatePinRoute: AuthRoutes("v1/pin/create")
+    data object CheckPinRoute: AuthRoutes("v1/pin/check")
     data object ChangePinRoute: AuthRoutes("v1/pin/change")
-    data object ForgotPinRoute: AuthRoutes("v1/pin/forgot")
+    data object DeletePinRoute: AuthRoutes("v1/pin/delete")
 }
