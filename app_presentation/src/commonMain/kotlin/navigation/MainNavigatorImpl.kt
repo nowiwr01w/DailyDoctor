@@ -16,6 +16,7 @@ import navigation.onboarding.OnboardingNavigator
 import navigation.pin_code.PinCodeNavigator
 import navigation.splash.SplashNavigator
 import ui.common.onboarding.data.OnboardingItem
+import ui.common.pin_code.data.PinCodeMode
 
 class MainNavigatorImpl(
     appContext: ComponentContext,
@@ -57,8 +58,8 @@ class MainNavigatorImpl(
             child = VerificationChild(email, verificationToken)
         )
         @Serializable
-        data object PinCode: AppNavigationConfig(
-            child = PinCodeChild
+        data class PinCode(val pinCodeMode: PinCodeMode): AppNavigationConfig(
+            child = PinCodeChild(pinCodeMode)
         )
     }
 

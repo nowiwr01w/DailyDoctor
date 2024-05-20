@@ -72,6 +72,7 @@ import ui.common.auth.AuthContract.State
 import ui.common.auth.AuthViewModel
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
+import ui.common.pin_code.data.PinCodeMode.CHECK
 import ui.core_ui.components.button.ButtonState.DEFAULT
 import ui.core_ui.components.button.StateButton
 import ui.core_ui.components.input_field.CustomTextField
@@ -110,7 +111,7 @@ internal fun AuthMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is NavigateToPin -> {
-                navigator.pinCodeNavigator.navigateToPinCode()
+                navigator.pinCodeNavigator.navigateToPinCode(CHECK)
             }
             is NavigateToVerification -> {
                 navigator.authNavigator.navigateToVerification(effect.email, effect.token)

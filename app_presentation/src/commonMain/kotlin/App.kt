@@ -123,9 +123,10 @@ private fun AppContent(
                 verificationToken = child.verificationToken,
                 navigator = navigator
             )
-            is PinCodeChild -> {
-                PinCodeMainScreenMobile(navigator)
-            }
+            is PinCodeChild -> PinCodeMainScreenMobile(
+                navigator = navigator,
+                mode = child.pinCodeMode
+            )
         }
     }
     subscribeOnSnackBar()() // (*)(*)

@@ -11,6 +11,7 @@ import navigation.onboarding.OnboardingNavigator
 import navigation.pin_code.PinCodeNavigator
 import navigation.splash.SplashNavigator
 import ui.common.onboarding.data.OnboardingItem
+import ui.common.pin_code.data.PinCodeMode
 
 interface MainNavigator {
 
@@ -26,9 +27,20 @@ interface MainNavigator {
         val animation: StackAnimator = slide()
     ) {
         data object SplashChild: Child()
-        data class OnboardingChild(val onboardingItem: OnboardingItem): Child()
+
+        data class OnboardingChild(
+            val onboardingItem: OnboardingItem
+        ): Child()
+
         data object AuthChild: Child()
-        data class VerificationChild(val email: String, val verificationToken: String): Child()
-        data object PinCodeChild: Child()
+
+        data class VerificationChild(
+            val email: String,
+            val verificationToken: String
+        ): Child()
+
+        data class PinCodeChild(
+            val pinCodeMode: PinCodeMode
+        ): Child()
     }
 }

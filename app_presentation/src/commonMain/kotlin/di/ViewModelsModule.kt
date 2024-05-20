@@ -18,6 +18,7 @@ import usecase.auth.AppSignUpUseCase
 import usecase.pin.AppChangePinCodeUseCase
 import usecase.pin.AppCheckPinCodeUseCase
 import usecase.pin.AppCreatePinCodeUseCase
+import usecase.pin.AppDeletePinCodeUseCase
 import usecase.verification.AppCheckVerificationCodeUseCase
 
 val moduleViewModels = DI.Module("ViewModelsModule") {
@@ -63,7 +64,8 @@ val moduleViewModels = DI.Module("ViewModelsModule") {
             scope = scope,
             checkPinCodeUseCase = instance<AppCheckPinCodeUseCase>(),
             createPinCodeUseCase = instance<AppCreatePinCodeUseCase>(),
-            changePinCodeUseCase = instance<AppChangePinCodeUseCase>()
+            changePinCodeUseCase = instance<AppChangePinCodeUseCase>(),
+            deletePinCodeUseCase = instance<AppDeletePinCodeUseCase>()
         )
     }
     /**

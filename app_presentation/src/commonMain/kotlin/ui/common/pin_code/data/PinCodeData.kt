@@ -4,10 +4,9 @@ import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_delete
 import dailydoctor.app_presentation.generated.resources.ic_fingerprint
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import ui.common.pin_code.data.PinCodeData.*
+import ui.common.pin_code.data.PinCodeData.PinCodeDigit
+import ui.common.pin_code.data.PinCodeData.PinCodeIcon
 
-@OptIn(ExperimentalResourceApi::class)
 sealed class PinCodeData(
     open val value: Any
 ) {
@@ -26,7 +25,6 @@ enum class PinCodeIconType {
     REMOVE_DIGIT
 }
 
-@OptIn(ExperimentalResourceApi::class)
 internal val pinCodeData = listOf(
     PinCodeDigit("1"),
     PinCodeDigit("2"),

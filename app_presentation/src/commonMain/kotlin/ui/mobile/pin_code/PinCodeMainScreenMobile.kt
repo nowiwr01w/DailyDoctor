@@ -42,14 +42,15 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.kodein.di.compose.rememberInstance
 import platform.getScreenWidth
-import ui.common.pin_code.PinCodeContract
+import ui.common.pin_code.PinCodeContract.Event
 import ui.common.pin_code.PinCodeContract.Listener
 import ui.common.pin_code.PinCodeContract.State
 import ui.common.pin_code.PinCodeViewModel
 import ui.common.pin_code.data.PinCodeData
-import ui.common.pin_code.data.PinCodeData.*
-import ui.common.pin_code.data.*
+import ui.common.pin_code.data.PinCodeData.PinCodeDigit
+import ui.common.pin_code.data.PinCodeData.PinCodeIcon
 import ui.common.pin_code.data.PinCodeIconType
+import ui.common.pin_code.data.PinCodeMode
 import ui.common.pin_code.data.PinCodeOperation
 import ui.common.pin_code.data.PinCodeState
 import ui.common.pin_code.data.PinCodeState.DEFAULT
@@ -63,6 +64,7 @@ import ui.core_ui.helpers.window_insets.WindowColorsData
 @Composable
 fun PinCodeMainScreenMobile(
     navigator: MainNavigator,
+    mode: PinCodeMode,
     viewModel: PinCodeViewModel = rememberViewModel()
 ) {
     val appWindowColorsHelper by rememberInstance<AppWindowColorsHelper>()
@@ -72,15 +74,16 @@ fun PinCodeMainScreenMobile(
 
     val listener = object : Listener {
         override fun handleUserInput(operation: PinCodeOperation) {
-            viewModel.setEvent(PinCodeContract.Event.HandleUserInput(operation))
+            viewModel.setEvent(Event.HandleUserInput(operation))
         }
         override fun requestBiometric() {
-            // TODO
+            // TODO: Some expect/actual hard things
         }
     }
 
     LaunchedEffect(Unit) {
-        appWindowColorsHelper.setAppWindowColors(onboardingScreenColors)
+        appWindowColorsHelper.setAppWindowColors(onboardingScreenColors) // TODO: Remove
+        viewModel.setEvent(Event.Init(mode))
     }
 
     PinCodeMainScreenMobileContent(

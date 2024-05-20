@@ -55,6 +55,7 @@ import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
 import navigation.MainNavigator
 import platform.getScreenWidth
+import ui.common.pin_code.data.PinCodeMode.CREATE
 import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.Listener
@@ -94,7 +95,7 @@ internal fun VerificationMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is Effect.NavigateToPinCode -> {
-               navigator.pinCodeNavigator.navigateToPinCode()
+               navigator.pinCodeNavigator.navigateToPinCode(CREATE)
             }
         }
     }
