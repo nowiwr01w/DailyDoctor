@@ -9,17 +9,19 @@ class ResendVerificationCodeTimerWork(
 
     private var isResendAvailable = false
 
-    override val timerType = TimerType.Down(startValue = 60L)
+    override val timerType = TimerType.Down(startValue = 60)
 
     override suspend fun onCompletion() {
         isResendAvailable = true
         // TODO: Send analytics with (user_id, verification_end_timer) param
     }
 
-    suspend fun resendCode(email: String): String {
+    suspend fun resendCode(email: String) = if (isResendAvailable) {
         val request = SendVerificationCodeRequest(email)
         val token = sendVerificationCodeUseCase.execute(request).token
         isResendAvailable = false
-        return token
+        token
+    } else {
+        throw IllegalStateException("Resend is unavailable because of timing.")
     }
 }

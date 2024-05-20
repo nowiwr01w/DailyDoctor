@@ -12,16 +12,16 @@ sealed interface TokenResponse {
 data class VerificationTokenResponse(
     @SerialName("token")
     override val token: String
-): TokenResponse
+) : TokenResponse
 
 @Serializable
 data class PinCodeTokenResponse(
     @SerialName("token")
     override val token: String
-): TokenResponse
+) : TokenResponse
 
 @Serializable
 data class AuthBearerTokenResponse(
     @SerialName("token")
     override val token: String
-): TokenResponse
+) : TokenResponse

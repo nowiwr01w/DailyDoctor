@@ -4,6 +4,7 @@ import ResendVerificationCodeTimerWork
 import base.view_model.BaseViewModel
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
@@ -21,7 +22,8 @@ class VerificationViewModel(
     private val resendVerificationCodeTimerWork: ResendVerificationCodeTimerWork
 ): BaseViewModel<Event, State, Effect>(scope) {
 
-    private var verificationToken = ""
+    private var verificationTokenFromResend = ""
+    private var verificationResendTimerJob: Job? = null
 
     override fun setInitialState() = State(
         timerSeconds = resendVerificationCodeTimerWork.timerType.startValue
@@ -43,6 +45,8 @@ class VerificationViewModel(
     private fun startTimer() = hide {
         resendVerificationCodeTimerWork.startWork(scope = this) { secondsLeft ->
             setState { copy(timerSeconds = secondsLeft) }
+        }.let {
+            verificationResendTimerJob = it
         }
     }
 
@@ -57,18 +61,19 @@ class VerificationViewModel(
         runCatching {
             resendVerificationCodeTimerWork.resendCode(email)
         }.onSuccess { token ->
-            verificationToken = token
+            verificationTokenFromResend = token
+            verificationResendTimerJob?.cancel()
+            startTimer()
         }
     }
 
     private fun verify(email: String, token: String) = hide {
-        verificationToken = token
         setState { copy(buttonState = SEND_REQUEST) }
         runCatching {
             val checkVerificationCodeRequest = CheckVerificationCodeRequest(
                 email = email,
                 code = viewState.value.code.joinToString(separator = ""),
-                verificationToken = verificationToken
+                verificationToken = verificationTokenFromResend.ifEmpty { token }
             )
             checkVerificationCodeUseCode.execute(checkVerificationCodeRequest)
         }.onSuccess {

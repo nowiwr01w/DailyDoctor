@@ -1,5 +1,6 @@
 package nowiwr01p.daily.doctor.database.data.storage.verification
 
+import com.nowiwr01p.model.time.TimeInSeconds
 import nowiwr01p.daily.doctor.database.domain.storage.verification.DatabaseVerificationStorage
 import nowiwr01p.daily.doctor.database.tables.table.verification.VerificationCodeEntity
 import nowiwr01p.daily.doctor.database.tables.table.verification.VerificationCodeTable
@@ -11,7 +12,7 @@ class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
 
     override fun getVerificationCode(verificationToken: String) = transaction {
         VerificationCodeEntity.find { VerificationCodeTable.verificationToken eq verificationToken }
-            .maxByOrNull { it.timestamp }
+            .firstOrNull()
             ?.toVerificationCode()
     }
 
@@ -27,12 +28,10 @@ class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
 
     override fun deleteExpiredVerificationCodes() { // TODO: Create micro service
         transaction {
-            val expiredTime = System.currentTimeMillis() - VERIFICATION_CODE_EXPIRE_TIME
+            val expiredTime = run {
+                System.currentTimeMillis() - TimeInSeconds.PeriodMinutes(15).toMillis()
+            }
             VerificationCodeTable.deleteWhere { timestamp lessEq expiredTime }
         }
-    }
-
-    companion object {
-        const val VERIFICATION_CODE_EXPIRE_TIME = 1 * 60 * 1000
     }
 }
