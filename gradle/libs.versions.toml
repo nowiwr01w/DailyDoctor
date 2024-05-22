@@ -38,7 +38,10 @@ kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 ### KODEIN ###
 ############
 koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+koin-ktor-logger = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
 kodein = { module = "org.kodein.di:kodein-di", version.ref = "kodein" }
 kodein-compose = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
 #################
@@ -143,7 +146,9 @@ server = [
     "ktor-server-netty",
     "ktor-server-auth",
     "ktor-server-auth-jwt",
-    "ktor-forwarded-header"
+    "ktor-forwarded-header",
+    "koin-ktor",
+    "koin-ktor-logger"
 ]
 database = [
     "kodein",

@@ -4,23 +4,21 @@ import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import com.nowiwr01p.model.coroutines.app_scope.AppScopeImpl
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchersImpl
-import org.kodein.di.DI
-import org.kodein.di.bindSingleton
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-val moduleBaseCoroutines = DI.Module("BaseCoroutinesModule") {
+val moduleBaseCoroutines = module {
     /**
      * DISPATCHERS
      */
-    bindSingleton<AppDispatchers> {
+    single<AppDispatchers> {
         AppDispatchersImpl()
     }
     /**
      * APP SCOPE
      */
-    bindSingleton<AppScope> {
+    single<AppScope> {
         AppScopeImpl(
-            dispatchers = instance<AppDispatchers>()
+            dispatchers = get<AppDispatchers>()
         )
     }
 }

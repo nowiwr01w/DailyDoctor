@@ -12,7 +12,6 @@ internal val moduleServerWorks = DI.Module("ServerWorksModule") {
      */
     bindSingleton {
         ServerDeleteExpiredVerificationCodesWork(
-            di = di,
             deleteExpiredVerificationCodesUseCase = instance<ServerDeleteExpiredVerificationCodesUseCase>()
         )
     }

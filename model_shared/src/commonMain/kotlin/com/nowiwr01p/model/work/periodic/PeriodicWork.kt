@@ -11,12 +11,12 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import org.kodein.di.DI
-import org.kodein.di.instance
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-abstract class PeriodicWork(di: DI): Work() {
+abstract class PeriodicWork: Work(), KoinComponent {
 
-    private val appScope by di.instance<AppScope>()
+    private val appScope by inject<AppScope>()
 
     protected abstract val periodType: TimeInSeconds
     protected abstract suspend fun onEach(seconds: Long)

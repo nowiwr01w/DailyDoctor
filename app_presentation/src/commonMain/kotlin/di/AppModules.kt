@@ -12,7 +12,6 @@ import ui.core_ui.di.moduleCoreUI
 
 private val allModules = listOf(
     moduleConfig,
-    moduleBaseCoroutines,
     moduleTheme,
     moduleUserDataValidators,
     moduleDomain,
@@ -26,6 +25,7 @@ private val allModules = listOf(
 )
 
 val koinModules = listOf(
+    moduleBaseCoroutines,
     createSettingsModule()
 )
 

@@ -1,9 +1,11 @@
 package nowiwr01p.daily.doctor.server.main
 
 import io.ktor.server.application.Application
+import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import nowiwr01p.daily.doctor.database.connectDatabase
+import nowiwr01p.daily.doctor.server.di.koinModules
 import nowiwr01p.daily.doctor.server.di.serverModules
 import nowiwr01p.daily.doctor.server.main.plugins.configureAuthentication
 import nowiwr01p.daily.doctor.server.main.plugins.configureCookies
@@ -14,6 +16,9 @@ import nowiwr01p.daily.doctor.server.main.plugins.configureSerialization
 import nowiwr01p.daily.doctor.server.works.scheduleServerWorks
 import org.kodein.di.DI
 import org.kodein.di.DIAware
+import org.koin.core.logger.Level
+import org.koin.ktor.plugin.Koin
+import org.koin.logger.slf4jLogger
 
 fun main() {
     DailyDoctorServer(serverModules)
@@ -40,6 +45,7 @@ private fun connectServer(di: DI) = embeddedServer(
  * SERVER MODULES
  */
 private fun Application.setApplicationModule(di: DI) {
+    setKoin()
     configureRouting(di)
     configureAuthentication(di)
     configureCookies()
@@ -47,4 +53,12 @@ private fun Application.setApplicationModule(di: DI) {
     configureLogging()
     configureSerialization()
 //    configureHttps()
+}
+
+/**
+ * SETUP KOIN
+ */
+private fun Application.setKoin() = install(Koin) {
+    slf4jLogger(level = Level.DEBUG)
+    modules(koinModules)
 }

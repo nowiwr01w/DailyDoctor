@@ -38,7 +38,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.kodein.compose)
+                implementation(libs.koin)
                 implementation(libs.coroutines)
                 implementation(libs.kotlin.serialization.json)
             }
