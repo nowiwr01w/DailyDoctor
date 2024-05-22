@@ -9,15 +9,16 @@ import nowiwr01p.daily.doctor.server.token.user.config.UserTokenConfig
 import nowiwr01p.daily.doctor.server.token.user.config.UserTokenConfigImpl
 import nowiwr01p.daily.doctor.server.token.user.repository.ServerUserTokenRepository
 import nowiwr01p.daily.doctor.server.token.user.repository.ServerUserTokenRepositoryImpl
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-internal val moduleServerToken = DI.Module("ServerTokenModule") {
+internal val moduleServerToken = module {
     /**
      * USER TOKEN
      */
-    bindProvider<UserTokenConfig> {
+    /**
+     * USER TOKEN
+     */
+    factory<UserTokenConfig> {
         UserTokenConfigImpl(
             issuer = "https://dailydoctor.ge/",
             audience = "https://dailydoctor.ge/api",
@@ -25,16 +26,19 @@ internal val moduleServerToken = DI.Module("ServerTokenModule") {
             secretKey = "v5qM9ll8QRdV81WpFcgzci1UNcY2vKm6c+yYNKMg6Zw+GjLevrMGtGBRNq7897npI7LBsu9T43F+E/Jmg26vRw=="
         )
     }
-    bindProvider<ServerUserTokenRepository> {
-        ServerUserTokenRepositoryImpl(config = instance<UserTokenConfig>())
+    factory<ServerUserTokenRepository> {
+        ServerUserTokenRepositoryImpl(config = get<UserTokenConfig>())
     }
     /**
      * COMMON TOKEN
      */
-    bindProvider<ServerCommonTokenRepository> {
-        ServerCommonTokenRepositoryImpl(dispatchers = instance<AppDispatchers>())
+    /**
+     * COMMON TOKEN
+     */
+    factory<ServerCommonTokenRepository> {
+        ServerCommonTokenRepositoryImpl(dispatchers = get<AppDispatchers>())
     }
-    bindProvider<ServerGenerateCommonTokenUseCase> {
-        ServerGenerateCommonTokenUseCaseImpl(repository = instance<ServerCommonTokenRepository>())
+    factory<ServerGenerateCommonTokenUseCase> {
+        ServerGenerateCommonTokenUseCaseImpl(repository = get<ServerCommonTokenRepository>())
     }
 }

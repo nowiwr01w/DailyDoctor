@@ -9,16 +9,15 @@ import nowiwr01p.daily.doctor.server.di.usecase.moduleServerUseCases
 import nowiwr01p.daily.doctor.server.di.work.moduleServerWorks
 import org.kodein.di.DI
 
-private val allServerModules = listOf(
+private val allServerModules = databaseModules
+
+val koinModules = listOf(
     moduleServerToken,
+    moduleBaseCoroutines,
     moduleServerRepository,
     moduleServerUseCases,
     moduleServerRouting,
     moduleServerWorks
-) + databaseModules
-
-val koinModules = listOf(
-    moduleBaseCoroutines
 )
 
 val serverModules = DI {

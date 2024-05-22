@@ -11,38 +11,36 @@ import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerSendVerif
 import nowiwr01p.daily.doctor.server.routes.auth.AuthRouting
 import nowiwr01p.daily.doctor.server.routes.pin_code.PinCodeRouting
 import nowiwr01p.daily.doctor.server.routes.verification.VerificationRouting
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-internal val moduleServerRouting = DI.Module("ServerRoutingModule") {
+internal val moduleServerRouting = module {
     /**
      * AUTH
      */
-    bindProvider {
+    factory {
         AuthRouting(
-            serverSignInUseCase = instance<ServerSignInUseCase>(),
-            serverSignUpUseCase = instance<ServerSignUpUseCase>()
+            serverSignInUseCase = get<ServerSignInUseCase>(),
+            serverSignUpUseCase = get<ServerSignUpUseCase>()
         )
     }
     /**
      * VERIFICATION
      */
-    bindProvider {
+    factory {
         VerificationRouting(
-            serverSendVerificationCodeUseCase = instance<ServerSendVerificationCodeUseCase>(),
-            serverCheckVerificationCodeUseCase = instance<ServerCheckVerificationCodeUseCase>()
+            serverSendVerificationCodeUseCase = get<ServerSendVerificationCodeUseCase>(),
+            serverCheckVerificationCodeUseCase = get<ServerCheckVerificationCodeUseCase>()
         )
     }
     /**
      * PIN
      */
-    bindProvider {
+    factory {
         PinCodeRouting(
-            changePinCodeUseCase = instance<ServerChangePinCodeUseCase>(),
-            createPinCodeUseCase = instance<ServerCreatePinCodeUseCase>(),
-            deletePinCodeUseCase = instance<ServerDeletePinCodeUseCase>(),
-            checkPinCodeUseCase = instance<ServerCheckPinCodeUseCase>()
+            changePinCodeUseCase = get<ServerChangePinCodeUseCase>(),
+            createPinCodeUseCase = get<ServerCreatePinCodeUseCase>(),
+            deletePinCodeUseCase = get<ServerDeletePinCodeUseCase>(),
+            checkPinCodeUseCase = get<ServerCheckPinCodeUseCase>()
         )
     }
 }

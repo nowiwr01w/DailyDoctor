@@ -11,39 +11,46 @@ import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
 import nowiwr01p.daily.doctor.server.domain.repository.pin.ServerPinCodeRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 import nowiwr01p.daily.doctor.server.token.common.usecase.ServerGenerateCommonTokenUseCase
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-internal val moduleServerRepository = DI.Module("ServerRepositoryModule") {
+internal val moduleServerRepository = module {
     /**
      * AUTH
      */
-    bindProvider<ServerAuthRepository> {
+    /**
+     * AUTH
+     */
+    factory<ServerAuthRepository> {
         ServerAuthRepositoryImpl(
-            dispatchers = instance<AppDispatchers>(),
-            authRepository = instance<DatabaseAuthRepository>(),
-            verificationRepository = instance<DatabaseVerificationRepository>(),
-            generateCommonTokenUseCase = instance<ServerGenerateCommonTokenUseCase>()
+            dispatchers = get<AppDispatchers>(),
+            authRepository = get<DatabaseAuthRepository>(),
+            verificationRepository = get<DatabaseVerificationRepository>(),
+            generateCommonTokenUseCase = get<ServerGenerateCommonTokenUseCase>()
         )
     }
     /**
      * VERIFICATION
      */
-    bindProvider<ServerVerificationRepository> {
+    /**
+     * VERIFICATION
+     */
+    factory<ServerVerificationRepository> {
         ServerVerificationRepositoryImpl(
-            dispatchers = instance<AppDispatchers>(),
-            verificationRepository = instance<DatabaseVerificationRepository>(),
-            generateCommonTokenUseCase = instance<ServerGenerateCommonTokenUseCase>()
+            dispatchers = get<AppDispatchers>(),
+            verificationRepository = get<DatabaseVerificationRepository>(),
+            generateCommonTokenUseCase = get<ServerGenerateCommonTokenUseCase>()
         )
     }
     /**
      * PIN
      */
-    bindProvider<ServerPinCodeRepository> {
+    /**
+     * PIN
+     */
+    factory<ServerPinCodeRepository> {
         ServerPinCodeRepositoryImpl(
-            dispatchers = instance<AppDispatchers>(),
-            repository = instance<DatabasePinCodeRepository>()
+            dispatchers = get<AppDispatchers>(),
+            repository = get<DatabasePinCodeRepository>()
         )
     }
 }
