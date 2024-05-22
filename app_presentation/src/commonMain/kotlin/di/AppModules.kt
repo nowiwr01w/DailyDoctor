@@ -22,7 +22,10 @@ private val allModules = listOf(
     moduleNavigation,
     moduleCoreUI,
     moduleDomainApp,
-    moduleAppData,
+    moduleAppData
+)
+
+val koinModules = listOf(
     createSettingsModule()
 )
 

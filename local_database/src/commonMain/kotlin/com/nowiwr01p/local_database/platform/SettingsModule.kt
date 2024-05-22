@@ -1,5 +1,5 @@
 package com.nowiwr01p.local_database.platform
 
-import org.kodein.di.DI
+import org.koin.core.module.Module
 
-expect fun createSettingsModule(): DI.Module
+expect fun createSettingsModule(): Module

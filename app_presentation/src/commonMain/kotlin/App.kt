@@ -23,6 +23,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import di.appModules
+import di.koinModules
 import navigation.MainNavigator
 import navigation.MainNavigator.Child.AuthChild
 import navigation.MainNavigator.Child.OnboardingChild
@@ -32,6 +33,7 @@ import navigation.MainNavigator.Child.VerificationChild
 import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.rememberInstance
 import org.kodein.di.compose.withDI
+import org.koin.core.context.startKoin
 import ui.common.onboarding.data.OnboardingItem
 import ui.core_ui.components.snack_bar.SnackBar
 import ui.core_ui.helpers.snack_bar.SnackBarHelper
@@ -44,8 +46,13 @@ import ui.mobile.pin_code.PinCodeMainScreenMobile
 import ui.mobile.splash.SplashMainScreenMobile
 import ui.mobile.verification.VerificationMainScreenMobile
 
+fun initKoin() = startKoin {
+    modules(koinModules)
+}
+
 @Composable
 fun App(context: ComponentContext) = withDI(appModules) {
+    initKoin()
     val mainNavigatorFactory by rememberFactory<ComponentContext, MainNavigator>()
     val mainNavigator = mainNavigatorFactory(context)
     startLogger()

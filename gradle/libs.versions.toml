@@ -37,6 +37,8 @@ kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 ############
 ### KODEIN ###
 ############
+koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 kodein = { module = "org.kodein.di:kodein-di", version.ref = "kodein" }
 kodein-compose = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
 #################
@@ -87,6 +89,7 @@ kottie = { module = "io.github.ismai117:kottie", version.ref = "kottie" }
 
 [bundles]
 base-app = [
+    "koin",
     "kodein-compose",
     "decompose",
     "decompose-extensions",
@@ -150,6 +153,7 @@ database = [
 local-database = [
     "datastore",
     "kodein",
+    "koin",
     "coroutines",
     "kotlin-date-time",
     "kotlin-serialization-json"
@@ -193,6 +197,7 @@ essenty = "2.0.0-alpha07"
 ##############
 ### KODEIN ###
 ##############
+koin = "3.6.0-wasm-alpha2"
 kodein = "7.21.2"
 #################
 ### DATASTORE ###

@@ -1,14 +1,14 @@
 package com.nowiwr01p.local_database.platform
 
 import com.nowiwr01p.model.settings.SettingsType
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
+import org.koin.android.ext.koin.androidApplication
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-actual fun createSettingsModule() = DI.Module("SettingsModuleWasmJs") {
+actual fun createSettingsModule() = module {
     SettingsType.entries.forEach { settingsType ->
-        bindProvider(settingsType) {
-//            Settings(context).createSettings(settingsType)
-            // TODO
+        factory(named(settingsType)) {
+            Settings(androidApplication()).createSettings(settingsType)
         }
     }
 }

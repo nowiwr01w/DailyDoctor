@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.ide.kmp.KotlinAndroidSourceSetMarker.Companion.android
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
@@ -46,6 +47,9 @@ kotlin {
                  * DEPENDENCIES
                  */
                 implementation(libs.bundles.local.database)
+            }
+            androidMain.dependencies {
+                implementation(libs.koin.android)
             }
         }
     }
