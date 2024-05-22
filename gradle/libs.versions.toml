@@ -74,12 +74,12 @@ ktor-client-desktop = { module = "io.ktor:ktor-client-cio", version.ref = "ktor"
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor-server" }
-ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor-server" }
-ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor-server" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor-server" }
-ktor-forwarded-header = { module = "io.ktor:ktor-server-forwarded-header", version.ref = "ktor-server" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor-server" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
+ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-forwarded-header = { module = "io.ktor:ktor-server-forwarded-header", version.ref = "ktor" }
+ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
 ###############
 ### BACKEND ###
 ###############
@@ -135,7 +135,7 @@ web = [
     "ktor-client-js"
 ]
 server = [
-    "kodein",
+    "koin-ktor",
     "coroutines",
     "kotlin-date-time",
     "kotlin-serialization-json",
@@ -151,7 +151,7 @@ server = [
     "koin-ktor-logger"
 ]
 database = [
-    "kodein",
+    "koin",
     "exposed",
     "postgree"
 ]
@@ -225,7 +225,6 @@ coil = "3.0.0-alpha06"
 ### KTOR ###
 ############
 ktor = "3.0.0-wasm2"
-ktor-server = "2.3.10"
 ktor-plugin = "3.0.0-beta-1"
 ##############
 ### BACKEND ###

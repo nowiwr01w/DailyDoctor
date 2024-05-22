@@ -7,27 +7,25 @@ import nowiwr01p.daily.doctor.database.domain.generator.VerificationCodeGenerato
 import nowiwr01p.daily.doctor.database.domain.storage.pin.DatabasePinCodeStorage
 import nowiwr01p.daily.doctor.database.domain.storage.user.DatabaseUserStorage
 import nowiwr01p.daily.doctor.database.domain.storage.verification.DatabaseVerificationStorage
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-internal val moduleDatabaseStorage = DI.Module("DatabaseStorageModule") {
+internal val moduleDatabaseStorage = module {
     /**
      * USER
      */
-    bindProvider<DatabaseUserStorage> {
+    factory<DatabaseUserStorage> {
         DatabaseUserStorageImpl()
     }
     /**
      * VERIFICATION
      */
-    bindProvider<DatabaseVerificationStorage> {
-        DatabaseVerificationStorageImpl(generator = instance<VerificationCodeGenerator>())
+    factory<DatabaseVerificationStorage> {
+        DatabaseVerificationStorageImpl(generator = get<VerificationCodeGenerator>())
     }
     /**
      * PIN
      */
-    bindProvider<DatabasePinCodeStorage> {
+    factory<DatabasePinCodeStorage> {
         DatabasePinCodeStorageImpl()
     }
 }

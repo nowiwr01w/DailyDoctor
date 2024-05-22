@@ -7,11 +7,8 @@ import nowiwr01p.daily.doctor.server.di.routing.moduleServerRouting
 import nowiwr01p.daily.doctor.server.di.token.moduleServerToken
 import nowiwr01p.daily.doctor.server.di.usecase.moduleServerUseCases
 import nowiwr01p.daily.doctor.server.di.work.moduleServerWorks
-import org.kodein.di.DI
 
-private val allServerModules = databaseModules
-
-val koinModules = listOf(
+private val allServerModules = listOf(
     moduleServerToken,
     moduleBaseCoroutines,
     moduleServerRepository,
@@ -20,9 +17,4 @@ val koinModules = listOf(
     moduleServerWorks
 )
 
-val serverModules = DI {
-    importAll(
-        modules = allServerModules,
-        allowOverride = true
-    )
-}
+val serverModules = allServerModules + databaseModules

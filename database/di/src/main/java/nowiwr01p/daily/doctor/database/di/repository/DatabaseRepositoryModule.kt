@@ -9,32 +9,30 @@ import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVe
 import nowiwr01p.daily.doctor.database.domain.storage.pin.DatabasePinCodeStorage
 import nowiwr01p.daily.doctor.database.domain.storage.user.DatabaseUserStorage
 import nowiwr01p.daily.doctor.database.domain.storage.verification.DatabaseVerificationStorage
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-internal val moduleDatabaseRepository = DI.Module("DatabaseRepositoryModule") {
+internal val moduleDatabaseRepository = module {
     /**
      * AUTH
      */
-    bindProvider<DatabaseAuthRepository> {
-        DatabaseAuthRepositoryImpl(userStorage = instance<DatabaseUserStorage>())
+    factory<DatabaseAuthRepository> {
+        DatabaseAuthRepositoryImpl(userStorage = get<DatabaseUserStorage>())
     }
     /**
      * VERIFICATION
      */
-    bindProvider<DatabaseVerificationRepository> {
+    factory<DatabaseVerificationRepository> {
         DatabaseVerificationRepositoryImpl(
-            userStorage = instance<DatabaseUserStorage>(),
-            verificationStorage = instance<DatabaseVerificationStorage>()
+            userStorage = get<DatabaseUserStorage>(),
+            verificationStorage = get<DatabaseVerificationStorage>()
         )
     }
     /**
      * PIN
      */
-    bindProvider<DatabasePinCodeRepository> {
+    factory<DatabasePinCodeRepository> {
         DatabasePinCodeRepositoryImpl(
-            storage = instance<DatabasePinCodeStorage>()
+            storage = get<DatabasePinCodeStorage>()
         )
     }
 }

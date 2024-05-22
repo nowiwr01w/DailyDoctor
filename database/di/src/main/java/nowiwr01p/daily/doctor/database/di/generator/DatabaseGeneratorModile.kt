@@ -2,14 +2,13 @@ package nowiwr01p.daily.doctor.database.di.generator
 
 import nowiwr01p.daily.doctor.database.data.generator.VerificationCodeGeneratorImpl
 import nowiwr01p.daily.doctor.database.domain.generator.VerificationCodeGenerator
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
+import org.koin.dsl.module
 
-val moduleDatabaseGenerator = DI.Module("DatabaseGeneratorModule") {
+val moduleDatabaseGenerator = module {
     /**
      * VERIFICATION CODE
      */
-    bindProvider<VerificationCodeGenerator> {
+    factory<VerificationCodeGenerator> {
         VerificationCodeGeneratorImpl()
     }
 }

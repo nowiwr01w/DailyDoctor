@@ -6,29 +6,28 @@ import io.ktor.server.routing.routing
 import nowiwr01p.daily.doctor.server.routes.auth.AuthRouting
 import nowiwr01p.daily.doctor.server.routes.pin_code.PinCodeRouting
 import nowiwr01p.daily.doctor.server.routes.verification.VerificationRouting
-import org.kodein.di.DI
-import org.kodein.di.instance
+import org.koin.ktor.ext.inject
 
-fun Application.configureRouting(di: DI) = routing {
-    configureAuthRouting(di)
-    configureVerificationCodeRouting(di)
-    configurePinCodeRouting(di)
+fun Application.configureRouting() = routing {
+    configureAuthRouting()
+    configureVerificationCodeRouting()
+    configurePinCodeRouting()
 }
 
-private fun Route.configureAuthRouting(di: DI) {
-    val authRouting by di.instance<AuthRouting>()
+private fun Route.configureAuthRouting() {
+    val authRouting by inject<AuthRouting>()
     authRouting.signIn(this)
     authRouting.signUp(this)
 }
 
-private fun Route.configureVerificationCodeRouting(di: DI) {
-    val verificationRouting by di.instance<VerificationRouting>()
+private fun Route.configureVerificationCodeRouting() {
+    val verificationRouting by inject<VerificationRouting>()
     verificationRouting.sendVerificationCode(this)
     verificationRouting.checkVerificationCode(this)
 }
 
-private fun Route.configurePinCodeRouting(di: DI) {
-    val pinCodeRouting by di.instance<PinCodeRouting>()
+private fun Route.configurePinCodeRouting() {
+    val pinCodeRouting by inject<PinCodeRouting>()
     pinCodeRouting.createPinCode(this)
     pinCodeRouting.checkPinCode(this)
     pinCodeRouting.changePinCode(this)
