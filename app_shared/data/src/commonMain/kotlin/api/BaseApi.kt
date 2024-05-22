@@ -14,13 +14,12 @@ import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.instance
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-abstract class BaseApi(override val di: DI): DIAware {
+abstract class BaseApi: KoinComponent {
 
-    protected val client by instance<HttpClient>()
+    protected val client by inject<HttpClient>()
 
     protected suspend inline fun <reified T> getHttp(
         route: String,

@@ -5,21 +5,19 @@ import domain.repository.auth.ValidateAuthDataRepository
 import domain.usecase.auth.SignInUseCase
 import domain.usecase.auth.SignUpUseCase
 import domain.usecase.auth.ValidateAuthDataUseCase
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-val moduleDomain = DI.Module("DomainModule") {
+val moduleDomainApp = module {
     /**
      * AUTH
      */
-    bindProvider {
-        ValidateAuthDataUseCase(repository = instance<ValidateAuthDataRepository>())
+    factory {
+        ValidateAuthDataUseCase(repository = get<ValidateAuthDataRepository>())
     }
-    bindProvider {
-        SignInUseCase(repository = instance<AuthRepository>())
+    factory {
+        SignInUseCase(repository = get<AuthRepository>())
     }
-    bindProvider {
-        SignUpUseCase(repository = instance<AuthRepository>())
+    factory {
+        SignUpUseCase(repository = get<AuthRepository>())
     }
 }

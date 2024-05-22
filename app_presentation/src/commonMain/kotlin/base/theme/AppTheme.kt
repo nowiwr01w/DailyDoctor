@@ -27,17 +27,17 @@ import domain.repository.theme.AppTheme.LIGHT
 import domain.usecase.brand.GetAppBrandUseCase
 import com.nowiwr01p.model.usecase.execute
 import domain.usecase.theme.GetAppThemeModeUseCase
-import org.kodein.di.compose.rememberInstance
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 import ui.core_ui.helpers.window_insets.data.LocalWindowInsetsData
 import ui.core_ui.helpers.window_insets.data.ProviderLocalWindowInsets
 
 @Composable
 fun AppTheme(
+    shapes: AppShapes = koinInject { parametersOf(currentPlatform) },
+    typography: AppTypography = koinInject { parametersOf(currentPlatform) },
     content: @Composable () -> Unit
 ) {
-    val shapes by rememberInstance<AppShapes>(currentPlatform)
-    val typography by rememberInstance<AppTypography>(currentPlatform)
-
     val appThemedColors = getAppColors(
         theme = getAppTheme().value,
         brand = getAppBrand().value
@@ -55,8 +55,9 @@ fun AppTheme(
 }
 
 @Composable
-private fun getAppBrand(): State<AppBrand> {
-    val getAppBrandUseCase by rememberInstance<GetAppBrandUseCase>()
+private fun getAppBrand(
+    getAppBrandUseCase: GetAppBrandUseCase = koinInject()
+): State<AppBrand> {
     val appBrand: MutableState<AppBrand> = remember { mutableStateOf(AppBrandClassic()) }
     LaunchedEffect(Unit) {
         appBrand.value = getAppBrandUseCase.execute()
@@ -65,8 +66,9 @@ private fun getAppBrand(): State<AppBrand> {
 }
 
 @Composable
-private fun getAppTheme(): State<AppTheme> {
-    val getAppThemeModeUseCase by rememberInstance<GetAppThemeModeUseCase>()
+private fun getAppTheme(
+    getAppThemeModeUseCase: GetAppThemeModeUseCase = koinInject()
+): State<AppTheme> {
     val appTheme = remember { mutableStateOf(LIGHT) }
     LaunchedEffect(Unit) {
         getAppThemeModeUseCase.execute().collect { themeMode ->

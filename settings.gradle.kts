@@ -27,6 +27,7 @@ dependencyResolutionManagement {
 }
 
 include(":app_presentation")
+include(":app_presentation:di")
 
 include(":app_shared")
 include(":app_shared:data")

@@ -9,9 +9,8 @@ import com.nowiwr01p.model.api.route.PinCodeRoutes.ChangePinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.CheckPinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.CreatePinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.DeletePinRoute
-import org.kodein.di.DI
 
-class PinApiImpl(kodein: DI): BaseApi(kodein), PinApi {
+class PinApiImpl: BaseApi(), PinApi {
 
     override suspend fun createPinCode(request: CreatePinCodeRequest) = postHttp<TokenResponse>(
         route = CreatePinRoute.route,

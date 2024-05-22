@@ -1,18 +1,16 @@
 package di
 
 import ResendVerificationCodeTimerWork
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
+import org.koin.dsl.module
 import usecase.verification.AppSendVerificationCodeUseCase
 
-val moduleAppWorks = DI.Module("AppWorksModule") {
+val moduleAppWorks = module {
     /**
      * RESEND VERIFICATION CODE
      */
-    bindProvider {
+    factory {
         ResendVerificationCodeTimerWork(
-            sendVerificationCodeUseCase = instance<AppSendVerificationCodeUseCase>()
+            sendVerificationCodeUseCase = get<AppSendVerificationCodeUseCase>()
         )
     }
 }

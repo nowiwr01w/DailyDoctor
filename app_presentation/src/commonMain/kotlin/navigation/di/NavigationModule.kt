@@ -13,49 +13,48 @@ import navigation.pin_code.PinCodeNavigator
 import navigation.pin_code.PinCodeNavigatorImpl
 import navigation.splash.SplashNavigator
 import navigation.splash.SplashNavigatorImpl
-import org.kodein.di.DI
-import org.kodein.di.bindFactory
-import org.kodein.di.instance
+import org.koin.core.parameter.parametersOf
+import org.koin.dsl.module
 
 typealias AppStackNavigation = StackNavigation<AppNavigationConfig>
 
-val moduleNavigation = DI.Module("NavigationModule") {
+val moduleNavigation = module {
     /**
      * SPLASH
      */
-    bindFactory<AppStackNavigation, SplashNavigator> { navigation ->
+    single<SplashNavigator> { (navigation: AppStackNavigation) ->
         SplashNavigatorImpl(navigation)
     }
     /**
      * ONBOARDING
      */
-    bindFactory<AppStackNavigation, OnboardingNavigator> { navigation ->
+    single<OnboardingNavigator> { (navigation: AppStackNavigation) ->
         OnboardingNavigatorImpl(navigation)
     }
     /**
      * AUTH
      */
-    bindFactory<AppStackNavigation, AuthNavigator> { navigation ->
+    single<AuthNavigator> { (navigation: AppStackNavigation) ->
         AuthNavigatorImpl(navigation)
     }
     /**
      * PIN CODE
      */
-    bindFactory<AppStackNavigation, PinCodeNavigator> { navigation ->
+    single<PinCodeNavigator> { (navigation: AppStackNavigation) ->
         PinCodeNavigatorImpl(navigation)
     }
     /**
      * MAIN
      */
-    bindFactory<ComponentContext, MainNavigator> { context ->
+    single<MainNavigator> { (context: ComponentContext) ->
         val navigation = StackNavigation<AppNavigationConfig>()
         MainNavigatorImpl(
             appContext = context,
             navigation = navigation,
-            splashNavigator = instance<AppStackNavigation, SplashNavigator>(arg = navigation),
-            onboardingNavigator = instance<AppStackNavigation, OnboardingNavigator>(arg = navigation),
-            authNavigator = instance<AppStackNavigation, AuthNavigator>(arg = navigation),
-            pinCodeNavigator = instance<AppStackNavigation, PinCodeNavigator>(arg = navigation)
+            splashNavigator = get<SplashNavigator> { parametersOf(navigation) },
+            onboardingNavigator = get<OnboardingNavigator> { parametersOf(navigation) },
+            authNavigator = get<AuthNavigator> { parametersOf(navigation) },
+            pinCodeNavigator = get<PinCodeNavigator> { parametersOf(navigation) }
         )
     }
 }

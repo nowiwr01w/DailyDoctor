@@ -35,15 +35,13 @@ kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version
 kotlin-date-time = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlin-date-time" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
 ############
-### KODEIN ###
+### KOIN ###
 ############
 koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
 koin-ktor-logger = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-
-kodein = { module = "org.kodein.di:kodein-di", version.ref = "kodein" }
-kodein-compose = { module = "org.kodein.di:kodein-di-framework-compose", version.ref = "kodein" }
 #################
 ### DATASTORE ###
 #################
@@ -93,7 +91,7 @@ kottie = { module = "io.github.ismai117:kottie", version.ref = "kottie" }
 [bundles]
 base-app = [
     "koin",
-    "kodein-compose",
+    "koin-compose",
     "decompose",
     "decompose-extensions",
     "essenty-lifecycle",
@@ -129,13 +127,13 @@ android = [
     "compose-ui-tooling",
     "compose-ui-tooling-preview",
     "napier",
+    "koin-android",
     "ktor-client-android"
 ]
 web = [
     "ktor-client-js"
 ]
 server = [
-    "koin-ktor",
     "coroutines",
     "kotlin-date-time",
     "kotlin-serialization-json",
@@ -147,6 +145,7 @@ server = [
     "ktor-server-auth",
     "ktor-server-auth-jwt",
     "ktor-forwarded-header",
+    "koin",
     "koin-ktor",
     "koin-ktor-logger"
 ]
@@ -157,7 +156,6 @@ database = [
 ]
 local-database = [
     "datastore",
-    "kodein",
     "koin",
     "coroutines",
     "kotlin-date-time",
@@ -200,10 +198,9 @@ android-appcompat = "1.6.1"
 decompose = "3.0.0-alpha09"
 essenty = "2.0.0-alpha07"
 ##############
-### KODEIN ###
+### KOIN ###
 ##############
 koin = "3.6.0-wasm-alpha2"
-kodein = "7.21.2"
 #################
 ### DATASTORE ###
 #################

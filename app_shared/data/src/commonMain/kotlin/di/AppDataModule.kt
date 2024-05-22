@@ -7,10 +7,7 @@ import api.pin.PinApiImpl
 import api.verification.VerificationApi
 import api.verification.VerificationApiImpl
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.bindSingleton
-import org.kodein.di.instance
+import org.koin.dsl.module
 import repository.auth.AppAuthRepository
 import repository.auth.AppAuthRepositoryImpl
 import repository.pin.AppPinRepository
@@ -34,73 +31,73 @@ import usecase.verification.AppCheckVerificationCodeUseCaseImpl
 import usecase.verification.AppSendVerificationCodeUseCase
 import usecase.verification.AppSendVerificationCodeUseCaseImpl
 
-val moduleAppData = DI.Module("AppDataModule") {
+val moduleDataShared = module {
     /**
      * AUTH
      */
-    bindSingleton<AuthApi> {
-        AuthApiImpl(kodein = di)
+    single<AuthApi> {
+        AuthApiImpl()
     }
-    bindProvider<AppAuthRepository> {
+    factory<AppAuthRepository> {
         AppAuthRepositoryImpl(
-            api = instance<AuthApi>(),
-            dispatchers = instance<AppDispatchers>()
+            api = get<AuthApi>(),
+            dispatchers = get<AppDispatchers>()
         )
     }
-    bindProvider<AppSignInUseCase> {
-        AppSignInUseCaseImpl(repository = instance<AppAuthRepository>())
+    factory<AppSignInUseCase> {
+        AppSignInUseCaseImpl(repository = get<AppAuthRepository>())
     }
-    bindProvider<AppSignUpUseCase> {
-        AppSignUpUseCaseImpl(repository = instance<AppAuthRepository>())
+    factory<AppSignUpUseCase> {
+        AppSignUpUseCaseImpl(repository = get<AppAuthRepository>())
     }
     /**
      * VERIFICATION
      */
-    bindSingleton<VerificationApi> {
-        VerificationApiImpl(kodein = di)
+    single<VerificationApi> {
+        VerificationApiImpl()
     }
-    bindProvider<AppVerificationRepository> {
+    factory<AppVerificationRepository> {
         AppVerificationRepositoryImpl(
-            api = instance<VerificationApi>(),
-            dispatchers = instance<AppDispatchers>()
+            api = get<VerificationApi>(),
+            dispatchers = get<AppDispatchers>()
         )
     }
-    bindProvider<AppSendVerificationCodeUseCase> {
-        AppSendVerificationCodeUseCaseImpl(repository = instance<AppVerificationRepository>())
+    factory<AppSendVerificationCodeUseCase> {
+        AppSendVerificationCodeUseCaseImpl(repository = get<AppVerificationRepository>())
     }
-    bindProvider<AppCheckVerificationCodeUseCase> {
-        AppCheckVerificationCodeUseCaseImpl(repository = instance<AppVerificationRepository>())
+    factory<AppCheckVerificationCodeUseCase> {
+        AppCheckVerificationCodeUseCaseImpl(repository = get<AppVerificationRepository>())
     }
     /**
      * PIN
      */
-    bindSingleton<PinApi> {
-        PinApiImpl(kodein = di)
+    single<PinApi> {
+        PinApiImpl()
     }
-    bindProvider<AppPinRepository> {
+    factory<AppPinRepository> {
         AppPinRepositoryImpl(
-            api = instance<PinApi>(),
-            dispatchers = instance<AppDispatchers>()
+            api = get<PinApi>(),
+            dispatchers = get<AppDispatchers>()
         )
     }
-    bindProvider<AppChangePinCodeUseCase> {
+    factory<AppChangePinCodeUseCase> {
         AppChangePinCodeUseCaseImpl(
-            repository = instance<AppPinRepository>()
+            repository = get<AppPinRepository>()
         )
     }
-    bindProvider<AppCreatePinCodeUseCase> {
+    factory<AppCreatePinCodeUseCase> {
         AppCreatePinCodeUseCaseImpl(
-            repository = instance<AppPinRepository>()
+            repository = get<AppPinRepository>()
         )
     }
-    bindProvider<AppDeletePinCodeUseCase> {
+    factory<AppDeletePinCodeUseCase> {
         AppDeletePinCodeUseCaseImpl(
-            repository = instance<AppPinRepository>()
+            repository = get<AppPinRepository>()
         )
     }
-    bindProvider<AppCheckPinCodeUseCase> {
+    factory<AppCheckPinCodeUseCase> {
         AppCheckPinCodeUseCaseImpl(
-            repository = instance<AppPinRepository>()
+            repository = get<AppPinRepository>()
         )
     }
 }

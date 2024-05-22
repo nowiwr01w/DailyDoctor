@@ -33,7 +33,6 @@ import navigation.MainNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.kodein.di.compose.rememberInstance
 import platform.getScreenWidth
 import ui.common.onboarding.OnboardingContract.Effect
 import ui.common.onboarding.OnboardingContract.Event
@@ -44,14 +43,15 @@ import ui.common.onboarding.data.OnboardingItem
 import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
 import ui.core_ui.helpers.window_insets.AppWindowColorsHelper
 import ui.core_ui.helpers.window_insets.WindowColorsData
+import org.koin.compose.koinInject
 
 @Composable
 internal fun OnboardingMainScreenMobile(
     onboardingItem: OnboardingItem,
     navigator: MainNavigator,
+    appWindowColorsHelper: AppWindowColorsHelper = koinInject(),
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
-    val appWindowColorsHelper by rememberInstance<AppWindowColorsHelper>()
     val onboardingScreenColors = with(colors.backgroundColors) {
         WindowColorsData(whiteBackgroundColor, whiteBackgroundColor)
     }

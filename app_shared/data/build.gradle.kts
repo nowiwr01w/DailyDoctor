@@ -38,8 +38,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.kodein)
-                implementation(libs.coroutines)
                 implementation(projects.modelShared)
                 implementation(projects.appShared.domain)
                 implementation(libs.bundles.base.app)

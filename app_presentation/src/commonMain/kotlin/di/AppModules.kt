@@ -3,35 +3,24 @@ package di
 import com.nowiwr01p.local_database.platform.createSettingsModule
 import com.nowiwr01p.model.di.moduleBaseCoroutines
 import config.di.moduleConfig
-import data.di.moduleData
+import data.di.moduleDataApp
 import data.di.moduleUserDataValidators
-import domain.di.moduleDomain
+import domain.di.moduleDomainApp
 import navigation.di.moduleNavigation
-import org.kodein.di.DI
 import ui.core_ui.di.moduleCoreUI
 
-private val allModules = listOf(
-    moduleConfig,
+val appModules = listOf(
     moduleTheme,
-    moduleUserDataValidators,
-    moduleDomain,
-    moduleData,
-    moduleViewModels,
-    moduleAppWorks,
-    moduleNavigation,
     moduleCoreUI,
-    moduleDomainApp,
-    moduleAppData
-)
-
-val koinModules = listOf(
+    moduleNavigation,
+    moduleConfig,
     moduleBaseCoroutines,
+    moduleAppWorks,
+    moduleViewModels,
+    moduleDomainApp,
+    moduleDomainShared,
+    moduleDataApp,
+    moduleDataShared,
+    moduleUserDataValidators,
     createSettingsModule()
 )
-
-val appModules = DI {
-    importAll(
-        modules = allModules,
-        allowOverride = true
-    )
-}

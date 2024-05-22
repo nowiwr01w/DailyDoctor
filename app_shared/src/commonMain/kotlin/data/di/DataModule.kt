@@ -17,44 +17,41 @@ import domain.usecase.theme.GetAppThemeModeUseCase
 import domain.usecase.theme.SetAppThemeModeUseCase
 import domain.validators.EmailValidator
 import domain.validators.PasswordValidator
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.bindSingleton
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-val moduleData = DI.Module("DataModule") {
+val moduleDataApp = module {
     /**
      * THEME
      */
-    bindSingleton<AppThemeRepository> {
+    single<AppThemeRepository> {
         AppThemeRepositoryImpl()
     }
-    bindProvider<GetAppThemeModeUseCase> {
-        GetAppThemeModeUseCaseImpl(repository = instance<AppThemeRepository>())
+    factory<GetAppThemeModeUseCase> {
+        GetAppThemeModeUseCaseImpl(repository = get<AppThemeRepository>())
     }
-    bindProvider<SetAppThemeModeUseCase> {
-        SetAppThemeModeUseCaseImpl(repository = instance<AppThemeRepository>())
+    factory<SetAppThemeModeUseCase> {
+        SetAppThemeModeUseCaseImpl(repository = get<AppThemeRepository>())
     }
     /**
      * BRAND
      */
-    bindProvider<AppBrandRepository> {
+    factory<AppBrandRepository> {
         AppBrandRepositoryImpl()
     }
-    bindProvider<GetAppBrandUseCase> {
-        GetAppBrandUseCaseImpl(repository = instance<AppBrandRepository>())
+    factory<GetAppBrandUseCase> {
+        GetAppBrandUseCaseImpl(repository = get<AppBrandRepository>())
     }
     /**
      * AUTH
      */
-    bindProvider<ValidateAuthDataRepository> {
+    factory<ValidateAuthDataRepository> {
         ValidateAuthDataRepositoryImpl(
-            dispatchers = instance<AppDispatchers>(),
-            emailValidator = instance<EmailValidator>(),
-            passwordValidator = instance<PasswordValidator>()
+            dispatchers = get<AppDispatchers>(),
+            emailValidator = get<EmailValidator>(),
+            passwordValidator = get<PasswordValidator>()
         )
     }
-    bindProvider<AuthRepository> {
-        AuthRepositoryImpl(dispatchers = instance<AppDispatchers>())
+    factory<AuthRepository> {
+        AuthRepositoryImpl(dispatchers = get<AppDispatchers>())
     }
 }

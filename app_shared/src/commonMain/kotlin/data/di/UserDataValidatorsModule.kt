@@ -4,14 +4,13 @@ import data.validators.EmailValidatorImpl
 import data.validators.PasswordValidatorImpl
 import domain.validators.EmailValidator
 import domain.validators.PasswordValidator
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
+import org.koin.dsl.module
 
-val moduleUserDataValidators = DI.Module("UserDataValidatorsModule") {
-    bindProvider<EmailValidator> {
+val moduleUserDataValidators = module {
+    factory<EmailValidator> {
         EmailValidatorImpl()
     }
-    bindProvider<PasswordValidator> {
+    factory<PasswordValidator> {
         PasswordValidatorImpl()
     }
 }

@@ -13,47 +13,47 @@ import base.theme.typography.DesktopTypography
 import base.theme.typography.MobileTypography
 import base.theme.typography.WebTypography
 import domain.repository.theme.AppTheme.*
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-val moduleTheme = DI.Module("ThemeModule") {
+val moduleTheme = module {
     /**
      * SHAPES
      */
-    bindProvider<AppShapes>(IOS) {
+    factory<AppShapes>(named(IOS)) {
         MobileShapes()
     }
-    bindProvider<AppShapes>(ANDROID) {
+    factory<AppShapes>(named(ANDROID)) {
         MobileShapes()
     }
-    bindProvider<AppShapes>(DESKTOP) {
+    factory<AppShapes>(named(DESKTOP)) {
         DesktopShapes()
     }
-    bindProvider<AppShapes>(WEB) {
+    factory<AppShapes>(named(WEB)) {
         WebShapes()
     }
     /**
      * TYPOGRAPHY
      */
-    bindProvider<AppTypography>(IOS) {
+    factory<AppTypography>(named(IOS)) {
         MobileTypography()
     }
-    bindProvider<AppTypography>(ANDROID) {
+    factory<AppTypography>(named(ANDROID)) {
         MobileTypography()
     }
-    bindProvider<AppTypography>(DESKTOP) {
+    factory<AppTypography>(named(DESKTOP)) {
         DesktopTypography()
     }
-    bindProvider<AppTypography>(WEB) {
+    factory<AppTypography>(named(WEB)) {
         WebTypography()
     }
     /**
      * COLORS
      */
-    bindProvider<AppBackgroundColors>(LIGHT) {
+    factory<AppBackgroundColors>(named(LIGHT)) {
         ClassicLightBackgroundColors()
     }
-    bindProvider<AppBackgroundColors>(DARK) {
+    factory<AppBackgroundColors>(named(DARK)) {
         ClassicDarkBackgroundColors()
     }
 }

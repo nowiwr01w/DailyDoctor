@@ -40,7 +40,7 @@ import dailydoctor.app_presentation.generated.resources.yo
 import navigation.MainNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import org.kodein.di.compose.rememberInstance
+import org.koin.compose.koinInject
 import platform.getScreenWidth
 import ui.common.pin_code.PinCodeContract.Event
 import ui.common.pin_code.PinCodeContract.Listener
@@ -65,9 +65,9 @@ import ui.core_ui.helpers.window_insets.WindowColorsData
 fun PinCodeMainScreenMobile(
     navigator: MainNavigator,
     mode: PinCodeMode,
+    appWindowColorsHelper: AppWindowColorsHelper = koinInject(),
     viewModel: PinCodeViewModel = rememberViewModel()
 ) {
-    val appWindowColorsHelper by rememberInstance<AppWindowColorsHelper>()
     val onboardingScreenColors = with(colors.backgroundColors) {
         WindowColorsData(whiteBackgroundColor, whiteBackgroundColor)
     }

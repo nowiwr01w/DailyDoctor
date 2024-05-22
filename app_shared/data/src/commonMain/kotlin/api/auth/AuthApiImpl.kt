@@ -6,9 +6,8 @@ import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.api.route.AuthRoutes.SingInRoute
 import com.nowiwr01p.model.api.route.AuthRoutes.SingUpRoute
-import org.kodein.di.DI
 
-class AuthApiImpl(kodein: DI): BaseApi(kodein), AuthApi {
+class AuthApiImpl: BaseApi(), AuthApi {
 
     override suspend fun signIn(request: SignInRequest) = postHttp<TokenResponse>(
         route = SingInRoute.route,

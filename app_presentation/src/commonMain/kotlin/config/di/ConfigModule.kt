@@ -10,44 +10,43 @@ import config.app.ReleaseAppSettings
 import config.server.DebugServerSettings
 import config.server.ReleaseServerSettings
 import config.server.ServerSettings
-import org.kodein.di.DI
-import org.kodein.di.bindSingleton
-import org.kodein.di.instance
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-val moduleConfig = DI.Module("ConfigModule") {
+val moduleConfig = module {
     /**
      * APP CONFIG
      */
-    bindSingleton<AppConfig>(LOCAL) {
+    single<AppConfig>(named(LOCAL)) {
         AppConfigImpl(
-            appSettings = instance<AppSettings>(LOCAL),
-            serverSettings = instance<ServerSettings>(LOCAL)
+            appSettings = get<AppSettings>(named(LOCAL)),
+            serverSettings = get<ServerSettings>(named(LOCAL))
         )
     }
-    bindSingleton<AppConfig>(REMOTE) {
+    single<AppConfig>(named(REMOTE)) {
         AppConfigImpl(
-            appSettings = instance<AppSettings>(REMOTE),
-            serverSettings = instance<ServerSettings>(REMOTE)
+            appSettings = get<AppSettings>(named(REMOTE)),
+            serverSettings = get<ServerSettings>(named(REMOTE))
         )
     }
 
     /**
      * APP SETTINGS
      */
-    bindSingleton<AppSettings>(LOCAL) {
+    single<AppSettings>(named(LOCAL)) {
         DebugAppSettings()
     }
-    bindSingleton<AppSettings>(REMOTE) {
+    single<AppSettings>(named(REMOTE)) {
         ReleaseAppSettings()
     }
 
     /**
      * SERVER SETTINGS
      */
-    bindSingleton<ServerSettings>(LOCAL) {
+    single<ServerSettings>(named(LOCAL)) {
         DebugServerSettings()
     }
-    bindSingleton<ServerSettings>(REMOTE) {
+    single<ServerSettings>(named(REMOTE)) {
         ReleaseServerSettings()
     }
 }

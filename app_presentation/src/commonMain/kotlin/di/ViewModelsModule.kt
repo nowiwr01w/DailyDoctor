@@ -3,9 +3,7 @@ package di
 import ResendVerificationCodeTimerWork
 import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
-import org.kodein.di.DI
-import org.kodein.di.bindFactory
-import org.kodein.di.instance
+import org.koin.dsl.module
 import ui.common.auth.AuthViewModel
 import ui.common.home.HomeViewModel
 import ui.common.onboarding.OnboardingViewModel
@@ -21,57 +19,57 @@ import usecase.pin.AppCreatePinCodeUseCase
 import usecase.pin.AppDeletePinCodeUseCase
 import usecase.verification.AppCheckVerificationCodeUseCase
 
-val moduleViewModels = DI.Module("ViewModelsModule") {
+val moduleViewModels = module {
     /**
      * SPLASH
      */
-    bindFactory<CoroutineScope, SplashViewModel> { scope ->
+    factory { (scope: CoroutineScope) ->
         SplashViewModel(scope)
     }
     /**
      * ONBOARDING
      */
-    bindFactory<CoroutineScope, OnboardingViewModel> { scope ->
+    factory { (scope: CoroutineScope) ->
         OnboardingViewModel(scope)
     }
     /**
      * AUTH
      */
-    bindFactory<CoroutineScope, AuthViewModel> { scope ->
+    factory { (scope: CoroutineScope) ->
         AuthViewModel(
             scope = scope,
-            signInUseCase = instance<AppSignInUseCase>(),
-            signUpUseCase = instance<AppSignUpUseCase>(),
-            authDataValidator = instance<ValidateAuthDataUseCase>(),
-            snackBarHelper = instance<SnackBarHelper>()
+            signInUseCase = get<AppSignInUseCase>(),
+            signUpUseCase = get<AppSignUpUseCase>(),
+            authDataValidator = get<ValidateAuthDataUseCase>(),
+            snackBarHelper = get<SnackBarHelper>()
         )
     }
     /**
      * VERIFICATION
      */
-    bindFactory<CoroutineScope, VerificationViewModel> { scope ->
+    factory { (scope: CoroutineScope) ->
         VerificationViewModel(
             scope = scope,
-            checkVerificationCodeUseCode = instance<AppCheckVerificationCodeUseCase>(),
-            resendVerificationCodeTimerWork = instance<ResendVerificationCodeTimerWork>()
+            checkVerificationCodeUseCode = get<AppCheckVerificationCodeUseCase>(),
+            resendVerificationCodeTimerWork = get<ResendVerificationCodeTimerWork>()
         )
     }
     /**
      * PIN CODE
      */
-    bindFactory<CoroutineScope, PinCodeViewModel> { scope ->
+    factory { (scope: CoroutineScope) ->
         PinCodeViewModel(
             scope = scope,
-            checkPinCodeUseCase = instance<AppCheckPinCodeUseCase>(),
-            createPinCodeUseCase = instance<AppCreatePinCodeUseCase>(),
-            changePinCodeUseCase = instance<AppChangePinCodeUseCase>(),
-            deletePinCodeUseCase = instance<AppDeletePinCodeUseCase>()
+            checkPinCodeUseCase = get<AppCheckPinCodeUseCase>(),
+            createPinCodeUseCase = get<AppCreatePinCodeUseCase>(),
+            changePinCodeUseCase = get<AppChangePinCodeUseCase>(),
+            deletePinCodeUseCase = get<AppDeletePinCodeUseCase>()
         )
     }
     /**
      * HOME
      */
-    bindFactory<CoroutineScope, HomeViewModel> { scope ->
+    factory { (scope: CoroutineScope) ->
         HomeViewModel(scope)
     }
 }

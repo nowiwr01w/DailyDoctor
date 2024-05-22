@@ -5,26 +5,23 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import org.kodein.di.DI
-import org.kodein.di.bindInstance
-import org.kodein.di.bindSingleton
-import org.kodein.di.instance
+import org.koin.dsl.module
 
-val moduleDomainApp = DI.Module("AppDomainModule") {
+val moduleDomainShared = module {
     /**
      * KTOR CLIENT
      */
-    bindInstance {
+    factory {
         Json {
             isLenient = true
             prettyPrint = true
             ignoreUnknownKeys = true
         }
     }
-    bindSingleton {
+    single {
         HttpClient(getKtorEngine()) {
             install(ContentNegotiation) {
-                json(instance<Json>())
+                json(get<Json>())
             }
         }
     }
