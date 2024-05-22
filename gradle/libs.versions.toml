@@ -93,7 +93,6 @@ base-app = [
     "essenty-lifecycle",
     "essenty-state-keeper",
     "essenty-instance-keeper",
-    "datastore",
     "coroutines",
     "coroutines-test",
     "kotlin-date-time",
@@ -147,6 +146,13 @@ database = [
     "kodein",
     "exposed",
     "postgree"
+]
+local-database = [
+    "datastore",
+    "kodein",
+    "coroutines",
+    "kotlin-date-time",
+    "kotlin-serialization-json"
 ]
 server-test = [
     "ktor-server-tests",

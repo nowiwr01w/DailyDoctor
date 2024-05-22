@@ -64,6 +64,7 @@ kotlin {
             implementation(projects.appShared.data)
             implementation(projects.appShared.works)
             implementation(projects.appShared)
+            implementation(projects.localDatabase)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)

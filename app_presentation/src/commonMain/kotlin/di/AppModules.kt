@@ -1,5 +1,6 @@
 package di
 
+import com.nowiwr01p.local_database.platform.createSettingsModule
 import com.nowiwr01p.model.di.moduleBaseCoroutines
 import config.di.moduleConfig
 import data.di.moduleData
@@ -21,7 +22,8 @@ private val allModules = listOf(
     moduleNavigation,
     moduleCoreUI,
     moduleDomainApp,
-    moduleAppData
+    moduleAppData,
+    createSettingsModule()
 )
 
 val appModules = DI {

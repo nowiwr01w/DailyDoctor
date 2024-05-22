@@ -39,6 +39,8 @@ include(":database:data")
 include(":database:di")
 include(":database:tables")
 
+include(":local_database")
+
 include(":model_shared")
 
 include(":server")
