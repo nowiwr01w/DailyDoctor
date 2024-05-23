@@ -35,28 +35,29 @@ import androidx.constraintlayout.compose.Dimension
 import view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_app_logo_small
+import dailydoctor.app_presentation.generated.resources.ic_delete
+import dailydoctor.app_presentation.generated.resources.ic_fingerprint
 import dailydoctor.app_presentation.generated.resources.yo
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import ui.common.pin_code.PinCodeContract.Event
-import ui.common.pin_code.PinCodeContract.Listener
-import ui.common.pin_code.PinCodeContract.State
-import ui.common.pin_code.PinCodeViewModel
-import ui.common.pin_code.data.PinCodeData
-import ui.common.pin_code.data.PinCodeData.PinCodeDigit
-import ui.common.pin_code.data.PinCodeData.PinCodeIcon
-import ui.common.pin_code.data.PinCodeIconType
+import pin_code.PinCodeContract.Event
+import pin_code.PinCodeContract.Listener
+import pin_code.PinCodeContract.State
+import pin_code.PinCodeViewModel
+import pin_code.data.PinCodeData
+import pin_code.data.PinCodeData.PinCodeDigit
+import pin_code.data.PinCodeData.PinCodeIcon
+import pin_code.data.PinCodeIconType
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
-import ui.common.pin_code.data.PinCodeOperation
-import ui.common.pin_code.data.PinCodeState
-import ui.common.pin_code.data.PinCodeState.DEFAULT
-import ui.common.pin_code.data.PinCodeState.ERROR
-import ui.common.pin_code.data.PinCodeState.SEND_REQUEST
-import ui.common.pin_code.data.PinCodeState.SUCCESS
-import ui.common.pin_code.data.pinCodeData
+import pin_code.data.PinCodeOperation
+import pin_code.data.PinCodeState
+import pin_code.data.PinCodeState.DEFAULT
+import pin_code.data.PinCodeState.ERROR
+import pin_code.data.PinCodeState.SEND_REQUEST
+import pin_code.data.PinCodeState.SUCCESS
 
 @Composable
 fun PinCodeMainScreenMobile(
@@ -343,3 +344,24 @@ private fun PinCodeViewItem(
         }
     }
 }
+
+private val pinCodeData = listOf(
+    PinCodeDigit("1"),
+    PinCodeDigit("2"),
+    PinCodeDigit("3"),
+    PinCodeDigit("4"),
+    PinCodeDigit("5"),
+    PinCodeDigit("6"),
+    PinCodeDigit("7"),
+    PinCodeDigit("8"),
+    PinCodeDigit("9"),
+    PinCodeIcon(
+        type = PinCodeIconType.BIOMETRIC,
+        value = Res.drawable.ic_fingerprint
+    ),
+    PinCodeDigit("0"),
+    PinCodeIcon(
+        type = PinCodeIconType.REMOVE_DIGIT,
+        value = Res.drawable.ic_delete
+    )
+)

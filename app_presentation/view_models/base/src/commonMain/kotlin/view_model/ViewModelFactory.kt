@@ -9,8 +9,8 @@ import org.koin.core.parameter.parametersOf
 private typealias BaseVM = BaseViewModel<*, *, *>
 
 @Composable
-inline fun <reified VM : BaseVM> rememberViewModel(): VM {
+inline fun <reified VM : BaseVM> rememberViewModel(vararg params: Any): VM {
     val scope = rememberCoroutineScope()
-    val viewModel = getKoin().get<VM> { parametersOf(scope) }
+    val viewModel = getKoin().get<VM> { parametersOf(scope, *params) }
     return remember { viewModel }
 }

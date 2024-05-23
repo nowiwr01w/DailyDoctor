@@ -1,0 +1,34 @@
+package verification
+
+import contract.BaseEffect
+import contract.BaseEvent
+import contract.BaseState
+import verification.data.VerificationEnterCodeOperation
+import components.button.ButtonState
+import components.button.ButtonState.DEFAULT
+
+interface VerificationContract {
+
+    sealed interface Event: BaseEvent {
+        data object Init: Event
+        data class OnVerifyClicked(val email: String, val verificationToken: String): Event
+        data class OnResendCodeClicked(val email: String): Event
+        data class HandeUserInput(val operation: VerificationEnterCodeOperation): Event
+    }
+
+    data class State(
+        val code: List<String> = listOf("", "", "", "", "", ""),
+        val timerSeconds: Long,
+        val buttonState: ButtonState = DEFAULT
+    ): BaseState
+
+    sealed interface Effect: BaseEffect {
+        data object NavigateToPinCode: Effect
+    }
+
+    interface Listener {
+        fun onVerifyClicked()
+        fun onResendCodeClicked()
+        fun handeUserInput(operation: VerificationEnterCodeOperation)
+    }
+}

@@ -18,6 +18,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,27 +26,33 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import base.theme.AppTheme
-import androidx.compose.runtime.getValue
+import dailydoctor.app_presentation.generated.resources.Res
+import dailydoctor.app_presentation.generated.resources.ic_onboarding_always_online
+import dailydoctor.app_presentation.generated.resources.ic_onboarding_chat_with_doctor
+import dailydoctor.app_presentation.generated.resources.ic_onboarding_for_whole_family
+import dailydoctor.app_presentation.generated.resources.ic_onboarding_notifications
+import dailydoctor.app_presentation.generated.resources.ic_onboarding_save_with_us
 import getScreenWidth
-import observers.EffectObserver
-import view_model.rememberViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import observers.EffectObserver
+import onboarding.OnboardingContract.Effect
+import onboarding.OnboardingContract.Event
+import onboarding.OnboardingContract.Listener
+import onboarding.OnboardingContract.State
+import onboarding.OnboardingViewModel
+import onboarding.data.OnboardingItem.NotificationsOnboardingItem
+import onboarding.data.getOnboardingItems
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.common.onboarding.OnboardingContract.Effect
-import ui.common.onboarding.OnboardingContract.Event
-import ui.common.onboarding.OnboardingContract.Listener
-import ui.common.onboarding.OnboardingContract.State
-import ui.common.onboarding.OnboardingViewModel
-import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
+import view_model.rememberViewModel
 
 @Composable
 internal fun OnboardingMainScreenMobile(
     onboardingItem: OnboardingItemModel,
     navigator: MainNavigator,
-    viewModel: OnboardingViewModel = rememberViewModel()
+    viewModel: OnboardingViewModel = rememberViewModel(getMobileOnboardingItems())
 ) {
     val listener = object : Listener {
         override fun showNextOnboardingItem() {
@@ -96,7 +103,7 @@ private fun OnboardingMainScreenContent(
             .background(colors.backgroundColors.whiteBackgroundColor)
     ) {
         if (state.currentOnboardingItem != null) {
-            val currentOnboardingItem = state.currentOnboardingItem
+            val currentOnboardingItem = state.currentOnboardingItem!!
             OnboardingItemView(
                 item = currentOnboardingItem,
                 onShowNextItemClicked = {
@@ -195,3 +202,14 @@ private fun Preview() = AppTheme {
         listener = null
     )
 }
+
+/**
+ * ONBOARDING ITEMS // TODO: Do with expect/actual because of different images
+ */
+internal fun getMobileOnboardingItems() = getOnboardingItems(
+    remoteMeetingOnboardingImage = Res.drawable.ic_onboarding_always_online,
+    unlimitedCommunicationOnboardingImage = Res.drawable.ic_onboarding_chat_with_doctor,
+    forWholeFamilyOnboardingImage = Res.drawable.ic_onboarding_for_whole_family,
+    savingsOnboardingImage = Res.drawable.ic_onboarding_save_with_us,
+    notificationsOnboardingImage = Res.drawable.ic_onboarding_notifications,
+)

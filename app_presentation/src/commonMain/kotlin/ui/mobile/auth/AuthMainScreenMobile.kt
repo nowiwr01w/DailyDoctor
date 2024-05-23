@@ -63,15 +63,15 @@ import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.painterResource
-import ui.common.auth.AuthContract.Effect.NavigateToPin
-import ui.common.auth.AuthContract.Effect.NavigateToPrivacyPolicyInfo
-import ui.common.auth.AuthContract.Effect.NavigateToVerification
-import ui.common.auth.AuthContract.Event
-import ui.common.auth.AuthContract.Listener
-import ui.common.auth.AuthContract.State
-import ui.common.auth.AuthViewModel
-import ui.common.auth.data.AuthType.SIGN_IN
-import ui.common.auth.data.AuthType.SIGN_UP
+import auth.AuthContract.Effect.NavigateToPin
+import auth.AuthContract.Effect.NavigateToPrivacyPolicyInfo
+import auth.AuthContract.Effect.NavigateToVerification
+import auth.AuthContract.Event
+import auth.AuthContract.Listener
+import auth.AuthContract.State
+import auth.AuthViewModel
+import auth.data.AuthType.SIGN_IN
+import auth.data.AuthType.SIGN_UP
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.CHECK
 import components.button.ButtonState.DEFAULT
 import components.button.StateButton
@@ -301,7 +301,7 @@ private fun InputField(
                 .border(
                     border = BorderStroke(
                         width = 1.25.dp,
-                        color = if (state.authError != null && state.authError.list.contains(type)) {
+                        color = if (state.authError != null && state.authError!!.list.contains(type)) {
                             colors.borderColors.redColor
                         } else {
                             colors.borderColors.lightGrayColor

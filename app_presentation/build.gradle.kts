@@ -80,7 +80,10 @@ kotlin {
             implementation(projects.appPresentation.theme)
             implementation(projects.appPresentation.viewModels)
             implementation(projects.appPresentation.navigation)
+            implementation(projects.appPresentation.viewModels.di)
             implementation(projects.appPresentation.viewModels.base)
+            implementation(projects.appPresentation.viewModels.shared)
+            implementation(projects.appPresentation.viewModels.mobile) // TODO: Move to androidMain
             implementation(projects.appPresentation.di)
             /**
              * LOCAL DATABASE

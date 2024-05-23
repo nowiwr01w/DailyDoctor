@@ -24,18 +24,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_app_logo_big
 import dailydoctor.app_presentation.generated.resources.ic_pin
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import ui.common.home.HomeViewModel
 
 @Composable
 internal fun HomeMainScreenWeb(
-    viewModel: HomeViewModel = rememberViewModel()
+//    viewModel: HomeViewModel = rememberViewModel()
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),

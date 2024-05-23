@@ -25,25 +25,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import base.theme.AppTheme
-import observers.EffectObserver
-import view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import ui.common.onboarding.data.getOnboardingItems
-import ui.common.splash.SplashContract.*
-import ui.common.splash.SplashViewModel
-import ui.common.splash.data.SplashAnimationState
-import ui.common.splash.data.SplashAnimationState.*
-
-internal const val SPLASH_ANIMATION_DURATION = 1500
-internal const val SPLASH_VISIBILITY_DURATION = 1250
-internal const val SPLASH_PROGRESS_ANIMATION_DURATION = 3000
-internal const val SPLASH_PROGRESS_VISIBILITY_DURATION = 300
+import splash.SplashContract.Effect
+import splash.SplashContract.Event
+import splash.SplashContract.State
+import splash.SplashViewModel
+import splash.data.SplashAnimationState
+import splash.data.SplashAnimationState.FIRST_TEXT
+import splash.data.SplashAnimationState.ICON
+import splash.data.SplashAnimationState.PROGRESS
+import splash.data.SplashAnimationState.SECOND_TEXT
+import ui.mobile.onboarding.getMobileOnboardingItems
+import view_model.rememberViewModel
 
 @Composable
 internal fun SplashMainScreenMobile(
@@ -57,7 +56,7 @@ internal fun SplashMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is Effect.NavigateToOnboarding -> {
-                val onboardingItem = getOnboardingItems().first()
+                val onboardingItem = getMobileOnboardingItems().first()
                 navigator.onboardingNavigator.navigateToOnboarding(onboardingItem)
             }
         }
@@ -113,7 +112,6 @@ private fun SplashMainScreenContent(state: State) = ConstraintLayout(
 /**
  * APP LOGO
  */
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun AppLogo(state: State) = AnimatedContainer(
     expectedAnimationState = ICON,

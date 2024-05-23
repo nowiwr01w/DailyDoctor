@@ -47,6 +47,15 @@ kotlin {
                  */
                 implementation(projects.appShared.core)
                 implementation(projects.appShared.domain)
+                implementation(projects.appShared.works)
+                /**
+                 * APP PRESENTATION
+                 */
+                implementation(projects.appPresentation.coreUi)
+                implementation(projects.appPresentation.viewModels.shared)
+                implementation(projects.appPresentation.viewModels.mobile)
+                implementation(projects.appPresentation.viewModels.desktop)
+                implementation(projects.appPresentation.viewModels.web)
                 /**
                  * DEPENDENCIES
                  */
