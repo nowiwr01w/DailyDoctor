@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared.platform"
+            baseName = "app_presentation.view_models.shared"
         }
     }
 
@@ -39,9 +39,23 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
+                 * MODEL SHARED
+                 */
+                implementation(projects.modelShared)
+                /**
+                 * APP SHARED
+                 */
+                implementation(projects.appShared.core)
+                implementation(projects.appShared.domain)
+                /**
+                 * APP PRESENTATION
+                 */
+                implementation(projects.appPresentation.viewModels.base)
+                /**
                  * DEPENDENCIES
                  */
-                implementation(libs.bundles.base.app)
+                implementation(libs.koin)
+                implementation(libs.coroutines)
             }
         }
         androidMain.dependencies {
@@ -64,7 +78,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.shared.platform"
+    namespace = "nowiwr01p.daily.doctor.app_presentation.view_models.shared"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
