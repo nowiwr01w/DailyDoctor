@@ -73,12 +73,12 @@ import ui.common.auth.AuthViewModel
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.CHECK
-import ui.core_ui.components.button.ButtonState.DEFAULT
-import ui.core_ui.components.button.StateButton
-import ui.core_ui.components.input_field.CustomTextField
-import ui.core_ui.extensions.appendLink
-import ui.core_ui.extensions.isKeyboardOpened
-import ui.core_ui.extensions.onTextClick
+import components.button.ButtonState.DEFAULT
+import components.button.StateButton
+import components.input_field.CustomTextField
+import extensions.appendLink
+import extensions.isKeyboardOpened
+import extensions.onTextClick
 
 @Composable
 internal fun AuthMainScreenMobile(

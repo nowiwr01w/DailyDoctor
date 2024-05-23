@@ -1,6 +1,6 @@
 package repository.brand
 
-import model.brand.AppBrand
+import core.model.brand.AppBrand
 
 interface AppBrandRepository {
     suspend fun getAppBrand(): AppBrand

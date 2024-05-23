@@ -4,8 +4,8 @@ import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
 import ui.common.verification.data.VerificationEnterCodeOperation
-import ui.core_ui.components.button.ButtonState
-import ui.core_ui.components.button.ButtonState.DEFAULT
+import components.button.ButtonState
+import components.button.ButtonState.DEFAULT
 
 interface VerificationContract {
 

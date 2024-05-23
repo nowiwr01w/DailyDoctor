@@ -1,18 +1,25 @@
 package di
 
-import com.nowiwr01p.local_database.platform.createSettingsModule
+import com.nowiwr01p.local_database.platform.getLocalDatabaseModule
 import com.nowiwr01p.model.di.moduleBaseCoroutines
 import di.theme.moduleTheme
 import di.works.moduleAppWorks
 import getAppSharedModules
 import nowiwr01p.daily.doctor.app_presentation.navigation.di.moduleAppPresentationNavigation
+import ui.core_ui.di.moduleAppPresentationCoreUi
 
-val appModules = listOf(
+private val appPresentationModules = listOf(
     moduleTheme,
-//    moduleCoreUI,
+    moduleAppPresentationCoreUi,
     moduleAppPresentationNavigation,
     moduleBaseCoroutines,
     moduleAppWorks,
 //    moduleAppViewModels,
-    createSettingsModule()
-) + getAppSharedModules()
+    getLocalDatabaseModule()
+)
+
+private val appSharedModules = getAppSharedModules()
+
+private val localDatabaseModules = getLocalDatabaseModule()
+
+val appModules = localDatabaseModules + appSharedModules + appPresentationModules

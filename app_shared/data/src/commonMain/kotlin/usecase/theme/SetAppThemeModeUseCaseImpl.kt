@@ -1,6 +1,6 @@
 package usecase.theme
 
-import model.theme.AppTheme
+import core.model.theme.AppTheme
 import repository.theme.AppThemeRepository
 
 class SetAppThemeModeUseCaseImpl(

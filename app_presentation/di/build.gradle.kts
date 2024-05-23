@@ -61,6 +61,8 @@ kotlin {
                  * APP PRESENTATION
                  */
                 implementation(projects.appPresentation.theme)
+                implementation(projects.appPresentation.coreUi.di)
+                implementation(projects.appPresentation.viewModels.di)
                 implementation(projects.appPresentation.navigation.di)
                 /**
                  * LOCAL DATABASE

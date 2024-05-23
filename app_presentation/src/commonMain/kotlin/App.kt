@@ -24,9 +24,9 @@ import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import platform.Platform.*
 import platform.currentPlatform
-import ui.core_ui.components.snack_bar.SnackBar
-import ui.core_ui.helpers.snack_bar.SnackBarHelper
-import ui.core_ui.helpers.window_insets.LocalWindowInsets
+import components.snack_bar.SnackBar
+import helpers.snack_bar.SnackBarHelper
+import components.LocalWindowInsets
 import ui.mobile.auth.AuthMainScreenMobile
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.pin_code.PinCodeMainScreenMobile

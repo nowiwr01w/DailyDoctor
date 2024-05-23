@@ -49,10 +49,6 @@ kotlin {
                  */
                 implementation(projects.appShared.core)
                 /**
-                 * COMPOSE
-                 */
-                implementation(compose.material) // TODO: Remove
-                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.bundles.base.app)

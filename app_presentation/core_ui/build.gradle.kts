@@ -49,6 +49,10 @@ kotlin {
                  */
                 implementation(projects.appShared.core)
                 /**
+                 * APP PRESENTATION
+                 */
+                implementation(projects.appPresentation.theme)
+                /**
                  * COMPOSE
                  */
                 implementation(compose.runtime)

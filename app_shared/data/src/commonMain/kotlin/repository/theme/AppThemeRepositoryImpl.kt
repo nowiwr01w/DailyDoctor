@@ -2,7 +2,7 @@ package repository.theme
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import model.theme.AppTheme
+import core.model.theme.AppTheme
 
 class AppThemeRepositoryImpl: AppThemeRepository {
 

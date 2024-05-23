@@ -10,10 +10,10 @@ import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.State
 import ui.common.verification.data.VerificationEnterCodeOperation
-import ui.core_ui.components.button.ButtonState.DEFAULT
-import ui.core_ui.components.button.ButtonState.ERROR
-import ui.core_ui.components.button.ButtonState.SEND_REQUEST
-import ui.core_ui.components.button.ButtonState.SUCCESS
+import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.ERROR
+import components.button.ButtonState.SEND_REQUEST
+import components.button.ButtonState.SUCCESS
 import usecase.verification.AppCheckVerificationCodeUseCase
 
 class VerificationViewModel(

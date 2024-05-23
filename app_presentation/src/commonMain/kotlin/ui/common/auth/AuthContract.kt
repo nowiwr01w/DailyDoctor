@@ -7,8 +7,8 @@ import model.errors.auth.AuthError
 import model.errors.auth.AuthTextFieldType
 import ui.common.auth.data.AuthType
 import ui.common.auth.data.AuthType.SIGN_UP
-import ui.core_ui.components.button.ButtonState
-import ui.core_ui.components.button.ButtonState.DEFAULT
+import components.button.ButtonState
+import components.button.ButtonState.DEFAULT
 
 interface AuthContract {
 

@@ -68,7 +68,6 @@ kotlin {
              */
             implementation(projects.appShared)
             implementation(projects.appShared.core)
-            implementation(projects.appShared.di)
             implementation(projects.appShared.domain)
             implementation(projects.appShared.data)
             implementation(projects.appShared.works)
@@ -76,13 +75,12 @@ kotlin {
             /**
              * APP PRESENTATION
              */
+            implementation(projects.appPresentation.coreUi)
             implementation(projects.appPresentation.theme)
             implementation(projects.appPresentation.viewModels)
             implementation(projects.appPresentation.navigation)
             implementation(projects.appPresentation.viewModels.base)
             implementation(projects.appPresentation.di)
-            implementation(projects.appPresentation.navigation.di)
-            implementation(projects.appPresentation.viewModels.di)
             /**
              * LOCAL DATABASE
              */

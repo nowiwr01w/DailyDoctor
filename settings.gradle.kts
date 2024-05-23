@@ -27,9 +27,11 @@ dependencyResolutionManagement {
 }
 
 include(":app_presentation")
-include(":app_presentation:core_ui")
 include(":app_presentation:di")
 include(":app_presentation:theme")
+
+include(":app_presentation:core_ui")
+include(":app_presentation:core_ui:di")
 
 include(":app_presentation:navigation")
 include(":app_presentation:navigation:di")

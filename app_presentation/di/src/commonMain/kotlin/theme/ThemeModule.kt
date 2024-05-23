@@ -1,10 +1,10 @@
 package di.theme
 
-import model.color.data.background.AppBackgroundColors
-import model.color.data.background.classic.ClassicDarkBackgroundColors
-import model.color.data.background.classic.ClassicLightBackgroundColors
-import model.theme.AppTheme.DARK
-import model.theme.AppTheme.LIGHT
+import core.model.color.data.background.AppBackgroundColors
+import core.model.color.data.background.classic.ClassicDarkBackgroundColors
+import core.model.color.data.background.classic.ClassicLightBackgroundColors
+import core.model.theme.AppTheme.DARK
+import core.model.theme.AppTheme.LIGHT
 import nowiwr01p.daily.doctor.app_presentation.theme.shape.AppShapes
 import nowiwr01p.daily.doctor.app_presentation.theme.shape.platform.DesktopShapes
 import nowiwr01p.daily.doctor.app_presentation.theme.shape.platform.MobileShapes

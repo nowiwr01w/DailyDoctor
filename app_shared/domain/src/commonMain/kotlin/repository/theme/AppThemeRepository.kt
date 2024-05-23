@@ -1,7 +1,7 @@
 package repository.theme
 
 import kotlinx.coroutines.flow.Flow
-import model.theme.AppTheme
+import core.model.theme.AppTheme
 
 interface AppThemeRepository {
     suspend fun getAppThemeMode(): Flow<AppTheme>
