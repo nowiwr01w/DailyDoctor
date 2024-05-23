@@ -1,8 +1,8 @@
 package ui.common.auth
 
-import base.view_model.BaseEffect
-import base.view_model.BaseEvent
-import base.view_model.BaseState
+import contract.BaseEffect
+import contract.BaseEvent
+import contract.BaseState
 import model.errors.auth.AuthError
 import model.errors.auth.AuthTextFieldType
 import ui.common.auth.data.AuthType

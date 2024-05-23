@@ -1,6 +1,6 @@
 package ui.common.pin_code
 
-import base.view_model.BaseViewModel
+import view_model.BaseViewModel
 import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest

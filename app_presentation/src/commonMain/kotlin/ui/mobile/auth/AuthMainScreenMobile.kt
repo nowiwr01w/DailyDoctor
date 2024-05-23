@@ -50,8 +50,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import base.view_model.EffectObserver
-import base.view_model.rememberViewModel
+import observers.EffectObserver
+import view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_eye_closed
 import dailydoctor.app_presentation.generated.resources.ic_eye_opened

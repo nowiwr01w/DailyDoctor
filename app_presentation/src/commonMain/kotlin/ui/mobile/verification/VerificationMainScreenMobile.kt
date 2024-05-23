@@ -50,8 +50,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import base.view_model.EffectObserver
-import base.view_model.rememberViewModel
+import observers.EffectObserver
+import view_model.rememberViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import platform.getScreenWidth

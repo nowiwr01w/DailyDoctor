@@ -1,7 +1,7 @@
 package ui.common.verification
 
 import ResendVerificationCodeTimerWork
-import base.view_model.BaseViewModel
+import view_model.BaseViewModel
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

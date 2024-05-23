@@ -1,4 +1,4 @@
-package base.view_model
+package view_model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

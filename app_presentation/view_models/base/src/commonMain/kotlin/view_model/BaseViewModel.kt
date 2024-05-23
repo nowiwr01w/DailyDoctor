@@ -1,7 +1,10 @@
-package base.view_model
+package view_model
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import contract.BaseEffect
+import contract.BaseEvent
+import contract.BaseState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

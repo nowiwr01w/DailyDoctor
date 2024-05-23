@@ -1,12 +1,11 @@
 package ui.common.onboarding
 
-import base.view_model.BaseViewModel
+import view_model.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import ui.common.onboarding.OnboardingContract.Effect
 import ui.common.onboarding.OnboardingContract.Event
 import ui.common.onboarding.OnboardingContract.State
-import ui.common.onboarding.data.OnboardingItem
 import ui.common.onboarding.data.getOnboardingItems
 
 class OnboardingViewModel(scope: CoroutineScope) : BaseViewModel<Event, State, Effect>(scope) {

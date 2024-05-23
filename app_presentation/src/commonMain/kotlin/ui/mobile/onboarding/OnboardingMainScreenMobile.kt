@@ -26,12 +26,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import base.theme.AppTheme
-import base.view_model.EffectObserver
-import base.view_model.rememberViewModel
+import observers.EffectObserver
+import view_model.rememberViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import platform.getScreenWidth
@@ -40,7 +39,6 @@ import ui.common.onboarding.OnboardingContract.Event
 import ui.common.onboarding.OnboardingContract.Listener
 import ui.common.onboarding.OnboardingContract.State
 import ui.common.onboarding.OnboardingViewModel
-import ui.common.onboarding.data.OnboardingItem
 import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
 
 @Composable

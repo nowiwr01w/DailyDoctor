@@ -1,8 +1,8 @@
 package ui.common.pin_code
 
-import base.view_model.BaseEffect
-import base.view_model.BaseEvent
-import base.view_model.BaseState
+import contract.BaseEffect
+import contract.BaseEvent
+import contract.BaseState
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.*
 import ui.common.pin_code.data.PinCodeOperation

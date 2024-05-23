@@ -76,11 +76,13 @@ kotlin {
             /**
              * APP PRESENTATION
              */
-            implementation(projects.appPresentation.di)
             implementation(projects.appPresentation.theme)
             implementation(projects.appPresentation.viewModels)
             implementation(projects.appPresentation.navigation)
+            implementation(projects.appPresentation.viewModels.base)
+            implementation(projects.appPresentation.di)
             implementation(projects.appPresentation.navigation.di)
+            implementation(projects.appPresentation.viewModels.di)
             /**
              * LOCAL DATABASE
              */

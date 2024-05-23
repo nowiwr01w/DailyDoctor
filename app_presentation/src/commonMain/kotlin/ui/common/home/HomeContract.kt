@@ -1,8 +1,8 @@
 package ui.common.home
 
-import base.view_model.BaseEffect
-import base.view_model.BaseEvent
-import base.view_model.BaseState
+import contract.BaseEffect
+import contract.BaseEvent
+import contract.BaseState
 
 interface HomeContract {
     sealed interface Event: BaseEvent {

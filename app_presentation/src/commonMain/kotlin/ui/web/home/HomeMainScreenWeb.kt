@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import base.view_model.rememberViewModel
+import view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_app_logo_big
 import dailydoctor.app_presentation.generated.resources.ic_pin

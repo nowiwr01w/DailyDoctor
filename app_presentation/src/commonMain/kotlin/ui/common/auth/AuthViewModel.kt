@@ -1,6 +1,6 @@
 package ui.common.auth
 
-import base.view_model.BaseViewModel
+import view_model.BaseViewModel
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.response.token.TokenResponse

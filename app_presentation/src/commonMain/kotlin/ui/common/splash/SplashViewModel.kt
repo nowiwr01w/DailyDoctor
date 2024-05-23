@@ -1,6 +1,6 @@
 package ui.common.splash
 
-import base.view_model.BaseViewModel
+import view_model.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow

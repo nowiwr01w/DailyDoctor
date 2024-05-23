@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import base.view_model.rememberViewModel
+import view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_app_logo_small
 import dailydoctor.app_presentation.generated.resources.yo

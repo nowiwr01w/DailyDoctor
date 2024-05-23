@@ -1,8 +1,8 @@
 package ui.common.splash
 
-import base.view_model.BaseEffect
-import base.view_model.BaseEvent
-import base.view_model.BaseState
+import contract.BaseEffect
+import contract.BaseEvent
+import contract.BaseState
 import ui.common.splash.data.SplashAnimationState
 import ui.common.splash.data.SplashAnimationState.ICON
 

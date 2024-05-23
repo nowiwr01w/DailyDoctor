@@ -1,8 +1,8 @@
 package ui.common.verification
 
-import base.view_model.BaseEffect
-import base.view_model.BaseEvent
-import base.view_model.BaseState
+import contract.BaseEffect
+import contract.BaseEvent
+import contract.BaseState
 import ui.common.verification.data.VerificationEnterCodeOperation
 import ui.core_ui.components.button.ButtonState
 import ui.core_ui.components.button.ButtonState.DEFAULT
