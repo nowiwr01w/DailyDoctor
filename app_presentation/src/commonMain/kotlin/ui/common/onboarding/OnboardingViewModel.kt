@@ -2,6 +2,7 @@ package ui.common.onboarding
 
 import base.view_model.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import ui.common.onboarding.OnboardingContract.Effect
 import ui.common.onboarding.OnboardingContract.Event
 import ui.common.onboarding.OnboardingContract.State
@@ -19,7 +20,7 @@ class OnboardingViewModel(scope: CoroutineScope) : BaseViewModel<Event, State, E
         }
     }
 
-    private fun init(onboardingItem: OnboardingItem) {
+    private fun init(onboardingItem: OnboardingItemModel) {
         setState { copy(currentOnboardingItem = onboardingItem) }
     }
 

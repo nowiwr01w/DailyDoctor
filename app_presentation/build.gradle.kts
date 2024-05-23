@@ -65,6 +65,8 @@ kotlin {
             implementation(projects.appShared.domain)
             implementation(projects.appPresentation.theme)
             implementation(projects.appPresentation.viewModels)
+            implementation(projects.appPresentation.navigation)
+            implementation(projects.appPresentation.navigation.di)
             implementation(projects.appShared.data)
             implementation(projects.appShared.works)
             implementation(projects.appShared)

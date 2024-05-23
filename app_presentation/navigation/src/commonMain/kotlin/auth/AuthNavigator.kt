@@ -1,6 +1,6 @@
-package navigation.auth
+package nowiwr01p.daily.doctor.app_presentation.navigation.auth
 
-import navigation.base.BaseNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.base.BaseNavigator
 
 abstract class AuthNavigator: BaseNavigator() {
     abstract fun navigateToAuth()

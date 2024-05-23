@@ -3,9 +3,7 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -33,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.di"
+            baseName = "app_presentation.navigation.di"
         }
     }
 
@@ -41,33 +39,18 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
-                 * COMPOSE
-                 */
-                implementation(compose.material)
-                /**
                  * SHARED MODELS
                  */
                 implementation(projects.modelShared)
                 /**
-                 * APP SHARED
+                 * NAVIGATION
                  */
-                implementation(projects.appShared)
-                implementation(projects.appShared.di)
-                implementation(projects.appShared.domain)
-                implementation(projects.appShared.works)
-                /**
-                 * APP PRESENTATION
-                 */
-                implementation(projects.appPresentation.theme)
-                implementation(projects.appPresentation.navigation.di)
-                /**
-                 * LOCAL DATABASE
-                 */
-                implementation(projects.localDatabase)
+                implementation(projects.appPresentation.navigation)
                 /**
                  * DEPENDENCIES
                  */
-                implementation(libs.bundles.base.app)
+                implementation(libs.koin)
+                implementation(libs.decompose)
             }
         }
         androidMain.dependencies {
@@ -90,7 +73,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.di"
+    namespace = "nowiwr01p.daily.doctor.app_presentation.navigation.di"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

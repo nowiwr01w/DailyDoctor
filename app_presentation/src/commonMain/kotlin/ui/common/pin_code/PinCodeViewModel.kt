@@ -10,8 +10,8 @@ import kotlinx.coroutines.Job
 import ui.common.pin_code.PinCodeContract.Effect
 import ui.common.pin_code.PinCodeContract.Event
 import ui.common.pin_code.PinCodeContract.State
-import ui.common.pin_code.data.PinCodeMode
-import ui.common.pin_code.data.PinCodeMode.*
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.*
 import ui.common.pin_code.data.PinCodeOperation
 import usecase.pin.AppChangePinCodeUseCase
 import usecase.pin.AppCheckPinCodeUseCase

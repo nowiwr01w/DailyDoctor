@@ -52,10 +52,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
-import navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import platform.getScreenWidth
-import ui.common.pin_code.data.PinCodeMode.CREATE
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.CREATE
 import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
 import ui.common.verification.VerificationContract.Listener

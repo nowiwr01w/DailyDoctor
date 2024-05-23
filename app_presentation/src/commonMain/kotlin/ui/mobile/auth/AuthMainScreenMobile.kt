@@ -60,7 +60,7 @@ import model.errors.auth.AuthTextFieldType
 import model.errors.auth.AuthTextFieldType.EMAIL
 import model.errors.auth.AuthTextFieldType.PASSWORD
 import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
-import navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.painterResource
 import ui.common.auth.AuthContract.Effect.NavigateToPin
@@ -72,7 +72,7 @@ import ui.common.auth.AuthContract.State
 import ui.common.auth.AuthViewModel
 import ui.common.auth.data.AuthType.SIGN_IN
 import ui.common.auth.data.AuthType.SIGN_UP
-import ui.common.pin_code.data.PinCodeMode.CHECK
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.CHECK
 import ui.core_ui.components.button.ButtonState.DEFAULT
 import ui.core_ui.components.button.StateButton
 import ui.core_ui.components.input_field.CustomTextField

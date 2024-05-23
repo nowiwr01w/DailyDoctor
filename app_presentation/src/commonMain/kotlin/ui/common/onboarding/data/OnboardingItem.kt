@@ -8,19 +8,19 @@ import dailydoctor.app_presentation.generated.resources.ic_onboarding_notificati
 import dailydoctor.app_presentation.generated.resources.ic_onboarding_save_with_us
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import ui.common.onboarding.data.OnboardingItem.*
 
-@OptIn(ExperimentalResourceApi::class)
 @Serializable
 sealed class OnboardingItem(
-    @Contextual open val image: DrawableResource,
-    open val title: String,
-    open val description: String,
-    open val firstButtonText: String,
-    open val secondButtonText: String = "",
-) {
+    @Contextual override val image: DrawableResource,
+    override val title: String,
+    override val description: String,
+    override val firstButtonText: String,
+    override val secondButtonText: String = "",
+): OnboardingItemModel {
+
     data class RemoteMeetingOnboardingItem(
         override val image: DrawableResource = Res.drawable.ic_onboarding_chat_with_doctor,
         override val title: String = "Онлайн-консультации с врачами в чате",
@@ -84,7 +84,6 @@ sealed class OnboardingItem(
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 internal fun getOnboardingItems() = listOf(
     RemoteMeetingOnboardingItem(),
     UnlimitedCommunicationOnboardingItem(),

@@ -1,11 +1,11 @@
-package navigation.auth
+package nowiwr01p.daily.doctor.app_presentation.navigation.auth
 
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.pushNew
-import navigation.MainNavigatorImpl.AppNavigationConfig
-import navigation.MainNavigatorImpl.AppNavigationConfig.Auth
-import navigation.MainNavigatorImpl.AppNavigationConfig.Verification
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig.Auth
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig.Verification
 
 @OptIn(ExperimentalDecomposeApi::class)
 class AuthNavigatorImpl(

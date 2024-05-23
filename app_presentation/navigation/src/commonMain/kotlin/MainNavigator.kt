@@ -1,17 +1,17 @@
-package navigation
+package nowiwr01p.daily.doctor.app_presentation.navigation
 
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimator
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import kotlinx.serialization.Serializable
-import navigation.MainNavigatorImpl.AppNavigationConfig
-import navigation.auth.AuthNavigator
-import navigation.onboarding.OnboardingNavigator
-import navigation.pin_code.PinCodeNavigator
-import navigation.splash.SplashNavigator
-import ui.common.onboarding.data.OnboardingItem
-import ui.common.pin_code.data.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig
+import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigator
 
 interface MainNavigator {
 
@@ -29,7 +29,7 @@ interface MainNavigator {
         data object SplashChild: Child()
 
         data class OnboardingChild(
-            val onboardingItem: OnboardingItem
+            val onboardingItem: OnboardingItemModel
         ): Child()
 
         data object AuthChild: Child()

@@ -1,24 +1,22 @@
-package navigation.di
+package nowiwr01p.daily.doctor.app_presentation.navigation.di
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
-import navigation.MainNavigator
-import navigation.MainNavigatorImpl
-import navigation.MainNavigatorImpl.AppNavigationConfig
-import navigation.auth.AuthNavigator
-import navigation.auth.AuthNavigatorImpl
-import navigation.onboarding.OnboardingNavigator
-import navigation.onboarding.OnboardingNavigatorImpl
-import navigation.pin_code.PinCodeNavigator
-import navigation.pin_code.PinCodeNavigatorImpl
-import navigation.splash.SplashNavigator
-import navigation.splash.SplashNavigatorImpl
+import nowiwr01p.daily.doctor.app_presentation.navigation.AppStackNavigation
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl
+import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigatorImpl
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigatorImpl
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigatorImpl
+import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigatorImpl
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
-typealias AppStackNavigation = StackNavigation<AppNavigationConfig>
-
-val moduleNavigation = module {
+val moduleAppPresentationNavigation = module {
     /**
      * SPLASH
      */
@@ -47,7 +45,7 @@ val moduleNavigation = module {
      * MAIN
      */
     single<MainNavigator> { (context: ComponentContext) ->
-        val navigation = StackNavigation<AppNavigationConfig>()
+        val navigation = StackNavigation<MainNavigatorImpl.AppNavigationConfig>()
         MainNavigatorImpl(
             appContext = context,
             navigation = navigation,

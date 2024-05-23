@@ -1,22 +1,24 @@
-package navigation
+package nowiwr01p.daily.doctor.app_presentation.navigation
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import kotlinx.serialization.Serializable
-import navigation.MainNavigator.Child
-import navigation.MainNavigator.Child.AuthChild
-import navigation.MainNavigator.Child.OnboardingChild
-import navigation.MainNavigator.Child.PinCodeChild
-import navigation.MainNavigator.Child.SplashChild
-import navigation.MainNavigator.Child.VerificationChild
-import navigation.MainNavigatorImpl.AppNavigationConfig.Splash
-import navigation.auth.AuthNavigator
-import navigation.di.AppStackNavigation
-import navigation.onboarding.OnboardingNavigator
-import navigation.pin_code.PinCodeNavigator
-import navigation.splash.SplashNavigator
-import ui.common.onboarding.data.OnboardingItem
-import ui.common.pin_code.data.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.AuthChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.OnboardingChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.PinCodeChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.SplashChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.VerificationChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig.Splash
+import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigator
+
+typealias AppStackNavigation = StackNavigation<MainNavigatorImpl.AppNavigationConfig>
 
 class MainNavigatorImpl(
     appContext: ComponentContext,
@@ -46,7 +48,7 @@ class MainNavigatorImpl(
             child = SplashChild
         )
         @Serializable
-        data class Onboarding(val onboardingItem: OnboardingItem): AppNavigationConfig(
+        data class Onboarding(val onboardingItem: OnboardingItemModel): AppNavigationConfig(
             child = OnboardingChild(onboardingItem)
         )
         @Serializable

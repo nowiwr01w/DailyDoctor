@@ -15,15 +15,15 @@ import base.theme.AppTheme
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
-import navigation.MainNavigator
-import navigation.MainNavigator.Child.AuthChild
-import navigation.MainNavigator.Child.OnboardingChild
-import navigation.MainNavigator.Child.PinCodeChild
-import navigation.MainNavigator.Child.SplashChild
-import navigation.MainNavigator.Child.VerificationChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.AuthChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.OnboardingChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.PinCodeChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.SplashChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.VerificationChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
-import ui.common.onboarding.data.OnboardingItem
 import ui.core_ui.components.snack_bar.SnackBar
 import ui.core_ui.helpers.snack_bar.SnackBarHelper
 import ui.core_ui.helpers.window_insets.LocalWindowInsets
@@ -137,7 +137,7 @@ private fun AppSplashScreen(navigator: MainNavigator) = when (currentPlatform) {
 @Composable
 private fun AppOnboardingScreen(
     navigator: MainNavigator,
-    onboardingItem: OnboardingItem
+    onboardingItem: OnboardingItemModel
 ) {
     val onboardingScreen: @Composable () -> Unit = {
         OnboardingMainScreenMobile(

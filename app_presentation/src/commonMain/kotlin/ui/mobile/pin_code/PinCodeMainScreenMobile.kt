@@ -36,11 +36,10 @@ import base.view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_app_logo_small
 import dailydoctor.app_presentation.generated.resources.yo
-import navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
 import platform.getScreenWidth
 import ui.common.pin_code.PinCodeContract.Event
 import ui.common.pin_code.PinCodeContract.Listener
@@ -50,7 +49,7 @@ import ui.common.pin_code.data.PinCodeData
 import ui.common.pin_code.data.PinCodeData.PinCodeDigit
 import ui.common.pin_code.data.PinCodeData.PinCodeIcon
 import ui.common.pin_code.data.PinCodeIconType
-import ui.common.pin_code.data.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import ui.common.pin_code.data.PinCodeOperation
 import ui.common.pin_code.data.PinCodeState
 import ui.common.pin_code.data.PinCodeState.DEFAULT

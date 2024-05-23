@@ -28,7 +28,8 @@ import androidx.compose.ui.unit.times
 import base.theme.AppTheme
 import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
-import navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -44,7 +45,7 @@ import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
 
 @Composable
 internal fun OnboardingMainScreenMobile(
-    onboardingItem: OnboardingItem,
+    onboardingItem: OnboardingItemModel,
     navigator: MainNavigator,
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
@@ -118,10 +119,9 @@ private fun OnboardingMainScreenContent(
 /**
  * ONBOARDING ITEM
  */
- @OptIn(ExperimentalResourceApi::class)
  @Composable
 private fun OnboardingItemView(
-    item: OnboardingItem,
+    item: OnboardingItemModel,
     onShowNextItemClicked: () -> Unit
 ) {
     val iconWidth by rememberUpdatedState(0.8 * getScreenWidth())

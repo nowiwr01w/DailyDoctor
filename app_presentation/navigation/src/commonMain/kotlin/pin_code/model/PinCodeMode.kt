@@ -1,4 +1,4 @@
-package ui.common.pin_code.data
+package nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model
 
 enum class PinCodeMode {
     CREATE, // Registration
