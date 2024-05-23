@@ -4,7 +4,7 @@ import ResendVerificationCodeTimerWork
 import org.koin.dsl.module
 import usecase.verification.AppSendVerificationCodeUseCase
 
-val moduleAppWorks = module {
+val moduleAppSharedWorks = module {
     /**
      * RESEND VERIFICATION CODE
      */

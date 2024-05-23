@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared.di"
+            baseName = "app_shared.works.di"
         }
     }
 
@@ -45,16 +45,12 @@ kotlin {
                 /**
                  * APP SHARED
                  */
-                implementation(projects.appShared.core)
-                implementation(projects.appShared.domain)
-                implementation(projects.appShared.data)
                 implementation(projects.appShared.works)
-                implementation(projects.appShared.works.di)
-                implementation(projects.appShared.config.di)
+                implementation(projects.appShared.domain)
                 /**
                  * DEPENDENCIES
                  */
-                implementation(libs.bundles.base.app)
+                implementation(libs.koin)
             }
         }
         androidMain.dependencies {
@@ -77,7 +73,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.shared.di"
+    namespace = "nowiwr01p.daily.doctor.app_shared.works.di"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

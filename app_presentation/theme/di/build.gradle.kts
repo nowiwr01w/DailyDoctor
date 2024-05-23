@@ -3,7 +3,9 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -31,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared.di"
+            baseName = "app_presentation.theme.di"
         }
     }
 
@@ -46,15 +48,15 @@ kotlin {
                  * APP SHARED
                  */
                 implementation(projects.appShared.core)
-                implementation(projects.appShared.domain)
-                implementation(projects.appShared.data)
-                implementation(projects.appShared.works)
-                implementation(projects.appShared.works.di)
-                implementation(projects.appShared.config.di)
+                implementation(projects.appShared.platform)
+                /**
+                 * APP PRESENTATIONS
+                 */
+                implementation(projects.appPresentation.theme)
                 /**
                  * DEPENDENCIES
                  */
-                implementation(libs.bundles.base.app)
+                implementation(libs.koin)
             }
         }
         androidMain.dependencies {
@@ -77,7 +79,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.shared.di"
+    namespace = "nowiwr01p.daily.doctor.app_presentation.theme.di"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

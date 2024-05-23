@@ -1,5 +1,3 @@
-package di.theme
-
 import core.model.color.data.background.AppBackgroundColors
 import core.model.color.data.background.classic.ClassicDarkBackgroundColors
 import core.model.color.data.background.classic.ClassicLightBackgroundColors
@@ -17,7 +15,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import platform.Platform.*
 
-val moduleTheme = module {
+val moduleAppPresentationTheme = module {
     /**
      * SHAPES
      */

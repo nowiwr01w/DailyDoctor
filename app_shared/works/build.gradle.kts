@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_shared.domain"
+            baseName = "app_shared.works"
         }
     }
 

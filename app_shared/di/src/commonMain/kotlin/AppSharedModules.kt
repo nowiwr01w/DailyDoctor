@@ -1,9 +1,9 @@
 import api.moduleAppSharedApi
+import di.works.moduleAppSharedWorks
 import network.moduleAppSharedNetwork
 import repository.moduleAppSharedRepository
 import usecase.moduleAppSharedUseCase
 import validators.moduleAppSharedValidators
-import works.moduleAppSharedWorks
 
 private val allAppSharedModules = listOf(
     moduleAppSharedApi,
