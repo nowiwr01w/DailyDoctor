@@ -57,10 +57,10 @@ import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_eye_closed
 import dailydoctor.app_presentation.generated.resources.ic_eye_opened
 import dailydoctor.app_presentation.generated.resources.ic_login
-import domain.repository.auth.data.errors.AuthTextFieldType
-import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
-import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
-import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
+import model.errors.auth.AuthTextFieldType
+import model.errors.auth.AuthTextFieldType.EMAIL
+import model.errors.auth.AuthTextFieldType.PASSWORD
+import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import navigation.MainNavigator
 import org.jetbrains.compose.resources.painterResource
 import ui.common.auth.AuthContract.Effect.NavigateToPin

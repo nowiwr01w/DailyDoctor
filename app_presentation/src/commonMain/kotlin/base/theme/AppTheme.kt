@@ -16,21 +16,20 @@ import androidx.compose.ui.text.font.FontFamily
 import base.theme.shape.AppShapes
 import base.theme.typography.AppTypography
 import currentPlatform
-import domain.model.color.AppColorsData
-import domain.model.color.ProvideCustomColors
-import domain.model.color.classic.AppClassicColors
-import domain.repository.brand.AppBrand
-import domain.repository.brand.AppBrand.AppBrandClassic
-import domain.repository.theme.AppTheme
-import domain.repository.theme.AppTheme.DARK
-import domain.repository.theme.AppTheme.LIGHT
-import domain.usecase.brand.GetAppBrandUseCase
+import model.color.AppColorsData
+import model.color.ProvideCustomColors
 import com.nowiwr01p.model.usecase.execute
-import domain.usecase.theme.GetAppThemeModeUseCase
+import model.brand.AppBrand
+import model.brand.AppBrand.*
+import model.color.classic.AppClassicColors
+import model.theme.AppTheme
+import model.theme.AppTheme.*
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import ui.core_ui.helpers.window_insets.data.LocalWindowInsetsData
 import ui.core_ui.helpers.window_insets.data.ProviderLocalWindowInsets
+import usecase.brand.AppGetBrandUseCase
+import usecase.theme.AppGetThemeModeUseCase
 
 @Composable
 fun AppTheme(
@@ -56,7 +55,7 @@ fun AppTheme(
 
 @Composable
 private fun getAppBrand(
-    getAppBrandUseCase: GetAppBrandUseCase = koinInject()
+    getAppBrandUseCase: AppGetBrandUseCase = koinInject()
 ): State<AppBrand> {
     val appBrand: MutableState<AppBrand> = remember { mutableStateOf(AppBrandClassic()) }
     LaunchedEffect(Unit) {
@@ -67,11 +66,11 @@ private fun getAppBrand(
 
 @Composable
 private fun getAppTheme(
-    getAppThemeModeUseCase: GetAppThemeModeUseCase = koinInject()
+    appGetThemeModeUseCase: AppGetThemeModeUseCase = koinInject()
 ): State<AppTheme> {
     val appTheme = remember { mutableStateOf(LIGHT) }
     LaunchedEffect(Unit) {
-        getAppThemeModeUseCase.execute().collect { themeMode ->
+        appGetThemeModeUseCase.execute().collect { themeMode ->
             appTheme.value = themeMode
         }
     }

@@ -9,6 +9,7 @@ dependencies {
      */
     implementation(projects.modelShared)
     implementation(projects.appShared)
+    implementation(projects.appShared.di)
     /**
      * DEPENDENCIES
      */

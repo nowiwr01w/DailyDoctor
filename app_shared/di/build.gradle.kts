@@ -4,8 +4,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.jetbrainsCompose) // TODO: Remove
-    alias(libs.plugins.compose.compiler) // TODO: Remove
 }
 
 kotlin {
@@ -33,15 +31,17 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared.domain"
+            baseName = "shared.di"
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.material) // TODO: Remove
                 implementation(projects.modelShared)
+                implementation(projects.appShared.domain)
+                implementation(projects.appShared.data)
+                implementation(projects.appShared.works)
                 implementation(libs.bundles.base.app)
             }
         }
@@ -65,7 +65,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.shared.domain"
+    namespace = "nowiwr01p.daily.doctor.shared.di"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

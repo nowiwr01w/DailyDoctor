@@ -3,9 +3,9 @@ package di
 import com.nowiwr01p.local_database.platform.createSettingsModule
 import com.nowiwr01p.model.di.moduleBaseCoroutines
 import config.di.moduleConfig
-import data.di.moduleDataApp
-import data.di.moduleUserDataValidators
-import domain.di.moduleDomainApp
+import moduleAppSharedData
+import moduleAppSharedDomain
+import moduleAppAuthDataValidators
 import navigation.di.moduleNavigation
 import ui.core_ui.di.moduleCoreUI
 
@@ -16,11 +16,9 @@ val appModules = listOf(
     moduleConfig,
     moduleBaseCoroutines,
     moduleAppWorks,
-    moduleViewModels,
-    moduleDomainApp,
-    moduleDomainShared,
-    moduleDataApp,
-    moduleDataShared,
-    moduleUserDataValidators,
+    moduleAppViewModels,
+    moduleAppSharedDomain,
+    moduleAppSharedData,
+    moduleAppAuthDataValidators,
     createSettingsModule()
 )

@@ -6,16 +6,15 @@ import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
 import core.AppMessage
-import domain.model.user.UserData
-import domain.model.user.UserDataSignIn
-import domain.model.user.UserDataSignUp
-import domain.repository.auth.data.errors.AuthTextFieldType
-import domain.repository.auth.data.errors.AuthTextFieldType.EMAIL
-import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD
-import domain.repository.auth.data.errors.AuthTextFieldType.PASSWORD_CONFIRMATION
-import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import model.errors.auth.AuthTextFieldType
+import model.errors.auth.AuthTextFieldType.EMAIL
+import model.errors.auth.AuthTextFieldType.PASSWORD
+import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
+import model.user.UserData
+import model.user.UserDataSignIn
+import model.user.UserDataSignUp
 import ui.common.auth.AuthContract.Effect
 import ui.common.auth.AuthContract.Event
 import ui.common.auth.AuthContract.Event.HandleUserInput
@@ -36,12 +35,13 @@ import ui.core_ui.helpers.snack_bar.data.SnackBarParams.TopFloatingParams
 import ui.core_ui.helpers.snack_bar.data.SnackBarType
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignUpUseCase
+import usecase.auth.AppValidateAuthDataUseCase
 
 class AuthViewModel(
     scope: CoroutineScope,
     private val signInUseCase: AppSignInUseCase,
     private val signUpUseCase: AppSignUpUseCase,
-    private val authDataValidator: ValidateAuthDataUseCase,
+    private val authDataValidator: AppValidateAuthDataUseCase,
     private val snackBarHelper: SnackBarHelper
 ): BaseViewModel<Event, State, Effect>(scope) {
 

@@ -3,8 +3,8 @@ package ui.common.auth
 import base.view_model.BaseEffect
 import base.view_model.BaseEvent
 import base.view_model.BaseState
-import domain.repository.auth.data.errors.AuthError
-import domain.repository.auth.data.errors.AuthTextFieldType
+import model.errors.auth.AuthError
+import model.errors.auth.AuthTextFieldType
 import ui.common.auth.data.AuthType
 import ui.common.auth.data.AuthType.SIGN_UP
 import ui.core_ui.components.button.ButtonState

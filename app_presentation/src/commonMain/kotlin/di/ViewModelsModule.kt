@@ -1,7 +1,6 @@
 package di
 
 import ResendVerificationCodeTimerWork
-import domain.usecase.auth.ValidateAuthDataUseCase
 import kotlinx.coroutines.CoroutineScope
 import org.koin.dsl.module
 import ui.common.auth.AuthViewModel
@@ -13,13 +12,14 @@ import ui.common.verification.VerificationViewModel
 import ui.core_ui.helpers.snack_bar.SnackBarHelper
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignUpUseCase
+import usecase.auth.AppValidateAuthDataUseCase
 import usecase.pin.AppChangePinCodeUseCase
 import usecase.pin.AppCheckPinCodeUseCase
 import usecase.pin.AppCreatePinCodeUseCase
 import usecase.pin.AppDeletePinCodeUseCase
 import usecase.verification.AppCheckVerificationCodeUseCase
 
-val moduleViewModels = module {
+val moduleAppViewModels = module {
     /**
      * SPLASH
      */
@@ -40,7 +40,7 @@ val moduleViewModels = module {
             scope = scope,
             signInUseCase = get<AppSignInUseCase>(),
             signUpUseCase = get<AppSignUpUseCase>(),
-            authDataValidator = get<ValidateAuthDataUseCase>(),
+            authDataValidator = get<AppValidateAuthDataUseCase>(),
             snackBarHelper = get<SnackBarHelper>()
         )
     }

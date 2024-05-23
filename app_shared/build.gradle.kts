@@ -49,12 +49,15 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.modelShared)
+            implementation(projects.appShared.di)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            
             implementation(libs.bundles.base.app)
         }
         jvmMain.dependencies {
