@@ -40,8 +40,21 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.material) // TODO: Remove
+                /**
+                 * MODEL SHARED
+                 */
                 implementation(projects.modelShared)
+                /**
+                 * APP SHARED
+                 */
+                implementation(projects.appShared.core)
+                /**
+                 * COMPOSE
+                 */
+                implementation(compose.material) // TODO: Remove
+                /**
+                 * DEPENDENCIES
+                 */
                 implementation(libs.bundles.base.app)
             }
         }

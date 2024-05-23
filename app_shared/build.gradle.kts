@@ -56,6 +56,7 @@ kotlin {
              * APP SHARED
              */
             implementation(projects.appShared.di)
+            implementation(projects.appShared.core)
             implementation(projects.appShared.platform)
             /**
              * COMPOSE

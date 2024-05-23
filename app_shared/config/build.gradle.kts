@@ -43,8 +43,9 @@ kotlin {
                  */
                 implementation(projects.modelShared)
                 /**
-                 * PLATFORM
+                 * APP SHARED
                  */
+                implementation(projects.appShared.core)
                 implementation(projects.appShared.platform)
                 /**
                  * DEPENDENCIES

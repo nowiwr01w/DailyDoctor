@@ -52,6 +52,7 @@ kotlin {
                  * APP SHARED
                  */
                 implementation(projects.appShared)
+                implementation(projects.appShared.core)
                 implementation(projects.appShared.di)
                 implementation(projects.appShared.domain)
                 implementation(projects.appShared.works)

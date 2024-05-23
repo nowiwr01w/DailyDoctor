@@ -39,8 +39,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
-                 * CONFIG
+                 * APP SHARED
                  */
+                implementation(projects.appShared.core)
                 implementation(projects.appShared.config)
                 /**
                  * DEPENDENCIES

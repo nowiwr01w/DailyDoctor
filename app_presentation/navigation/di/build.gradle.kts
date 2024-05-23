@@ -43,7 +43,11 @@ kotlin {
                  */
                 implementation(projects.modelShared)
                 /**
-                 * NAVIGATION
+                 * APP SHARED
+                 */
+                implementation(projects.appShared.core)
+                /**
+                 * APP PRESENTATION
                  */
                 implementation(projects.appPresentation.navigation)
                 /**
