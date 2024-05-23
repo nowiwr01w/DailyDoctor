@@ -50,7 +50,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import base.theme.CustomTheme.colors
 import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
@@ -62,6 +61,7 @@ import model.errors.auth.AuthTextFieldType.EMAIL
 import model.errors.auth.AuthTextFieldType.PASSWORD
 import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.painterResource
 import ui.common.auth.AuthContract.Effect.NavigateToPin
 import ui.common.auth.AuthContract.Effect.NavigateToPrivacyPolicyInfo

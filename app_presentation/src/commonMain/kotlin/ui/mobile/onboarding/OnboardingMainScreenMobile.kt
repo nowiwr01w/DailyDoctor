@@ -26,10 +26,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import base.theme.AppTheme
-import base.theme.CustomTheme.colors
 import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
 import navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -204,7 +204,7 @@ private fun OnboardingItemView(
  */
 @Preview
 @Composable
-private fun Preview() = AppTheme {
+private fun Preview() = base.theme.AppTheme {
     OnboardingMainScreenContent(
         state = State(),
         listener = null

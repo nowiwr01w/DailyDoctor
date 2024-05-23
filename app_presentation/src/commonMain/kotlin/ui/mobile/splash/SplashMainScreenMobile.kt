@@ -25,12 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import base.theme.AppTheme
-import base.theme.CustomTheme.colors
 import base.view_model.EffectObserver
 import base.view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_app_logo_small
 import navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview

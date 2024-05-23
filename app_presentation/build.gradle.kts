@@ -61,7 +61,10 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.modelShared)
             implementation(projects.appShared.di)
+            implementation(projects.appPresentation.di)
             implementation(projects.appShared.domain)
+            implementation(projects.appPresentation.theme)
+            implementation(projects.appPresentation.viewModels)
             implementation(projects.appShared.data)
             implementation(projects.appShared.works)
             implementation(projects.appShared)

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.withStyle
-import base.theme.CustomTheme
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 
 fun AnnotatedString.onTextClick(
     text: String,
@@ -23,7 +23,7 @@ fun AnnotatedString.Builder.appendLink(name: String) {
         annotation = name
     )
     withStyle(
-        style = SpanStyle(color = CustomTheme.colors.backgroundColors.grayBackgroundColor)
+        style = SpanStyle(color = colors.backgroundColors.grayBackgroundColor)
     ) {
         append(name)
     }

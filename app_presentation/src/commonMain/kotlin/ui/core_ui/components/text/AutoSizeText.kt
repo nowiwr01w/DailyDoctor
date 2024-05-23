@@ -11,14 +11,14 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.times
-import base.theme.CustomTheme
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 
 @Composable
 fun AutoSizeText(
     text: String,
     style: TextStyle,
     modifier: Modifier = Modifier,
-    color: Color = CustomTheme.colors.textColors.blackTextColor,
+    color: Color = colors.textColors.blackTextColor,
     maxLines: Int = Int.MAX_VALUE
 ) {
     var showText by remember { mutableStateOf(false) }

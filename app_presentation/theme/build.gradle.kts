@@ -33,39 +33,16 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.di"
+            baseName = "app_presentation.theme"
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                /**
-                 * COMPOSE
-                 */
                 implementation(compose.material)
-                /**
-                 * SHARED MODELS
-                 */
                 implementation(projects.modelShared)
-                /**
-                 * APP SHARED
-                 */
-                implementation(projects.appShared)
-                implementation(projects.appShared.di)
                 implementation(projects.appShared.domain)
-                implementation(projects.appShared.works)
-                /**
-                 * APP PRESENTATION
-                 */
-                implementation(projects.appPresentation.theme)
-                /**
-                 * LOCAL DATABASE
-                 */
-                implementation(projects.localDatabase)
-                /**
-                 * DEPENDENCIES
-                 */
                 implementation(libs.bundles.base.app)
             }
         }
@@ -89,7 +66,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.di"
+    namespace = "nowiwr01p.daily.doctor.app_presentation.theme"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

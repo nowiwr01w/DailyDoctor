@@ -32,12 +32,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import base.theme.CustomTheme.colors
 import base.view_model.rememberViewModel
 import dailydoctor.app_presentation.generated.resources.Res
 import dailydoctor.app_presentation.generated.resources.ic_app_logo_small
 import dailydoctor.app_presentation.generated.resources.yo
 import navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject

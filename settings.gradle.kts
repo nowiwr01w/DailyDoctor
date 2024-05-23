@@ -28,6 +28,8 @@ dependencyResolutionManagement {
 
 include(":app_presentation")
 include(":app_presentation:di")
+include(":app_presentation:theme")
+include(":app_presentation:view_models")
 
 include(":app_shared")
 include(":app_shared:data")

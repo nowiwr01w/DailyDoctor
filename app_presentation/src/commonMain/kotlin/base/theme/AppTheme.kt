@@ -13,8 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
-import base.theme.shape.AppShapes
-import base.theme.typography.AppTypography
 import currentPlatform
 import model.color.AppColorsData
 import model.color.ProvideCustomColors
@@ -24,6 +22,8 @@ import model.brand.AppBrand.*
 import model.color.classic.AppClassicColors
 import model.theme.AppTheme
 import model.theme.AppTheme.*
+import nowiwr01p.daily.doctor.app_presentation.theme.shape.AppShapes
+import nowiwr01p.daily.doctor.app_presentation.theme.typography.AppTypography
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import ui.core_ui.helpers.window_insets.data.LocalWindowInsetsData

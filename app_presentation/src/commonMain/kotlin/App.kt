@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import base.theme.AppTheme
-import base.theme.CustomTheme.colors
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
@@ -28,6 +27,7 @@ import navigation.MainNavigator.Child.OnboardingChild
 import navigation.MainNavigator.Child.PinCodeChild
 import navigation.MainNavigator.Child.SplashChild
 import navigation.MainNavigator.Child.VerificationChild
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import ui.common.onboarding.data.OnboardingItem
