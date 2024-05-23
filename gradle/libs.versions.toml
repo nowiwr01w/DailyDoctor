@@ -40,7 +40,7 @@ kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
 koin-ktor-logger = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
 koin-android = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 #################
 ### DATASTORE ###
@@ -90,7 +90,7 @@ kottie = { module = "io.github.ismai117:kottie", version.ref = "kottie" }
 
 [bundles]
 base-app = [
-    "koin",
+#    "koin",
     "koin-compose",
     "decompose",
     "decompose-extensions",
@@ -200,7 +200,8 @@ essenty = "2.0.0-alpha07"
 ##############
 ### KOIN ###
 ##############
-koin = "3.6.0-wasm-alpha2"
+koin = "3.6.0-Beta4"
+koin-compose = "1.2.0-Beta4"
 #################
 ### DATASTORE ###
 #################

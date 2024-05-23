@@ -1,19 +1,13 @@
-
 import Platform.DESKTOP
 import Platform.WEB
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -27,15 +21,12 @@ import navigation.MainNavigator.Child.OnboardingChild
 import navigation.MainNavigator.Child.PinCodeChild
 import navigation.MainNavigator.Child.SplashChild
 import navigation.MainNavigator.Child.VerificationChild
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import ui.common.onboarding.data.OnboardingItem
 import ui.core_ui.components.snack_bar.SnackBar
 import ui.core_ui.helpers.snack_bar.SnackBarHelper
-import ui.core_ui.helpers.window_insets.AppWindowColorsHelper
-import ui.core_ui.helpers.window_insets.WindowColorsData
-import ui.core_ui.helpers.window_insets.data.LocalWindowInsets
+import ui.core_ui.helpers.window_insets.LocalWindowInsets
 import ui.mobile.auth.AuthMainScreenMobile
 import ui.mobile.onboarding.OnboardingMainScreenMobile
 import ui.mobile.pin_code.PinCodeMainScreenMobile
@@ -60,12 +51,10 @@ private fun AppContentFullScreen(
     ) {
         val windowInsets = LocalWindowInsets.current
         val (statusBar, navigationBar, content) = createRefs()
-        val (statusBarColor, navigationBarColor) = subscribeOnAppWindowColorsChanges().value
 
-        val statusBarModifier = Modifier
+        val statusBarModifier = Modifier // TODO: Create base function and use on each screen
             .fillMaxWidth()
             .height(windowInsets.topPadding)
-            .background(statusBarColor)
             .constrainAs(statusBar) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
@@ -76,7 +65,6 @@ private fun AppContentFullScreen(
         val navigationBarModifier = Modifier
             .fillMaxWidth()
             .height(windowInsets.bottomPadding)
-            .background(navigationBarColor)
             .constrainAs(navigationBar) {
                 bottom.linkTo(parent.bottom)
                 start.linkTo(parent.start)
@@ -162,30 +150,6 @@ private fun AppOnboardingScreen(
         DESKTOP -> onboardingScreen()
         else -> onboardingScreen()
     }
-}
-
-/**
- * SUBSCRIBE ON STATUS BAR COLOR CHANGES
- */
-@Composable
-private fun subscribeOnAppWindowColorsChanges(
-    appWindowColorsHelper: AppWindowColorsHelper = koinInject()
-): State<WindowColorsData> {
-    val appWindowColorsData = WindowColorsData(
-        statusBarColor = colors.backgroundColors.whiteBackgroundColor,
-        navigationBarColor = colors.backgroundColors.whiteBackgroundColor
-    )
-    val appWindowColors = remember {
-        mutableStateOf(appWindowColorsData)
-    }
-    LaunchedEffect(Unit) {
-        appWindowColorsHelper.appWindowColors.collect { newColors ->
-            if (newColors != null) {
-                appWindowColors.value = newColors
-            }
-        }
-    }
-    return appWindowColors
 }
 
 /**

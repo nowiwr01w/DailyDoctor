@@ -13,28 +13,29 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
+import com.nowiwr01p.model.usecase.execute
 import currentPlatform
+import model.brand.AppBrand
+import model.brand.AppBrand.AppBrandClassic
 import model.color.AppColorsData
 import model.color.ProvideCustomColors
-import com.nowiwr01p.model.usecase.execute
-import model.brand.AppBrand
-import model.brand.AppBrand.*
 import model.color.classic.AppClassicColors
 import model.theme.AppTheme
-import model.theme.AppTheme.*
+import model.theme.AppTheme.DARK
+import model.theme.AppTheme.LIGHT
 import nowiwr01p.daily.doctor.app_presentation.theme.shape.AppShapes
 import nowiwr01p.daily.doctor.app_presentation.theme.typography.AppTypography
 import org.koin.compose.koinInject
-import org.koin.core.parameter.parametersOf
-import ui.core_ui.helpers.window_insets.data.LocalWindowInsetsData
-import ui.core_ui.helpers.window_insets.data.ProviderLocalWindowInsets
+import org.koin.core.qualifier.named
+import ui.core_ui.helpers.window_insets.LocalWindowInsetsData
+import ui.core_ui.helpers.window_insets.ProviderLocalWindowInsets
 import usecase.brand.AppGetBrandUseCase
 import usecase.theme.AppGetThemeModeUseCase
 
 @Composable
 fun AppTheme(
-    shapes: AppShapes = koinInject { parametersOf(currentPlatform) },
-    typography: AppTypography = koinInject { parametersOf(currentPlatform) },
+    shapes: AppShapes = koinInject(named(currentPlatform)),
+    typography: AppTypography = koinInject(named(currentPlatform)),
     content: @Composable () -> Unit
 ) {
     val appThemedColors = getAppColors(

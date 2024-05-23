@@ -41,36 +41,23 @@ import ui.common.onboarding.OnboardingContract.State
 import ui.common.onboarding.OnboardingViewModel
 import ui.common.onboarding.data.OnboardingItem
 import ui.common.onboarding.data.OnboardingItem.NotificationsOnboardingItem
-import ui.core_ui.helpers.window_insets.AppWindowColorsHelper
-import ui.core_ui.helpers.window_insets.WindowColorsData
-import org.koin.compose.koinInject
 
 @Composable
 internal fun OnboardingMainScreenMobile(
     onboardingItem: OnboardingItem,
     navigator: MainNavigator,
-    appWindowColorsHelper: AppWindowColorsHelper = koinInject(),
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
-    val onboardingScreenColors = with(colors.backgroundColors) {
-        WindowColorsData(whiteBackgroundColor, whiteBackgroundColor)
-    }
-    val authScreenColors = with(colors.backgroundColors) {
-        WindowColorsData(grayBackgroundColor, whiteBackgroundColor)
-    }
-
     val listener = object : Listener {
         override fun showNextOnboardingItem() {
             viewModel.setEvent(Event.ShowNextOnboardingItem)
         }
         override fun onEnableNotificationsClick() {
-            appWindowColorsHelper.setAppWindowColors(authScreenColors)
             navigator.authNavigator.navigateToAuth()
         }
     }
     
     LaunchedEffect(Unit) {
-        appWindowColorsHelper.setAppWindowColors(onboardingScreenColors)
         viewModel.setEvent(Event.Init(onboardingItem))
     }
     
@@ -204,7 +191,7 @@ private fun OnboardingItemView(
  */
 @Preview
 @Composable
-private fun Preview() = base.theme.AppTheme {
+private fun Preview() = AppTheme {
     OnboardingMainScreenContent(
         state = State(),
         listener = null

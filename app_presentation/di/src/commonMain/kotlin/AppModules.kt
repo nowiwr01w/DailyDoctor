@@ -5,6 +5,7 @@ import com.nowiwr01p.model.di.moduleBaseCoroutines
 import di.theme.moduleTheme
 //import di.view_models.moduleAppViewModels
 import di.works.moduleAppWorks
+import getAppSharedModules
 
 val appModules = listOf(
     moduleTheme,
@@ -15,4 +16,4 @@ val appModules = listOf(
     moduleAppWorks,
 //    moduleAppViewModels,
     createSettingsModule()
-)
+) + getAppSharedModules()

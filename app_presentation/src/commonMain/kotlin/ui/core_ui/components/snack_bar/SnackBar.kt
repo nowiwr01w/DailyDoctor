@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import core.AppMessage
 import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import ui.core_ui.helpers.snack_bar.data.SnackBarDisplayType.BOTTOM_ROUNDED
 import ui.core_ui.helpers.snack_bar.data.SnackBarDisplayType.FULL_ROUNDED
@@ -32,7 +31,7 @@ import ui.core_ui.helpers.snack_bar.data.SnackBarType.DEFAULT
 import ui.core_ui.helpers.snack_bar.data.SnackBarType.ERROR
 import ui.core_ui.helpers.snack_bar.data.SnackBarType.SUCCESS
 import ui.core_ui.helpers.snack_bar.data.SnackBarType.WARNING
-import ui.core_ui.helpers.window_insets.data.LocalWindowInsets
+import ui.core_ui.helpers.window_insets.LocalWindowInsets
 
 private const val SNACK_BAR_ANIMATION_MILLIS = 500
 

@@ -1,4 +1,4 @@
-package ui.core_ui.helpers.window_insets.data
+package ui.core_ui.helpers.window_insets
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider

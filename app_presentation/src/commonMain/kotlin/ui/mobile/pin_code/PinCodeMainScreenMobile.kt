@@ -58,20 +58,13 @@ import ui.common.pin_code.data.PinCodeState.ERROR
 import ui.common.pin_code.data.PinCodeState.SEND_REQUEST
 import ui.common.pin_code.data.PinCodeState.SUCCESS
 import ui.common.pin_code.data.pinCodeData
-import ui.core_ui.helpers.window_insets.AppWindowColorsHelper
-import ui.core_ui.helpers.window_insets.WindowColorsData
 
 @Composable
 fun PinCodeMainScreenMobile(
     navigator: MainNavigator,
     mode: PinCodeMode,
-    appWindowColorsHelper: AppWindowColorsHelper = koinInject(),
     viewModel: PinCodeViewModel = rememberViewModel()
 ) {
-    val onboardingScreenColors = with(colors.backgroundColors) {
-        WindowColorsData(whiteBackgroundColor, whiteBackgroundColor)
-    }
-
     val listener = object : Listener {
         override fun handleUserInput(operation: PinCodeOperation) {
             viewModel.setEvent(Event.HandleUserInput(operation))
@@ -82,7 +75,6 @@ fun PinCodeMainScreenMobile(
     }
 
     LaunchedEffect(Unit) {
-        appWindowColorsHelper.setAppWindowColors(onboardingScreenColors) // TODO: Remove
         viewModel.setEvent(Event.Init(mode))
     }
 
