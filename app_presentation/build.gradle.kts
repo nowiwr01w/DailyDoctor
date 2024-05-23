@@ -59,24 +59,43 @@ kotlin {
             implementation(libs.bundles.ios)
         }
         commonMain.dependencies {
+            /**
+             * MODEL SHARED
+             */
             implementation(projects.modelShared)
+            /**
+             * APP SHARED
+             */
+            implementation(projects.appShared)
             implementation(projects.appShared.di)
-            implementation(projects.appPresentation.di)
             implementation(projects.appShared.domain)
+            implementation(projects.appShared.data)
+            implementation(projects.appShared.works)
+            implementation(projects.appShared.platform)
+            /**
+             * APP PRESENTATION
+             */
+            implementation(projects.appPresentation.di)
             implementation(projects.appPresentation.theme)
             implementation(projects.appPresentation.viewModels)
             implementation(projects.appPresentation.navigation)
             implementation(projects.appPresentation.navigation.di)
-            implementation(projects.appShared.data)
-            implementation(projects.appShared.works)
-            implementation(projects.appShared)
+            /**
+             * LOCAL DATABASE
+             */
             implementation(projects.localDatabase)
+            /**
+             * COMPOSE
+             */
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            /**
+             * DEPENDENCIES
+             */
             implementation(libs.bundles.base.app)
         }
         desktopMain.dependencies {

@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared.data"
+            baseName = "shared.config.di"
         }
     }
 
@@ -39,25 +39,36 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
-                 * MODEL SHARED
+                 * CONFIG
                  */
-                implementation(projects.modelShared)
-                /**
-                 * APP SHARED
-                 */
-                implementation(projects.appShared.domain)
-                implementation(projects.appShared.platform)
+                implementation(projects.appShared.config)
                 /**
                  * DEPENDENCIES
                  */
-                implementation(libs.bundles.base.app)
+                implementation(libs.koin)
+            }
+        }
+        androidMain.dependencies {
+            implementation(libs.bundles.android)
+        }
+        iosMain.dependencies {
+            implementation(libs.bundles.ios)
+        }
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.bundles.desktop)
+            }
+        }
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(libs.bundles.web)
             }
         }
     }
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.shared.data"
+    namespace = "nowiwr01p.daily.doctor.shared.config.di"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

@@ -11,7 +11,6 @@ val appModules = listOf(
     moduleTheme,
 //    moduleCoreUI,
     moduleAppPresentationNavigation,
-//    moduleConfig,
     moduleBaseCoroutines,
     moduleAppWorks,
 //    moduleAppViewModels,

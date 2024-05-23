@@ -1,1 +1,0 @@
-actual val currentPlatform = Platform.ANDROID

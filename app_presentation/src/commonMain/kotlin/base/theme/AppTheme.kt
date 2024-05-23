@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
 import com.nowiwr01p.model.usecase.execute
-import currentPlatform
 import model.brand.AppBrand
 import model.brand.AppBrand.AppBrandClassic
 import model.color.AppColorsData
@@ -27,6 +26,7 @@ import nowiwr01p.daily.doctor.app_presentation.theme.shape.AppShapes
 import nowiwr01p.daily.doctor.app_presentation.theme.typography.AppTypography
 import org.koin.compose.koinInject
 import org.koin.core.qualifier.named
+import platform.currentPlatform
 import ui.core_ui.helpers.window_insets.LocalWindowInsetsData
 import ui.core_ui.helpers.window_insets.ProviderLocalWindowInsets
 import usecase.brand.AppGetBrandUseCase

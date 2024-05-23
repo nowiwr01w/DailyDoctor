@@ -1,5 +1,3 @@
-import Platform.DESKTOP
-import Platform.WEB
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +22,8 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.Ve
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
+import platform.Platform.*
+import platform.currentPlatform
 import ui.core_ui.components.snack_bar.SnackBar
 import ui.core_ui.helpers.snack_bar.SnackBarHelper
 import ui.core_ui.helpers.window_insets.LocalWindowInsets

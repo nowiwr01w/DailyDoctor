@@ -38,10 +38,20 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                /**
+                 * MODEL SHARED
+                 */
                 implementation(projects.modelShared)
+                /**
+                 * APP SHARED
+                 */
                 implementation(projects.appShared.domain)
                 implementation(projects.appShared.data)
                 implementation(projects.appShared.works)
+                implementation(projects.appShared.config.di)
+                /**
+                 * DEPENDENCIES
+                 */
                 implementation(libs.bundles.base.app)
             }
         }

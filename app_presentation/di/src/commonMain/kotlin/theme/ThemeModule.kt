@@ -1,9 +1,5 @@
 package di.theme
 
-import Platform.ANDROID
-import Platform.DESKTOP
-import Platform.IOS
-import Platform.WEB
 import model.color.data.background.AppBackgroundColors
 import model.color.data.background.classic.ClassicDarkBackgroundColors
 import model.color.data.background.classic.ClassicLightBackgroundColors
@@ -19,6 +15,7 @@ import nowiwr01p.daily.doctor.app_presentation.theme.typography.platform.MobileT
 import nowiwr01p.daily.doctor.app_presentation.theme.typography.platform.WebTypography
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import platform.Platform.*
 
 val moduleTheme = module {
     /**

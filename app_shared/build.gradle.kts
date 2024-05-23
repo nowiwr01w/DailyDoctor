@@ -48,16 +48,27 @@ kotlin {
             implementation(libs.bundles.ios)
         }
         commonMain.dependencies {
+            /**
+             * MODEL SHARED
+             */
             implementation(projects.modelShared)
+            /**
+             * APP SHARED
+             */
             implementation(projects.appShared.di)
-
+            implementation(projects.appShared.platform)
+            /**
+             * COMPOSE
+             */
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            
+            /**
+             * DEPENDENCIES
+             */
             implementation(libs.bundles.base.app)
         }
         jvmMain.dependencies {
