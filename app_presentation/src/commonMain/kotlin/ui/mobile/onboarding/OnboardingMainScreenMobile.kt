@@ -18,7 +18,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +25,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import base.theme.AppTheme
+import androidx.compose.runtime.getValue
+import getScreenWidth
 import observers.EffectObserver
 import view_model.rememberViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
@@ -33,7 +34,6 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.Onboa
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import platform.getScreenWidth
 import ui.common.onboarding.OnboardingContract.Effect
 import ui.common.onboarding.OnboardingContract.Event
 import ui.common.onboarding.OnboardingContract.Listener

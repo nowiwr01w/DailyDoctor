@@ -54,7 +54,6 @@ import observers.EffectObserver
 import view_model.rememberViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
-import platform.getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.CREATE
 import ui.common.verification.VerificationContract.Effect
 import ui.common.verification.VerificationContract.Event
@@ -66,6 +65,7 @@ import ui.common.verification.data.VerificationEnterCodeOperation.RemoveDigit
 import ui.common.verification.data.VerificationEnterCodeOperation.SetDigit
 import components.button.StateButton
 import components.input_field.CustomTextField
+import getScreenWidth
 import ui.mobile.auth.TopIcon
 import ui.mobile.auth.TopTitle
 
@@ -222,7 +222,7 @@ private fun VerificationCodeItem(
         newValue = (getScreenWidth() - 5 * 16.dp) / 6
     )
     val verticalInputPadding by rememberUpdatedState(
-        (verificationCodeItemSize - 28.dp) / 2
+        newValue = (verificationCodeItemSize - 28.dp) / 2
     )
     val customTextSelectionColors = TextSelectionColors(
         handleColor = colors.backgroundColors.redBackgroundColor,

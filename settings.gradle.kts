@@ -28,7 +28,10 @@ dependencyResolutionManagement {
 
 include(":app_presentation")
 include(":app_presentation:di")
+include(":app_presentation:platform")
+
 include(":app_presentation:theme")
+include(":app_presentation:theme:di")
 
 include(":app_presentation:core_ui")
 include(":app_presentation:core_ui:di")
@@ -49,10 +52,13 @@ include(":app_shared:core")
 include(":app_shared:platform")
 include(":app_shared:domain")
 include(":app_shared:data")
-include(":app_shared:works")
-include(":app_shared:config")
 include(":app_shared:di")
+
+include(":app_shared:config")
 include(":app_shared:config:di")
+
+include(":app_shared:works")
+include(":app_shared:works:di")
 
 include(":database")
 include(":database:domain")
@@ -71,5 +77,3 @@ include(":server:domain")
 include(":server:routes")
 include(":server:token")
 include(":server:works")
-include(":app_presentation:theme:di")
-include(":app_shared:works:di")

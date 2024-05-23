@@ -76,6 +76,7 @@ kotlin {
              * APP PRESENTATION
              */
             implementation(projects.appPresentation.coreUi)
+            implementation(projects.appPresentation.platform)
             implementation(projects.appPresentation.theme)
             implementation(projects.appPresentation.viewModels)
             implementation(projects.appPresentation.navigation)

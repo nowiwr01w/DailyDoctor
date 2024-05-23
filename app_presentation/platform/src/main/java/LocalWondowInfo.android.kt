@@ -1,4 +1,4 @@
-package platform
+import androidx.compose.ui.unit.Dp
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
