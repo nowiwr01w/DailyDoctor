@@ -14,18 +14,20 @@ import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
+import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 abstract class BaseApi: KoinComponent {
 
+    protected val json by inject<Json>()
     protected val client by inject<HttpClient>()
 
     protected suspend inline fun <reified T> getHttp(
         route: String,
         parameters: List<ApiParameter> = listOf()
     ): T {
-        return client.get {
+        val value = client.get {
             url("$BASE_URL/$route")
             parameters.forEach { param ->
                 if (param.data != null) {
@@ -33,7 +35,8 @@ abstract class BaseApi: KoinComponent {
                 }
             }
             generateHeaders()
-        }.body<T>()
+        }
+        return json.decodeFromString(value.body<String>())
     }
 
     protected suspend inline fun <reified T> postHttp(
@@ -41,7 +44,7 @@ abstract class BaseApi: KoinComponent {
         requestBody: Any? = null,
         parameters: List<ApiParameter> = listOf()
     ): T {
-        return client.post {
+        val value = client.post {
             url("$BASE_URL/$route")
             parameters.forEach { param ->
                 if (param.data != null) {
@@ -52,13 +55,15 @@ abstract class BaseApi: KoinComponent {
                 setBody(requestBody)
             }
             generateHeaders()
-        }.body<T>()
+        }
+        return json.decodeFromString(value.body<String>())
     }
 
     protected suspend inline fun <reified T> deleteHttp(route: String): T {
         return client.delete {
             url("$BASE_URL/$route")
-        }.body<T>()
+            generateHeaders()
+        }.body<T>() // TODO: Read from String
     }
 
     protected fun HttpRequestBuilder.generateHeaders() = headers {

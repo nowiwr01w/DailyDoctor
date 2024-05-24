@@ -1,5 +1,6 @@
 package nowiwr01p.daily.doctor.server.di.routing
 
+import kotlinx.serialization.json.Json
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignInUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignUpUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerChangePinCodeUseCase
@@ -14,6 +15,16 @@ import nowiwr01p.daily.doctor.server.routes.verification.VerificationRouting
 import org.koin.dsl.module
 
 internal val moduleServerRouting = module {
+    /**
+     * JSON
+     */
+    factory {
+        Json {
+            isLenient = true
+            prettyPrint = true
+            ignoreUnknownKeys = true
+        }
+    }
     /**
      * AUTH
      */

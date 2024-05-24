@@ -6,16 +6,33 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.util.pipeline.PipelineContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 private typealias RoutingContext = PipelineContext<Unit, ApplicationCall>
 
-abstract class BaseRouting {
+abstract class BaseRouting: KoinComponent {
 
+    protected val json by inject<Json>()
+
+    /**
+     * SUCCESS
+     */
     protected suspend fun RoutingContext.sendSuccess() = call.respond(
         status = HttpStatusCode.OK,
         message = OK
     )
 
+    protected suspend inline fun <reified T> RoutingContext.sendStringObject(value: T) = call.respond(
+        status = HttpStatusCode.OK,
+        message = json.encodeToString(value)
+    )
+
+    /**
+     * ERRORS
+     */
     protected suspend inline fun <reified T> RoutingContext.sendNoRequestError(): Nothing {
         sendError(
             code = HttpStatusCode.InternalServerError,
@@ -36,6 +53,9 @@ abstract class BaseRouting {
         throw error
     }
 
+    /**
+     * BASE MESSAGES
+     */
     private companion object {
         const val OK = "Ok"
         const val SERVER_ERROR = "Unexpected error"

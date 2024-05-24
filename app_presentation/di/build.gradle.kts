@@ -23,7 +23,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }
@@ -92,16 +92,28 @@ kotlin {
             }
         }
     }
+
+    /**
+     * Cannot locate tasks that match ':model_shared:testClasses'
+     * as task 'testClasses' not found in project ':model_shared'.
+     */
+    task("testClasses") // TODO
 }
 
 android {
     namespace = "nowiwr01p.daily.doctor.app_presentation.di"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+    }
+    packaging {
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }

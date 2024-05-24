@@ -2,6 +2,7 @@ package nowiwr01p.daily.doctor.server.routes.auth
 
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
+import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.api.route.AuthRoutes.SingInRoute
 import com.nowiwr01p.model.api.route.AuthRoutes.SingUpRoute
 import io.ktor.server.application.call
@@ -25,7 +26,7 @@ class AuthRouting(
             }
             serverSignInUseCase.execute(signInRequest)
         }.onSuccess { tokenResponse ->
-            call.respond(tokenResponse)
+            sendStringObject(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -38,7 +39,7 @@ class AuthRouting(
             }
             serverSignUpUseCase.execute(signUpRequest)
         }.onSuccess { tokenResponse ->
-            call.respond(tokenResponse)
+            sendStringObject(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }

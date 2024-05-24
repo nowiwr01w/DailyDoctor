@@ -33,7 +33,7 @@ class PinCodeRouting(
         runCatching {
             createPinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
-            call.respond(tokenResponse)
+            sendStringObject(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -46,7 +46,7 @@ class PinCodeRouting(
         runCatching {
             checkPinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
-            call.respond(tokenResponse)
+            sendStringObject(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -59,7 +59,7 @@ class PinCodeRouting(
         runCatching {
             changePinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
-            call.respond(tokenResponse)
+            sendStringObject(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }

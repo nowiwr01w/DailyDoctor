@@ -31,7 +31,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
             }
         }
     }
@@ -75,6 +75,7 @@ kotlin {
             /**
              * VIEW MODELS
              */
+            implementation(projects.appPresentation.di)
             implementation(projects.appPresentation.viewModels.shared)
             implementation(projects.appPresentation.viewModels.mobile)
             /**
@@ -196,8 +197,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)

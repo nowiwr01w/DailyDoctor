@@ -5,12 +5,11 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import kotlinx.serialization.json.Json
+import org.koin.ktor.ext.inject
 
-fun Application.configureSerialization() = install(ContentNegotiation) {
-    val json = Json {
-        isLenient = true
-        prettyPrint = true
-        ignoreUnknownKeys = true
+fun Application.configureSerialization() {
+    val json by inject<Json>()
+    install(ContentNegotiation) {
+        json(json)
     }
-    json(json)
 }

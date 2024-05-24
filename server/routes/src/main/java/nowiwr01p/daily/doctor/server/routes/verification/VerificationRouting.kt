@@ -25,7 +25,7 @@ class VerificationRouting(
             }
             serverSendVerificationCodeUseCase.execute(request)
         }.onSuccess { sendVerificationCodeResponse ->
-            call.respond(sendVerificationCodeResponse)
+            sendStringObject(sendVerificationCodeResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -38,7 +38,7 @@ class VerificationRouting(
             }
             serverCheckVerificationCodeUseCase.execute(request)
         }.onSuccess { checkVerificationCodeResponse ->
-            call.respond(checkVerificationCodeResponse)
+            sendStringObject(checkVerificationCodeResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
