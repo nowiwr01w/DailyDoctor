@@ -4,5 +4,5 @@ import com.arkivanov.essenty.lifecycle.ApplicationLifecycle
 
 fun MainViewController() = ComposeUIViewController {
     val defaultComponentContext = DefaultComponentContext(ApplicationLifecycle())
-    App(defaultComponentContext)
+    App().initApplicationUI(defaultComponentContext)
 }

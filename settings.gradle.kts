@@ -26,7 +26,11 @@ dependencyResolutionManagement {
     }
 }
 
+/**
+ * APP PRESENTATION
+ */
 include(":app_presentation")
+include(":app_presentation:app_mobile")
 include(":app_presentation:di")
 include(":app_presentation:platform")
 
@@ -47,6 +51,9 @@ include(":app_presentation:view_models:desktop")
 include(":app_presentation:view_models:web")
 include(":app_presentation:view_models:di")
 
+/**
+ * APP SHARED
+ */
 include(":app_shared")
 include(":app_shared:core")
 include(":app_shared:platform")
@@ -60,16 +67,33 @@ include(":app_shared:config:di")
 include(":app_shared:works")
 include(":app_shared:works:di")
 
+/**
+ * DATABASE
+ */
 include(":database")
 include(":database:domain")
 include(":database:data")
 include(":database:tables")
 include(":database:di")
 
+/**
+ * LOCAL DATABASE
+ */
 include(":local_database")
 
+/**
+ * MODEL SHARED
+ */
 include(":model_shared")
 
+/**
+ * RESOURCES
+ */
+include(":resources")
+
+/**
+ * SERVER
+ */
 include(":server")
 include(":server:di")
 include(":server:data")

@@ -5,7 +5,7 @@ import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
-import core.model.message.AppMessage
+import model.message.AppMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import model.errors.auth.AuthTextFieldType

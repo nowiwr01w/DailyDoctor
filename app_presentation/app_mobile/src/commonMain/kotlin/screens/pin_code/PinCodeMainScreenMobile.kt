@@ -1,4 +1,4 @@
-package ui.mobile.pin_code
+package screens.pin_code
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
@@ -33,15 +33,9 @@ import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import view_model.rememberViewModel
-import dailydoctor.app_presentation.generated.resources.Res
-import dailydoctor.app_presentation.generated.resources.ic_app_logo_small
-import dailydoctor.app_presentation.generated.resources.ic_delete
-import dailydoctor.app_presentation.generated.resources.ic_fingerprint
-import dailydoctor.app_presentation.generated.resources.yo
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import pin_code.PinCodeContract.Event
 import pin_code.PinCodeContract.Listener
@@ -52,6 +46,11 @@ import pin_code.data.PinCodeData.PinCodeDigit
 import pin_code.data.PinCodeData.PinCodeIcon
 import pin_code.data.PinCodeIconType
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
+import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.ic_app_logo_small
+import nowiwr01p.daily.doctor.resources.ic_delete
+import nowiwr01p.daily.doctor.resources.ic_fingerprint
+import nowiwr01p.daily.doctor.resources.yo
 import pin_code.data.PinCodeOperation
 import pin_code.data.PinCodeState
 import pin_code.data.PinCodeState.DEFAULT
@@ -165,7 +164,6 @@ private fun PinCodeMainScreenMobileContent(
 /**
  * APP LOGO
  */
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun AppLogo(modifier: Modifier) = Image(
     painter = painterResource(Res.drawable.ic_app_logo_small),
@@ -176,7 +174,6 @@ private fun AppLogo(modifier: Modifier) = Image(
 /**
  * USER IMAGE
  */
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun UserImage(
     state: State,
@@ -285,7 +282,6 @@ private fun PinCodeView(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun PinCodeViewItem(
     data: PinCodeData,
@@ -309,9 +305,9 @@ private fun PinCodeViewItem(
         }
     }
     val isItemClickEnabled = when {
-        state.pinCode.length < 4 -> when {
-            data is PinCodeDigit -> true
-            data is PinCodeIcon -> {
+        state.pinCode.length < 4 -> when (data) {
+            is PinCodeDigit -> true
+            is PinCodeIcon -> {
                 data.type == PinCodeIconType.BIOMETRIC || data.type == PinCodeIconType.REMOVE_DIGIT
             }
             else -> false

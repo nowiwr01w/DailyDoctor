@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import core.model.message.AppMessage
+import model.message.AppMessage
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import helpers.snack_bar.data.SnackBarDisplayType.BOTTOM_ROUNDED

@@ -1,4 +1,4 @@
-package core.model.message
+package model.message
 
 import org.jetbrains.compose.resources.StringResource
 

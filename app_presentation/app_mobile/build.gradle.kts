@@ -33,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.platform"
+            baseName = "app_presentation.app_mobile"
         }
     }
 
@@ -41,12 +41,38 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
+                 * MODEL SHARED
+                 */
+                implementation(projects.modelShared)
+                /**
+                 * APP SHARED
+                 */
+                implementation(projects.appShared.core)
+                implementation(projects.appShared.domain)
+                implementation(projects.appShared.platform)
+                /**
+                 * APP PRESENTATION
+                 */
+                implementation(projects.appPresentation.theme)
+                implementation(projects.appPresentation.coreUi)
+                implementation(projects.appPresentation.platform)
+                implementation(projects.appPresentation.navigation) // TODO: navigation.model && navigation.mobile
+                implementation(projects.appPresentation.viewModels.base)
+                implementation(projects.appPresentation.viewModels.mobile)
+                implementation(projects.appPresentation.viewModels.shared)
+                /**
+                 * RESOURCES
+                 */
+                implementation(projects.resources)
+                /**
                  * COMPOSE
                  */
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
                 /**
                  * DEPENDENCIES
                  */
@@ -73,7 +99,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.platform"
+    namespace = "nowiwr01p.daily.doctor.app_presentation.app_mobile"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

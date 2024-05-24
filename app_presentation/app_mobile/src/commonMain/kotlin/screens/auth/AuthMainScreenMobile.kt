@@ -1,4 +1,4 @@
-package ui.mobile.auth
+package screens.auth
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
@@ -52,10 +52,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import observers.EffectObserver
 import view_model.rememberViewModel
-import dailydoctor.app_presentation.generated.resources.Res
-import dailydoctor.app_presentation.generated.resources.ic_eye_closed
-import dailydoctor.app_presentation.generated.resources.ic_eye_opened
-import dailydoctor.app_presentation.generated.resources.ic_login
 import model.errors.auth.AuthTextFieldType
 import model.errors.auth.AuthTextFieldType.EMAIL
 import model.errors.auth.AuthTextFieldType.PASSWORD
@@ -79,6 +75,10 @@ import components.input_field.CustomTextField
 import extensions.appendLink
 import extensions.isKeyboardOpened
 import extensions.onTextClick
+import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.ic_eye_closed
+import nowiwr01p.daily.doctor.resources.ic_eye_opened
+import nowiwr01p.daily.doctor.resources.ic_login
 
 @Composable
 internal fun AuthMainScreenMobile(

@@ -1,4 +1,4 @@
-package base.theme
+package theme
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
@@ -14,6 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
 import com.nowiwr01p.model.usecase.execute
+import components.LocalWindowInsetsData
+import components.ProviderLocalWindowInsets
 import core.model.brand.AppBrand
 import core.model.brand.AppBrand.AppBrandClassic
 import core.model.color.AppColorsData
@@ -27,8 +29,6 @@ import nowiwr01p.daily.doctor.app_presentation.theme.typography.AppTypography
 import org.koin.compose.koinInject
 import org.koin.core.qualifier.named
 import platform.currentPlatform
-import components.LocalWindowInsetsData
-import components.ProviderLocalWindowInsets
 import usecase.brand.AppGetBrandUseCase
 import usecase.theme.AppGetThemeModeUseCase
 

@@ -53,9 +53,33 @@ kotlin {
         val desktopMain by getting
         
         androidMain.dependencies {
+            /**
+             * SHARED MOBILE MODULE
+             */
+            implementation(projects.appPresentation.appMobile)
+            /**
+             * VIEW MODELS
+             */
+            implementation(projects.appPresentation.viewModels.shared)
+            implementation(projects.appPresentation.viewModels.mobile)
+            /**
+             * DEPENDENCIES
+             */
             implementation(libs.bundles.android)
         }
         iosMain.dependencies {
+            /**
+             * SHARED MOBILE MODULE
+             */
+            implementation(projects.appPresentation.appMobile)
+            /**
+             * VIEW MODELS
+             */
+            implementation(projects.appPresentation.viewModels.shared)
+            implementation(projects.appPresentation.viewModels.mobile)
+            /**
+             * DEPENDENCIES
+             */
             implementation(libs.bundles.ios)
         }
         commonMain.dependencies {
@@ -82,8 +106,6 @@ kotlin {
             implementation(projects.appPresentation.navigation)
             implementation(projects.appPresentation.viewModels.di)
             implementation(projects.appPresentation.viewModels.base)
-            implementation(projects.appPresentation.viewModels.shared)
-            implementation(projects.appPresentation.viewModels.mobile) // TODO: Move to androidMain
             implementation(projects.appPresentation.di)
             /**
              * LOCAL DATABASE
@@ -96,7 +118,6 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
-            implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             /**
              * DEPENDENCIES
@@ -104,11 +125,30 @@ kotlin {
             implementation(libs.bundles.base.app)
         }
         desktopMain.dependencies {
+            /**
+             * COMPOSE
+             */
             implementation(compose.desktop.currentOs)
+            /**
+             * VIEW MODELS
+             */
+            implementation(projects.appPresentation.viewModels.shared)
+            implementation(projects.appPresentation.viewModels.desktop)
+            /**
+             * DEPENDENCIES
+             */
             implementation(libs.bundles.desktop)
         }
         val wasmJsMain by getting {
             dependencies {
+                /**
+                 * VIEW MODELS
+                 */
+                implementation(projects.appPresentation.viewModels.shared)
+                implementation(projects.appPresentation.viewModels.web)
+                /**
+                 * DEPENDENCIES
+                 */
                 implementation(libs.bundles.web)
             }
         }

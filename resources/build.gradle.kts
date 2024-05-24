@@ -8,6 +8,12 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "nowiwr01p.daily.doctor.resources"
+    generateResClass = always
+}
+
 kotlin {
     applyDefaultHierarchyTemplate()
 
@@ -33,7 +39,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.platform"
+            baseName = "resources"
         }
     }
 
@@ -41,16 +47,18 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
+                 * MODEL SHARED
+                 */
+                implementation(projects.modelShared)
+                /**
                  * COMPOSE
                  */
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.ui)
-                /**
-                 * DEPENDENCIES
-                 */
-                implementation(libs.bundles.base.app)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
             }
         }
         androidMain.dependencies {
@@ -73,7 +81,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.platform"
+    namespace = "nowiwr01p.daily.doctor.resources"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

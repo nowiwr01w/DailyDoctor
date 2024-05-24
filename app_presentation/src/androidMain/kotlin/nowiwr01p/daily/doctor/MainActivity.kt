@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
         setContent {
-            App(defaultComponentContext())
+            App().initApplicationUI(defaultComponentContext())
         }
     }
 }

@@ -1,6 +1,6 @@
 package helpers.snack_bar.data
 
-import core.model.message.AppMessage
+import model.message.AppMessage
 import org.jetbrains.compose.resources.StringResource
 
 sealed class SnackBarParams(

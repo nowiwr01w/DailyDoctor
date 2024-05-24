@@ -1,4 +1,4 @@
-package ui.mobile.splash
+package screens.splash
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExitTransition
@@ -24,11 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import base.theme.AppTheme
-import dailydoctor.app_presentation.generated.resources.Res
-import dailydoctor.app_presentation.generated.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -41,7 +40,8 @@ import splash.data.SplashAnimationState.FIRST_TEXT
 import splash.data.SplashAnimationState.ICON
 import splash.data.SplashAnimationState.PROGRESS
 import splash.data.SplashAnimationState.SECOND_TEXT
-import ui.mobile.onboarding.getMobileOnboardingItems
+import screens.onboarding.getMobileOnboardingItems
+import theme.AppTheme
 import view_model.rememberViewModel
 
 @Composable

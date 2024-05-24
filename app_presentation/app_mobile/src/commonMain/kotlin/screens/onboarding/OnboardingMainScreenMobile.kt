@@ -1,4 +1,4 @@
-package ui.mobile.onboarding
+package screens.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,17 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import base.theme.AppTheme
-import dailydoctor.app_presentation.generated.resources.Res
-import dailydoctor.app_presentation.generated.resources.ic_onboarding_always_online
-import dailydoctor.app_presentation.generated.resources.ic_onboarding_chat_with_doctor
-import dailydoctor.app_presentation.generated.resources.ic_onboarding_for_whole_family
-import dailydoctor.app_presentation.generated.resources.ic_onboarding_notifications
-import dailydoctor.app_presentation.generated.resources.ic_onboarding_save_with_us
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.ic_onboarding_always_online
+import nowiwr01p.daily.doctor.resources.ic_onboarding_chat_with_doctor
+import nowiwr01p.daily.doctor.resources.ic_onboarding_for_whole_family
+import nowiwr01p.daily.doctor.resources.ic_onboarding_notifications
+import nowiwr01p.daily.doctor.resources.ic_onboarding_save_with_us
 import observers.EffectObserver
 import onboarding.OnboardingContract.Effect
 import onboarding.OnboardingContract.Event
@@ -46,6 +45,7 @@ import onboarding.data.OnboardingItem.NotificationsOnboardingItem
 import onboarding.data.getOnboardingItems
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import theme.AppTheme
 import view_model.rememberViewModel
 
 @Composable

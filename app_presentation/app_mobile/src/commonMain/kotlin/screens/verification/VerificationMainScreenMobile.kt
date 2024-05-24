@@ -1,4 +1,4 @@
-package ui.mobile.verification
+package screens.verification
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -66,8 +66,8 @@ import verification.data.VerificationEnterCodeOperation.SetDigit
 import components.button.StateButton
 import components.input_field.CustomTextField
 import getScreenWidth
-import ui.mobile.auth.TopIcon
-import ui.mobile.auth.TopTitle
+import screens.auth.TopIcon
+import screens.auth.TopTitle
 
 @Composable
 internal fun VerificationMainScreenMobile(
