@@ -25,9 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_onboarding_always_online
@@ -80,11 +82,16 @@ internal fun OnboardingMainScreenMobile(
             }
         }
     }
-    
-    OnboardingMainScreenContent(
-        state = viewModel.viewState.value,
-        listener = listener
-    )
+
+    BaseScreen(
+        topBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+    ) {
+        OnboardingMainScreenContent(
+            state = viewModel.viewState.value,
+            listener = listener
+        )
+    }
 }
 
 /**

@@ -72,6 +72,7 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCode
 import components.button.ButtonState.DEFAULT
 import components.button.StateButton
 import components.input_field.CustomTextField
+import extensions.BaseScreen
 import extensions.appendLink
 import extensions.isKeyboardOpened
 import extensions.onTextClick
@@ -122,10 +123,15 @@ internal fun AuthMainScreenMobile(
         }
     }
 
-    AuthMainScreenContent(
-        state = viewModel.viewState.value,
-        listener = listener
-    )
+    BaseScreen(
+        topBackgroundColor = colors.backgroundColors.grayBackgroundColor,
+        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+    ) {
+        AuthMainScreenContent(
+            state = viewModel.viewState.value,
+            listener = listener
+        )
+    }
 }
 
 /**

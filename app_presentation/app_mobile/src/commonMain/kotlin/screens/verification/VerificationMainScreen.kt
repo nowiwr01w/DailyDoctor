@@ -65,6 +65,7 @@ import verification.data.VerificationEnterCodeOperation.RemoveDigit
 import verification.data.VerificationEnterCodeOperation.SetDigit
 import components.button.StateButton
 import components.input_field.CustomTextField
+import extensions.BaseScreen
 import getScreenWidth
 import screens.auth.TopIcon
 import screens.auth.TopTitle
@@ -100,10 +101,15 @@ internal fun VerificationMainScreenMobile(
         }
     }
 
-    VerificationMainScreenContent(
-        state = viewModel.viewState.value,
-        listener = listener
-    )
+    BaseScreen(
+        topBackgroundColor = colors.backgroundColors.grayBackgroundColor,
+        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+    ) {
+        VerificationMainScreenContent(
+            state = viewModel.viewState.value,
+            listener = listener
+        )
+    }
 }
 
 /**

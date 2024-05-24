@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import extensions.BaseScreen
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
@@ -62,7 +63,12 @@ internal fun SplashMainScreenMobile(
         }
     }
 
-    SplashMainScreenContent(state = viewModel.viewState.value)
+    BaseScreen(
+        topBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+    ) {
+        SplashMainScreenContent(state = viewModel.viewState.value)
+    }
 }
 
 /**

@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import extensions.BaseScreen
 import view_model.rememberViewModel
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
@@ -77,10 +78,15 @@ fun PinCodeMainScreenMobile(
         viewModel.setEvent(Event.Init(mode))
     }
 
-    PinCodeMainScreenMobileContent(
-        state = viewModel.viewState.value,
-        listener = listener
-    )
+    BaseScreen(
+        topBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+    ) {
+        PinCodeMainScreenMobileContent(
+            state = viewModel.viewState.value,
+            listener = listener
+        )
+    }
 }
 
 /**
