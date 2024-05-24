@@ -2,8 +2,12 @@ package nowiwr01p.daily.doctor.server.routes
 
 import com.nowiwr01p.model.api.route.RouteError
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.call
 import io.ktor.server.response.respond
-import io.ktor.server.routing.RoutingContext
+import io.ktor.util.pipeline.PipelineContext
+
+private typealias RoutingContext = PipelineContext<Unit, ApplicationCall>
 
 abstract class BaseRouting {
 

@@ -186,6 +186,7 @@ android {
     }
     packaging {
         resources {
+            excludes += "META-INF/INDEX.LIST"
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }

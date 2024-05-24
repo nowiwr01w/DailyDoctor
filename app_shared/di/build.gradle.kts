@@ -54,6 +54,7 @@ kotlin {
                 /**
                  * DEPENDENCIES
                  */
+                implementation(libs.logback)
                 implementation(libs.bundles.base.app)
             }
         }
