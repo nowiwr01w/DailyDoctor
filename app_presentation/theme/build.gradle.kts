@@ -52,6 +52,7 @@ kotlin {
                 /**
                  * COMPOSE
                  */
+                implementation(compose.ui)
                 implementation(compose.material)
                 /**
                  * DEPENDENCIES

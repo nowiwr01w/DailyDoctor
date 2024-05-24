@@ -1,4 +1,4 @@
-package core.model.color.data.background
+package model.color.data.background
 
 import androidx.compose.ui.graphics.Color
 

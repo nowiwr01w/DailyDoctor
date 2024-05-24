@@ -1,7 +1,7 @@
-package core.model.color.data.background.classic
+package model.color.data.background.classic
 
 import androidx.compose.ui.graphics.Color
-import core.model.color.data.background.AppBackgroundColors
+import model.color.data.background.AppBackgroundColors
 
 data class ClassicDarkBackgroundColors(
     override val whiteBackgroundColor: Color = Color.White,

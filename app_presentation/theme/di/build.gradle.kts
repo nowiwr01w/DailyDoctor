@@ -54,6 +54,10 @@ kotlin {
                  */
                 implementation(projects.appPresentation.theme)
                 /**
+                 * COMPOSE
+                 */
+                implementation(compose.ui)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.koin)

@@ -135,6 +135,10 @@ kotlin {
             implementation(projects.appPresentation.viewModels.shared)
             implementation(projects.appPresentation.viewModels.desktop)
             /**
+             * COMPOSE
+             */
+            implementation(compose.ui)
+            /**
              * DEPENDENCIES
              */
             implementation(libs.bundles.desktop)
@@ -147,12 +151,22 @@ kotlin {
                 implementation(projects.appPresentation.viewModels.shared)
                 implementation(projects.appPresentation.viewModels.web)
                 /**
+                 * COMPOSE
+                 */
+                implementation(compose.ui)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.bundles.web)
             }
         }
     }
+
+    /**
+     * Cannot locate tasks that match ':model_shared:testClasses'
+     * as task 'testClasses' not found in project ':model_shared'.
+     */
+    task("testClasses") // TODO
 }
 
 android {

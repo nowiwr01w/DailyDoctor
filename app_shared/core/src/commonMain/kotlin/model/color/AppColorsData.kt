@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
-import core.model.color.data.background.AppBackgroundColors
+import model.color.data.background.AppBackgroundColors
 import core.model.color.data.border.AppBorderColors
 import core.model.color.data.text.AppTextColors
 
