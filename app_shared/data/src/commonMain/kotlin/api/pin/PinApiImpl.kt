@@ -13,21 +13,19 @@ import com.nowiwr01p.model.api.route.PinCodeRoutes.DeletePinRoute
 class PinApiImpl: BaseApi(), PinApi {
 
     override suspend fun createPinCode(request: CreatePinCodeRequest) = postHttp<TokenResponse>(
-        route = CreatePinRoute.route,
+        route = CreatePinRoute,
         requestBody = request
     )
 
     override suspend fun checkPinCode(request: CheckPinCodeRequest) = postHttp<TokenResponse>(
-        route = CheckPinRoute.route,
+        route = CheckPinRoute,
         requestBody = request
     )
 
     override suspend fun changePinCode(request: ChangePinCodeRequest) = postHttp<TokenResponse>(
-        route = ChangePinRoute.route,
+        route = ChangePinRoute,
         requestBody = request
     )
 
-    override suspend fun deletePinCode() = deleteHttp<Unit>(
-        route = DeletePinRoute.route
-    )
+    override suspend fun deletePinCode() = deleteHttp<Unit>(route = DeletePinRoute)
 }

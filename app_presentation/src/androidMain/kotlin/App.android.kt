@@ -5,6 +5,7 @@ import com.arkivanov.decompose.ComponentContext
 actual class App {
     @Composable
     actual fun initApplicationUI(context: ComponentContext) {
+        startLogger()
         App(context)
     }
 }

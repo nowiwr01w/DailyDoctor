@@ -11,14 +11,14 @@ class VerificationApiImpl: BaseApi(), VerificationApi {
 
     override suspend fun sendVerificationCode(request: SendVerificationCodeRequest): TokenResponse {
         return postHttp<TokenResponse>(
-            route = SendVerificationCodeRoute.route,
+            route = SendVerificationCodeRoute,
             requestBody = request
         )
     }
 
     override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): TokenResponse {
         return postHttp<TokenResponse>(
-            route = CheckVerificationCodeRoute.route,
+            route = CheckVerificationCodeRoute,
             requestBody = request
         )
     }

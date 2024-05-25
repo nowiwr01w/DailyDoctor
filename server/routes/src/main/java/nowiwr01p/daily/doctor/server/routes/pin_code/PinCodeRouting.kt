@@ -10,7 +10,6 @@ import com.nowiwr01p.model.api.route.PinCodeRoutes.DeletePinRoute
 import com.nowiwr01p.model.usecase.execute
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveNullable
-import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerChangePinCodeUseCase
@@ -29,11 +28,12 @@ class PinCodeRouting(
     fun createPinCode(route: Route) = route.post(CreatePinRoute.route) {
         val request = call.receiveNullable<CreatePinCodeRequest>() ?: run {
             sendNoRequestError<CreatePinCodeRequest>()
+            return@post
         }
         runCatching {
             createPinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
-            sendStringObject(tokenResponse)
+            respondWithSuccessModel(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -42,11 +42,12 @@ class PinCodeRouting(
     fun checkPinCode(route: Route) = route.post(CheckPinRoute.route) {
         val request = call.receiveNullable<CheckPinCodeRequest>() ?: run {
             sendNoRequestError<CheckPinCodeRequest>()
+            return@post
         }
         runCatching {
             checkPinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
-            sendStringObject(tokenResponse)
+            respondWithSuccessModel(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -55,11 +56,12 @@ class PinCodeRouting(
     fun changePinCode(route: Route) = route.post(ChangePinRoute.route) {
         val request = call.receiveNullable<ChangePinCodeRequest>() ?: run {
             sendNoRequestError<ChangePinCodeRequest>()
+            return@post
         }
         runCatching {
             changePinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
-            sendStringObject(tokenResponse)
+            respondWithSuccessModel(tokenResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -69,7 +71,7 @@ class PinCodeRouting(
         runCatching {
             deletePinCodeUseCase.execute()
         }.onSuccess {
-            sendSuccess()
+            respondWithSuccessMessage()
         }.onFailure { error ->
             sendInternalError(error.message)
         }

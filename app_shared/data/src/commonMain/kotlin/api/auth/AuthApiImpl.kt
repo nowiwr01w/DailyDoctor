@@ -10,12 +10,12 @@ import com.nowiwr01p.model.api.route.AuthRoutes.SingUpRoute
 class AuthApiImpl: BaseApi(), AuthApi {
 
     override suspend fun signIn(request: SignInRequest) = postHttp<TokenResponse>(
-        route = SingInRoute.route,
+        route = SingInRoute,
         requestBody = request
     )
 
     override suspend fun signUp(request: SignUpRequest) = postHttp<TokenResponse>(
-        route = SingUpRoute.route,
+        route = SingUpRoute,
         requestBody = request
     )
 }

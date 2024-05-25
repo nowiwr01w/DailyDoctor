@@ -6,7 +6,6 @@ import com.nowiwr01p.model.api.route.VerificationRoutes.CheckVerificationCodeRou
 import com.nowiwr01p.model.api.route.VerificationRoutes.SendVerificationCodeRoute
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveNullable
-import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.post
 import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerCheckVerificationCodeUseCase
@@ -22,10 +21,11 @@ class VerificationRouting(
         runCatching {
             val request = call.receiveNullable<SendVerificationCodeRequest>() ?: run {
                 sendNoRequestError<SendVerificationCodeRequest>()
+                return@post
             }
             serverSendVerificationCodeUseCase.execute(request)
         }.onSuccess { sendVerificationCodeResponse ->
-            sendStringObject(sendVerificationCodeResponse)
+            respondWithSuccessModel(sendVerificationCodeResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
@@ -35,10 +35,11 @@ class VerificationRouting(
         runCatching {
             val request = call.receiveNullable<CheckVerificationCodeRequest>() ?: run {
                 sendNoRequestError<CheckVerificationCodeRequest>()
+                return@post
             }
             serverCheckVerificationCodeUseCase.execute(request)
         }.onSuccess { checkVerificationCodeResponse ->
-            sendStringObject(checkVerificationCodeResponse)
+            respondWithSuccessModel(checkVerificationCodeResponse)
         }.onFailure { error ->
             sendInternalError(error.message)
         }
