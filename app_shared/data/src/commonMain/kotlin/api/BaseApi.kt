@@ -4,6 +4,7 @@ import api.BaseApi.HttpRequestType.DELETE
 import api.BaseApi.HttpRequestType.GET
 import api.BaseApi.HttpRequestType.POST
 import api.base.ApiResult
+import com.nowiwr01p.model.api.errors.AppUiError
 import com.nowiwr01p.model.api.errors.HttpClientError.ExpectedError
 import com.nowiwr01p.model.api.errors.HttpClientError.NoErrorExpected
 import com.nowiwr01p.model.api.errors.HttpClientError.UnexpectedError
@@ -169,19 +170,30 @@ abstract class BaseApi: KoinComponent {
         val response = json.decodeFromString<T>(bodyString)
         ApiResult.Success(response)
     } catch (error: Throwable) {
-        if (E::class == NoErrorExpected::class) {
-            val noErrorExpected = NoErrorExpected(
-                route = route.route,
-                errorMessage = bodyString
-            )
-            sendAnalyticUnexpectedError(noErrorExpected)
-            throw noErrorExpected
+        val appUiError = try {
+            json.decodeFromString<AppUiError>(bodyString)
+        } catch (notAppUiError: Throwable) {
+            null
         }
-        try {
-            val decodedExpectedError = json.decodeFromString<E>(bodyString)
-            ApiResult.Error(decodedExpectedError)
-        } catch (unexpectedError: Throwable) {
-            throw UnexpectedError(unexpectedError.message.orEmpty())
+        when {
+            appUiError != null -> {
+                throw appUiError // UI error with only [message] field, must be shown
+            }
+            else -> if (E::class == NoErrorExpected::class) {
+                val noErrorExpected = NoErrorExpected(
+                    route = route.route,
+                    errorMessage = bodyString
+                )
+                sendAnalyticUnexpectedError(noErrorExpected)
+                throw noErrorExpected
+            } else {
+                try {
+                    val decodedExpectedError = json.decodeFromString<E>(bodyString)
+                    ApiResult.Error(decodedExpectedError)
+                } catch (unexpectedError: Throwable) {
+                    throw UnexpectedError(unexpectedError.message.orEmpty())
+                }
+            }
         }
     }
 
