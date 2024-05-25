@@ -24,6 +24,7 @@ class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     fun toUser() = User(
         id = id.value.toString(),
         email = email,
+        password = password,
         agreementVersion = agreementVersion,
         isEmailVerified = isEmailVerified
     )
