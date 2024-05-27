@@ -10,6 +10,7 @@ import java.util.UUID
 object UserTable : UUIDTable("users") {
     val email = varchar("email", 64).uniqueIndex()
     val password = varchar("password", 64)
+    val pinCodeToken = varchar("pinCodeToken", 32)
     val agreementVersion = integer("agreementVersion")
     val isEmailVerified = bool("isEmailVerified")
 }
@@ -18,6 +19,7 @@ class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var email by UserTable.email
     var password by UserTable.password
+    var pinCodeToken by UserTable.pinCodeToken
     var agreementVersion by UserTable.agreementVersion
     var isEmailVerified by UserTable.isEmailVerified
 
@@ -25,6 +27,7 @@ class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
         id = id.value.toString(),
         email = email,
         password = password,
+        pinCodeToken = pinCodeToken,
         agreementVersion = agreementVersion,
         isEmailVerified = isEmailVerified
     )

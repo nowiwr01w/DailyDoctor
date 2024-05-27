@@ -17,7 +17,9 @@ data class VerificationTokenResponse(
 @Serializable
 data class PinCodeTokenResponse(
     @SerialName("token")
-    override val token: String
+    override val token: String,
+    @SerialName("isPinCodeSet")
+    val isPinCodeSet: Boolean
 ) : TokenResponse
 
 @Serializable

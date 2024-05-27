@@ -26,19 +26,24 @@ interface MainNavigator {
     sealed class Child(
         val animation: StackAnimator = slide()
     ) {
+        @Serializable
         data object SplashChild: Child()
 
+        @Serializable
         data class OnboardingChild(
             val onboardingItem: OnboardingItemModel
         ): Child()
 
+        @Serializable
         data object AuthChild: Child()
 
+        @Serializable
         data class VerificationChild(
             val email: String,
             val verificationToken: String
         ): Child()
 
+        @Serializable
         data class PinCodeChild(
             val pinCodeMode: PinCodeMode
         ): Child()

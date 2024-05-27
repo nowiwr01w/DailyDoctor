@@ -1,6 +1,7 @@
 import auth.AuthViewModel
 import helpers.snack_bar.SnackBarHelper
 import kotlinx.coroutines.CoroutineScope
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import onboarding.OnboardingViewModel
 import onboarding.data.OnboardingItem
 import org.koin.dsl.module
@@ -57,9 +58,11 @@ val moduleAppPresentationViewModels = module {
     /**
      * PIN CODE
      */
-    factory { (scope: CoroutineScope) ->
+    factory { (scope: CoroutineScope, pinCodeMode: PinCodeMode) ->
         PinCodeViewModel(
             scope = scope,
+            pinCodeMode = pinCodeMode,
+            snackBarHelper = get<SnackBarHelper>(),
             checkPinCodeUseCase = get<AppCheckPinCodeUseCase>(),
             createPinCodeUseCase = get<AppCreatePinCodeUseCase>(),
             changePinCodeUseCase = get<AppChangePinCodeUseCase>(),

@@ -23,7 +23,7 @@ interface VerificationContract {
     ): BaseState
 
     sealed interface Effect: BaseEffect {
-        data object NavigateToPinCode: Effect
+        data class NavigateToPinCode(val pinCodeToken: String): Effect
     }
 
     interface Listener {

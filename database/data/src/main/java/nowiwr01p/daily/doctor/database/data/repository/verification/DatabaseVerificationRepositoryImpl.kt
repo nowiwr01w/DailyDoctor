@@ -1,6 +1,8 @@
 package nowiwr01p.daily.doctor.database.data.repository.verification
 
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
+import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
+import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
 import com.nowiwr01p.model.repository.BaseRepository
 import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVerificationRepository
@@ -18,8 +20,11 @@ class DatabaseVerificationRepositoryImpl(
         VerificationTokenResponse(token)
     }
 
-    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) {
-        transaction {
+    override suspend fun checkVerificationCode(
+        token: String,
+        request: CheckVerificationCodeRequest
+    ): TokenResponse {
+        return transaction {
             val lastSentCode = verificationStorage.getVerificationCode(request.verificationToken)
             when {
                 lastSentCode == null -> buildError(
@@ -28,7 +33,12 @@ class DatabaseVerificationRepositoryImpl(
                 else -> if (request.code != lastSentCode) {
                     buildError("Wrong code.")
                 } else {
-                    userStorage.setVerificationStatus(request.email)
+                    userStorage.setUserPinCodeToken(request.email, token)
+                    userStorage.setUserVerified(request.email)
+                    PinCodeTokenResponse(
+                        token = token,
+                        isPinCodeSet = false
+                    )
                 }
             }
         }

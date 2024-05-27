@@ -76,10 +76,10 @@ class VerificationViewModel(
                 verificationToken = verificationTokenFromResend.ifEmpty { token }
             )
             checkVerificationCodeUseCode.execute(checkVerificationCodeRequest)
-        }.onSuccess {
+        }.onSuccess { pinCodeTokenResponse ->
             setState { copy(buttonState = SUCCESS) }
             delay(3000)
-            setEffect { Effect.NavigateToPinCode }
+            setEffect { Effect.NavigateToPinCode(pinCodeTokenResponse.token) }
         }.onFailure {
             setState { copy(buttonState = ERROR) }
             delay(3000)

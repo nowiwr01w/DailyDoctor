@@ -50,6 +50,7 @@ kotlin {
                 implementation(projects.appShared.core)
                 implementation(projects.appShared.domain)
                 implementation(projects.appShared.works)
+                implementation(projects.appShared.platform)
                 /**
                  * APP PRESENTATION
                  */

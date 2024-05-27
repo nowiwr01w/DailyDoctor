@@ -26,6 +26,7 @@ import auth.AuthContract.Event.ToggleUserInputVisibility
 import auth.AuthContract.State
 import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
+import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
 import components.button.ButtonState.DEFAULT
 import components.button.ButtonState.ERROR
 import components.button.ButtonState.SEND_REQUEST
@@ -121,7 +122,11 @@ class AuthViewModel(
                 email = email,
                 token = tokenResponse.token
             )
-            else -> Effect.NavigateToPin(tokenResponse.token)
+            is PinCodeTokenResponse -> Effect.NavigateToPin(
+                token = tokenResponse.token,
+                isPinCodeSet = tokenResponse.isPinCodeSet
+            )
+            else -> throw IllegalStateException("Unexpected token instance.")
         }
         setEffect { navigateToNextScreenEffect }
     }

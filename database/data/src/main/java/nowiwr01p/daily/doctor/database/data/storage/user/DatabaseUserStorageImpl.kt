@@ -13,8 +13,9 @@ class DatabaseUserStorageImpl: DatabaseUserStorage {
         UserEntity.new {
             email = request.email
             password = request.password
-            agreementVersion = request.agreementVersion
+            pinCodeToken = ""
             isEmailVerified = false
+            agreementVersion = request.agreementVersion
         }.toUser()
     }
 
@@ -24,8 +25,12 @@ class DatabaseUserStorageImpl: DatabaseUserStorage {
             ?.toUser()
     }
 
-    override fun setVerificationStatus(email: String) = updateUser(email) { entity ->
+    override fun setUserVerified(email: String) = updateUser(email) { entity ->
         entity.isEmailVerified = true
+    }
+
+    override fun setUserPinCodeToken(email: String, token: String) = updateUser(email) { entity ->
+        entity.pinCodeToken = token
     }
 
     private fun updateUser(email: String, callback: (UserEntity) -> Unit) = transaction {

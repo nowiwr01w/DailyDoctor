@@ -8,6 +8,7 @@ import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import com.nowiwr01p.model.usecase.execute
 import kotlinx.coroutines.withContext
 import nowiwr01p.daily.doctor.database.domain.repository.auth.DatabaseAuthRepository
+import nowiwr01p.daily.doctor.database.domain.repository.pin.DatabasePinCodeRepository
 import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVerificationRepository
 import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
 import nowiwr01p.daily.doctor.server.token.common.usecase.ServerGenerateCommonTokenUseCase
@@ -15,14 +16,18 @@ import nowiwr01p.daily.doctor.server.token.common.usecase.ServerGenerateCommonTo
 class ServerAuthRepositoryImpl(
     private val dispatchers: AppDispatchers,
     private val authRepository: DatabaseAuthRepository,
+    private val pinCodeRepository: DatabasePinCodeRepository,
     private val verificationRepository: DatabaseVerificationRepository,
     private val generateCommonTokenUseCase: ServerGenerateCommonTokenUseCase
 ): ServerAuthRepository {
 
     override suspend fun signIn(request: SignInRequest) = withContext(dispatchers.io) {
-        val isEmailVerified = authRepository.signIn(request).isEmailVerified
+        val user = authRepository.signIn(request)
         when {
-            isEmailVerified -> savePinCode(request.email)
+            user.isEmailVerified -> PinCodeTokenResponse(
+                token = user.pinCodeToken,
+                isPinCodeSet = pinCodeRepository.isPinCodeSet(user.pinCodeToken)
+            )
             else -> sendVerificationCode(request.email)
         }
     }
@@ -35,10 +40,5 @@ class ServerAuthRepositoryImpl(
     private suspend fun sendVerificationCode(email: String): TokenResponse {
         val token = generateCommonTokenUseCase.execute()
         return verificationRepository.sendVerificationCode(token) // TODO: Send also via Email API
-    }
-
-    private suspend fun savePinCode(email: String): TokenResponse {
-        val token = generateCommonTokenUseCase.execute() // TODO: Save token
-        return PinCodeTokenResponse(token)
     }
 }

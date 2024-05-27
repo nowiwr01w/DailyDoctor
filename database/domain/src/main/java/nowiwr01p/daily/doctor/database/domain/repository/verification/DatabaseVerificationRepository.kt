@@ -5,6 +5,9 @@ import com.nowiwr01p.model.api.response.token.TokenResponse
 
 interface DatabaseVerificationRepository {
     suspend fun sendVerificationCode(token: String): TokenResponse
-    suspend fun checkVerificationCode(request: CheckVerificationCodeRequest)
+    suspend fun checkVerificationCode(
+        token: String,
+        request: CheckVerificationCodeRequest
+    ): TokenResponse
     suspend fun deleteExpiredVerificationCodes()
 }

@@ -6,5 +6,6 @@ import com.nowiwr01p.model.model.User
 interface DatabaseUserStorage {
     fun createUser(request: SignUpRequest): User
     fun getUser(email: String): User?
-    fun setVerificationStatus(email: String): User?
+    fun setUserVerified(email: String): User?
+    fun setUserPinCodeToken(email: String, token: String): User?
 }

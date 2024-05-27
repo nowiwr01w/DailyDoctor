@@ -11,9 +11,12 @@ class DatabasePinCodeRepositoryImpl(
     private val storage: DatabasePinCodeStorage
 ): DatabasePinCodeRepository {
 
+    override suspend fun isPinCodeSet(pinCodeToken: String): Boolean {
+        return storage.isPinCodeSet(pinCodeToken)
+    }
+
     override suspend fun createPinCode(request: CreatePinCodeRequest): TokenResponse {
-        storage.createPinCode()
-        TODO()
+        return storage.createPinCode(request)
     }
 
     override suspend fun checkPinCode(request: CheckPinCodeRequest): TokenResponse {

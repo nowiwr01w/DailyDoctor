@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,11 +31,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import components.button.ButtonState
+import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.SEND_REQUEST
+import components.button.ButtonState.SUCCESS
 import extensions.BaseScreen
-import view_model.rememberViewModel
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.ic_app_logo_small
+import nowiwr01p.daily.doctor.resources.ic_delete
+import nowiwr01p.daily.doctor.resources.ic_fingerprint
+import nowiwr01p.daily.doctor.resources.yo
 import org.jetbrains.compose.resources.painterResource
 import pin_code.PinCodeContract.Event
 import pin_code.PinCodeContract.Listener
@@ -46,24 +54,14 @@ import pin_code.data.PinCodeData
 import pin_code.data.PinCodeData.PinCodeDigit
 import pin_code.data.PinCodeData.PinCodeIcon
 import pin_code.data.PinCodeIconType
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
-import nowiwr01p.daily.doctor.resources.Res
-import nowiwr01p.daily.doctor.resources.ic_app_logo_small
-import nowiwr01p.daily.doctor.resources.ic_delete
-import nowiwr01p.daily.doctor.resources.ic_fingerprint
-import nowiwr01p.daily.doctor.resources.yo
 import pin_code.data.PinCodeOperation
-import pin_code.data.PinCodeState
-import pin_code.data.PinCodeState.DEFAULT
-import pin_code.data.PinCodeState.ERROR
-import pin_code.data.PinCodeState.SEND_REQUEST
-import pin_code.data.PinCodeState.SUCCESS
+import view_model.rememberViewModel
 
 @Composable
 fun PinCodeMainScreenMobile(
     navigator: MainNavigator,
     mode: PinCodeMode,
-    viewModel: PinCodeViewModel = rememberViewModel()
+    viewModel: PinCodeViewModel = rememberViewModel(mode)
 ) {
     val listener = object : Listener {
         override fun handleUserInput(operation: PinCodeOperation) {
@@ -72,10 +70,6 @@ fun PinCodeMainScreenMobile(
         override fun requestBiometric() {
             // TODO: Some expect/actual hard things
         }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init(mode))
     }
 
     BaseScreen(
@@ -224,7 +218,7 @@ private fun Dots(
         repeat(4) { index ->
             DotItem(
                 isActive = index + 1 <= state.pinCode.length,
-                pinCodeState = state.pinCodeState,
+                buttonState = state.buttonState,
                 modifier = Modifier.padding(start = if (index == 0) 0.dp else 18.dp)
             )
         }
@@ -234,16 +228,16 @@ private fun Dots(
 @Composable
 private fun DotItem(
     isActive: Boolean,
-    pinCodeState: PinCodeState,
+    buttonState: ButtonState,
     modifier: Modifier
 ) {
-    val color = when (pinCodeState) {
+    val color = when (buttonState) {
         DEFAULT -> colors.backgroundColors.grayBackgroundColor.copy(
             alpha = if (isActive) 1f else 0.2f
         )
         SEND_REQUEST -> Color(0xFF16A34A) // TODO
         SUCCESS -> Color(0xFF16A34A)
-        ERROR -> Color(0xFFE34446)
+        else -> Color(0xFFE34446)
     }
     val backgroundColor by animateColorAsState(
         targetValue = color,

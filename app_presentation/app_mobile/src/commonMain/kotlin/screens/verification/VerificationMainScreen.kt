@@ -54,7 +54,6 @@ import observers.EffectObserver
 import view_model.rememberViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.CREATE
 import verification.VerificationContract.Effect
 import verification.VerificationContract.Event
 import verification.VerificationContract.Listener
@@ -67,6 +66,7 @@ import components.button.StateButton
 import components.input_field.CustomTextField
 import extensions.BaseScreen
 import getScreenWidth
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import screens.auth.TopIcon
 import screens.auth.TopTitle
 
@@ -96,7 +96,8 @@ internal fun VerificationMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is Effect.NavigateToPinCode -> {
-               navigator.pinCodeNavigator.navigateToPinCode(CREATE)
+                val pinCodeCreateMode = PinCodeMode.Create(effect.pinCodeToken)
+               navigator.pinCodeNavigator.navigateToPinCode(pinCodeCreateMode)
             }
         }
     }

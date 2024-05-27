@@ -50,15 +50,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import observers.EffectObserver
-import view_model.rememberViewModel
-import model.errors.auth.AuthTextFieldType
-import model.errors.auth.AuthTextFieldType.EMAIL
-import model.errors.auth.AuthTextFieldType.PASSWORD
-import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
-import org.jetbrains.compose.resources.painterResource
 import auth.AuthContract.Effect.NavigateToPin
 import auth.AuthContract.Effect.NavigateToPrivacyPolicyInfo
 import auth.AuthContract.Effect.NavigateToVerification
@@ -68,7 +59,6 @@ import auth.AuthContract.State
 import auth.AuthViewModel
 import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.CHECK
 import components.button.ButtonState.DEFAULT
 import components.button.StateButton
 import components.input_field.CustomTextField
@@ -76,10 +66,21 @@ import extensions.BaseScreen
 import extensions.appendLink
 import extensions.isKeyboardOpened
 import extensions.onTextClick
+import model.errors.auth.AuthTextFieldType
+import model.errors.auth.AuthTextFieldType.EMAIL
+import model.errors.auth.AuthTextFieldType.PASSWORD
+import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Check
+import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Create
+import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_eye_closed
 import nowiwr01p.daily.doctor.resources.ic_eye_opened
 import nowiwr01p.daily.doctor.resources.ic_login
+import observers.EffectObserver
+import org.jetbrains.compose.resources.painterResource
+import view_model.rememberViewModel
 
 @Composable
 internal fun AuthMainScreenMobile(
@@ -112,7 +113,8 @@ internal fun AuthMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is NavigateToPin -> {
-                navigator.pinCodeNavigator.navigateToPinCode(CHECK)
+                val pinCodeMode = if (effect.isPinCodeSet) Check else Create(effect.token) // TODO: Add pinCodeToken for Check
+                navigator.pinCodeNavigator.navigateToPinCode(pinCodeMode)
             }
             is NavigateToVerification -> {
                 navigator.authNavigator.navigateToVerification(effect.email, effect.token)

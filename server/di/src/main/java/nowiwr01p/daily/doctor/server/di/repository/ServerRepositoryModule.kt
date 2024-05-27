@@ -24,6 +24,7 @@ internal val moduleServerRepository = module {
         ServerAuthRepositoryImpl(
             dispatchers = get<AppDispatchers>(),
             authRepository = get<DatabaseAuthRepository>(),
+            pinCodeRepository = get<DatabasePinCodeRepository>(),
             verificationRepository = get<DatabaseVerificationRepository>(),
             generateCommonTokenUseCase = get<ServerGenerateCommonTokenUseCase>()
         )

@@ -2,7 +2,6 @@ package nowiwr01p.daily.doctor.server.data.repository.verification
 
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
-import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
 import com.nowiwr01p.model.api.response.token.TokenResponse
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import com.nowiwr01p.model.usecase.execute
@@ -19,16 +18,15 @@ class ServerVerificationRepositoryImpl(
 
     override suspend fun sendVerificationCode(request: SendVerificationCodeRequest): TokenResponse {
         return withContext(dispatchers.io) {
-            val token = generateCommonTokenUseCase.execute()
-            verificationRepository.sendVerificationCode(token)
+            val verificationResponseToken = generateCommonTokenUseCase.execute()
+            verificationRepository.sendVerificationCode(verificationResponseToken)
         }
     }
 
     override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): TokenResponse {
         return withContext(dispatchers.io) {
-            verificationRepository.checkVerificationCode(request)
-            val token = generateCommonTokenUseCase.execute()
-            PinCodeTokenResponse(token)
+            val pinCodeResponseToken = generateCommonTokenUseCase.execute()
+            verificationRepository.checkVerificationCode(pinCodeResponseToken, request)
         }
     }
 
