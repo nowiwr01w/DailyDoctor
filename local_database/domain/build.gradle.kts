@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "local_database"
+            baseName = "local_database.domain"
         }
     }
 
@@ -47,9 +47,6 @@ kotlin {
                  */
                 implementation(libs.bundles.local.database)
             }
-            androidMain.dependencies {
-                implementation(libs.koin.android)
-            }
         }
     }
 
@@ -61,7 +58,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.local_database"
+    namespace = "nowiwr01p.daily.doctor.local_database.domain"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

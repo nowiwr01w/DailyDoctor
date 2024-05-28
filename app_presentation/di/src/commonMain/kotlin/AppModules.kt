@@ -1,6 +1,6 @@
 package di
 
-import com.nowiwr01p.local_database.platform.getLocalDatabaseModule
 import getAppSharedModules
+import getLocalDatabaseModule
 
 val appModules = getLocalDatabaseModule() + getAppSharedModules() + getAppPresentationModules()
