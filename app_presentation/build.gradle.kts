@@ -151,9 +151,14 @@ kotlin {
                 implementation(projects.appPresentation.viewModels.shared)
                 implementation(projects.appPresentation.viewModels.web)
                 /**
+                 * RESOURCES
+                 */
+                implementation(projects.resources)
+                /**
                  * COMPOSE
                  */
                 implementation(compose.ui)
+                implementation(compose.components.resources)
                 /**
                  * DEPENDENCIES
                  */
