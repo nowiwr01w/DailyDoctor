@@ -34,9 +34,6 @@ include(":app_presentation:app_mobile")
 include(":app_presentation:di")
 include(":app_presentation:platform")
 
-include(":app_presentation:theme")
-include(":app_presentation:theme:di")
-
 include(":app_presentation:core_ui")
 include(":app_presentation:core_ui:di")
 

@@ -53,7 +53,6 @@ kotlin {
                 /**
                  * APP PRESENTATION
                  */
-                implementation(projects.appPresentation.theme)
                 implementation(projects.appPresentation.coreUi)
                 implementation(projects.appPresentation.platform)
                 implementation(projects.appPresentation.navigation) // TODO: navigation.model && navigation.mobile

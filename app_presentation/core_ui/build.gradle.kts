@@ -51,10 +51,6 @@ kotlin {
                 implementation(projects.appShared.domain)
                 implementation(projects.appShared.platform)
                 /**
-                 * APP PRESENTATION
-                 */
-                implementation(projects.appPresentation.theme)
-                /**
                  * COMPOSE
                  */
                 implementation(compose.runtime)

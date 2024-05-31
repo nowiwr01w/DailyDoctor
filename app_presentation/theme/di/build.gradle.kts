@@ -50,10 +50,6 @@ kotlin {
                 implementation(projects.appShared.core)
                 implementation(projects.appShared.platform)
                 /**
-                 * APP PRESENTATIONS
-                 */
-                implementation(projects.appPresentation.theme)
-                /**
                  * COMPOSE
                  */
                 implementation(compose.ui)

@@ -102,7 +102,6 @@ kotlin {
              */
             implementation(projects.appPresentation.coreUi)
             implementation(projects.appPresentation.platform)
-            implementation(projects.appPresentation.theme)
             implementation(projects.appPresentation.viewModels)
             implementation(projects.appPresentation.navigation)
             implementation(projects.appPresentation.viewModels.di)
