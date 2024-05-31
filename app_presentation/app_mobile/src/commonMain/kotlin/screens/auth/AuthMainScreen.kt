@@ -73,7 +73,7 @@ import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Check
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Create
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_eye_closed
 import nowiwr01p.daily.doctor.resources.ic_eye_opened

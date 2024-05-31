@@ -3,17 +3,18 @@ import model.color.data.background.classic.ClassicDarkBackgroundColors
 import model.color.data.background.classic.ClassicLightBackgroundColors
 import core.model.theme.AppTheme.DARK
 import core.model.theme.AppTheme.LIGHT
-import nowiwr01p.daily.doctor.app_presentation.theme.shape.AppShapes
-import nowiwr01p.daily.doctor.app_presentation.theme.shape.platform.DesktopShapes
-import nowiwr01p.daily.doctor.app_presentation.theme.shape.platform.MobileShapes
-import nowiwr01p.daily.doctor.app_presentation.theme.shape.platform.WebShapes
-import nowiwr01p.daily.doctor.app_presentation.theme.typography.AppTypography
-import nowiwr01p.daily.doctor.app_presentation.theme.typography.platform.DesktopTypography
-import nowiwr01p.daily.doctor.app_presentation.theme.typography.platform.MobileTypography
-import nowiwr01p.daily.doctor.app_presentation.theme.typography.platform.WebTypography
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import platform.Platform
 import platform.Platform.*
+import theme.shape.AppShapes
+import theme.shape.platform.DesktopShapes
+import theme.shape.platform.MobileShapes
+import theme.shape.platform.WebShapes
+import theme.typography.AppTypography
+import theme.typography.platform.DesktopTypography
+import theme.typography.platform.MobileTypography
+import theme.typography.platform.WebTypography
 
 val moduleAppPresentationTheme = module {
     /**

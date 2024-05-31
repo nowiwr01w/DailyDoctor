@@ -16,19 +16,19 @@ import androidx.compose.ui.text.font.FontFamily
 import com.nowiwr01p.model.usecase.execute
 import components.LocalWindowInsetsData
 import components.ProviderLocalWindowInsets
-import core.model.brand.AppBrand
-import core.model.brand.AppBrand.AppBrandClassic
+import model.brand.AppBrand
+import model.brand.AppBrand.AppBrandClassic
 import core.model.color.AppColorsData
 import core.model.color.ProvideCustomColors
-import core.model.color.classic.AppClassicColors
+import model.color.classic.AppClassicColors
 import core.model.theme.AppTheme
 import core.model.theme.AppTheme.DARK
 import core.model.theme.AppTheme.LIGHT
-import nowiwr01p.daily.doctor.app_presentation.theme.shape.AppShapes
-import nowiwr01p.daily.doctor.app_presentation.theme.typography.AppTypography
 import org.koin.compose.koinInject
 import org.koin.core.qualifier.named
 import platform.currentPlatform
+import theme.shape.AppShapes
+import theme.typography.AppTypography
 import usecase.brand.AppGetBrandUseCase
 import usecase.theme.AppGetThemeModeUseCase
 

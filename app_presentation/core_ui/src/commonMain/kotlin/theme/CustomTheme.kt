@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.app_presentation.theme
+package theme
 
 import androidx.compose.runtime.Composable
 import core.model.color.AppColorsData

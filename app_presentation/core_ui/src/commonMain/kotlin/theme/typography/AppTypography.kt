@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.app_presentation.theme.typography
+package theme.typography
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.font.FontFamily

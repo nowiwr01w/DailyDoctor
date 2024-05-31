@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import components.LocalWindowInsets
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import theme.CustomTheme.colors
 
 /**
  * Should be only used on Android and iOS

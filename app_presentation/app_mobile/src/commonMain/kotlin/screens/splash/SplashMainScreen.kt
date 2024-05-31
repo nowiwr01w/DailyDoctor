@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import extensions.BaseScreen
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import observers.EffectObserver

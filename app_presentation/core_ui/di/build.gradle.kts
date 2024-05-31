@@ -3,7 +3,9 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -43,9 +45,19 @@ kotlin {
                  */
                 implementation(projects.modelShared)
                 /**
+                 * APP SHARED
+                 */
+                implementation(projects.appShared.core)
+                implementation(projects.appShared.platform)
+                /**
                  * APP PRESENTATION
                  */
                 implementation(projects.appPresentation.coreUi)
+                /**
+                 * COMPOSE
+                 */
+                implementation(compose.runtime)
+                implementation(compose.ui)
                 /**
                  * DEPENDENCIES
                  */

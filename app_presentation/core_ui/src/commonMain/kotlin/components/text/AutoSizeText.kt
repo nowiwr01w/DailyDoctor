@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.times
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import theme.CustomTheme.colors
 
 @Composable
 fun AutoSizeText(

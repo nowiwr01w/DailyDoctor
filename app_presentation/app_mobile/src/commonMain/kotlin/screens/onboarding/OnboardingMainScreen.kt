@@ -29,8 +29,7 @@ import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_onboarding_always_online
 import nowiwr01p.daily.doctor.resources.ic_onboarding_chat_with_doctor

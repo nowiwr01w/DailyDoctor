@@ -39,7 +39,7 @@ import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.resources.ic_delete

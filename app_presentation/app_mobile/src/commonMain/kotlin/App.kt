@@ -17,7 +17,6 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.Sp
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.VerificationChild
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
-import platform.Platform.*
 import screens.auth.AuthMainScreenMobile
 import screens.onboarding.OnboardingMainScreenMobile
 import screens.pin_code.PinCodeMainScreenMobile

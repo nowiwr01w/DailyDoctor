@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.app_presentation.theme.shape
+package theme.shape
 
 import androidx.compose.material.Shapes
 

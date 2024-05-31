@@ -1,11 +1,11 @@
-package nowiwr01p.daily.doctor.app_presentation.theme.shape.platform
+package theme.shape.platform
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
 import androidx.compose.ui.unit.dp
-import nowiwr01p.daily.doctor.app_presentation.theme.shape.AppShapes
+import theme.shape.AppShapes
 
-class WebShapes: AppShapes {
+class DesktopShapes: AppShapes {
     override val shapes = Shapes(
         small = RoundedCornerShape(8.dp),
         medium = RoundedCornerShape(16.dp),

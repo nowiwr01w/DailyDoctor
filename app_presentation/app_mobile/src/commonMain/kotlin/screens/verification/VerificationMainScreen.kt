@@ -53,7 +53,7 @@ import androidx.constraintlayout.compose.Dimension
 import observers.EffectObserver
 import view_model.rememberViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import nowiwr01p.daily.doctor.app_presentation.theme.CustomTheme.colors
+import theme.CustomTheme.colors
 import verification.VerificationContract.Effect
 import verification.VerificationContract.Event
 import verification.VerificationContract.Listener

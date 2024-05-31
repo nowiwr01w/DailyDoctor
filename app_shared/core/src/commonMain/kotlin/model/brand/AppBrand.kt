@@ -1,7 +1,7 @@
-package core.model.brand
+package model.brand
 
 import core.model.color.AppColors
-import core.model.color.classic.AppClassicColors
+import model.color.classic.AppClassicColors
 
 sealed class AppBrand(
     open val name: String,

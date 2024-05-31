@@ -1,13 +1,13 @@
-package nowiwr01p.daily.doctor.app_presentation.theme.typography.platform
+package theme.typography.platform
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import nowiwr01p.daily.doctor.app_presentation.theme.typography.AppTypography
+import theme.typography.AppTypography
 
-class WebTypography: AppTypography {
+class DesktopTypography: AppTypography {
     override fun getTypography(fontFamily: FontFamily) = Typography(
         h1 = TextStyle(
             fontFamily = fontFamily,
