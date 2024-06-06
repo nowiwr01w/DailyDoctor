@@ -1,7 +1,11 @@
 package screen.home
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,19 +14,36 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -32,7 +53,6 @@ import components.input_field.SearchField
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_search
 import nowiwr01p.daily.doctor.resources.web_ic_pin
-import theme.CustomTheme
 import theme.CustomTheme.colors
 
 @Composable
@@ -57,11 +77,31 @@ private fun HomeMainScreenContent() {
     }
 }
 
+@Composable
+fun BottomShadow(height: Dp = 32.dp) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(height)
+        .background(
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    Color.Black.copy(alpha = 0.03f),
+                    Color.Black.copy(alpha = 0.01f),
+                    Color.Transparent
+                )
+            )
+        )
+    )
+}
+
 /**
  * HEADER
  */
 @Composable
-private fun Header() {
+private fun Header() = Column(
+    modifier = Modifier.fillMaxWidth(),
+    horizontalAlignment = Alignment.CenterHorizontally
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth(0.8f)
@@ -72,6 +112,7 @@ private fun Header() {
         Search()
         Statistic()
     }
+    BottomShadow()
 }
 
 /**
@@ -156,15 +197,12 @@ private fun SiteDescription() = Column(
 ) {
     Text(
         text = "Сайт отзывов о врачах №1 в России",
-        style = MaterialTheme.typography.h2.copy(
-//            letterSpacing = 1.1.sp
-        ),
+        style = MaterialTheme.typography.h2,
         color = colors.textColors.blackTextColor.copy(alpha = 0.9f)
     )
     Text(
         text = "по количеству отзывов, посетителей и страниц врачей\n" + "(исследование РБК, сентябрь 2019)",
         style = MaterialTheme.typography.h5.copy(
-//            letterSpacing = 1.1.sp,
             lineHeight = 18.sp,
             textAlign = TextAlign.Center
         ),
@@ -219,8 +257,98 @@ private fun Search() = ConstraintLayout(
 }
 
 @Composable
-private fun Statistic() {
+private fun Statistic() = Row(
+    horizontalArrangement = Arrangement.Center,
+    modifier = Modifier
+        .padding(top = 0.dp, bottom = 40.dp, start = 16.dp, end = 16.dp) // TODO: Strange behavior with top padding
+        .fillMaxWidth()
+) {
+    StatisticItem()
+    StatisticItem()
+    StatisticItem()
+    StatisticItem()
+    StatisticItem(true)
+}
 
+@Composable
+private fun StatisticItem(isLast: Boolean = false) {
+    ConstraintLayout {
+        val (icon, currentStatistic, pnl, endDivider) = createRefs()
+
+        val iconModifier = Modifier
+            .size(40.dp)
+            .constrainAs(icon) {
+                start.linkTo(parent.start, 24.dp)
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+            }
+        AppImage(
+            image = Res.drawable.web_ic_pin,
+            color = colors.backgroundColors.blueBackgroundColor,
+            modifier = iconModifier
+        )
+
+        val columnsModifier = Modifier
+            .padding(start = 16.dp)
+            .constrainAs(currentStatistic) {
+                start.linkTo(icon.end)
+                top.linkTo(icon.top)
+                bottom.linkTo(icon.bottom)
+            }
+        Column(
+            modifier = columnsModifier
+        ) {
+            Text(
+                text = "4 175 431",
+                style = MaterialTheme.typography.h3,
+                color = colors.textColors.blackTextColor
+            )
+            Text(
+                text = "записей на прием",
+                style = MaterialTheme.typography.h5.copy(lineHeight = 16.sp),
+                color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
+                modifier = Modifier.padding(4.dp)
+            )
+        }
+
+        val pnlModifier = Modifier
+            .padding(top = 12.dp)
+            .border(
+                width = 2.dp,
+                color = colors.backgroundColors.redBackgroundColor,
+                shape = RoundedCornerShape(16.dp)
+            )
+            .constrainAs(pnl) {
+                start.linkTo(icon.start)
+                top.linkTo(currentStatistic.bottom)
+            }
+        Box(
+            modifier = pnlModifier,
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "+16 343",
+                color = colors.backgroundColors.redBackgroundColor,
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)
+            )
+        }
+
+        if (!isLast) {
+            val endDividerModifier = Modifier
+                .padding(start = 24.dp)
+                .width(2.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(colors.backgroundColors.grayBackgroundColor.copy(alpha = 0.1f))
+                .constrainAs(endDivider) {
+                    height = Dimension.fillToConstraints
+                    start.linkTo(currentStatistic.end)
+                    top.linkTo(currentStatistic.top)
+                    bottom.linkTo(currentStatistic.bottom)
+                }
+            Box(modifier = endDividerModifier)
+        }
+    }
 }
 
 /**
