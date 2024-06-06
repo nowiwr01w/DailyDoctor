@@ -1,47 +1,28 @@
 package screen.home
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.clipRect
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -51,6 +32,7 @@ import androidx.constraintlayout.compose.Dimension
 import components.image.AppImage
 import components.input_field.SearchField
 import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.resources.ic_search
 import nowiwr01p.daily.doctor.resources.web_ic_pin
 import theme.CustomTheme.colors
@@ -119,22 +101,44 @@ private fun Header() = Column(
  * TOOLBAR
  */
 @Composable
-private fun Toolbar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 32.dp)
-    ) {
-        CityPicker()
-        Spacer(modifier = Modifier.weight(1f))
-        AppTextLogo()
-        Spacer(modifier = Modifier.weight(1f))
-        AuthButton()
+private fun Toolbar() = ConstraintLayout(
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 32.dp)
+) {
+    val (cityPicker, appLogo, authButton) = createRefs()
+
+    val cityPickerModifier = Modifier.constrainAs(cityPicker) {
+        start.linkTo(parent.start)
+        top.linkTo(parent.top)
+        bottom.linkTo(parent.bottom)
     }
+    CityPicker(modifier = cityPickerModifier)
+
+    val appLogoModifier = Modifier
+        .size(32.dp)
+        .constrainAs(appLogo) {
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
+    AppLogo(modifier = appLogoModifier)
+
+    val authButtonModifier = Modifier
+        .clip(RoundedCornerShape(8.dp))
+        .background(colors.textColors.blueTextColor.copy(alpha = 0.2f))
+        .constrainAs(authButton) {
+            end.linkTo(parent.end)
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+        }
+    AuthButton(modifier = authButtonModifier)
 }
 
 @Composable
-private fun CityPicker() = Row(
+private fun CityPicker(modifier: Modifier) = Row(
+    modifier = modifier,
     verticalAlignment = Alignment.CenterVertically
 ) {
     AppImage(
@@ -145,41 +149,27 @@ private fun CityPicker() = Row(
     Text(
         text = "Москва",
         style = MaterialTheme.typography.h6,
-        color = colors.textColors.blueTextColor,
+        color = colors.textColors.blueTextColor.copy(alpha = 0.75f),
         modifier = Modifier.padding(start = 12.dp)
     )
 }
 
 @Composable
-private fun AppTextLogo() = Row {
-    val textStyle = MaterialTheme.typography.h3.copy(
-        letterSpacing = 1.5.sp,
-        fontWeight = FontWeight.ExtraBold
-    )
-    Text(
-        text = "Daily".uppercase(),
-        style = textStyle,
-        color = colors.textColors.redTextColor
-    )
-    Text(
-        text = "Doctor".uppercase(),
-        style = textStyle,
-        color = colors.textColors.blueTextColor
-    )
-}
+private fun AppLogo(modifier: Modifier) = AppImage(
+    image = Res.drawable.ic_app_logo_small,
+    modifier = modifier
+)
 
 @Composable
-private fun AuthButton() {
+private fun AuthButton(modifier: Modifier) {
     Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(colors.textColors.blueTextColor.copy(alpha = 0.3f))
+        modifier = modifier,
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = "Войти",
             style = MaterialTheme.typography.h6,
-            color = colors.textColors.blueTextColor,
+            color = colors.textColors.blueTextColor.copy(alpha = 0.75f),
             modifier = Modifier.padding(vertical = 6.dp, horizontal = 10.dp)
         )
     }
@@ -189,31 +179,19 @@ private fun AuthButton() {
  * TITLE AND DESCRIPTION
  */
 @Composable
-private fun SiteDescription() = Column(
-    horizontalAlignment = Alignment.CenterHorizontally,
+private fun SiteDescription() = Text(
+    text = "Запись к врачу в вашем городе",
+    style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center),
+    color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
     modifier = Modifier
+        .padding(top = 32.dp)
         .fillMaxWidth()
-        .padding(top = 64.dp)
-) {
-    Text(
-        text = "Сайт отзывов о врачах №1 в России",
-        style = MaterialTheme.typography.h2,
-        color = colors.textColors.blackTextColor.copy(alpha = 0.9f)
-    )
-    Text(
-        text = "по количеству отзывов, посетителей и страниц врачей\n" + "(исследование РБК, сентябрь 2019)",
-        style = MaterialTheme.typography.h5.copy(
-            lineHeight = 18.sp,
-            textAlign = TextAlign.Center
-        ),
-        color = colors.textColors.blackTextColor.copy(alpha = 0.5f)
-    )
-}
+)
 
 @Composable
 private fun Search() = ConstraintLayout(
     modifier = Modifier
-        .padding(top = 64.dp)
+        .padding(top = 24.dp)
         .fillMaxWidth()
         .height(56.dp)
 ) {
@@ -284,7 +262,7 @@ private fun StatisticItem(isLast: Boolean = false) {
             }
         AppImage(
             image = Res.drawable.web_ic_pin,
-            color = colors.backgroundColors.blueBackgroundColor,
+            color = colors.textColors.blueTextColor,
             modifier = iconModifier
         )
 
