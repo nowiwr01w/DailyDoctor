@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -31,8 +33,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import components.image.AppImage
 import components.input_field.SearchField
+import components.text.DashedUnderlineText
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
+import nowiwr01p.daily.doctor.resources.ic_fire
 import nowiwr01p.daily.doctor.resources.ic_search
 import nowiwr01p.daily.doctor.resources.web_ic_pin
 import theme.CustomTheme.colors
@@ -86,7 +90,7 @@ private fun Header() = Column(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth(0.75f)
             .background(colors.backgroundColors.whiteBackgroundColor)
     ) {
         Toolbar()
@@ -147,7 +151,7 @@ private fun CityPicker(modifier: Modifier) = Row(
         modifier = Modifier.size(24.dp)
     )
     Text(
-        text = "Москва",
+        text = "Тбилиси",
         style = MaterialTheme.typography.h6,
         color = colors.textColors.blueTextColor.copy(alpha = 0.75f),
         modifier = Modifier.padding(start = 12.dp)
@@ -241,15 +245,35 @@ private fun Statistic() = Row(
         .padding(top = 0.dp, bottom = 40.dp, start = 16.dp, end = 16.dp) // TODO: Strange behavior with top padding
         .fillMaxWidth()
 ) {
-    StatisticItem()
-    StatisticItem()
-    StatisticItem()
-    StatisticItem()
-    StatisticItem(true)
+    StatisticItem(
+        count = "4 188 116",
+        description = "отзывов"
+    )
+    StatisticItem(
+        count = "17 814 651",
+        description = "записей на прием"
+    )
+    StatisticItem(
+        count = "723 118",
+        description = "врачей"
+    )
+    StatisticItem(
+        count = "72 561",
+        description = "клиник"
+    )
+    StatisticItem(
+        count = "17 475 167",
+        description = "посетителей в месяц",
+        isLast = true
+    )
 }
 
 @Composable
-private fun StatisticItem(isLast: Boolean = false) {
+private fun StatisticItem(
+    count: String,
+    description: String,
+    isLast: Boolean = false
+) {
     ConstraintLayout {
         val (icon, currentStatistic, pnl, endDivider) = createRefs()
 
@@ -277,15 +301,15 @@ private fun StatisticItem(isLast: Boolean = false) {
             modifier = columnsModifier
         ) {
             Text(
-                text = "4 175 431",
+                text = count,
                 style = MaterialTheme.typography.h3,
                 color = colors.textColors.blackTextColor
             )
             Text(
-                text = "записей на прием",
+                text = description,
                 style = MaterialTheme.typography.h5.copy(lineHeight = 16.sp),
                 color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(top = 4.dp)
             )
         }
 
@@ -345,8 +369,43 @@ private fun Populars() {
 }
 
 @Composable
-private fun PopularTitle() {
-
+private fun PopularTitle() = Row(
+    horizontalArrangement = Arrangement.Center,
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = Modifier
+        .padding(top = 16.dp)
+        .fillMaxWidth()
+) {
+    Box {
+        Box(
+            modifier = Modifier
+                .padding(top = 2.dp)
+                .size(30.dp)
+                .graphicsLayer { rotationX = 45f }
+                .background(
+                    shape = CircleShape,
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            colors.backgroundColors.redBackgroundColor.copy(0.25f),
+                            colors.backgroundColors.redBackgroundColor.copy(0.15f),
+                            Color.Transparent
+                        )
+                    )
+                )
+        )
+        AppImage(
+            image = Res.drawable.ic_fire,
+            color = colors.backgroundColors.redBackgroundColor,
+            modifier = Modifier
+                .padding(start = 5.dp)
+                .size(20.dp)
+        )
+    }
+    DashedUnderlineText(
+        prefix = "Популярное в ",
+        highlightedText = "Тбилиси",
+        modifier = Modifier.padding(start = 8.dp, bottom = 5.dp)
+    )
 }
 
 @Composable
