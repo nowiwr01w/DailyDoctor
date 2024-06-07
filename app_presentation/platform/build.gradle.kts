@@ -54,18 +54,22 @@ kotlin {
             }
         }
         androidMain.dependencies {
+            implementation(compose.ui)
             implementation(libs.bundles.android)
         }
         iosMain.dependencies {
+            implementation(compose.ui)
             implementation(libs.bundles.ios)
         }
         val desktopMain by getting {
             dependencies {
+                implementation(compose.ui)
                 implementation(libs.bundles.desktop)
             }
         }
         val wasmJsMain by getting {
             dependencies {
+                implementation(compose.ui)
                 implementation(libs.bundles.web)
             }
         }

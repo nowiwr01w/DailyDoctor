@@ -45,6 +45,10 @@ kotlin {
                  */
                 implementation(projects.modelShared)
                 /**
+                 * APP PRESENTATION
+                 */
+                implementation(projects.appPresentation.platform)
+                /**
                  * APP SHARED
                  */
                 implementation(projects.appShared.core)

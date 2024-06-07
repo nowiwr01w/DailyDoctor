@@ -27,6 +27,8 @@ import components.button.ButtonState.ERROR
 import components.button.ButtonState.INIT_LOADING
 import components.button.ButtonState.SEND_REQUEST
 import components.button.ButtonState.SUCCESS
+import platform.Platform
+import platform.currentPlatform
 
 /**
  * BUTTON
@@ -61,6 +63,10 @@ fun StateButton(
 
     Button(
         enabled = enabled,
+        shape = when (currentPlatform) {
+            Platform.WEB -> MaterialTheme.shapes.medium
+            else -> MaterialTheme.shapes.small
+        },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor,
             disabledBackgroundColor = backgroundColor
@@ -68,7 +74,7 @@ fun StateButton(
         onClick = {
             if (state == DEFAULT) onClick.invoke()
         },
-        modifier = modifier.clip(MaterialTheme.shapes.large)
+        modifier = modifier
     ) {
         when (state) {
             DEFAULT -> DefaultText(
