@@ -14,10 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import components.divider.SinusoidalDivider
 import components.image.AppImage
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_apple_logo
@@ -30,27 +32,42 @@ import theme.CustomTheme.colors
 
 @Composable
 internal fun HomeMobileAppInfo() = Column(
-    modifier = Modifier.fillMaxWidth(0.5f),
+    modifier = Modifier.fillMaxWidth(),
     horizontalAlignment = Alignment.CenterHorizontally
 ) {
-    Title()
-    Row(
+    SinusoidalDivider(
         modifier = Modifier.padding(top = 16.dp)
+    )
+    Column(
+        modifier = Modifier.fillMaxWidth(0.5f),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QrWithButton(GooglePlay)
-        Spacer(modifier = Modifier.width(48.dp))
-        QrWithButton(AppStore)
+        Title(
+            modifier = Modifier
+                .padding(top = 48.dp)
+                .fillMaxWidth()
+        )
+        Row(
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            QrWithButton(GooglePlay)
+            Spacer(modifier = Modifier.width(48.dp))
+            QrWithButton(AppStore)
+        }
     }
+    SinusoidalDivider(
+        modifier = Modifier
+            .padding(top = 48.dp)
+            .graphicsLayer { scaleY = -1f }
+    )
 }
 
 @Composable
-private fun Title() = Text(
+private fun Title(modifier: Modifier) = Text(
     text = "Клиники и врачи всегда под рукой\nв мобильном приложении",
     style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center),
     color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
-    modifier = Modifier
-        .padding(top = 48.dp)
-        .fillMaxWidth()
+    modifier = modifier
 )
 
 @Composable
