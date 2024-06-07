@@ -48,7 +48,7 @@ internal class ServicesCategory: Category(
 )
 
 internal class ProceduresCategory: Category(
-    name = "Процедуры   ",
+    name = "Процедуры",
     value = "109 252",
     categories = listOf(
         CategoryData("МРТ", 316),
