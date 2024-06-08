@@ -19,7 +19,8 @@ internal class DoctorsCategory: Category(
         CategoryData("Дерматолог", 3409),
         CategoryData("Невролог", 3957),
         CategoryData("Педиатр", 6443),
-        CategoryData("Стоматолог",8509)
+        CategoryData("Стоматолог",8509),
+        CategoryData("Уролог",2901)
     )
 )
 
@@ -31,7 +32,8 @@ internal class ClinicsCategory: Category(
         CategoryData("Стомотология", 2146),
         CategoryData("Больница", 131),
         CategoryData("Поликлиника", 309),
-        CategoryData("Роддом",21)
+        CategoryData("Роддом",21),
+        CategoryData("Травмотология",21)
     )
 )
 
@@ -43,7 +45,8 @@ internal class ServicesCategory: Category(
         CategoryData("Ринопластика", 151),
         CategoryData("Прививки", 480),
         CategoryData("Импланты", 1970),
-        CategoryData("Брекеты",1401)
+        CategoryData("Брекеты",1401),
+        CategoryData("Швы",2813)
     )
 )
 
@@ -55,7 +58,8 @@ internal class ProceduresCategory: Category(
         CategoryData("КТ", 509),
         CategoryData("УЗИ", 1814),
         CategoryData("Рентген", 661),
-        CategoryData("Гастроскопия",475)
+        CategoryData("Гастроскопия",475),
+        CategoryData("Промывание горла",974)
     )
 )
 

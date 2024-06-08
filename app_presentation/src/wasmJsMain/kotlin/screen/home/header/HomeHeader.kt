@@ -45,7 +45,7 @@ internal fun Header() = Column(
         Toolbar()
         SiteDescription()
         Search()
-        Statistic()
+//        Statistic() // TODO: Uncomment when you can provide statistics to users
     }
     BottomShadowView()
 }
@@ -144,7 +144,7 @@ private fun SiteDescription() = Text(
 @Composable
 private fun Search() = ConstraintLayout(
     modifier = Modifier
-        .padding(top = 24.dp)
+        .padding(top = 24.dp, bottom = 32.dp)
         .fillMaxWidth()
         .height(56.dp)
 ) {
@@ -191,7 +191,7 @@ private fun Search() = ConstraintLayout(
 private fun Statistic() = Row(
     horizontalArrangement = Arrangement.Center,
     modifier = Modifier
-        .padding(top = 0.dp, bottom = 40.dp, start = 16.dp, end = 16.dp) // TODO: Strange behavior with top padding
+        .padding(top = 0.dp, bottom = 40.dp) // TODO: Strange behavior with top padding
         .fillMaxWidth()
 ) {
     StatisticItem(

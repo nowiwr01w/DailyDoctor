@@ -46,7 +46,7 @@ private fun Title() = Text(
     style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center),
     color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
     modifier = Modifier
-        .padding(top = 48.dp)
+        .padding(top = 56.dp)
         .fillMaxWidth()
 )
 
@@ -54,7 +54,7 @@ private fun Title() = Text(
 private fun ContactButtons() = Row(
     horizontalArrangement = Arrangement.Center,
     modifier = Modifier
-        .padding(top = 32.dp, bottom = 48.dp)
+        .padding(top = 32.dp, bottom = 64.dp)
         .fillMaxWidth()
 ) {
     ContactButton(
