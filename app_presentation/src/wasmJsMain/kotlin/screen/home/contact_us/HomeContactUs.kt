@@ -27,6 +27,7 @@ import components.image.AppImage
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_social_facebook_messenger
 import nowiwr01p.daily.doctor.resources.ic_social_mail
+import nowiwr01p.daily.doctor.resources.ic_social_phone
 import nowiwr01p.daily.doctor.resources.ic_social_telegram
 import nowiwr01p.daily.doctor.resources.ic_social_whats_app
 import org.jetbrains.compose.resources.DrawableResource
@@ -42,7 +43,7 @@ internal fun HomeContactUs() = Column(
 
 @Composable
 private fun Title() = Text(
-    text = "Есть вопрос или хотите дать обратную связь?\nСвяжитесь с нами!",
+    text = "Есть вопрос по работе сайта или хотите дать обратную связь?\nСвяжитесь с нами!",
     style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center),
     color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
     modifier = Modifier
@@ -94,6 +95,14 @@ private fun ContactButtons() = Row(
     ContactButton(
         icon = Res.drawable.ic_social_mail,
         backgroundColor = BackgroundColor.Colored(colors.textColors.blackTextColor),
+        action = {}
+    )
+    Spacer(
+        modifier = Modifier.width(24.dp)
+    )
+    ContactButton(
+        icon = Res.drawable.ic_social_phone,
+        backgroundColor = BackgroundColor.Colored(Color(0xFF43A047)),
         action = {}
     )
 }

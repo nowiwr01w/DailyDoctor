@@ -172,7 +172,7 @@ private fun Search() = ConstraintLayout(
     SearchField(
         value = "",
         onValueChange = {},
-        placeholderText = "Врачи, клиники, услуги",
+        placeholderText = "Врач, клиника, услуга или процедура",
         modifier = Modifier
             .height(56.dp)
             .clip(RoundedCornerShape(8.dp))
