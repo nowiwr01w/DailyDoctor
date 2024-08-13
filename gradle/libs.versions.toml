@@ -172,7 +172,7 @@ server-test = [
 android-minSdk = "26"
 android-compileSdk = "34"
 android-targetSdk = "34"
-compose-plugin = "1.6.10-beta03"
+compose-plugin = "1.6.11"
 ##############
 ### GRADLE ###
 ##############
@@ -180,17 +180,17 @@ agp = "8.2.2"
 ##############
 ### KOTLIN ###
 ##############
-kotlin = "2.0.0-RC2"
+kotlin = "2.0.0"
 kotlin-date-time = "0.5.0"
 kotlin-serialization-json = "1.6.3"
 ###############
 ### COMPOSE ###
 ###############
-compose = "1.6.7"
-compose-activity = "1.9.0"
+compose = "1.6.8"
+compose-activity = "1.9.1"
 compose-constraint = "0.3.1"
 android-ktx = "1.13.1"
-android-appcompat = "1.6.1"
+android-appcompat = "1.7.0"
 ##################
 ### NAVIGATION ###
 ##################
@@ -222,7 +222,7 @@ coil = "3.0.0-alpha06"
 ### KTOR ###
 ############
 ktor-client = "3.0.0-wasm2"
-ktor-server = "2.3.11"
+ktor-server = "2.3.12"
 ##############
 ### BACKEND ###
 ##############
