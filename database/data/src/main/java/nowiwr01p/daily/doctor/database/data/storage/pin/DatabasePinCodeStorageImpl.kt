@@ -29,8 +29,6 @@ class DatabasePinCodeStorageImpl: DatabasePinCodeStorage {
         val pinCodeEntity = PinCodeEntity
             .find { PinCodeTable.pinCodeToken eq request.checkPinCodeToken }
             .firstOrNull()
-        println("Zhopa, request.checkPinCodeToken = ${request.checkPinCodeToken}")
-        println("Zhopa, db = ${pinCodeEntity?.code}, requested = ${request.code}")
         when {
             pinCodeEntity == null || request.code != pinCodeEntity.code -> null
             else -> AuthBearerTokenResponse("Типа токен))")

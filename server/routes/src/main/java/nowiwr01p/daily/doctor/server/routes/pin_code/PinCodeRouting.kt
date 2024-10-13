@@ -26,7 +26,6 @@ class PinCodeRouting(
 ): BaseRouting() {
 
     fun createPinCode(route: Route) = route.post(CreatePinRoute.route) {
-        println("server = createPinCode")
         val request = call.receiveNullable<CreatePinCodeRequest>() ?: run {
             sendNoRequestError<CreatePinCodeRequest>()
             return@post
@@ -41,7 +40,6 @@ class PinCodeRouting(
     }
 
     fun checkPinCode(route: Route) = route.post(CheckPinRoute.route) {
-        println("server = checkPinCode")
         val request = call.receiveNullable<CheckPinCodeRequest>() ?: run {
             sendNoRequestError<CheckPinCodeRequest>()
             return@post
@@ -56,7 +54,6 @@ class PinCodeRouting(
     }
 
     fun changePinCode(route: Route) = route.post(ChangePinRoute.route) {
-        println("server = changePinCode")
         val request = call.receiveNullable<ChangePinCodeRequest>() ?: run {
             sendNoRequestError<ChangePinCodeRequest>()
             return@post
@@ -71,7 +68,6 @@ class PinCodeRouting(
     }
 
     fun deletePinCode(route: Route) = route.post(DeletePinRoute.route) {
-        println("server = deletePinCode")
         runCatching {
             deletePinCodeUseCase.execute()
         }.onSuccess {

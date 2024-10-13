@@ -13,28 +13,23 @@ class DatabasePinCodeRepositoryImpl(
 ): BaseRepository(), DatabasePinCodeRepository {
 
     override suspend fun isPinCodeSet(pinCodeToken: String): Boolean {
-        println("Zhopa, 000")
         return storage.isPinCodeSet(pinCodeToken)
     }
 
     override suspend fun createPinCode(request: CreatePinCodeRequest): TokenResponse {
-        println("Zhopa, 1")
         return storage.createPinCode(request)
     }
 
     override suspend fun checkPinCode(request: CheckPinCodeRequest): TokenResponse {
-        println("Zhopa, 2")
         return storage.checkPinCode(request) ?: buildError("Wrong pin code.")
     }
 
     override suspend fun changePinCode(request: ChangePinCodeRequest): TokenResponse {
-        println("Zhopa, 3")
         storage.changePinCode()
         TODO()
     }
 
     override suspend fun deletePinCode() {
-        println("Zhopa, 4")
         storage.deletePinCode()
     }
 }
