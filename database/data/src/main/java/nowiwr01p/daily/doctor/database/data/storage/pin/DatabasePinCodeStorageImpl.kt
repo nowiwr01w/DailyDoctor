@@ -17,21 +17,21 @@ class DatabasePinCodeStorageImpl: DatabasePinCodeStorage {
         pinCodeEntity != null && pinCodeEntity.code.isNotEmpty()
     }
 
-    override fun createPinCode(request: CreatePinCodeRequest) = transaction {
+    override fun createPinCode(authToken: String, request: CreatePinCodeRequest) = transaction {
         PinCodeEntity.new {
             code = request.code
             pinCodeToken = request.pinCodeToken
         }
-        AuthBearerTokenResponse("Типа токен))") // TODO: Send auth token
+        AuthBearerTokenResponse(authToken)
     }
 
-    override fun checkPinCode(request: CheckPinCodeRequest) = transaction {
+    override fun checkPinCode(authToken: String, request: CheckPinCodeRequest) = transaction {
         val pinCodeEntity = PinCodeEntity
             .find { PinCodeTable.pinCodeToken eq request.checkPinCodeToken }
             .firstOrNull()
         when {
             pinCodeEntity == null || request.code != pinCodeEntity.code -> null
-            else -> AuthBearerTokenResponse("Типа токен))")
+            else -> AuthBearerTokenResponse(authToken)
         }
     }
 

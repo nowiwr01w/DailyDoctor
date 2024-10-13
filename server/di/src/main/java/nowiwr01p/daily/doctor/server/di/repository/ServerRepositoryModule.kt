@@ -50,8 +50,8 @@ internal val moduleServerRepository = module {
      */
     factory<ServerPinCodeRepository> {
         ServerPinCodeRepositoryImpl(
-            dispatchers = get<AppDispatchers>(),
-            repository = get<DatabasePinCodeRepository>()
+            repository = get<DatabasePinCodeRepository>(),
+            generateCommonTokenUseCase = get<ServerGenerateCommonTokenUseCase>()
         )
     }
 }

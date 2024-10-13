@@ -7,8 +7,8 @@ import com.nowiwr01p.model.api.response.token.TokenResponse
 
 interface DatabasePinCodeStorage {
     fun isPinCodeSet(pinCodeToken: String): Boolean
-    fun createPinCode(request: CreatePinCodeRequest): TokenResponse // TODO: Send auth token
-    fun checkPinCode(request: CheckPinCodeRequest): AuthBearerTokenResponse?
+    fun createPinCode(authToken: String, request: CreatePinCodeRequest): AuthBearerTokenResponse
+    fun checkPinCode(authToken: String, request: CheckPinCodeRequest): AuthBearerTokenResponse?
     fun changePinCode()
     fun deletePinCode()
 }
