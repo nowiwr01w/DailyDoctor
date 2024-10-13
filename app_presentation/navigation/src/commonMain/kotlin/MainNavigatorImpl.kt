@@ -8,6 +8,7 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.*
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig.*
 import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.home.HomeNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
@@ -24,7 +25,8 @@ class MainNavigatorImpl(
     override val onboardingNavigator: OnboardingNavigator,
     override val authNavigator: AuthNavigator,
     override val pinCodeNavigator: PinCodeNavigator,
-    override val subscriptionNavigator: SubscriptionNavigator
+    override val subscriptionNavigator: SubscriptionNavigator,
+    override val homeNavigator: HomeNavigator
 ): MainNavigator, ComponentContext by appContext {
 
     override val stack = childStack(
@@ -61,8 +63,13 @@ class MainNavigatorImpl(
         data class PinCode(val pinCodeMode: PinCodeMode): AppNavigationConfig(
             child = PinCodeChild(pinCodeMode)
         )
+        @Serializable
         data object Subscription: AppNavigationConfig(
             child = SubscriptionChild
+        )
+        @Serializable
+        data object Home: AppNavigationConfig(
+            child = HomeChild
         )
     }
 
@@ -72,6 +79,7 @@ class MainNavigatorImpl(
         is AuthChild, is VerificationChild -> authNavigator
         is PinCodeChild -> pinCodeNavigator
         is SubscriptionChild -> subscriptionNavigator
+        is HomeChild -> homeNavigator
     }.also { navigator ->
         navigator.updateChildContext(childContext)
     }

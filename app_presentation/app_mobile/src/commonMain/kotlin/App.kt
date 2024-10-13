@@ -29,6 +29,7 @@ import components.snack_bar.SnackBar
 import helpers.snack_bar.SnackBarHelper
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.AuthChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.HomeChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.OnboardingChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.PinCodeChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.SplashChild
@@ -37,6 +38,7 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.Ve
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import screens.auth.AuthMainScreenMobile
+import screens.home.HomeMainScreen
 import screens.onboarding.OnboardingMainScreenMobile
 import screens.pin_code.PinCodeMainScreenMobile
 import screens.splash.SplashMainScreenMobile
@@ -131,6 +133,9 @@ private fun AppContent(
                 )
                 is SubscriptionChild -> {
                     SubscriptionMainScreen(navigator)
+                }
+                is HomeChild -> {
+                    HomeMainScreen(navigator)
                 }
             }
         }

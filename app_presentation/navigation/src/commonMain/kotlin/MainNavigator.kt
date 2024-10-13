@@ -7,6 +7,7 @@ import com.arkivanov.decompose.value.Value
 import kotlinx.serialization.Serializable
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig
 import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.home.HomeNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
@@ -23,6 +24,7 @@ interface MainNavigator {
     val authNavigator: AuthNavigator
     val pinCodeNavigator: PinCodeNavigator
     val subscriptionNavigator: SubscriptionNavigator
+    val homeNavigator: HomeNavigator
 
     @Serializable
     sealed class Child(
@@ -52,5 +54,8 @@ interface MainNavigator {
 
         @Serializable
         data object SubscriptionChild: Child()
+
+        @Serializable
+        data object HomeChild: Child()
     }
 }

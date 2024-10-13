@@ -1,5 +1,6 @@
 import auth.AuthViewModel
 import helpers.snack_bar.SnackBarHelper
+import home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import onboarding.OnboardingViewModel
@@ -75,5 +76,11 @@ val moduleAppPresentationViewModels = module {
      */
     factory { (scope: CoroutineScope) ->
         SubscriptionViewModel(scope)
+    }
+    /**
+     * HOME
+     */
+    factory { (scope: CoroutineScope) ->
+        HomeViewModel(scope)
     }
 }
