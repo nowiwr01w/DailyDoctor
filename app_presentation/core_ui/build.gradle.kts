@@ -64,6 +64,10 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
                 /**
+                 * RESOURCES
+                 */
+                implementation(projects.resources)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.bundles.base.app)

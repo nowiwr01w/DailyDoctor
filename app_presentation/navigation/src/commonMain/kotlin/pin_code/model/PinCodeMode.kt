@@ -13,7 +13,7 @@ sealed class PinCodeMode(
     data object Repeat: PinCodeMode("")  // Registration and Change - confirmation
 
     @Serializable
-    data object Check: PinCodeMode("")  // Default behavior when open app
+    data class Check(val token: String): PinCodeMode(token)  // Default behavior when open app
 
     @Serializable
     data object Change: PinCodeMode("")

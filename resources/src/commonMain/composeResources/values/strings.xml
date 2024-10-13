@@ -1,3 +1,55 @@
 <resources>
-    <string name="app_name">Daily Doctor</string>
+    <!-- APP NAME -->
+    <string name="app_name">Call Doctor</string>
+
+    <!-- SUBSCRIPTION - SCREEN INFO -->
+    <string name="subscription_toolbar_title">С подпиской удобнее!</string>
+    <string name="subscription_toolbar_screen_title">Поддержите проект</string>
+    <string name="subscription_toolbar_screen_description">Если вам нравится проект - пожалуйста, рассмотрите возможность поддержать его финансово. Приложение и сайт были созданы одним человеком, а ваша помощь пойдёт на оплату серверов и развитие проекта</string>
+    <!-- SUBSCRIPTION - CONTINUE AS UNSUBSCRIBED -->
+    <string name="subscription_continue_as_unsubscribed">Продолжить без подписки</string>
+    <!-- SUBSCRIPTION PERIODS -->
+    <string name="subscription_month">Месяц</string>
+    <string name="subscription_year">Год</string>
+    <!-- SUBSCRIPTION NAMES -->
+    <string name="subscription_free_title" translatable="false">Free</string>
+    <string name="subscription_base_title" translatable="false">Base</string>
+    <string name="subscription_standard_title" translatable="false">Standard</string>
+    <string name="subscription_premium_title" translatable="false">Premium</string>
+    <!-- SUBSCRIPTION BENEFITS - FIRST VISIT DISCOUNT -->
+    <string name="subscription_benefit_first_visit_discounts_free">Без скидки на первый приём</string>
+    <string name="subscription_benefit_first_visit_discounts_base">Скидка 5% на первый приём </string>
+    <string name="subscription_benefit_first_visit_discounts_standard">Скидка 10% на первый приём</string>
+    <string name="subscription_benefit_first_visit_discounts_premium">Скидка 15% на первый приём</string>
+    <!-- SUBSCRIPTION BENEFITS - APPOINTMENTS COUNT -->
+    <string name="subscription_benefit_appointments_count_free">Запись к одному врачу в месяц</string>
+    <string name="subscription_benefit_appointments_count_base">Запись к двум врачам в месяц</string>
+    <string name="subscription_benefit_appointments_count_standard">Запись к трём врачам в месяц</string>
+    <string name="subscription_benefit_appointments_count_premium">Запись к пяти врачам в месяц</string>
+    <!-- SUBSCRIPTION BENEFITS - APPOINTMENT CHAT -->
+    <string name="subscription_benefit_chat_free">Чат с доктором отсутствует</string>
+    <string name="subscription_benefit_chat_base">Чат с доктором открывается в день приёма и исчезает после того, как приём закончится</string>
+    <string name="subscription_benefit_chat_standard">Чат с доктором октывается сразу после записи на приём, но исчезает после того, как приём закончится</string>
+    <string name="subscription_benefit_chat_premium">Чат с доктором октывается сразу после записи на приём и никогда не исчезает, если только вы его не удалите</string>
+    <!-- SUBSCRIPTION BENEFITS - WELCOME PAPER -->
+    <string name="subscription_benefit_welcome_paper_free">Заполнение листа с анамнезом и верификация личности в клинике</string>
+    <string name="subscription_benefit_welcome_paper_base">Заполнение листа с анамнезом в чате в день приёма, но верификация личности в клинике</string>
+    <string name="subscription_benefit_welcome_paper_standard">Заполнение листа с анамнезом и верификация личности в чате в день приёма</string>
+    <string name="subscription_benefit_welcome_paper_premium">Заполнение листа с анамнезом и верификация личности в чате в любое время после записи на приём</string>
+    <!-- SUBSCRIPTION BENEFITS - FAVORITE CLINICS -->
+    <string name="subscription_benefit_favorite_clinics_free">Скидки в любимых клиниках отсутствуют</string>
+    <string name="subscription_benefit_favorite_clinics_base">Скидка 5% в любимых клиниках</string>
+    <string name="subscription_benefit_favorite_clinics_standard">Скидка 10% в любимых клиниках</string>
+    <string name="subscription_benefit_favorite_clinics_premium">Скидка 15% в любимых клиниках</string>
+    <!-- SUBSCRIPTION BENEFITS - DECODING ANALYSIS -->
+    <string name="subscription_benefit_decoding_analysis_free">Расшифровки документов недоступны</string>
+    <string name="subscription_benefit_decoding_analysis_base">Одна расшифровка месяц. Нажмите, чтобы узнать подробнее, какие услуги расшифровки доступны в данном тарифе</string>
+    <string name="subscription_benefit_decoding_analysis_standard">Две расшифровки в месяц. Нажмите, чтобы узнать подробнее, какие услуги расшифровки доступны в данном тарифе</string>
+    <string name="subscription_benefit_decoding_analysis_premium">Три расшифровки в месяц. Нажмите, чтобы узнать подробнее, какие услуги расшифровки доступны в данном тарифе</string>
+    <!-- SUBSCRIPTION BENEFITS - QUESTIONS TO THE DOCTOR WITH CHAT HIGHLIGHTING AND SORTING -->
+    <string name="subscription_benefit_paid_questions_free">Платные вопросы доктору недоступны</string>
+    <string name="subscription_benefit_paid_questions_base">Приоритет вашего диалога - обычный, у доктора отсутствует выделение вашего чата цветом. Доктор ответит в течение недели</string>
+    <string name="subscription_benefit_paid_questions_standard">Приоритет вашего диалога - высокий, выделение чата у доктора цветом. Доктор ответит в течение трёх дней</string>
+    <string name="subscription_benefit_paid_questions_premium">Ваш чат находится на первых позициях, выделение чата у доктора ярким цветом. Доктор ответит в этот же день</string>
+
 </resources>

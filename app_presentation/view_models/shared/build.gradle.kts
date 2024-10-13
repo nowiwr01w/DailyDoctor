@@ -63,6 +63,10 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.components.resources)
                 /**
+                 * RESOURCES
+                 */
+                implementation(projects.resources)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.koin)

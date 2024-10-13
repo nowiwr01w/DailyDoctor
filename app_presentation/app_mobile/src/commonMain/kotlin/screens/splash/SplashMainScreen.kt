@@ -139,7 +139,7 @@ private fun DailyText(state: State) = AnimatedContainer(
     actualAnimationState = state.animationState,
 ) {
     Text(
-        text = "DAILY",
+        text = "CALL",
         style = MaterialTheme.typography.h1,
         color = colors.textColors.blueTextColor,
         letterSpacing = 1.5.sp,

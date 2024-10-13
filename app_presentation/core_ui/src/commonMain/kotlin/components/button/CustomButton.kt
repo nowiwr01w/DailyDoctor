@@ -104,7 +104,7 @@ private fun DefaultText(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.button,
+        style = MaterialTheme.typography.h5,
         color = when (state) {
             DEFAULT, INIT_LOADING -> if (enabled) Color.White else MaterialTheme.colors.secondaryBackgroundColor
             else -> MaterialTheme.colors.secondaryBackgroundColor

@@ -8,7 +8,7 @@ plugins {
 group = "nowiwr01p.daily.doctor.server.main"
 version = "1.0.0"
 application {
-    mainClass.set("nowiwr01p.daily.doctor.ApplicationKt")
+    mainClass.set("nowiwr01p.daily.doctor.server.main.ServerKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["development"] ?: "false"}")
 }
 

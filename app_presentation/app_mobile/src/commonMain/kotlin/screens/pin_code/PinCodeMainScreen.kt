@@ -45,7 +45,11 @@ import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.resources.ic_delete
 import nowiwr01p.daily.doctor.resources.ic_fingerprint
 import nowiwr01p.daily.doctor.resources.yo
+import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
+import pin_code.PinCodeContract
+import pin_code.PinCodeContract.Effect
+import pin_code.PinCodeContract.Effect.*
 import pin_code.PinCodeContract.Event
 import pin_code.PinCodeContract.Listener
 import pin_code.PinCodeContract.State
@@ -69,6 +73,17 @@ fun PinCodeMainScreenMobile(
         }
         override fun requestBiometric() {
             // TODO: Some expect/actual hard things
+        }
+    }
+
+    EffectObserver(viewModel.effect) { effect ->
+        when (effect) {
+            NavigateBack -> {
+                // TODO: Use when change or delete pin code
+            }
+            NavigateToHome -> {
+                navigator.subscriptionNavigator.navigateToSubscription()
+            }
         }
     }
 

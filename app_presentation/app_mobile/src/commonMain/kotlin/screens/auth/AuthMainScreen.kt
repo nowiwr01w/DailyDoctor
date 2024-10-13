@@ -113,7 +113,10 @@ internal fun AuthMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is NavigateToPin -> {
-                val pinCodeMode = if (effect.isPinCodeSet) Check else Create(effect.token) // TODO: Add pinCodeToken for Check
+                val pinCodeMode = when {
+                    effect.isPinCodeSet -> Check(effect.token)
+                    else -> Create(effect.token)
+                }
                 navigator.pinCodeNavigator.navigateToPinCode(pinCodeMode)
             }
             is NavigateToVerification -> {

@@ -7,6 +7,7 @@ import onboarding.data.OnboardingItem
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel
 import splash.SplashViewModel
+import subscription.SubscriptionViewModel
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignUpUseCase
 import usecase.auth.AppValidateAuthDataUseCase
@@ -68,5 +69,11 @@ val moduleAppPresentationViewModels = module {
             changePinCodeUseCase = get<AppChangePinCodeUseCase>(),
             deletePinCodeUseCase = get<AppDeletePinCodeUseCase>()
         )
+    }
+    /**
+     * SUBSCRIPTION
+     */
+    factory { (scope: CoroutineScope) ->
+        SubscriptionViewModel(scope)
     }
 }

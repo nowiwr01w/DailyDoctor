@@ -12,6 +12,7 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.Onboa
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.subscription.SubscriptionNavigator
 
 interface MainNavigator {
 
@@ -21,6 +22,7 @@ interface MainNavigator {
     val onboardingNavigator: OnboardingNavigator
     val authNavigator: AuthNavigator
     val pinCodeNavigator: PinCodeNavigator
+    val subscriptionNavigator: SubscriptionNavigator
 
     @Serializable
     sealed class Child(
@@ -47,5 +49,8 @@ interface MainNavigator {
         data class PinCodeChild(
             val pinCodeMode: PinCodeMode
         ): Child()
+
+        @Serializable
+        data object SubscriptionChild: Child()
     }
 }

@@ -5,18 +5,15 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import kotlinx.serialization.Serializable
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.AuthChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.OnboardingChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.PinCodeChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.SplashChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.VerificationChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig.Splash
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.*
+import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig.*
 import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.subscription.SubscriptionNavigator
 
 typealias AppStackNavigation = StackNavigation<MainNavigatorImpl.AppNavigationConfig>
 
@@ -26,7 +23,8 @@ class MainNavigatorImpl(
     override val splashNavigator: SplashNavigator,
     override val onboardingNavigator: OnboardingNavigator,
     override val authNavigator: AuthNavigator,
-    override val pinCodeNavigator: PinCodeNavigator
+    override val pinCodeNavigator: PinCodeNavigator,
+    override val subscriptionNavigator: SubscriptionNavigator
 ): MainNavigator, ComponentContext by appContext {
 
     override val stack = childStack(
@@ -63,6 +61,9 @@ class MainNavigatorImpl(
         data class PinCode(val pinCodeMode: PinCodeMode): AppNavigationConfig(
             child = PinCodeChild(pinCodeMode)
         )
+        data object Subscription: AppNavigationConfig(
+            child = SubscriptionChild
+        )
     }
 
     private fun Child.updateChildContext(childContext: ComponentContext) = when (this) {
@@ -70,6 +71,7 @@ class MainNavigatorImpl(
         is OnboardingChild -> onboardingNavigator
         is AuthChild, is VerificationChild -> authNavigator
         is PinCodeChild -> pinCodeNavigator
+        is SubscriptionChild -> subscriptionNavigator
     }.also { navigator ->
         navigator.updateChildContext(childContext)
     }

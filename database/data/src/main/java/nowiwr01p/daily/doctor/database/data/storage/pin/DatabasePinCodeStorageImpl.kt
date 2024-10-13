@@ -1,5 +1,6 @@
 package nowiwr01p.daily.doctor.database.data.storage.pin
 
+import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
 import com.nowiwr01p.model.api.response.token.AuthBearerTokenResponse
 import nowiwr01p.daily.doctor.database.domain.storage.pin.DatabasePinCodeStorage
@@ -24,8 +25,16 @@ class DatabasePinCodeStorageImpl: DatabasePinCodeStorage {
         AuthBearerTokenResponse("Типа токен))") // TODO: Send auth token
     }
 
-    override fun checkPinCode() {
-
+    override fun checkPinCode(request: CheckPinCodeRequest) = transaction {
+        val pinCodeEntity = PinCodeEntity
+            .find { PinCodeTable.pinCodeToken eq request.checkPinCodeToken }
+            .firstOrNull()
+        println("Zhopa, request.checkPinCodeToken = ${request.checkPinCodeToken}")
+        println("Zhopa, db = ${pinCodeEntity?.code}, requested = ${request.code}")
+        when {
+            pinCodeEntity == null || request.code != pinCodeEntity.code -> null
+            else -> AuthBearerTokenResponse("Типа токен))")
+        }
     }
 
     override fun changePinCode() {

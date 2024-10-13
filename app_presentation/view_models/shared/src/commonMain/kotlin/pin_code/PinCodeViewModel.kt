@@ -90,7 +90,10 @@ class PinCodeViewModel(
 
     private fun checkPinCode(code: String) = pinCodeOperation(
         pinCodeCallback = {
-            val request = CheckPinCodeRequest(code)
+            val request = CheckPinCodeRequest(
+                code = code,
+                checkPinCodeToken = pinCodeMode.pinCodeToken
+            )
             checkPinCodeUseCase.execute(request)
         },
         navigationEffect = Effect.NavigateToHome

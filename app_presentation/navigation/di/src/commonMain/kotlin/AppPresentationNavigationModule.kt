@@ -13,6 +13,8 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNaviga
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigatorImpl
 import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigatorImpl
+import nowiwr01p.daily.doctor.app_presentation.navigation.subscription.SubscriptionNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.subscription.SubscriptionNavigatorImpl
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
@@ -42,6 +44,12 @@ val moduleAppPresentationNavigation = module {
         PinCodeNavigatorImpl(navigation)
     }
     /**
+     * SUBSCRIPTION
+     */
+    single<SubscriptionNavigator> { (navigation: AppStackNavigation) ->
+        SubscriptionNavigatorImpl(navigation)
+    }
+    /**
      * MAIN
      */
     single<MainNavigator> { (context: ComponentContext) ->
@@ -52,7 +60,8 @@ val moduleAppPresentationNavigation = module {
             splashNavigator = get<SplashNavigator> { parametersOf(navigation) },
             onboardingNavigator = get<OnboardingNavigator> { parametersOf(navigation) },
             authNavigator = get<AuthNavigator> { parametersOf(navigation) },
-            pinCodeNavigator = get<PinCodeNavigator> { parametersOf(navigation) }
+            pinCodeNavigator = get<PinCodeNavigator> { parametersOf(navigation) },
+            subscriptionNavigator = get<SubscriptionNavigator> { parametersOf(navigation) }
         )
     }
 }
