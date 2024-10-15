@@ -1,6 +1,5 @@
 package api.pin
 
-import api.BaseApi
 import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
@@ -9,8 +8,10 @@ import com.nowiwr01p.model.api.route.PinCodeRoutes.ChangePinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.CheckPinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.CreatePinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.DeletePinRoute
+import nowiwr01p.daily.doctor.base_api_client.api.ApiClientSettings.AppApiClientSettings
+import nowiwr01p.daily.doctor.base_api_client.api.BaseApi
 
-class PinApiImpl: BaseApi(), PinApi {
+class PinApiImpl: BaseApi(AppApiClientSettings), PinApi {
 
     override suspend fun createPinCode(request: CreatePinCodeRequest) = postHttp<TokenResponse>(
         route = CreatePinRoute,

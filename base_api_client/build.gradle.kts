@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared.di"
+            baseName = "base_api_client"
         }
     }
 
@@ -39,26 +39,26 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
-                 * MODEL SHARED
+                 * SHARED MODELS
                  */
                 implementation(projects.modelShared)
                 /**
-                 * APP SHARED
+                 * KOIN
                  */
-                implementation(projects.appShared.core)
-                implementation(projects.appShared.domain)
-                implementation(projects.appShared.data)
-                implementation(projects.appShared.works)
-                implementation(projects.appShared.works.di)
-                implementation(projects.appShared.config.di)
+                implementation(libs.koin)
                 /**
-                 * BASE API CLIENT
+                 * KOTLIN
                  */
-                implementation(projects.baseApiClient)
+                implementation(libs.coroutines)
+                implementation(libs.kotlin.date.time)
+                implementation(libs.kotlin.serialization.json)
                 /**
-                 * DEPENDENCIES
+                 * KTOR CLIENT
                  */
-                implementation(libs.bundles.base.app)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.logging)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.kotlin.serialization)
             }
         }
         androidMain.dependencies {
@@ -81,7 +81,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.shared.di"
+    namespace = "nowiwr01p.daily.doctor.base_api_client"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

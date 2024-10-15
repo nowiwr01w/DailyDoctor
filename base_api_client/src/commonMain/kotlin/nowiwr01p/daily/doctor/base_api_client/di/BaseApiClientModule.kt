@@ -1,4 +1,4 @@
-package network
+package nowiwr01p.daily.doctor.base_api_client.di
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -7,9 +7,9 @@ import kotlinx.serialization.json.Json
 import nowiwr01p.daily.doctor.base_api_client.api.engine.getKtorEngine
 import org.koin.dsl.module
 
-internal val moduleAppSharedNetwork = module {
+val moduleBaseApiClient = module {
     /**
-     * KTOR CLIENT
+     * JSON
      */
     factory {
         Json {
@@ -18,6 +18,9 @@ internal val moduleAppSharedNetwork = module {
             ignoreUnknownKeys = true
         }
     }
+    /**
+     * HTTP CLIENT
+     */
     single {
         HttpClient(getKtorEngine()) {
             install(ContentNegotiation) {

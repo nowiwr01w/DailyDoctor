@@ -49,6 +49,10 @@ kotlin {
                  */
                 implementation(projects.appShared.core)
                 /**
+                 * BASE API CLIENT
+                 */
+                implementation(projects.baseApiClient)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.bundles.base.app)

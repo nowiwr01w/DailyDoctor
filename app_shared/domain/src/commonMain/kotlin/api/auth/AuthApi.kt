@@ -1,6 +1,6 @@
 package api.auth
 
-import api.Api
+import nowiwr01p.daily.doctor.base_api_client.api.Api
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.response.token.TokenResponse

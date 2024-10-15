@@ -1,6 +1,6 @@
 package api.pin
 
-import api.Api
+import nowiwr01p.daily.doctor.base_api_client.api.Api
 import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
