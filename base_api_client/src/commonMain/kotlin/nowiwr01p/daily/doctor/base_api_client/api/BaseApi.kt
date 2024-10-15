@@ -17,6 +17,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
+import io.ktor.http.HeadersBuilder
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
@@ -27,9 +28,7 @@ import nowiwr01p.daily.doctor.base_api_client.api.base.HttpRequestType.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-abstract class BaseApi(
-    protected val apiClientSettings: ApiClientSettings
-): KoinComponent {
+abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent {
 
     protected val json by inject<Json>()
     protected val client by inject<HttpClient>()
@@ -67,12 +66,14 @@ abstract class BaseApi(
     protected suspend inline fun <reified T> postHttp(
         route: Route,
         requestBody: Any? = null,
+        crossinline headers: HeadersBuilder.() -> Unit = {},
         parameters: List<ApiParameter> = listOf()
     ): T {
         return baseHttpRequest<T, NoErrorExpected>(
             type = POST,
             route = route,
             requestBody = requestBody,
+            headers = headers,
             parameters = parameters
         )
     }
@@ -128,6 +129,7 @@ abstract class BaseApi(
         type: HttpRequestType,
         route: Route,
         requestBody: Any? = null,
+        crossinline headers: HeadersBuilder.() -> Unit = {},
         parameters: List<ApiParameter> = listOf(),
         handleError: (E) -> Unit = {}
     ): T {
@@ -136,6 +138,7 @@ abstract class BaseApi(
             headers {
                 contentType(ContentType.Application.Json)
                 header(HttpHeaders.Accept, ContentType.Application.Json.toString())
+                headers()
             }
             requestBody?.let {
                 setBody(requestBody)
