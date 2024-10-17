@@ -15,8 +15,8 @@ class DatabaseVerificationRepositoryImpl(
     private val verificationStorage: DatabaseVerificationStorage
 ): BaseRepository(), DatabaseVerificationRepository {
 
-    override suspend fun sendVerificationCode(token: String) = transaction {
-        verificationStorage.createVerificationCode(token)
+    override suspend fun sendVerificationCode(token: String, code: String) = transaction {
+        verificationStorage.createVerificationCode(token, code)
         VerificationTokenResponse(token)
     }
 
@@ -33,8 +33,8 @@ class DatabaseVerificationRepositoryImpl(
                 else -> if (request.code != lastSentCode) {
                     buildError("Wrong code.")
                 } else {
-                    userStorage.setUserPinCodeToken(request.email, token)
-                    userStorage.setUserVerified(request.email)
+                    userStorage.setUserPinCodeToken(request.phone, token)
+                    userStorage.setUserVerified(request.phone)
                     PinCodeTokenResponse(
                         token = token,
                         isPinCodeSet = false

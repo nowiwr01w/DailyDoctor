@@ -16,8 +16,8 @@ class ResendVerificationCodeTimerWork(
         // TODO: Send analytics with (user_id, verification_end_timer) param
     }
 
-    suspend fun resendCode(email: String) = if (isResendAvailable) {
-        val request = SendVerificationCodeRequest(email)
+    suspend fun resendCode(phone: String) = if (isResendAvailable) {
+        val request = SendVerificationCodeRequest(phone)
         val token = sendVerificationCodeUseCase.execute(request).token
         isResendAvailable = false
         token

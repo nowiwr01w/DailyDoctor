@@ -17,10 +17,13 @@ internal val moduleAppSharedValidators = module {
     factory<PasswordValidator> {
         PasswordValidatorImpl()
     }
+    factory<PhoneValidator> {
+        PhoneValidatorImpl()
+    }
     factory<AppValidateAuthDataRepository> {
         AppValidateAuthDataRepositoryImpl(
             dispatchers = get<AppDispatchers>(),
-            emailValidator = get<EmailValidator>(),
+            phoneValidator = get<PhoneValidator>(),
             passwordValidator = get<PasswordValidator>()
         )
     }

@@ -1,11 +1,11 @@
 package validators
 
-import model.errors.auth.EmailError.*
+import model.errors.auth.PhoneNumberError.*
 
 class EmailValidatorImpl : EmailValidator {
 
     override fun validate(value: String) = when {
-        EMAIL_REGEX.toRegex().matches(value).not() -> WrongEmailFormatError()
+        EMAIL_REGEX.toRegex().matches(value).not() -> WrongPhoneNumberFormatError()
         else -> null
     }
 

@@ -15,7 +15,7 @@ class ServerUserTokenRepositoryImpl(
         .withIssuer(config.issuer)
         .withIssuedAt(Date())
         .withAudience(config.audience)
-        .withClaim("username", user.email)
+        .withClaim("username", user.phone)
         .withExpiresAt(Date(System.currentTimeMillis() + config.expiredAfter))
         .sign(Algorithm.HMAC512(config.secretKey))
         .toString()

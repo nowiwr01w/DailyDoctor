@@ -9,7 +9,7 @@ import model.message.AppMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import model.errors.auth.AuthTextFieldType
-import model.errors.auth.AuthTextFieldType.EMAIL
+import model.errors.auth.AuthTextFieldType.PHONE
 import model.errors.auth.AuthTextFieldType.PASSWORD
 import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import model.user.UserData
@@ -60,12 +60,12 @@ class AuthViewModel(
     }
 
     private fun init() {
-
+        // TODO
     }
 
     private fun handleUserInput(type: AuthTextFieldType, value: String) = setState {
         when (type) {
-            EMAIL -> copy(email = value, authError = null)
+            PHONE -> copy(phone = value, authError = null)
             PASSWORD -> copy(password = value, authError = null)
             PASSWORD_CONFIRMATION -> copy(passwordConfirmation = value, authError = null)
         }
@@ -88,8 +88,8 @@ class AuthViewModel(
 
     private fun getUserData() = with(viewState.value) {
         when (viewState.value.authMode) {
-            SIGN_IN -> UserDataSignIn(email.trim(), password)
-            SIGN_UP -> UserDataSignUp(email.trim(), password, passwordConfirmation)
+            SIGN_IN -> UserDataSignIn(phone, password)
+            SIGN_UP -> UserDataSignUp(phone, password, passwordConfirmation)
         }
     }
 
@@ -98,28 +98,28 @@ class AuthViewModel(
         runCatching {
             when (userData) {
                 is UserDataSignIn -> {
-                    val request = SignInRequest(email = userData.email, password = userData.password)
+                    val request = SignInRequest(phone = userData.phone, password = userData.password)
                     signInUseCase.execute(request)
                 }
                 is UserDataSignUp -> {
-                    val request = SignUpRequest(email = userData.email, password = userData.password)
+                    val request = SignUpRequest(phone = userData.phone, password = userData.password)
                     signUpUseCase.execute(request)
                 }
             }
         }.onSuccess { tokenResponse ->
-            onAuthSucceed(userData.email, tokenResponse)
+            onAuthSucceed(userData.phone, tokenResponse)
             // TODO: Init app data + check verification
         }.onFailure { error ->
             onAuthFailed(error.message.orEmpty())
         }
     }
 
-    private suspend fun onAuthSucceed(email: String, tokenResponse: TokenResponse) {
+    private suspend fun onAuthSucceed(phone: String, tokenResponse: TokenResponse) {
         setState { copy(buttonState = SUCCESS) }
         delay(3000)
         val navigateToNextScreenEffect = when (tokenResponse) {
             is VerificationTokenResponse -> Effect.NavigateToVerification(
-                email = email,
+                phone = phone,
                 token = tokenResponse.token
             )
             is PinCodeTokenResponse -> Effect.NavigateToPin(

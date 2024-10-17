@@ -9,9 +9,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.lessEq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class DatabaseVerificationStorageImpl(
-    private val generator: VerificationCodeGenerator
-): DatabaseVerificationStorage {
+class DatabaseVerificationStorageImpl: DatabaseVerificationStorage {
 
     override fun getVerificationCode(verificationToken: String) = transaction {
         VerificationCodeEntity.find { VerificationCodeTable.verificationToken eq verificationToken }
@@ -19,13 +17,12 @@ class DatabaseVerificationStorageImpl(
             ?.code
     }
 
-    override fun createVerificationCode(token: String) = transaction {
-        val verificationCodeEntity = VerificationCodeEntity.new {
-            timestamp = System.currentTimeMillis()
+    override fun createVerificationCode(token: String, code: String): Unit = transaction {
+        VerificationCodeEntity.new {
+            this.code = code
             verificationToken = token
-            code = generator.generateVerificationCode()
+            timestamp = System.currentTimeMillis()
         }
-        verificationCodeEntity.code
     }
 
     override fun deleteExpiredVerificationCodes() { // TODO: Create micro service

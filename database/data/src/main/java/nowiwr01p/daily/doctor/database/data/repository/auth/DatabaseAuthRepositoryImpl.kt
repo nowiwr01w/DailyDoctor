@@ -12,18 +12,18 @@ class DatabaseAuthRepositoryImpl(
 ): BaseRepository(), DatabaseAuthRepository {
 
     override suspend fun signIn(request: SignInRequest): User {
-        val user = userStorage.getUser(request.email) ?: run {
-            buildError("It seems this email is not in our system.")
+        val user = userStorage.getUser(request.phone) ?: run {
+            buildError("It seems this phone number is not in our system.")
         }
         return when {
             request.password == user.password -> user
-            else -> buildError("Wrong email or password.")
+            else -> buildError("Wrong phone number or password.")
         }
     }
 
     override suspend fun signUp(request: SignUpRequest) = when {
-        userStorage.getUser(request.email) != null -> {
-            buildError("This email cannot be used for registration.")
+        userStorage.getUser(request.phone) != null -> {
+            buildError("This phone number cannot be used for registration.")
         }
         else -> userStorage.createUser(request)
     }

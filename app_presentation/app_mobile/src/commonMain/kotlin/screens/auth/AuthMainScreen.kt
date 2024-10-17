@@ -67,7 +67,7 @@ import extensions.appendLink
 import extensions.isKeyboardOpened
 import extensions.onTextClick
 import model.errors.auth.AuthTextFieldType
-import model.errors.auth.AuthTextFieldType.EMAIL
+import model.errors.auth.AuthTextFieldType.PHONE
 import model.errors.auth.AuthTextFieldType.PASSWORD
 import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
@@ -120,7 +120,7 @@ internal fun AuthMainScreenMobile(
                 navigator.pinCodeNavigator.navigateToPinCode(pinCodeMode)
             }
             is NavigateToVerification -> {
-                navigator.authNavigator.navigateToVerification(effect.email, effect.token)
+                navigator.authNavigator.navigateToVerification(effect.phone, effect.token)
             }
             is NavigateToPrivacyPolicyInfo -> {
                 // TODO
@@ -250,9 +250,9 @@ private fun InputFields(
         val focusManager = LocalFocusManager.current
         InputField(
             state = state,
-            type = EMAIL,
-            text = state.email,
-            hint = "Почта",
+            type = PHONE,
+            text = state.phone,
+            hint = "Номер телефона",
             focusManager = focusManager,
             listener = listener
         )
@@ -340,7 +340,7 @@ private fun InputField(
                     state.authMode == SIGN_UP && type == PASSWORD_CONFIRMATION -> ImeAction.Done
                     else -> ImeAction.Next
                 },
-                keyboardType = if (type == EMAIL) KeyboardType.Email else KeyboardType.Password
+                keyboardType = if (type == PHONE) KeyboardType.Phone else KeyboardType.Password
             ),
             trailingIcon = {
                 if (type == PASSWORD || type == PASSWORD_CONFIRMATION) {
@@ -363,7 +363,7 @@ private fun InputField(
                     }
                 }
             },
-            visualTransformation = if (state.isUserInputHidden && type != EMAIL) {
+            visualTransformation = if (state.isUserInputHidden && type != PHONE) {
                 PasswordVisualTransformation()
             } else {
                 VisualTransformation.None

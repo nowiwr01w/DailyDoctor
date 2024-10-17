@@ -56,8 +56,8 @@ class MainNavigatorImpl(
             child = AuthChild
         )
         @Serializable
-        data class Verification(val email: String, val verificationToken: String): AppNavigationConfig(
-            child = VerificationChild(email, verificationToken)
+        data class Verification(val phone: String, val verificationToken: String): AppNavigationConfig(
+            child = VerificationChild(phone, verificationToken)
         )
         @Serializable
         data class PinCode(val pinCodeMode: PinCodeMode): AppNavigationConfig(

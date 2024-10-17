@@ -11,30 +11,30 @@ class DatabaseUserStorageImpl: DatabaseUserStorage {
 
     override fun createUser(request: SignUpRequest) = transaction {
         UserEntity.new {
-            email = request.email
+            phone = request.phone
             password = request.password
             pinCodeToken = ""
-            isEmailVerified = false
+            isPhoneVerified = false
             agreementVersion = request.agreementVersion
         }.toUser()
     }
 
-    override fun getUser(email: String) = transaction {
-        UserEntity.find { UserTable.email eq email }
+    override fun getUser(phone: String) = transaction {
+        UserEntity.find { UserTable.phone eq phone }
             .firstOrNull()
             ?.toUser()
     }
 
-    override fun setUserVerified(email: String) = updateUser(email) { entity ->
-        entity.isEmailVerified = true
+    override fun setUserVerified(phone: String) = updateUser(phone) { entity ->
+        entity.isPhoneVerified = true
     }
 
-    override fun setUserPinCodeToken(email: String, token: String) = updateUser(email) { entity ->
+    override fun setUserPinCodeToken(phone: String, token: String) = updateUser(phone) { entity ->
         entity.pinCodeToken = token
     }
 
-    private fun updateUser(email: String, callback: (UserEntity) -> Unit) = transaction {
-        UserEntity.findSingleByAndUpdate(UserTable.email eq email) { entity ->
+    private fun updateUser(phone: String, callback: (UserEntity) -> Unit) = transaction {
+        UserEntity.findSingleByAndUpdate(UserTable.phone eq phone) { entity ->
             callback(entity)
         }?.toUser()
     }

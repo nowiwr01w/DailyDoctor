@@ -43,7 +43,7 @@ interface MainNavigator {
 
         @Serializable
         data class VerificationChild(
-            val email: String,
+            val phone: String,
             val verificationToken: String
         ): Child()
 

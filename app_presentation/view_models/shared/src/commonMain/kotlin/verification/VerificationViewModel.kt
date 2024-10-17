@@ -32,8 +32,8 @@ class VerificationViewModel(
     override fun handleEvents(event: Event) {
         when (event) {
             is Event.Init -> init()
-            is Event.OnVerifyClicked -> verify(event.email, event.verificationToken)
-            is Event.OnResendCodeClicked -> resend(event.email)
+            is Event.OnVerifyClicked -> verify(event.phone, event.verificationToken)
+            is Event.OnResendCodeClicked -> resend(event.phone)
             is Event.HandeUserInput -> handleUserInput(event.operation)
         }
     }
@@ -57,9 +57,9 @@ class VerificationViewModel(
         setState { copy(code = updatedCode) }
     }
 
-    private fun resend(email: String) = hide {
+    private fun resend(phone: String) = hide {
         runCatching {
-            resendVerificationCodeTimerWork.resendCode(email)
+            resendVerificationCodeTimerWork.resendCode(phone)
         }.onSuccess { token ->
             verificationTokenFromResend = token
             verificationResendTimerJob?.cancel()
@@ -67,11 +67,11 @@ class VerificationViewModel(
         }
     }
 
-    private fun verify(email: String, token: String) = hide {
+    private fun verify(phone: String, token: String) = hide {
         setState { copy(buttonState = SEND_REQUEST) }
         runCatching {
             val checkVerificationCodeRequest = CheckVerificationCodeRequest(
-                email = email,
+                phone = phone,
                 code = viewState.value.code.joinToString(separator = ""),
                 verificationToken = verificationTokenFromResend.ifEmpty { token }
             )
