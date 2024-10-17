@@ -4,28 +4,33 @@ import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
+import com.nowiwr01p.model.repository.BaseRepository
+import com.nowiwr01p.model.usecase.execute
 import kotlinx.coroutines.withContext
 import nowiwr01p.daily.doctor.database.domain.repository.pin.DatabasePinCodeRepository
 import nowiwr01p.daily.doctor.server.domain.repository.pin.ServerPinCodeRepository
+import nowiwr01p.daily.doctor.server.token.common.usecase.ServerGenerateCommonTokenUseCase
 
 class ServerPinCodeRepositoryImpl(
-    private val dispatchers: AppDispatchers,
-    private val repository: DatabasePinCodeRepository
-): ServerPinCodeRepository {
+    private val repository: DatabasePinCodeRepository,
+    private val generateCommonTokenUseCase: ServerGenerateCommonTokenUseCase
+): BaseRepository(), ServerPinCodeRepository {
 
-    override suspend fun createPinCode(request: CreatePinCodeRequest) = withContext(dispatchers.io) {
-        repository.createPinCode(request)
+    override suspend fun createPinCode(request: CreatePinCodeRequest) = io {
+        val authToken = generateCommonTokenUseCase.execute()
+        repository.createPinCode(authToken, request)
     }
 
-    override suspend fun checkPinCode(request: CheckPinCodeRequest) = withContext(dispatchers.io) {
-        repository.checkPinCode(request)
+    override suspend fun checkPinCode(request: CheckPinCodeRequest) = io {
+        val authToken = generateCommonTokenUseCase.execute()
+        repository.checkPinCode(authToken, request)
     }
 
-    override suspend fun changePinCode(request: ChangePinCodeRequest) = withContext(dispatchers.io) {
+    override suspend fun changePinCode(request: ChangePinCodeRequest) = io {
         repository.changePinCode(request)
     }
 
-    override suspend fun deletePinCode() = withContext(dispatchers.io) {
+    override suspend fun deletePinCode() = io {
         repository.deletePinCode()
     }
 }

@@ -1,7 +1,7 @@
 package model.errors.auth
 
 enum class AuthTextFieldType {
-    EMAIL,
+    PHONE,
     PASSWORD,
     PASSWORD_CONFIRMATION
 }

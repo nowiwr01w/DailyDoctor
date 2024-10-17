@@ -20,7 +20,7 @@ internal val moduleDatabaseStorage = module {
      * VERIFICATION
      */
     factory<DatabaseVerificationStorage> {
-        DatabaseVerificationStorageImpl(generator = get<VerificationCodeGenerator>())
+        DatabaseVerificationStorageImpl()
     }
     /**
      * PIN

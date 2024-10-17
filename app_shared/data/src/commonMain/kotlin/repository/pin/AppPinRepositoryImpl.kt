@@ -5,26 +5,26 @@ import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
+import com.nowiwr01p.model.repository.BaseRepository
 import kotlinx.coroutines.withContext
 
 class AppPinRepositoryImpl(
-    private val api: PinApi,
-    private val dispatchers: AppDispatchers
-): AppPinRepository {
+    private val api: PinApi
+): BaseRepository(), AppPinRepository {
 
-    override suspend fun createPinCode(request: CreatePinCodeRequest) = withContext(dispatchers.io) {
+    override suspend fun createPinCode(request: CreatePinCodeRequest) = io {
         api.createPinCode(request)
     }
 
-    override suspend fun checkPinCode(request: CheckPinCodeRequest) = withContext(dispatchers.io) {
+    override suspend fun checkPinCode(request: CheckPinCodeRequest) = io {
         api.checkPinCode(request)
     }
 
-    override suspend fun changePinCode(request: ChangePinCodeRequest) = withContext(dispatchers.io) {
+    override suspend fun changePinCode(request: ChangePinCodeRequest) = io {
         api.changePinCode(request)
     }
 
-    override suspend fun deletePinCode() = withContext(dispatchers.io) {
+    override suspend fun deletePinCode() = io {
         api.deletePinCode()
     }
 }

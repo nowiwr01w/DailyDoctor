@@ -23,6 +23,11 @@ dependencies {
     implementation(projects.database.di)
     implementation(projects.database.domain)
     /**
+     * TELEGRAM
+     */
+    implementation(projects.tgSms.di)
+    implementation(projects.tgSms.domain)
+    /**
      * DEPENDENCIES
      */
     implementation(libs.bundles.server)

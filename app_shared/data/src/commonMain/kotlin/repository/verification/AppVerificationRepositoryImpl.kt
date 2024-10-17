@@ -9,19 +9,14 @@ import com.nowiwr01p.model.repository.BaseRepository
 import kotlinx.coroutines.withContext
 
 class AppVerificationRepositoryImpl(
-    private val api: VerificationApi,
-    private val dispatchers: AppDispatchers
+    private val api: VerificationApi
 ): BaseRepository(), AppVerificationRepository {
 
-    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest): TokenResponse {
-        return withContext(dispatchers.io) {
-            api.sendVerificationCode(request)
-        }
+    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) = io {
+        api.sendVerificationCode(request)
     }
 
-    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): TokenResponse {
-        return withContext(dispatchers.io) {
-            api.checkVerificationCode(request)
-        }
+    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) = io {
+        api.checkVerificationCode(request)
     }
 }

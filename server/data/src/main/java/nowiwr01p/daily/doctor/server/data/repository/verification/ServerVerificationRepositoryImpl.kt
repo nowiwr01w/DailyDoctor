@@ -2,35 +2,48 @@ package nowiwr01p.daily.doctor.server.data.repository.verification
 
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
-import com.nowiwr01p.model.api.response.token.TokenResponse
-import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
+import com.nowiwr01p.model.repository.BaseRepository
 import com.nowiwr01p.model.usecase.execute
-import kotlinx.coroutines.withContext
+import nowiwr01p.daily.doctor.database.domain.generator.VerificationCodeGenerator
 import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVerificationRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 import nowiwr01p.daily.doctor.server.token.common.usecase.ServerGenerateCommonTokenUseCase
+import nowiwr01p.daily.doctor.tg_sms.domain.api.requests.VerificationRequest
+import nowiwr01p.daily.doctor.tg_sms.domain.usecase.TgSendVerificationCodeUseCase
 
 class ServerVerificationRepositoryImpl(
-    private val dispatchers: AppDispatchers,
-    private val verificationRepository: DatabaseVerificationRepository,
+    private val databaseVerificationRepository: DatabaseVerificationRepository,
+    private val verificationCodeGenerator: VerificationCodeGenerator,
+    private val tgSendVerificationCodeUseCase: TgSendVerificationCodeUseCase,
     private val generateCommonTokenUseCase: ServerGenerateCommonTokenUseCase
-) : ServerVerificationRepository {
+) : BaseRepository(), ServerVerificationRepository {
 
-    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest): TokenResponse {
-        return withContext(dispatchers.io) {
-            val verificationResponseToken = generateCommonTokenUseCase.execute()
-            verificationRepository.sendVerificationCode(verificationResponseToken)
+    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) = io {
+        val verificationCode = verificationCodeGenerator.generateVerificationCode()
+        val response = tgSendVerificationCodeUseCase.execute(
+            input = VerificationRequest(
+                phoneNumber = request.phone,
+                code = verificationCode,
+                expiredAfterSeconds = 60
+            )
+        )
+        if (response.isSuccess) {
+            val verificationCodeToken = generateCommonTokenUseCase.execute()
+            databaseVerificationRepository.sendVerificationCode(
+                code = verificationCode,
+                token = verificationCodeToken
+            )
+        } else {
+            buildError("We can't send verification code to this number.")
         }
     }
 
-    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): TokenResponse {
-        return withContext(dispatchers.io) {
-            val pinCodeResponseToken = generateCommonTokenUseCase.execute()
-            verificationRepository.checkVerificationCode(pinCodeResponseToken, request)
-        }
+    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) = io {
+        val pinCodeResponseToken = generateCommonTokenUseCase.execute()
+        databaseVerificationRepository.checkVerificationCode(pinCodeResponseToken, request)
     }
 
-    override suspend fun deleteExpiredVerificationCodes() = withContext(dispatchers.io) {
-        verificationRepository.deleteExpiredVerificationCodes()
+    override suspend fun deleteExpiredVerificationCodes() = io {
+        databaseVerificationRepository.deleteExpiredVerificationCodes()
     }
 }

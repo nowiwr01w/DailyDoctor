@@ -23,7 +23,7 @@ interface AuthContract {
 
     data class State(
         val authMode: AuthType = SIGN_UP,
-        val email: String = "",
+        val phone: String = "",
         val password: String = "",
         val passwordConfirmation: String = "",
         val authError: AuthError? = null,
@@ -34,7 +34,7 @@ interface AuthContract {
 
     sealed interface Effect: BaseEffect {
         data class NavigateToPin(val isPinCodeSet: Boolean, val token: String): Effect
-        data class NavigateToVerification(val email: String, val token: String): Effect
+        data class NavigateToVerification(val phone: String, val token: String): Effect
         data object NavigateToPrivacyPolicyInfo: Effect
     }
 

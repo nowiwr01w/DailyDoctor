@@ -72,17 +72,17 @@ import screens.auth.TopTitle
 
 @Composable
 internal fun VerificationMainScreenMobile(
-    email: String,
+    phone: String,
     verificationToken: String,
     navigator: MainNavigator,
     viewModel: VerificationViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
         override fun onVerifyClicked() {
-            viewModel.setEvent(Event.OnVerifyClicked(email, verificationToken))
+            viewModel.setEvent(Event.OnVerifyClicked(phone, verificationToken))
         }
         override fun onResendCodeClicked() {
-            viewModel.setEvent(Event.OnResendCodeClicked(email))
+            viewModel.setEvent(Event.OnResendCodeClicked(phone))
         }
         override fun handeUserInput(operation: VerificationEnterCodeOperation) {
             viewModel.setEvent(Event.HandeUserInput(operation))
@@ -351,5 +351,6 @@ private fun VerifyButton(
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             .fillMaxWidth()
             .height(56.dp)
+            .clip(RoundedCornerShape(24.dp))
     )
 }

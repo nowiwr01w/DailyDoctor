@@ -33,27 +33,18 @@ internal val moduleAppSharedRepository = module {
      * AUTH
      */
     factory<AppAuthRepository> {
-        AppAuthRepositoryImpl(
-            api = get<AuthApi>(),
-            dispatchers = get<AppDispatchers>()
-        )
+        AppAuthRepositoryImpl(api = get<AuthApi>())
     }
     /**
      * VERIFICATION
      */
     factory<AppVerificationRepository> {
-        AppVerificationRepositoryImpl(
-            api = get<VerificationApi>(),
-            dispatchers = get<AppDispatchers>()
-        )
+        AppVerificationRepositoryImpl(api = get<VerificationApi>())
     }
     /**
      * PIN
      */
     factory<AppPinRepository> {
-        AppPinRepositoryImpl(
-            api = get<PinApi>(),
-            dispatchers = get<AppDispatchers>()
-        )
+        AppPinRepositoryImpl(api = get<PinApi>())
     }
 }

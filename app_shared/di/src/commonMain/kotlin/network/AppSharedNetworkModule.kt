@@ -1,10 +1,10 @@
 package network
 
-import api.getKtorEngine
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import nowiwr01p.daily.doctor.base_api_client.api.engine.getKtorEngine
 import org.koin.dsl.module
 
 internal val moduleAppSharedNetwork = module {

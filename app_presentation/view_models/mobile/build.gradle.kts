@@ -52,6 +52,10 @@ kotlin {
                  */
                 implementation(projects.appPresentation.viewModels.base)
                 /**
+                 * RESOURCES
+                 */
+                implementation(projects.resources)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.koin)

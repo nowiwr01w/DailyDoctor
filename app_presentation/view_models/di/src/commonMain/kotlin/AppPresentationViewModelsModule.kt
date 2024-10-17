@@ -1,5 +1,6 @@
 import auth.AuthViewModel
 import helpers.snack_bar.SnackBarHelper
+import home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import onboarding.OnboardingViewModel
@@ -7,6 +8,7 @@ import onboarding.data.OnboardingItem
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel
 import splash.SplashViewModel
+import subscription.SubscriptionViewModel
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignUpUseCase
 import usecase.auth.AppValidateAuthDataUseCase
@@ -68,5 +70,17 @@ val moduleAppPresentationViewModels = module {
             changePinCodeUseCase = get<AppChangePinCodeUseCase>(),
             deletePinCodeUseCase = get<AppDeletePinCodeUseCase>()
         )
+    }
+    /**
+     * SUBSCRIPTION
+     */
+    factory { (scope: CoroutineScope) ->
+        SubscriptionViewModel(scope)
+    }
+    /**
+     * HOME
+     */
+    factory { (scope: CoroutineScope) ->
+        HomeViewModel(scope)
     }
 }

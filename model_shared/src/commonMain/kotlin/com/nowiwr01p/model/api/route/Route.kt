@@ -1,6 +1,6 @@
 package com.nowiwr01p.model.api.route
 
-sealed interface Route {
+interface Route {
     val route: String
 }
 

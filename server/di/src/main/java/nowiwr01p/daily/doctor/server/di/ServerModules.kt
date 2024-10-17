@@ -7,6 +7,7 @@ import nowiwr01p.daily.doctor.server.di.routing.moduleServerRouting
 import nowiwr01p.daily.doctor.server.di.token.moduleServerToken
 import nowiwr01p.daily.doctor.server.di.usecase.moduleServerUseCases
 import nowiwr01p.daily.doctor.server.di.work.moduleServerWorks
+import nowiwr01p.daily.doctor.tg_sms.di.tgSmsModules
 
 private val allServerModules = listOf(
     moduleServerToken,
@@ -17,4 +18,4 @@ private val allServerModules = listOf(
     moduleServerWorks
 )
 
-val serverModules = allServerModules + databaseModules
+val serverModules = allServerModules + databaseModules + tgSmsModules

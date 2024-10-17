@@ -19,6 +19,10 @@ dependencies {
      */
     implementation(projects.database.domain)
     /**
+     * TELEGRAM SMS
+     */
+    implementation(projects.tgSms.domain)
+    /**
      * DEPENDENCIES
      */
     implementation(libs.bundles.server)

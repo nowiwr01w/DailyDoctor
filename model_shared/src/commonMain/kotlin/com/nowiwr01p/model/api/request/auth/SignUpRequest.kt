@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SignUpRequest(
-    @SerialName("email")
-    override val email: String = "",
+    @SerialName("phone")
+    override val phone: String = "",
     @SerialName("password")
     override val password: String = "",
     @SerialName("captchaCode")

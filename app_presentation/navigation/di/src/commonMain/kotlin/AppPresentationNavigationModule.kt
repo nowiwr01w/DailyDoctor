@@ -7,12 +7,16 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl
 import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigatorImpl
+import nowiwr01p.daily.doctor.app_presentation.navigation.home.HomeNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.home.HomeNavigatorImpl
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigatorImpl
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigatorImpl
 import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigatorImpl
+import nowiwr01p.daily.doctor.app_presentation.navigation.subscription.SubscriptionNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.subscription.SubscriptionNavigatorImpl
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
@@ -42,6 +46,18 @@ val moduleAppPresentationNavigation = module {
         PinCodeNavigatorImpl(navigation)
     }
     /**
+     * SUBSCRIPTION
+     */
+    single<SubscriptionNavigator> { (navigation: AppStackNavigation) ->
+        SubscriptionNavigatorImpl(navigation)
+    }
+    /**
+     * HOME
+     */
+    single<HomeNavigator> { (navigation: AppStackNavigation) ->
+        HomeNavigatorImpl(navigation)
+    }
+    /**
      * MAIN
      */
     single<MainNavigator> { (context: ComponentContext) ->
@@ -52,7 +68,9 @@ val moduleAppPresentationNavigation = module {
             splashNavigator = get<SplashNavigator> { parametersOf(navigation) },
             onboardingNavigator = get<OnboardingNavigator> { parametersOf(navigation) },
             authNavigator = get<AuthNavigator> { parametersOf(navigation) },
-            pinCodeNavigator = get<PinCodeNavigator> { parametersOf(navigation) }
+            pinCodeNavigator = get<PinCodeNavigator> { parametersOf(navigation) },
+            subscriptionNavigator = get<SubscriptionNavigator> { parametersOf(navigation) },
+            homeNavigator = get<HomeNavigator> { parametersOf(navigation) }
         )
     }
 }

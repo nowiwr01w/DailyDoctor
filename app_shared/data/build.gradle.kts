@@ -43,6 +43,10 @@ kotlin {
                  */
                 implementation(projects.modelShared)
                 /**
+                 * BASE API CLIENT
+                 */
+                implementation(projects.baseApiClient)
+                /**
                  * APP SHARED
                  */
                 implementation(projects.appShared.core)
