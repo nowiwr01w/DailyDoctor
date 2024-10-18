@@ -3,6 +3,7 @@ package verification
 import ResendVerificationCodeTimerWork
 import view_model.BaseViewModel
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
+import com.nowiwr01p.model.extensions.runCatchingApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -58,7 +59,7 @@ class VerificationViewModel(
     }
 
     private fun resend(phone: String) = hide {
-        runCatching {
+        runCatchingApp {
             resendVerificationCodeTimerWork.resendCode(phone)
         }.onSuccess { token ->
             verificationTokenFromResend = token
@@ -69,7 +70,7 @@ class VerificationViewModel(
 
     private fun verify(phone: String, token: String) = hide {
         setState { copy(buttonState = SEND_REQUEST) }
-        runCatching {
+        runCatchingApp {
             val checkVerificationCodeRequest = CheckVerificationCodeRequest(
                 phone = phone,
                 code = viewState.value.code.joinToString(separator = ""),

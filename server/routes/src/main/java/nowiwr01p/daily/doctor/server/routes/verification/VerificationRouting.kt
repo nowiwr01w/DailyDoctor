@@ -4,6 +4,7 @@ import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
 import com.nowiwr01p.model.api.route.VerificationRoutes.CheckVerificationCodeRoute
 import com.nowiwr01p.model.api.route.VerificationRoutes.SendVerificationCodeRoute
+import com.nowiwr01p.model.extensions.runCatchingApp
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveNullable
 import io.ktor.server.routing.Route
@@ -18,7 +19,7 @@ class VerificationRouting(
 ): BaseRouting() {
 
     fun sendVerificationCode(route: Route) = route.post(SendVerificationCodeRoute.route) {
-        runCatching {
+        runCatchingApp {
             val request = call.receiveNullable<SendVerificationCodeRequest>() ?: run {
                 sendNoRequestError<SendVerificationCodeRequest>()
                 return@post
@@ -32,7 +33,7 @@ class VerificationRouting(
     }
 
     fun checkVerificationCode(route: Route) = route.post(CheckVerificationCodeRoute.route) {
-        runCatching {
+        runCatchingApp {
             val request = call.receiveNullable<CheckVerificationCodeRequest>() ?: run {
                 sendNoRequestError<CheckVerificationCodeRequest>()
                 return@post

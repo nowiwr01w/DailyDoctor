@@ -1,5 +1,6 @@
 package subscription
 
+import com.nowiwr01p.model.extensions.runCatchingApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
@@ -25,7 +26,7 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
     }
 
     private fun loadSubscriptionPlans() = hide {
-        runCatching {
+        runCatchingApp {
             delay(3000) // TODO
         }.onSuccess {
             setState { copy(showInitProgress = false) }

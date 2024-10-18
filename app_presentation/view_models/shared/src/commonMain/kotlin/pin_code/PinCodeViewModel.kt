@@ -3,6 +3,7 @@ package pin_code
 import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
+import com.nowiwr01p.model.extensions.runCatchingApp
 import com.nowiwr01p.model.usecase.execute
 import components.button.ButtonState.DEFAULT
 import components.button.ButtonState.ERROR
@@ -119,7 +120,7 @@ class PinCodeViewModel(
         navigationEffect: Effect
     ): Job {
         return hide {
-            runCatching {
+            runCatchingApp {
                 pinCodeCallback()
             }.onSuccess {
                 onSuccess(navigationEffect)

@@ -1,6 +1,7 @@
 package nowiwr01p.daily.doctor.tg_sms
 
 import com.nowiwr01p.model.di.initKoin
+import com.nowiwr01p.model.extensions.runCatchingApp
 import kotlinx.coroutines.runBlocking
 import nowiwr01p.daily.doctor.tg_sms.di.tgSmsModules
 import nowiwr01p.daily.doctor.tg_sms.domain.api.requests.VerificationRequest
@@ -19,7 +20,7 @@ private fun KoinApplication.sendVerificationMessage() {
     val phoneNumber = koin.get<String>(named("my_telegram_phone_number"))
     val sendVerificationCodeUseCase = koin.get<TgSendVerificationCodeUseCase>()
     runBlocking {
-        runCatching {
+        runCatchingApp {
             val request = getVerificationRequest(phoneNumber)
             sendVerificationCodeUseCase.execute(request)
         }

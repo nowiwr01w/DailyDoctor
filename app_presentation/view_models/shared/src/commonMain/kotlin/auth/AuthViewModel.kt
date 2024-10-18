@@ -27,6 +27,7 @@ import auth.AuthContract.State
 import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
 import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
+import com.nowiwr01p.model.extensions.runCatchingApp
 import components.button.ButtonState.DEFAULT
 import components.button.ButtonState.ERROR
 import components.button.ButtonState.SEND_REQUEST
@@ -95,7 +96,7 @@ class AuthViewModel(
 
     private fun auth(userData: UserData) = hide {
         setState { copy(buttonState = SEND_REQUEST) }
-        runCatching {
+        runCatchingApp {
             when (userData) {
                 is UserDataSignIn -> {
                     val request = SignInRequest(phone = userData.phone, password = userData.password)

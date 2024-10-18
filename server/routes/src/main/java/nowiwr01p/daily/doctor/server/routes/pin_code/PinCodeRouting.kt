@@ -7,6 +7,7 @@ import com.nowiwr01p.model.api.route.PinCodeRoutes.ChangePinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.CheckPinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.CreatePinRoute
 import com.nowiwr01p.model.api.route.PinCodeRoutes.DeletePinRoute
+import com.nowiwr01p.model.extensions.runCatchingApp
 import com.nowiwr01p.model.usecase.execute
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveNullable
@@ -30,7 +31,7 @@ class PinCodeRouting(
             sendNoRequestError<CreatePinCodeRequest>()
             return@post
         }
-        runCatching {
+        runCatchingApp {
             createPinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
             respondWithSuccessModel(tokenResponse)
@@ -44,7 +45,7 @@ class PinCodeRouting(
             sendNoRequestError<CheckPinCodeRequest>()
             return@post
         }
-        runCatching {
+        runCatchingApp {
             checkPinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
             respondWithSuccessModel(tokenResponse)
@@ -58,7 +59,7 @@ class PinCodeRouting(
             sendNoRequestError<ChangePinCodeRequest>()
             return@post
         }
-        runCatching {
+        runCatchingApp {
             changePinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
             respondWithSuccessModel(tokenResponse)
@@ -68,7 +69,7 @@ class PinCodeRouting(
     }
 
     fun deletePinCode(route: Route) = route.post(DeletePinRoute.route) {
-        runCatching {
+        runCatchingApp {
             deletePinCodeUseCase.execute()
         }.onSuccess {
             respondWithSuccessMessage()

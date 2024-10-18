@@ -4,6 +4,7 @@ import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.route.AuthRoutes.SingInRoute
 import com.nowiwr01p.model.api.route.AuthRoutes.SingUpRoute
+import com.nowiwr01p.model.extensions.runCatchingApp
 import io.ktor.server.application.call
 import io.ktor.server.request.receiveNullable
 import io.ktor.server.routing.Route
@@ -18,7 +19,7 @@ class AuthRouting(
 ): BaseRouting() {
 
     fun signIn(route: Route) = route.post(SingInRoute.route) {
-        runCatching {
+        runCatchingApp {
             val signInRequest = call.receiveNullable<SignInRequest>() ?: run {
                 sendNoRequestError<SignInRequest>()
                 return@post
@@ -32,7 +33,7 @@ class AuthRouting(
     }
 
     fun signUp(route: Route) = route.post(SingUpRoute.route) {
-        runCatching {
+        runCatchingApp {
             val signUpRequest = call.receiveNullable<SignUpRequest>() ?: run {
                 sendNoRequestError<SignUpRequest>()
                 return@post
