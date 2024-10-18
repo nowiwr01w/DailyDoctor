@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import subscription.SubscriptionContract.*
-import subscription.SubscriptionContract.Companion.CONTINUE_BUTTON_SECONDS
 import view_model.BaseViewModel
 
 class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
@@ -27,7 +26,7 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
 
     private fun loadSubscriptionPlans() = hide {
         runCatchingApp {
-            delay(3000) // TODO
+            delay(INITIAL_PROGRESS_DURATION) // TODO
         }.onSuccess {
             setState { copy(showInitProgress = false) }
             startTimer()
@@ -47,5 +46,10 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
                 setState { copy(continueButtonSeconds = 0) }
             }
             .collect()
+    }
+
+    companion object {
+        const val CONTINUE_BUTTON_SECONDS = 5
+        const val INITIAL_PROGRESS_DURATION = 3000L
     }
 }

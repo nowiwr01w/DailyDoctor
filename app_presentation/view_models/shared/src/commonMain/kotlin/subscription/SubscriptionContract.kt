@@ -3,6 +3,7 @@ package subscription
 import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
+import subscription.SubscriptionViewModel.Companion.CONTINUE_BUTTON_SECONDS
 
 interface SubscriptionContract {
 
@@ -21,9 +22,5 @@ interface SubscriptionContract {
 
     interface Listener {
 
-    }
-
-    companion object {
-        const val CONTINUE_BUTTON_SECONDS = 3
     }
 }

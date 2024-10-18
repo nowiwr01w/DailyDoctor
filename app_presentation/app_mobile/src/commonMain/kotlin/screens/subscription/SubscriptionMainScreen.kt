@@ -147,9 +147,9 @@ private fun LoadingContent() = Column(
     horizontalAlignment = Alignment.CenterHorizontally
 ) {
     CircularProgressIndicator(
-        modifier = Modifier.size(24.dp),
+        modifier = Modifier.size(20.dp),
         color = colors.backgroundColors.redBackgroundColor,
-        strokeWidth = 1.dp
+        strokeWidth = 1.5.dp
     )
 }
 
