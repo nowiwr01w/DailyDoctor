@@ -1,5 +1,7 @@
 package screens.subscription
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,6 +27,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
@@ -57,6 +60,7 @@ import components.bottom_sheet.ShowBottomSheetHelper
 import components.button.StateButton
 import components.divider.NavigationBarSpacer
 import components.image.AppImage
+import components.text.AutoSizeText
 import extensions.BaseScreen
 import extensions.advancedShadow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -67,18 +71,20 @@ import nowiwr01p.daily.doctor.resources.ic_subscription_premium
 import nowiwr01p.daily.doctor.resources.sad_cat
 import nowiwr01p.daily.doctor.resources.subscription_free_title
 import nowiwr01p.daily.doctor.resources.subscription_toolbar_title
+import observers.EffectObserver
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
-import subscription.SubscriptionContract.Listener
-import subscription.SubscriptionContract.State
+import subscription.SubscriptionContract
+import subscription.SubscriptionContract.*
 import subscription.SubscriptionViewModel
 import subscription.data.SubscriptionType
 import subscription.data.SubscriptionType.Base
 import subscription.data.getSubscriptionItems
 import theme.AppTheme
+import theme.CustomTheme
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
@@ -89,6 +95,18 @@ fun SubscriptionMainScreen(
 ) {
     val listener = object : Listener {
 
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.setEvent(Event.Init)
+    }
+
+    EffectObserver(viewModel.effect) { effect ->
+        when (effect) {
+            is Effect.NavigateToHome -> {
+                navigator.homeNavigator.navigateToHome()
+            }
+        }
     }
 
     BaseScreen {
@@ -111,8 +129,28 @@ private fun Content(
     ) {
         Toolbar()
         CatImage()
-        BenefitsBottomSheet()
+        if (state.showInitProgress) {
+            LoadingContent()
+        } else {
+            BenefitsBottomSheet(state, listener)
+        }
     }
+}
+
+/**
+ * LOADING PROGRESS
+ */
+@Composable
+private fun LoadingContent() = Column(
+    modifier = Modifier.fillMaxSize(),
+    verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally
+) {
+    CircularProgressIndicator(
+        modifier = Modifier.size(24.dp),
+        color = colors.backgroundColors.redBackgroundColor,
+        strokeWidth = 1.dp
+    )
 }
 
 /**
@@ -144,6 +182,8 @@ private fun CatImage() = Row(
  */
 @Composable
 private fun BenefitsBottomSheet(
+    state: State,
+    listener: Listener?,
     helper: ShowBottomSheetHelper = koinInject()
 ) {
     val insets = LocalWindowInsets.current
@@ -155,7 +195,7 @@ private fun BenefitsBottomSheet(
         showDraggableElement = false,
         bottomSheetSize = MAX_SIZE,
         content = {
-            BottomSheetContent()
+            BottomSheetContent(state, listener)
         }
     )
     LaunchedEffect(insets.topPadding) {
@@ -167,7 +207,10 @@ private fun BenefitsBottomSheet(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun BottomSheetContent() {
+private fun BottomSheetContent(
+    state: State,
+    listener: Listener?
+) {
     val density = LocalDensity.current
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
@@ -261,6 +304,8 @@ private fun BottomSheetContent() {
         }
 
         SubscribeOrSkipBox(
+            state = state,
+            listener = listener,
             modifier = Modifier
                 .fillMaxWidth()
                 .advancedShadow(
@@ -367,6 +412,8 @@ private fun BenefitItem(
 
 @Composable
 private fun SubscribeOrSkipBox(
+    state: State,
+    listener: Listener?,
     modifier: Modifier
 ) {
     Column(
@@ -399,11 +446,23 @@ private fun SubscribeOrSkipBox(
                     )
                     .clickable {  }
             ) {
-                Text(
-                    text = "Продолжить без подписки",
-                    color = colors.textColors.blackTextColor.copy(alpha = 0.75f),
-                    style = MaterialTheme.typography.subtitle1
-                )
+                Crossfade(
+                    targetState = state.continueButtonSeconds == 0,
+                    animationSpec = tween(durationMillis = 500)
+                ) { isTimerEnded ->
+                    val text = when {
+                        isTimerEnded -> "Продолжить без подписки"
+                        else -> "Продолжить без подписки\nчерез ${state.continueButtonSeconds} сек"
+                    }
+                    AutoSizeText(
+                        text = text,
+                        color = colors.textColors.blackTextColor.copy(alpha = 0.75f),
+                        maxLines = 2,
+                        style = MaterialTheme.typography.subtitle1.copy(
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
             }
             Spacer(
                 modifier = Modifier.width(8.dp)
