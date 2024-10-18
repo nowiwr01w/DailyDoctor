@@ -33,18 +33,10 @@ abstract class BaseViewModel<Event: BaseEvent, State: BaseState, Effect: BaseEff
     /**
      * EVENT
      */
-    private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
-
-    private fun subscribeToEvents() = coroutineScope.launch(Dispatchers.Default) {
-        _event.collect { event -> handleEvents(event) }
-    }
     abstract fun handleEvents(event: Event)
 
     fun setEvent(event: Event) = coroutineScope.launch(Dispatchers.Default) {
-        _event.emit(event)
-    }
-    init {
-        subscribeToEvents()
+        handleEvents(event)
     }
     /**
      * EFFECT

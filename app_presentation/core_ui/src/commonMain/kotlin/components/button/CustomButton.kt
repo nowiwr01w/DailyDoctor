@@ -3,22 +3,20 @@ package components.button
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import grayBackgroundColor
-import greenColor
-import redColor
-import secondaryBackgroundColor
 import components.animation.KottieAnimationSettings
 import components.animation.KottieAnimationView
 import components.animation.KottieCompositionSpecType
@@ -27,8 +25,12 @@ import components.button.ButtonState.ERROR
 import components.button.ButtonState.INIT_LOADING
 import components.button.ButtonState.SEND_REQUEST
 import components.button.ButtonState.SUCCESS
+import grayBackgroundColor
+import greenColor
 import platform.Platform
 import platform.currentPlatform
+import redColor
+import secondaryBackgroundColor
 
 /**
  * BUTTON
@@ -61,20 +63,21 @@ fun StateButton(
         SUCCESS, ERROR -> successErrorColor
     }
 
-    Button(
-        enabled = enabled,
-        shape = when (currentPlatform) {
-            Platform.WEB -> MaterialTheme.shapes.medium
-            else -> MaterialTheme.shapes.small
-        },
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = backgroundColor,
-            disabledBackgroundColor = backgroundColor
-        ),
-        onClick = {
-            if (state == DEFAULT) onClick.invoke()
-        },
+    val shape = when (currentPlatform) {
+        Platform.WEB -> MaterialTheme.shapes.medium
+        else -> MaterialTheme.shapes.small
+    }
+    Box(
+        contentAlignment = Alignment.Center,
         modifier = modifier
+            .clip(shape)
+            .background(
+                shape = shape,
+                color = backgroundColor
+            )
+            .clickable(enabled = enabled) {
+                if (state == DEFAULT) onClick.invoke()
+            }
     ) {
         when (state) {
             DEFAULT -> DefaultText(

@@ -22,7 +22,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -77,14 +76,12 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
-import subscription.SubscriptionContract
 import subscription.SubscriptionContract.*
 import subscription.SubscriptionViewModel
 import subscription.data.SubscriptionType
-import subscription.data.SubscriptionType.Base
+import subscription.data.SubscriptionType.*
 import subscription.data.getSubscriptionItems
 import theme.AppTheme
-import theme.CustomTheme
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
@@ -94,7 +91,9 @@ fun SubscriptionMainScreen(
     viewModel: SubscriptionViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
-
+        override fun chooseSubscriptionPlan(plan: SubscriptionType) {
+            viewModel.setEvent(Event.ChooseSubscriptionPlan(plan))
+        }
     }
 
     LaunchedEffect(Unit) {
@@ -147,9 +146,9 @@ private fun LoadingContent() = Column(
     horizontalAlignment = Alignment.CenterHorizontally
 ) {
     CircularProgressIndicator(
-        modifier = Modifier.size(20.dp),
+        modifier = Modifier.size(24.dp),
         color = colors.backgroundColors.redBackgroundColor,
-        strokeWidth = 1.5.dp
+        strokeWidth = 3.dp
     )
 }
 
@@ -225,8 +224,8 @@ private fun BottomSheetContent(
             initialPage = Base.position,
             pageCount = { tabsItems.size }
         )
-        var selectedTabIndex by remember {
-            mutableStateOf(Base.position)
+        var selectedTab: SubscriptionType by remember {
+            mutableStateOf(Base)
         }
 
         val tabsModifier = Modifier
@@ -239,7 +238,7 @@ private fun BottomSheetContent(
                 top.linkTo(parent.top)
             }
         TabRow(
-            selectedTabIndex = selectedTabIndex,
+            selectedTabIndex = selectedTab.position,
             backgroundColor = Color.White,
             contentColor = Color.Black,
             modifier = tabsModifier
@@ -277,7 +276,12 @@ private fun BottomSheetContent(
             snapshotFlow { pagerState.currentPage }
                 .distinctUntilChanged()
                 .collect { page ->
-                    selectedTabIndex = page
+                    selectedTab = when (page) {
+                        0 -> Free
+                        1 -> Base
+                        2 -> Standard
+                        else -> Premium
+                    }
                 }
         }
 
@@ -306,6 +310,7 @@ private fun BottomSheetContent(
         SubscribeOrSkipBox(
             state = state,
             listener = listener,
+            selectedSubscriptionPlan = selectedTab,
             modifier = Modifier
                 .fillMaxWidth()
                 .advancedShadow(
@@ -414,6 +419,7 @@ private fun BenefitItem(
 private fun SubscribeOrSkipBox(
     state: State,
     listener: Listener?,
+    selectedSubscriptionPlan: SubscriptionType,
     modifier: Modifier
 ) {
     Column(
@@ -469,6 +475,8 @@ private fun SubscribeOrSkipBox(
             )
             StateButton(
                 text = "Подписаться",
+                state = state.subscribeButtonState,
+                onClick = { listener?.chooseSubscriptionPlan(selectedSubscriptionPlan) },
                 modifier = Modifier
                     .weight(0.5f)
                     .height(48.dp)

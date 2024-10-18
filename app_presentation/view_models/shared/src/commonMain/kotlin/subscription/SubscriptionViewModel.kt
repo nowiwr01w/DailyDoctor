@@ -1,6 +1,8 @@
 package subscription
 
 import com.nowiwr01p.model.extensions.runCatchingApp
+import components.button.ButtonState
+import components.button.ButtonState.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
@@ -8,6 +10,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import subscription.SubscriptionContract.*
+import subscription.data.SubscriptionType
 import view_model.BaseViewModel
 
 class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
@@ -17,6 +20,7 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
     override fun handleEvents(event: Event) {
         when (event) {
             is Event.Init -> init()
+            is Event.ChooseSubscriptionPlan -> chooseSubscriptionPlan(event.plan)
         }
     }
 
@@ -46,6 +50,15 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
                 setState { copy(continueButtonSeconds = 0) }
             }
             .collect()
+    }
+
+    private fun chooseSubscriptionPlan(plan: SubscriptionType) = hide {
+        setState { copy(subscribeButtonState = SEND_REQUEST) }
+        delay(3000)
+        setState { copy(subscribeButtonState = SUCCESS) }
+        delay(3000)
+        setState { copy(subscribeButtonState = DEFAULT) }
+
     }
 
     companion object {
