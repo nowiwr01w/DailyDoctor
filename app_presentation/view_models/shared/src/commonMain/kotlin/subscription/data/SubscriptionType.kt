@@ -109,8 +109,8 @@ sealed class SubscriptionType(
         position = 3,
         name = Res.string.subscription_premium_title,
         icon = Res.drawable.ic_subscription_premium,
-        basePriceUsd = 12.99,
-        discountedPriceUsd = 19.99,
+        basePriceUsd = 9.99,
+        discountedPriceUsd = 16.99,
         benefits = listOf(
             Res.string.subscription_benefit_first_visit_discounts_premium,
             Res.string.subscription_benefit_appointments_count_premium,

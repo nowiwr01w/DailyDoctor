@@ -1,15 +1,18 @@
 package subscription
 
 import com.nowiwr01p.model.extensions.runCatchingApp
-import components.button.ButtonState
-import components.button.ButtonState.*
+import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.SEND_REQUEST
+import components.button.ButtonState.SUCCESS
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import subscription.SubscriptionContract.*
+import subscription.SubscriptionContract.Effect
+import subscription.SubscriptionContract.Event
+import subscription.SubscriptionContract.State
 import subscription.data.SubscriptionType
 import view_model.BaseViewModel
 
@@ -32,7 +35,6 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
         runCatchingApp {
             delay(INITIAL_PROGRESS_DURATION) // TODO
         }.onSuccess {
-            setState { copy(showInitProgress = false) }
             startTimer()
         }.onFailure {
             setEffect { Effect.NavigateToHome }
@@ -43,16 +45,20 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
         (CONTINUE_BUTTON_SECONDS downTo 1).asSequence()
             .asFlow()
             .onEach {
-                setState { copy(continueButtonSeconds = it) }
+                setState { copy(closeSecondsLeft = it) }
                 delay(1000)
             }
             .onCompletion {
-                setState { copy(continueButtonSeconds = 0) }
+                setState { copy(closeSecondsLeft = 0) }
             }
             .collect()
     }
 
     private fun chooseSubscriptionPlan(plan: SubscriptionType) = hide {
+        if (plan is SubscriptionType.Free) {
+            // TODO: Send analytics
+            setEffect { Effect.NavigateToHome }
+        }
         setState { copy(subscribeButtonState = SEND_REQUEST) }
         delay(3000)
         setState { copy(subscribeButtonState = SUCCESS) }

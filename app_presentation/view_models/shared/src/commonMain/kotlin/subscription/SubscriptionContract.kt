@@ -16,8 +16,7 @@ interface SubscriptionContract {
 
     data class State(
         val subscribeButtonState: ButtonState = ButtonState.DEFAULT,
-        val showInitProgress: Boolean = true,
-        val continueButtonSeconds: Int = CONTINUE_BUTTON_SECONDS
+        val closeSecondsLeft: Int = CONTINUE_BUTTON_SECONDS
     ): BaseState
 
     sealed interface Effect: BaseEffect {
