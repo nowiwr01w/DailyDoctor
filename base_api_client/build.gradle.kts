@@ -36,9 +36,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
-                 * SHARED MODELS
+                 * SHARED MODULES
                  */
                 implementation(projects.modelShared)
+                implementation(projects.appShared.platform)
                 /**
                  * KOIN
                  */
