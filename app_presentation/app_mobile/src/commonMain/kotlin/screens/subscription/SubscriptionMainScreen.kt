@@ -1,15 +1,16 @@
 package screens.subscription
 
-import androidx.compose.animation.AnimatedVisibility
+ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
+ import androidx.compose.animation.core.animateDpAsState
+ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,8 +24,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+ import androidx.compose.foundation.layout.width
+ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -51,8 +52,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import components.AppToolbar
-import components.button.StateButton
+ import components.button.StateButton
 import components.image.AppImage
 import extensions.BaseScreen
 import extensions.advancedShadow
@@ -61,7 +61,8 @@ import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_drop_down_arrow
 import nowiwr01p.daily.doctor.resources.ic_sad_cat_placeholder
 import nowiwr01p.daily.doctor.resources.subscription_toolbar_title
-import observers.EffectObserver
+ import nowiwr01p.daily.doctor.resources.subscription_year
+ import observers.EffectObserver
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import subscription.SubscriptionContract.Effect
@@ -70,7 +71,9 @@ import subscription.SubscriptionContract.Listener
 import subscription.SubscriptionContract.State
 import subscription.SubscriptionViewModel
 import subscription.data.BenefitData
-import subscription.data.SubscriptionType
+ import subscription.data.SubscriptionPeriod
+ import subscription.data.SubscriptionPeriod.*
+ import subscription.data.SubscriptionType
 import subscription.data.SubscriptionType.Base
 import subscription.data.SubscriptionType.Free
 import subscription.data.getSubscriptionItems
@@ -84,8 +87,14 @@ fun SubscriptionMainScreen(
     viewModel: SubscriptionViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
-        override fun chooseSubscriptionPlan(plan: SubscriptionType) {
-            viewModel.setEvent(Event.ChooseSubscriptionPlan(plan))
+        override fun selectSubscriptionPlan(plan: SubscriptionType) {
+            viewModel.setEvent(Event.SelectSubscriptionPlan(plan))
+        }
+        override fun toggleSubscriptionPeriod(period: SubscriptionPeriod) {
+            viewModel.setEvent(Event.ToggleSubscriptionPeriod(period))
+        }
+        override fun subscribeOrSkip() {
+            viewModel.setEvent(Event.SubscribeOrSkip)
         }
     }
 
@@ -122,8 +131,9 @@ private fun Content(
             .fillMaxSize()
             .background(colors.backgroundColors.whiteBackgroundColor)
     ) {
-        AppToolbar(
-            title = Res.string.subscription_toolbar_title
+        SubscriptionToolbar(
+            state = state,
+            listener = listener
         )
         SubscriptionContent(
             state = state,
@@ -132,33 +142,68 @@ private fun Content(
     }
 }
 
+/**
+ * TOOLBAR
+ */
+@Composable
+private fun SubscriptionToolbar(
+    state: State,
+    listener: Listener?
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .background(colors.backgroundColors.whiteBackgroundColor)
+    ) {
+        Text(
+            text = stringResource(Res.string.subscription_toolbar_title),
+            color = colors.textColors.blackTextColor,
+            style = MaterialTheme.typography.h4,
+            modifier = Modifier.padding(start = 16.dp)
+        )
+        Spacer(
+            modifier = Modifier.weight(1f)
+        )
+        MonthlyYearlySwitch(
+            state = state,
+            listener = listener
+        )
+    }
+}
+
+/**
+ * SUBSCRIPTION CONTENT
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SubscriptionContent(
     state: State,
     listener: Listener?
 ) {
+    val selectedPlan = state.plan
     val density = LocalDensity.current
     val tabsItems = remember { getSubscriptionItems() }
     var bottomPadding by remember { mutableStateOf(0.dp) }
-    var selectedTab: SubscriptionType by remember { mutableStateOf(Base) }
     val pagerState = rememberPagerState(
         initialPage = Base.position,
         pageCount = { tabsItems.size }
     )
 
-    LaunchedEffect(selectedTab) {
+    LaunchedEffect(selectedPlan) {
         pagerState.animateScrollToPage(
-            page = selectedTab.position,
+            page = selectedPlan.position,
             animationSpec = tween(durationMillis = 500)
         )
     }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         Column {
             TabRow(
-                selectedTabIndex = selectedTab.position,
+                selectedTabIndex = selectedPlan.position,
                 backgroundColor = Color.Transparent,
                 contentColor = Color.Transparent,
                 divider = {},
@@ -169,21 +214,21 @@ private fun SubscriptionContent(
                     .height(36.dp)
                     .clip(RoundedCornerShape(24.dp))
             ) {
-                tabsItems.forEachIndexed { index, tab ->
-                    val fontWeight = when (tab) {
-                        selectedTab -> FontWeight.Medium
+                tabsItems.forEachIndexed { index, currentPlan ->
+                    val fontWeight = when (currentPlan) {
+                        selectedPlan -> FontWeight.Medium
                         else -> FontWeight.Normal
                     }
                     val textColor by animateColorAsState(
-                        targetValue = when (tab) {
-                            selectedTab -> colors.textColors.whiteTextColor
+                        targetValue = when (currentPlan) {
+                            selectedPlan -> colors.textColors.whiteTextColor
                             else -> colors.textColors.blackTextColor
                         },
                         animationSpec = tween(durationMillis = 500)
                     )
                     val backgroundColor by animateColorAsState(
-                        targetValue = when (tab) {
-                            selectedTab -> colors.backgroundColors.grayBackgroundColor
+                        targetValue = when (currentPlan) {
+                            selectedPlan -> colors.backgroundColors.grayBackgroundColor
                             else -> Color(0xFFF2F1F1)
                         },
                         animationSpec = tween(durationMillis = 500)
@@ -197,10 +242,10 @@ private fun SubscriptionContent(
                                 color = backgroundColor,
                                 shape = RoundedCornerShape(24.dp)
                             )
-                            .clickable { selectedTab = tab }
+                            .clickable { listener?.selectSubscriptionPlan(currentPlan) }
                     ) {
                         Text(
-                            text = stringResource(tab.name),
+                            text = stringResource(currentPlan.name),
                             color = textColor,
                             style = MaterialTheme.typography.h6.copy(fontWeight = fontWeight),
                             textAlign = TextAlign.Center,
@@ -212,6 +257,7 @@ private fun SubscriptionContent(
 
             HorizontalPager(
                 state = pagerState,
+                userScrollEnabled = false,
                 modifier = Modifier.fillMaxSize()
             ) { tabPosition ->
                 tabsItems[tabPosition].let { tab ->
@@ -231,7 +277,7 @@ private fun SubscriptionContent(
         SubscribeOrSkipBox(
             state = state,
             listener = listener,
-            selectedSubscriptionPlan = selectedTab,
+            selectedSubscriptionPlan = selectedPlan,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .onSizeChanged { size ->
@@ -410,7 +456,7 @@ private fun SubscribeOrSkipBox(
         StateButton(
             text = text,
             state = state.subscribeButtonState,
-            onClick = { listener?.chooseSubscriptionPlan(selectedSubscriptionPlan) },
+            onClick = { listener?.subscribeOrSkip() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
@@ -422,6 +468,65 @@ private fun SubscribeOrSkipBox(
             style = MaterialTheme.typography.subtitle2,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)
+        )
+    }
+}
+
+/**
+ * MONTHLY YEARLY SWITCH
+ */
+@Composable
+private fun MonthlyYearlySwitch(
+    state: State,
+    listener: Listener?
+) {
+    val innerCirclePadding by animateDpAsState(
+        targetValue = if (state.period is Monthly) 3.dp else 25.dp,
+        animationSpec = tween(durationMillis = 500)
+    )
+    val backgroundColor by animateColorAsState(
+        targetValue = when (state.period) {
+            is Monthly -> colors.backgroundColors.redBackgroundColor
+            is Yearly -> colors.backgroundColors.grayBackgroundColor
+        },
+        animationSpec = tween(durationMillis = 500)
+    )
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(end = 16.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .width(48.dp)
+                .clip(CircleShape)
+                .background(
+                    color = backgroundColor,
+                    shape = CircleShape
+                )
+                .clickable(
+                    indication = null,
+                    interactionSource = MutableInteractionSource()
+                ) {
+                    val plan = if (state.period is Monthly) Yearly else Monthly
+                    listener?.toggleSubscriptionPeriod(plan)
+                }
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(start = innerCirclePadding, top = 3.dp, bottom = 3.dp)
+                    .size(20.dp)
+                    .clip(CircleShape)
+                    .background(
+                        color = colors.backgroundColors.whiteBackgroundColor,
+                        shape = CircleShape
+                    )
+            )
+        }
+        Text(
+            text = stringResource(Res.string.subscription_year),
+            color = colors.textColors.blackTextColor,
+            style = MaterialTheme.typography.h5,
+            modifier = Modifier.padding(start = 8.dp)
         )
     }
 }

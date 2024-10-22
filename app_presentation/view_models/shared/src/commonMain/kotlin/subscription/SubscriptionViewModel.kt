@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import subscription.SubscriptionContract.Effect
 import subscription.SubscriptionContract.Event
+import subscription.SubscriptionContract.Event.*
 import subscription.SubscriptionContract.State
+import subscription.data.SubscriptionPeriod
 import subscription.data.SubscriptionType
 import view_model.BaseViewModel
 
@@ -22,8 +24,10 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
 
     override fun handleEvents(event: Event) {
         when (event) {
-            is Event.Init -> init()
-            is Event.ChooseSubscriptionPlan -> chooseSubscriptionPlan(event.plan)
+            is Init -> init()
+            is SubscribeOrSkip -> subscribeOrSkip()
+            is SelectSubscriptionPlan -> chooseSubscriptionPlan(event.plan)
+            is ToggleSubscriptionPeriod -> toggleSubscriptionPeriod(event.period)
         }
     }
 
@@ -54,8 +58,17 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
             .collect()
     }
 
+    private fun toggleSubscriptionPeriod(period: SubscriptionPeriod) = hide {
+        setState { copy(period = period) }
+    }
+
     private fun chooseSubscriptionPlan(plan: SubscriptionType) = hide {
-        if (plan is SubscriptionType.Free) {
+        setState { copy(plan = plan) }
+    }
+
+    private fun subscribeOrSkip() = hide {
+        val selectedPlan = viewState.value.plan
+        if (selectedPlan is SubscriptionType.Free) {
             // TODO: Send analytics
             setEffect { Effect.NavigateToHome }
         }
@@ -64,7 +77,6 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
         setState { copy(subscribeButtonState = SUCCESS) }
         delay(3000)
         setState { copy(subscribeButtonState = DEFAULT) }
-
     }
 
     companion object {

@@ -5,16 +5,23 @@ import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
 import subscription.SubscriptionViewModel.Companion.CONTINUE_BUTTON_SECONDS
+import subscription.data.SubscriptionPeriod
+import subscription.data.SubscriptionPeriod.*
 import subscription.data.SubscriptionType
+import subscription.data.SubscriptionType.*
 
 interface SubscriptionContract {
 
     sealed interface Event: BaseEvent {
         data object Init: Event
-        data class ChooseSubscriptionPlan(val plan: SubscriptionType): Event
+        data object SubscribeOrSkip: Event
+        data class SelectSubscriptionPlan(val plan: SubscriptionType): Event
+        data class ToggleSubscriptionPeriod(val period: SubscriptionPeriod): Event
     }
 
     data class State(
+        val plan: SubscriptionType = Base,
+        val period: SubscriptionPeriod = Yearly,
         val subscribeButtonState: ButtonState = ButtonState.DEFAULT,
         val closeSecondsLeft: Int = CONTINUE_BUTTON_SECONDS
     ): BaseState
@@ -24,6 +31,8 @@ interface SubscriptionContract {
     }
 
     interface Listener {
-        fun chooseSubscriptionPlan(plan: SubscriptionType)
+        fun selectSubscriptionPlan(plan: SubscriptionType)
+        fun toggleSubscriptionPeriod(period: SubscriptionPeriod)
+        fun subscribeOrSkip()
     }
 }
