@@ -11,6 +11,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
@@ -57,6 +59,7 @@ import extensions.advancedShadow
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_drop_down_arrow
+import nowiwr01p.daily.doctor.resources.ic_sad_cat_placeholder
 import nowiwr01p.daily.doctor.resources.subscription_toolbar_title
 import observers.EffectObserver
 import org.jetbrains.compose.resources.stringResource
@@ -211,11 +214,17 @@ private fun SubscriptionContent(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize()
             ) { tabPosition ->
-                val tab = tabsItems[tabPosition]
-                Benefits(
-                    item = tab,
-                    bottomPadding = bottomPadding
-                )
+                tabsItems[tabPosition].let { tab ->
+                    when (tab) {
+                        is Free -> {
+                            SadCatPlaceholder(bottomPadding)
+                        }
+                        else -> Benefits(
+                            item = tab,
+                            bottomPadding = bottomPadding
+                        )
+                    }
+                }
             }
         }
 
@@ -230,6 +239,38 @@ private fun SubscriptionContent(
                 }
         )
     }
+}
+
+/**
+ * SAD CAT PLACEHOLDER
+ */
+@Composable
+private fun SadCatPlaceholder(bottomPadding: Dp) = Column(
+    verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = Modifier
+        .padding(bottom = bottomPadding)
+        .fillMaxSize()
+) {
+    AppImage(
+        image = Res.drawable.ic_sad_cat_placeholder,
+        modifier = Modifier.size(225.dp)
+    )
+    Text(
+        text = "Этот проект был создан одним человеком",
+        color = colors.textColors.blackTextColor,
+        style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold),
+        modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+    )
+    Text(
+        text = "Обычно проекты такого масштаба создаются целыми командами разработчиков. Я же создал его самостоятельно, вкладывая много времени и усилий. Если вам нравится то, что я делаю, было бы здорово, если бы вы поддержали проект финансово. Это поможет развивать его дальше и делать его ещё лучше для вас",
+        color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
+        style = MaterialTheme.typography.h6,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+            .fillMaxWidth()
+    )
 }
 
 /**
