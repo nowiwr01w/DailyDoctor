@@ -229,7 +229,7 @@ private fun SubscriptionContent(
                     val backgroundColor by animateColorAsState(
                         targetValue = when (currentPlan) {
                             selectedPlan -> colors.backgroundColors.grayBackgroundColor
-                            else -> Color(0xFFF2F1F1)
+                            else -> Color(0xFFF2F1F1) // TODO: To colors
                         },
                         animationSpec = tween(durationMillis = 500)
                     )
@@ -277,7 +277,6 @@ private fun SubscriptionContent(
         SubscribeOrSkipBox(
             state = state,
             listener = listener,
-            selectedSubscriptionPlan = selectedPlan,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .onSizeChanged { size ->
@@ -429,7 +428,6 @@ private fun BenefitItem(data: BenefitData) {
 private fun SubscribeOrSkipBox(
     state: State,
     listener: Listener?,
-    selectedSubscriptionPlan: SubscriptionType,
     modifier: Modifier
 ) {
     Column(
@@ -449,9 +447,13 @@ private fun SubscribeOrSkipBox(
             )
             .padding(vertical = 12.dp, horizontal = 16.dp)
     ) {
-        val text = when (selectedSubscriptionPlan) {
+        val text = when (state.plan) {
             Free -> "Продолжить без подписки"
-            else -> "Продолжить за ${selectedSubscriptionPlan.basePriceUsd}$ в месяц"
+            else -> with(state) {
+                val price = if (period is Monthly) plan.monthlyPrice else plan.yearlyPrice
+                val period = if (period is Monthly) "месяц" else "год"
+                "Продолжить за ${price.discountedPrice}$ в $period"
+            }
         }
         StateButton(
             text = text,
@@ -486,7 +488,7 @@ private fun MonthlyYearlySwitch(
     )
     val backgroundColor by animateColorAsState(
         targetValue = when (state.period) {
-            is Monthly -> colors.backgroundColors.redBackgroundColor
+            is Monthly -> Color(0xFFF2F1F1) // TODO: To colors
             is Yearly -> colors.backgroundColors.grayBackgroundColor
         },
         animationSpec = tween(durationMillis = 500)

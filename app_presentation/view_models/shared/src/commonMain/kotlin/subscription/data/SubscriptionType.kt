@@ -53,8 +53,8 @@ sealed class SubscriptionType(
     val position: Int,
     val name: StringResource,
     val icon: DrawableResource,
-    val basePriceUsd: Double,
-    val discountedPriceUsd: Double,
+    val yearlyPrice: Price,
+    val monthlyPrice: Price,
     val benefits: List<BenefitData>
 ) {
     data object Free: SubscriptionType(
@@ -62,8 +62,14 @@ sealed class SubscriptionType(
         position = 0,
         name = Res.string.subscription_free_title,
         icon = Res.drawable.ic_subscription_free,
-        basePriceUsd = 0.0,
-        discountedPriceUsd = 0.0,
+        monthlyPrice = Price(
+            basePrice = 0f,
+            discountedPrice = 0f
+        ),
+        yearlyPrice = Price(
+            basePrice = 0f,
+            discountedPrice = 0f
+        ),
         benefits = listOf(
             BenefitData(
                 title = Res.string.subscription_benefit_first_visit_discounts_title,
@@ -101,8 +107,14 @@ sealed class SubscriptionType(
         position = 1,
         name = Res.string.subscription_base_title,
         icon = Res.drawable.ic_subscription_base,
-        basePriceUsd = 3.99,
-        discountedPriceUsd = 5.49,
+        monthlyPrice = Price(
+            basePrice = 5.49f,
+            discountedPrice = 3.99f
+        ),
+        yearlyPrice = Price(
+            basePrice = 24.99f,
+            discountedPrice = 19.99f
+        ),
         benefits = listOf(
             BenefitData(
                 title = Res.string.subscription_benefit_first_visit_discounts_title,
@@ -140,8 +152,14 @@ sealed class SubscriptionType(
         position = 2,
         name = Res.string.subscription_standard_title,
         icon = Res.drawable.ic_subscription_standard,
-        basePriceUsd = 7.99,
-        discountedPriceUsd = 9.99,
+        monthlyPrice = Price(
+            basePrice = 9.99f,
+            discountedPrice = 7.99f
+        ),
+        yearlyPrice = Price(
+            basePrice = 39.99f,
+            discountedPrice = 29.99f
+        ),
         benefits = listOf(
             BenefitData(
                 title = Res.string.subscription_benefit_first_visit_discounts_title,
@@ -179,8 +197,14 @@ sealed class SubscriptionType(
         position = 3,
         name = Res.string.subscription_premium_title,
         icon = Res.drawable.ic_subscription_premium,
-        basePriceUsd = 9.99,
-        discountedPriceUsd = 16.99,
+        monthlyPrice = Price(
+            basePrice = 16.99f,
+            discountedPrice = 9.99f
+        ),
+        yearlyPrice = Price(
+            basePrice = 69.99f,
+            discountedPrice = 59.99f
+        ),
         benefits = listOf(
             BenefitData(
                 title = Res.string.subscription_benefit_first_visit_discounts_title,
@@ -219,6 +243,11 @@ fun getSubscriptionItems() = listOf(
     Base,
     Standard,
     Premium
+)
+
+data class Price(
+    val basePrice: Float,
+    val discountedPrice: Float
 )
 
 data class BenefitData(
