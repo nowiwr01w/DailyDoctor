@@ -194,14 +194,14 @@ agp = "8.2.2"
 ##############
 ### KOTLIN ###
 ##############
-kotlin = "2.0.0"
-kotlin-date-time = "0.5.0"
-kotlin-serialization-json = "1.6.3"
+kotlin = "2.0.20"
+kotlin-date-time = "0.6.1"
+kotlin-serialization-json = "1.7.3"
 ###############
 ### COMPOSE ###
 ###############
-compose = "1.6.8"
-compose-activity = "1.9.1"
+compose = "1.7.4"
+compose-activity = "1.9.3"
 compose-constraint = "0.3.1"
 android-ktx = "1.13.1"
 android-appcompat = "1.7.0"
@@ -222,16 +222,16 @@ datastore = "1.1.1"
 ##################
 ### COROUTINES ###
 ##################
-coroutines = "1.8.0"
+coroutines = "1.9.0"
 ###############
 ### LOGGERS ###
 ###############
 napier = "2.7.1"
-logback = "1.5.6"
+logback = "1.5.7"
 ###########################
 ### LOAD NETWORK IMAGES ###
 ###########################
-coil = "3.0.0-alpha06"
+coil = "3.0.0-rc01"
 ############
 ### KTOR ###
 ############
