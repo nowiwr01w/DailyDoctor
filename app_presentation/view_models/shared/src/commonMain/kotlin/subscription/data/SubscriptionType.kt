@@ -7,37 +7,30 @@ import nowiwr01p.daily.doctor.resources.ic_subscription_premium
 import nowiwr01p.daily.doctor.resources.ic_subscription_standard
 import nowiwr01p.daily.doctor.resources.subscription_base_title
 import nowiwr01p.daily.doctor.resources.subscription_benefit_appointments_count_base
-import nowiwr01p.daily.doctor.resources.subscription_benefit_appointments_count_free
 import nowiwr01p.daily.doctor.resources.subscription_benefit_appointments_count_premium
 import nowiwr01p.daily.doctor.resources.subscription_benefit_appointments_count_standard
 import nowiwr01p.daily.doctor.resources.subscription_benefit_appointments_count_title
 import nowiwr01p.daily.doctor.resources.subscription_benefit_chat_base
-import nowiwr01p.daily.doctor.resources.subscription_benefit_chat_free
 import nowiwr01p.daily.doctor.resources.subscription_benefit_chat_premium
 import nowiwr01p.daily.doctor.resources.subscription_benefit_chat_standard
 import nowiwr01p.daily.doctor.resources.subscription_benefit_chat_title
 import nowiwr01p.daily.doctor.resources.subscription_benefit_decoding_analysis_base
-import nowiwr01p.daily.doctor.resources.subscription_benefit_decoding_analysis_free
 import nowiwr01p.daily.doctor.resources.subscription_benefit_decoding_analysis_premium
 import nowiwr01p.daily.doctor.resources.subscription_benefit_decoding_analysis_standard
 import nowiwr01p.daily.doctor.resources.subscription_benefit_decoding_analysis_title
 import nowiwr01p.daily.doctor.resources.subscription_benefit_favorite_clinics_base
-import nowiwr01p.daily.doctor.resources.subscription_benefit_favorite_clinics_free
 import nowiwr01p.daily.doctor.resources.subscription_benefit_favorite_clinics_premium
 import nowiwr01p.daily.doctor.resources.subscription_benefit_favorite_clinics_standard
 import nowiwr01p.daily.doctor.resources.subscription_benefit_favorite_clinics_title
 import nowiwr01p.daily.doctor.resources.subscription_benefit_first_visit_discounts_base
-import nowiwr01p.daily.doctor.resources.subscription_benefit_first_visit_discounts_free
 import nowiwr01p.daily.doctor.resources.subscription_benefit_first_visit_discounts_premium
 import nowiwr01p.daily.doctor.resources.subscription_benefit_first_visit_discounts_standard
 import nowiwr01p.daily.doctor.resources.subscription_benefit_first_visit_discounts_title
 import nowiwr01p.daily.doctor.resources.subscription_benefit_paid_questions_base
-import nowiwr01p.daily.doctor.resources.subscription_benefit_paid_questions_free
 import nowiwr01p.daily.doctor.resources.subscription_benefit_paid_questions_premium
 import nowiwr01p.daily.doctor.resources.subscription_benefit_paid_questions_standard
 import nowiwr01p.daily.doctor.resources.subscription_benefit_paid_questions_title
 import nowiwr01p.daily.doctor.resources.subscription_benefit_welcome_paper_base
-import nowiwr01p.daily.doctor.resources.subscription_benefit_welcome_paper_free
 import nowiwr01p.daily.doctor.resources.subscription_benefit_welcome_paper_premium
 import nowiwr01p.daily.doctor.resources.subscription_benefit_welcome_paper_standard
 import nowiwr01p.daily.doctor.resources.subscription_benefit_welcome_paper_title
@@ -70,36 +63,7 @@ sealed class SubscriptionType(
             basePrice = 0f,
             discountedPrice = 0f
         ),
-        benefits = listOf(
-            BenefitData(
-                title = Res.string.subscription_benefit_first_visit_discounts_title,
-                description = Res.string.subscription_benefit_first_visit_discounts_free
-            ),
-            BenefitData(
-                title = Res.string.subscription_benefit_appointments_count_title,
-                description = Res.string.subscription_benefit_appointments_count_free
-            ),
-            BenefitData(
-                title = Res.string.subscription_benefit_chat_title,
-                description = Res.string.subscription_benefit_chat_free
-            ),
-            BenefitData(
-                title = Res.string.subscription_benefit_welcome_paper_title,
-                description = Res.string.subscription_benefit_welcome_paper_free
-            ),
-            BenefitData(
-                title = Res.string.subscription_benefit_favorite_clinics_title,
-                description = Res.string.subscription_benefit_favorite_clinics_free
-            ),
-            BenefitData(
-                title = Res.string.subscription_benefit_decoding_analysis_title,
-                description = Res.string.subscription_benefit_decoding_analysis_free
-            ),
-            BenefitData(
-                title = Res.string.subscription_benefit_paid_questions_title,
-                description = Res.string.subscription_benefit_paid_questions_free
-            ),
-        )
+        benefits = listOf()
     )
 
     data object Base: SubscriptionType(

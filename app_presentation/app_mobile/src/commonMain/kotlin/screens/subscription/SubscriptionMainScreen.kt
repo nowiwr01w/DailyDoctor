@@ -60,7 +60,15 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_drop_down_arrow
 import nowiwr01p.daily.doctor.resources.ic_sad_cat_placeholder
-import nowiwr01p.daily.doctor.resources.subscription_toolbar_title
+ import nowiwr01p.daily.doctor.resources.subscription_continue_accept_polices
+ import nowiwr01p.daily.doctor.resources.subscription_continue_as_unsubscribed
+ import nowiwr01p.daily.doctor.resources.subscription_continue_for
+ import nowiwr01p.daily.doctor.resources.subscription_free_placeholder_description
+ import nowiwr01p.daily.doctor.resources.subscription_free_placeholder_title
+ import nowiwr01p.daily.doctor.resources.subscription_month
+ import nowiwr01p.daily.doctor.resources.subscription_per_month
+ import nowiwr01p.daily.doctor.resources.subscription_per_year
+ import nowiwr01p.daily.doctor.resources.subscription_toolbar_title
  import nowiwr01p.daily.doctor.resources.subscription_year
  import observers.EffectObserver
 import org.jetbrains.compose.resources.stringResource
@@ -302,13 +310,13 @@ private fun SadCatPlaceholder(bottomPadding: Dp) = Column(
         modifier = Modifier.size(225.dp)
     )
     Text(
-        text = "Этот проект был создан одним человеком",
+        text = stringResource(Res.string.subscription_free_placeholder_title),
         color = colors.textColors.blackTextColor,
         style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold),
         modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
     )
     Text(
-        text = "Обычно проекты такого масштаба создаются целыми командами разработчиков. Я же создал его самостоятельно, вкладывая много времени и усилий. Если вам нравится то, что я делаю, было бы здорово, если бы вы поддержали проект финансово. Это поможет развивать его дальше и делать его ещё лучше для вас",
+        text = stringResource(Res.string.subscription_free_placeholder_description),
         color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
         style = MaterialTheme.typography.h6,
         textAlign = TextAlign.Center,
@@ -448,11 +456,24 @@ private fun SubscribeOrSkipBox(
             .padding(vertical = 12.dp, horizontal = 16.dp)
     ) {
         val text = when (state.plan) {
-            Free -> "Продолжить без подписки"
+            Free -> {
+                stringResource(Res.string.subscription_continue_as_unsubscribed)
+            }
             else -> with(state) {
-                val price = if (period is Monthly) plan.monthlyPrice else plan.yearlyPrice
-                val period = if (period is Monthly) "месяц" else "год"
-                "Продолжить за ${price.discountedPrice}$ в $period"
+                buildString {
+                    val continueText = stringResource(Res.string.subscription_continue_for)
+                    append(continueText)
+                    append(" ")
+                    val price = if (period is Monthly) plan.monthlyPrice else plan.yearlyPrice
+                    append(price.discountedPrice)
+                    append("$ ")
+                    val periodRes = when (period) {
+                        is Monthly -> Res.string.subscription_per_month
+                        is Yearly -> Res.string.subscription_per_year
+                    }
+                    val period = stringResource(periodRes).lowercase()
+                    append(period)
+                }
             }
         }
         StateButton(
@@ -465,7 +486,7 @@ private fun SubscribeOrSkipBox(
                 .clip(RoundedCornerShape(16.dp))
         )
         Text(
-            text = "Продолжая, вы соглашаетесь с политикой конфиденциальности и условиями пользования",
+            text = stringResource(Res.string.subscription_continue_accept_polices),
             color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
             style = MaterialTheme.typography.subtitle2,
             textAlign = TextAlign.Center,
