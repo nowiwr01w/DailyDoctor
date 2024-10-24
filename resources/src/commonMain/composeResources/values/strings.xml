@@ -1,6 +1,6 @@
 <resources>
     <!-- APP NAME -->
-    <string name="app_name">Call Doctor</string>
+    <string name="app_name" translatable="false">Call Doctor</string>
 
     <!-- SUBSCRIPTION - SCREEN INFO -->
     <string name="subscription_toolbar_title">Выберите план</string>

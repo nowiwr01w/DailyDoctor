@@ -28,9 +28,11 @@ import extensions.BaseScreen
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.app_name
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import splash.SplashContract.Effect
 import splash.SplashContract.Event
@@ -63,10 +65,7 @@ internal fun SplashMainScreenMobile(
         }
     }
 
-    BaseScreen(
-        topBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
-        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
-    ) {
+    BaseScreen {
         SplashMainScreenContent(state = viewModel.viewState.value)
     }
 }
@@ -139,7 +138,7 @@ private fun DailyText(state: State) = AnimatedContainer(
     actualAnimationState = state.animationState,
 ) {
     Text(
-        text = "CALL",
+        text = stringResource(Res.string.app_name).split(" ")[0].uppercase(),
         style = MaterialTheme.typography.h1,
         color = colors.textColors.blueTextColor,
         letterSpacing = 1.5.sp,
@@ -156,10 +155,10 @@ private fun DoctorText(state: State) = AnimatedContainer(
     actualAnimationState = state.animationState,
 ) {
     Text(
-        text = "DOCTOR",
+        text = stringResource(Res.string.app_name).split(" ")[1].uppercase(),
         style = MaterialTheme.typography.h1,
         color = colors.textColors.redTextColor,
-        letterSpacing = 1.5.sp,
+        letterSpacing = 1.5.sp
     )
 }
 
