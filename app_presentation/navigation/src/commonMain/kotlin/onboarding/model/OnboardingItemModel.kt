@@ -1,12 +1,12 @@
 package nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model
 
-import kotlinx.serialization.Contextual
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 
 interface OnboardingItemModel {
-    @Contextual val image: DrawableResource
-    val title: String
-    val description: String
-    val firstButtonText: String
-    val secondButtonText: String
+    val image: DrawableResource
+    val title: StringResource
+    val description: StringResource
+    val firstButtonText: StringResource
+    val secondButtonText: StringResource?
 }

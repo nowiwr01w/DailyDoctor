@@ -45,6 +45,7 @@ import onboarding.OnboardingViewModel
 import onboarding.data.OnboardingItem.NotificationsOnboardingItem
 import onboarding.data.getOnboardingItems
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import theme.AppTheme
 import view_model.rememberViewModel
@@ -150,7 +151,7 @@ private fun OnboardingItemView(
                 .size(iconWidth)
         )
         Text(
-            text = item.title,
+            text = stringResource(item.title),
             color = colors.textColors.blackTextColor,
             style = MaterialTheme.typography.h3,
             modifier = Modifier
@@ -169,7 +170,7 @@ private fun OnboardingItemView(
                 )
         ) {
             Text(
-                text = item.description,
+                text = stringResource(item.description),
                 color = colors.textColors.grayTextColor,
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 64.dp)
@@ -187,12 +188,12 @@ private fun OnboardingItemView(
                 backgroundColor = colors.backgroundColors.redBackgroundColor
             ),
             modifier = Modifier
-                .padding(top = if (item.secondButtonText.isNotEmpty()) 48.dp else 0.dp)
+                .padding(top = if (item.secondButtonText != null) 48.dp else 0.dp)
                 .fillMaxWidth()
                 .height(56.dp)
                 .clip(MaterialTheme.shapes.large)
         ) {
-            Text(item.firstButtonText)
+            Text(text = stringResource(item.firstButtonText))
         }
     }
 }

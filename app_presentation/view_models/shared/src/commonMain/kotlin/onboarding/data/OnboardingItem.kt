@@ -1,25 +1,44 @@
 package onboarding.data
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
-import onboarding.data.OnboardingItem.*
+import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.onboarding_for_whole_family_button_text
+import nowiwr01p.daily.doctor.resources.onboarding_for_whole_family_title
+import nowiwr01p.daily.doctor.resources.onboarding_notifications_button_text_no
+import nowiwr01p.daily.doctor.resources.onboarding_notifications_button_text_ok
+import nowiwr01p.daily.doctor.resources.onboarding_notifications_description
+import nowiwr01p.daily.doctor.resources.onboarding_notifications_title
+import nowiwr01p.daily.doctor.resources.onboarding_remote_meeting_button_text
+import nowiwr01p.daily.doctor.resources.onboarding_remote_meeting_description
+import nowiwr01p.daily.doctor.resources.onboarding_remote_meeting_title
+import nowiwr01p.daily.doctor.resources.onboarding_savings_button_text
+import nowiwr01p.daily.doctor.resources.onboarding_savings_description
+import nowiwr01p.daily.doctor.resources.onboarding_savings_title
+import nowiwr01p.daily.doctor.resources.onboarding_unlimited_communication_description
+import nowiwr01p.daily.doctor.resources.onboarding_unlimited_communication_title
+import nowiwr01p.daily.doctor.resources.onboarding_unlimited_communication_button_text
+import nowiwr01p.daily.doctor.resources.onboarding_for_whole_family_description
+import onboarding.data.OnboardingItem.ForWholeFamilyOnboardingItem
+import onboarding.data.OnboardingItem.NotificationsOnboardingItem
+import onboarding.data.OnboardingItem.RemoteMeetingOnboardingItem
+import onboarding.data.OnboardingItem.SavingsOnboardingItem
+import onboarding.data.OnboardingItem.UnlimitedCommunicationOnboardingItem
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 
-@Serializable
 sealed class OnboardingItem(
-    @Contextual override val image: DrawableResource,
-    override val title: String,
-    override val description: String,
-    override val firstButtonText: String,
-    override val secondButtonText: String = "",
+    override val image: DrawableResource,
+    override val title: StringResource,
+    override val description: StringResource,
+    override val firstButtonText: StringResource,
+    override val secondButtonText: StringResource? = null,
 ): OnboardingItemModel {
 
     data class RemoteMeetingOnboardingItem(
         override val image: DrawableResource,
-        override val title: String = "Онлайн-консультации с врачами в чате",
-        override val description: String = "Дома, на даче, в отпуске или даже на работе",
-        override val firstButtonText: String = "Очень интересно!",
+        override val title: StringResource = Res.string.onboarding_remote_meeting_title,
+        override val description: StringResource = Res.string.onboarding_remote_meeting_description,
+        override val firstButtonText: StringResource = Res.string.onboarding_remote_meeting_button_text
     ) : OnboardingItem(
         image = image,
         title = title,
@@ -29,9 +48,9 @@ sealed class OnboardingItem(
 
     data class UnlimitedCommunicationOnboardingItem(
         override val image: DrawableResource,
-        override val title: String = "Безлимитные обращения - мы на связи 24/7",
-        override val description: String = "Пишите, когда болит или когда нужно просто спросить",
-        override val firstButtonText: String = "Класс, а что еще?",
+        override val title: StringResource = Res.string.onboarding_unlimited_communication_title,
+        override val description: StringResource = Res.string.onboarding_unlimited_communication_description,
+        override val firstButtonText: StringResource = Res.string.onboarding_unlimited_communication_button_text
     ) : OnboardingItem(
         image = image,
         title = title,
@@ -41,9 +60,9 @@ sealed class OnboardingItem(
 
     data class ForWholeFamilyOnboardingItem(
         override val image: DrawableResource,
-        override val title: String = "Для всей семьи - себе, детям и родителям",
-        override val description: String = "И мужу, который сам бы не пошел к врачу",
-        override val firstButtonText: String = "Это мне надо",
+        override val title: StringResource = Res.string.onboarding_for_whole_family_title,
+        override val description: StringResource = Res.string.onboarding_for_whole_family_description,
+        override val firstButtonText: StringResource = Res.string.onboarding_for_whole_family_button_text
     ) : OnboardingItem(
         image = image,
         title = title,
@@ -53,9 +72,9 @@ sealed class OnboardingItem(
 
     data class SavingsOnboardingItem(
         override val image: DrawableResource,
-        override val title: String = "Экономия на очных визитах к врачу",
-        override val description: String = "А еще эксклюзивные скидки на анализы до 25%",
-        override val firstButtonText: String = "Отлично!",
+        override val title: StringResource = Res.string.onboarding_savings_title,
+        override val description: StringResource = Res.string.onboarding_savings_description,
+        override val firstButtonText: StringResource = Res.string.onboarding_savings_button_text
     ) : OnboardingItem(
         image = image,
         title = title,
@@ -65,10 +84,10 @@ sealed class OnboardingItem(
 
     data class NotificationsOnboardingItem(
         override val image: DrawableResource,
-        override val title: String = "Не пропустите ответ врача на ваще сообщение",
-        override val description: String = "И спокойно занимайтесь другими делами",
-        override val firstButtonText: String = "Разрешить уведомления",
-        override val secondButtonText: String = "Не сейчас"
+        override val title: StringResource = Res.string.onboarding_notifications_title,
+        override val description: StringResource = Res.string.onboarding_notifications_description,
+        override val firstButtonText: StringResource = Res.string.onboarding_notifications_button_text_ok,
+        override val secondButtonText: StringResource = Res.string.onboarding_notifications_button_text_no
     ) : OnboardingItem(
         image = image,
         title = title,
