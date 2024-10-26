@@ -2,7 +2,56 @@
     <!-- APP NAME -->
     <string name="app_name" translatable="false">Call Doctor</string>
 
-    <!-- SUBSCRIPTION - SCREEN INFO -->
+    <!-- ONBOARDING -->
+    <!-- ONBOARDING -->
+    <!-- ONBOARDING -->
+    <!-- ONBOARDING -->
+    <!-- ONBOARDING -->
+    <string name="onboarding_remote_meeting_title">Онлайн-консультации с врачами в чате</string>
+    <string name="onboarding_remote_meeting_description">Дома, на даче, в отпуске или даже на работе</string>
+    <string name="onboarding_remote_meeting_button_text">Очень интересно!</string>
+    <!-- ONBOARDING - UNLIMITED COMMUNICATION-->
+    <string name="onboarding_unlimited_communication_title">Безлимитные обращения - мы на связи 24/7</string>
+    <string name="onboarding_unlimited_communication_description">Пишите, когда болит или когда нужно просто спросить</string>
+    <string name="onboarding_unlimited_communication_button_text">Класс, а что еще?</string>
+    <!-- ONBOARDING - FOR WHOLE FAMILY -->
+    <string name="onboarding_for_whole_family_title">Для всей семьи - себе, детям и родителям</string>
+    <string name="onboarding_for_whole_family_description">И мужу, который сам бы не пошел к врачу</string>
+    <string name="onboarding_for_whole_family_button_text">Это мне надо</string>
+    <!-- ONBOARDING - SAVINGS -->
+    <string name="onboarding_savings_title">Экономия на очных визитах к врачу</string>
+    <string name="onboarding_savings_description">А еще эксклюзивные скидки на анализы до 25%</string>
+    <string name="onboarding_savings_button_text">Отлично!</string>
+    <!-- ONBOARDING NOTIFICATIONS -->
+    <string name="onboarding_notifications_title">Не пропустите ответ врача на ваще сообщение</string>
+    <string name="onboarding_notifications_description">И спокойно занимайтесь другими делами</string>
+    <string name="onboarding_notifications_button_text_ok">Разрешить уведомления</string>
+    <string name="onboarding_notifications_button_text_no">Не сейчас</string>
+
+    <!-- AUTH -->
+    <!-- AUTH -->
+    <!-- AUTH -->
+    <!-- AUTH -->
+    <!-- AUTH -->
+    <string name="auth_title">Авторизация</string>
+    <!-- AUTH - INPUT FIELDS -->
+    <string name="auth_input_phone_hint">Авторизация</string>
+    <string name="auth_input_password_hint">Пароль</string>
+    <string name="auth_input_password_repeat_hint">Подтверждение пароля</string>
+    <!-- AUTH - BUTTONS -->
+    <string name="auth_button_sign_in_title">Войти</string>
+    <string name="auth_button_sign_up_title">Зарегистироваться</string>
+    <string name="auth_button_have_no_account_yet_title">Ещё нет аккаунта</string>
+    <string name="auth_button_already_have_account_title">Уже есть аккаунт</string>
+    <!-- AUTH - POLICY -->
+    <!-- res/values/strings.xml -->
+    <string name="auth_agree_with_policies_title">Продолжая, вы соглашаетесь с нашей &lt;privacy&gt;политикой конфиденциальности&lt;/privacy&gt; и &lt;terms&gt;условиями пользования&lt;/terms&gt;</string>
+
+    <!-- SUBSCRIPTION -->
+    <!-- SUBSCRIPTION -->
+    <!-- SUBSCRIPTION -->
+    <!-- SUBSCRIPTION -->
+    <!-- SUBSCRIPTION -->
     <string name="subscription_toolbar_title">Выберите план</string>
     <!-- SUBSCRIPTION - CONTINUE -->
     <string name="subscription_continue_for">Продолжить за</string>
@@ -56,27 +105,5 @@
     <string name="subscription_benefit_paid_questions_base">Приоритет вашего диалога - обычный, у доктора отсутствует выделение вашего чата цветом. Доктор ответит в течение недели</string>
     <string name="subscription_benefit_paid_questions_standard">Приоритет вашего диалога - высокий, выделение чата у доктора цветом. Доктор ответит в течение трёх дней</string>
     <string name="subscription_benefit_paid_questions_premium">Ваш чат находится на первых позициях, выделение чата у доктора ярким цветом. Доктор ответит в этот же день</string>
-
-    <!-- ONBOARDING - REMOTE MEETING -->
-    <string name="onboarding_remote_meeting_title">Онлайн-консультации с врачами в чате</string>
-    <string name="onboarding_remote_meeting_description">Дома, на даче, в отпуске или даже на работе</string>
-    <string name="onboarding_remote_meeting_button_text">Очень интересно!</string>
-    <!-- ONBOARDING - UNLIMITED COMMUNICATION-->
-    <string name="onboarding_unlimited_communication_title">Безлимитные обращения - мы на связи 24/7</string>
-    <string name="onboarding_unlimited_communication_description">Пишите, когда болит или когда нужно просто спросить</string>
-    <string name="onboarding_unlimited_communication_button_text">Класс, а что еще?</string>
-    <!-- ONBOARDING - FOR WHOLE FAMILY -->
-    <string name="onboarding_for_whole_family_title">Для всей семьи - себе, детям и родителям</string>
-    <string name="onboarding_for_whole_family_description">И мужу, который сам бы не пошел к врачу</string>
-    <string name="onboarding_for_whole_family_button_text">Это мне надо</string>
-    <!-- ONBOARDING - SAVINGS -->
-    <string name="onboarding_savings_title">Экономия на очных визитах к врачу</string>
-    <string name="onboarding_savings_description">А еще эксклюзивные скидки на анализы до 25%</string>
-    <string name="onboarding_savings_button_text">Отлично!</string>
-    <!-- ONBOARDING NOTIFICATIONS -->
-    <string name="onboarding_notifications_title">Не пропустите ответ врача на ваще сообщение</string>
-    <string name="onboarding_notifications_description">И спокойно занимайтесь другими делами</string>
-    <string name="onboarding_notifications_button_text_ok">Разрешить уведомления</string>
-    <string name="onboarding_notifications_button_text_no">Не сейчас</string>
 
 </resources>

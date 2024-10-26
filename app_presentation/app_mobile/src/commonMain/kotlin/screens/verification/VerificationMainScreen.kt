@@ -169,7 +169,7 @@ private fun VerificationContent(
         modifier = modifier.imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopTitle("Верификация")
+//        TopTitle("Верификация")
         Description()
         VerificationCode(state, listener)
         Spacer(modifier = Modifier.weight(1f))

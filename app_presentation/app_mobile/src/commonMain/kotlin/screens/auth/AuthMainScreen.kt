@@ -41,7 +41,6 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -63,23 +62,35 @@ import components.button.ButtonState.DEFAULT
 import components.button.StateButton
 import components.input_field.CustomTextField
 import extensions.BaseScreen
-import extensions.appendLink
+import extensions.LinkTag
+import extensions.buildAnnotatedStringFromResource
 import extensions.isKeyboardOpened
 import extensions.onTextClick
 import model.errors.auth.AuthTextFieldType
-import model.errors.auth.AuthTextFieldType.PHONE
 import model.errors.auth.AuthTextFieldType.PASSWORD
 import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
+import model.errors.auth.AuthTextFieldType.PHONE
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Check
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Create
-import theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.auth_agree_with_policies_title
+import nowiwr01p.daily.doctor.resources.auth_button_already_have_account_title
+import nowiwr01p.daily.doctor.resources.auth_button_have_no_account_yet_title
+import nowiwr01p.daily.doctor.resources.auth_button_sign_in_title
+import nowiwr01p.daily.doctor.resources.auth_button_sign_up_title
+import nowiwr01p.daily.doctor.resources.auth_input_password_hint
+import nowiwr01p.daily.doctor.resources.auth_input_password_repeat_hint
+import nowiwr01p.daily.doctor.resources.auth_input_phone_hint
+import nowiwr01p.daily.doctor.resources.auth_title
 import nowiwr01p.daily.doctor.resources.ic_eye_closed
 import nowiwr01p.daily.doctor.resources.ic_eye_opened
 import nowiwr01p.daily.doctor.resources.ic_login
 import observers.EffectObserver
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
@@ -99,7 +110,6 @@ internal fun AuthMainScreenMobile(
         }
         override fun onAuthClicked() {
             viewModel.setEvent(Event.OnAuthClicked)
-//            navigator.pinCodeNavigator.navigateToPinCode()
         }
         override fun onPrivacyPolicyClicked() {
             viewModel.setEvent(Event.OnPrivacyPolicyClicked)
@@ -211,7 +221,7 @@ private fun AuthContent(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopTitle("Авторизация")
+        TopTitle(Res.string.auth_title)
         InputFields(state, listener)
         AuthButton(state, listener)
         AlreadyHaveAnAccountText(state, listener)
@@ -224,8 +234,8 @@ private fun AuthContent(
  * TITLE
  */
 @Composable
-internal fun TopTitle(text: String) = Text(
-    text = text,
+internal fun TopTitle(text: StringResource) = Text(
+    text = stringResource(text),
     color = colors.textColors.blackTextColor,
     style = MaterialTheme.typography.h2,
     modifier = Modifier.padding(top = 32.dp)
@@ -252,7 +262,7 @@ private fun InputFields(
             state = state,
             type = PHONE,
             text = state.phone,
-            hint = "Номер телефона",
+            hint = Res.string.auth_input_phone_hint,
             focusManager = focusManager,
             listener = listener
         )
@@ -260,7 +270,7 @@ private fun InputFields(
             state = state,
             type = PASSWORD,
             text = state.password,
-            hint = "Пароль",
+            hint = Res.string.auth_input_password_hint,
             focusManager = focusManager,
             listener = listener
         )
@@ -269,7 +279,7 @@ private fun InputFields(
                 state = state,
                 type = PASSWORD_CONFIRMATION,
                 text = state.passwordConfirmation,
-                hint = "Подтверждения пароля",
+                hint = Res.string.auth_input_password_repeat_hint,
                 focusManager = focusManager,
                 listener = listener
             )
@@ -282,7 +292,7 @@ private fun InputField(
     state: State,
     type: AuthTextFieldType,
     text: String,
-    hint: String,
+    hint: StringResource,
     focusManager: FocusManager,
     listener: Listener?
 ) {
@@ -322,7 +332,7 @@ private fun InputField(
                 ),
             placeholder = {
                 Text(
-                    text = hint,
+                    text = stringResource(hint),
                     style = MaterialTheme.typography.body1
                 )
             },
@@ -383,7 +393,13 @@ private fun AuthButton(
 ) {
     val focusManager = LocalFocusManager.current
     StateButton(
-        text = if (state.authMode == SIGN_UP) "Зарегистрироваться" else "Войти",
+        text = run {
+            val textResId = when (state.authMode) {
+                SIGN_IN -> Res.string.auth_button_sign_in_title
+                SIGN_UP -> Res.string.auth_button_sign_up_title
+            }
+            stringResource(textResId)
+        },
         state = state.buttonState,
         enabled = state.buttonState == DEFAULT,
         onClick = {
@@ -419,7 +435,13 @@ private fun AlreadyHaveAnAccountText(
             }
     ) {
         Text(
-            text = if (state.authMode == SIGN_IN) "Ещё нет аккаунта" else "Уже есть аккаунт",
+            text = run {
+                val accountTextResId = when (state.authMode) {
+                    SIGN_IN -> Res.string.auth_button_have_no_account_yet_title
+                    SIGN_UP -> Res.string.auth_button_already_have_account_title
+                }
+                stringResource(accountTextResId)
+            },
             style = MaterialTheme.typography.h5,
             color = colors.textColors.lightGrayTextColor,
             modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
@@ -435,21 +457,26 @@ private fun PrivacyPolicyInfo(
     state: State,
     listener: Listener
 ) {
-    val privacyText = "политикой конфиденциальности"
-    val text = buildAnnotatedString {
-        append("Продолжая, вы соглашаетесь с нашей ")
-        appendLink(privacyText)
-    }
+    val annotatedString = buildAnnotatedStringFromResource(
+        resId = Res.string.auth_agree_with_policies_title
+    )
     ClickableText(
-        text = text,
+        text = annotatedString,
         style = MaterialTheme.typography.h6.copy(
             color = colors.textColors.lightGrayTextColor,
             textAlign = TextAlign.Center
         ),
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 24.dp),
         onClick = { offset ->
-            text.onTextClick(privacyText, offset) {
-//                listener?.openLink(PRIVACY_LINK)
+            annotatedString.onTextClick(offset) { tag ->
+                when (tag) {
+                    LinkTag.PrivacyPolicy.tag -> {
+                        // TODO
+                    }
+                    LinkTag.TermsAndConditions.tag -> {
+                        // TODO
+                    }
+                }
             }
         }
     )

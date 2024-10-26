@@ -29,7 +29,7 @@ interface AuthContract {
         val authError: AuthError? = null,
         val isUserInputHidden: Boolean = true,
         val buttonState: ButtonState = DEFAULT,
-        val privacyPolicyUrl: String = ""
+        val privacyPolicyUrl: String = "" // TODO
     ): BaseState
 
     sealed interface Effect: BaseEffect {
