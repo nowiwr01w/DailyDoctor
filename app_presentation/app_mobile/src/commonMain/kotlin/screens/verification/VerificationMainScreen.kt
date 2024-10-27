@@ -67,6 +67,12 @@ import components.input_field.CustomTextField
 import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
+import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.verification_code_sent_description
+import nowiwr01p.daily.doctor.resources.verification_new_code_required
+import nowiwr01p.daily.doctor.resources.verification_send_code_again
+import nowiwr01p.daily.doctor.resources.verification_title
+import org.jetbrains.compose.resources.stringResource
 import screens.auth.TopIcon
 import screens.auth.TopTitle
 
@@ -169,7 +175,7 @@ private fun VerificationContent(
         modifier = modifier.imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        TopTitle("Верификация")
+        TopTitle(text = Res.string.verification_title)
         Description()
         VerificationCode(state, listener)
         Spacer(modifier = Modifier.weight(1f))
@@ -183,7 +189,7 @@ private fun VerificationContent(
  */
 @Composable
 private fun Description() = Text(
-    text = "Мы отправили код на указанную вами почту. Введите его в поле ниже.",
+    text = stringResource(Res.string.verification_code_sent_description),
     color = colors.textColors.blackTextColor,
     style = MaterialTheme.typography.body1,
     modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
@@ -316,11 +322,14 @@ private fun ResendText(
     state: State,
     listener: Listener
 ) {
+    val text = when {
+        state.timerSeconds == 0L -> stringResource(Res.string.verification_new_code_required)
+        else -> {
+            stringResource(Res.string.verification_send_code_again, state.timerSeconds.toString())
+        }
+    }
     Text(
-        text = when {
-            state.timerSeconds == 0L -> "Мне нужен новый код"
-            else -> "Не пришёл код?\nОтправим ещё один через ${state.timerSeconds} сек"
-        },
+        text = text,
         style = MaterialTheme.typography.h5,
         color = colors.textColors.lightGrayTextColor,
         textAlign = TextAlign.Center,

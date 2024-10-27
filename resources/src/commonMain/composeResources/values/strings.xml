@@ -44,8 +44,17 @@
     <string name="auth_button_have_no_account_yet_title">Ещё нет аккаунта</string>
     <string name="auth_button_already_have_account_title">Уже есть аккаунт</string>
     <!-- AUTH - POLICY -->
-    <!-- res/values/strings.xml -->
     <string name="auth_agree_with_policies_title">Продолжая, вы соглашаетесь с нашей &lt;privacy&gt;политикой конфиденциальности&lt;/privacy&gt; и &lt;terms&gt;условиями пользования&lt;/terms&gt;</string>
+
+    <!-- VERIFICATION -->
+    <!-- VERIFICATION -->
+    <!-- VERIFICATION -->
+    <!-- VERIFICATION -->
+    <!-- VERIFICATION -->
+    <string name="verification_title">Верификация</string>
+    <string name="verification_code_sent_description">Мы отправили код на указанный вами номер. Введите его в поле ниже.</string>
+    <string name="verification_new_code_required">Мне нужен новый код</string>
+    <string name="verification_send_code_again">Не пришёл код?\nОтправим ещё один через %1$s сек</string>
 
     <!-- SUBSCRIPTION -->
     <!-- SUBSCRIPTION -->
