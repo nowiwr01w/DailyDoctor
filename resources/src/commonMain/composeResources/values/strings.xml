@@ -35,7 +35,7 @@
     <!-- AUTH -->
     <string name="auth_title">Авторизация</string>
     <!-- AUTH - INPUT FIELDS -->
-    <string name="auth_input_phone_hint">Авторизация</string>
+    <string name="auth_input_phone_hint">Номер телефона</string>
     <string name="auth_input_password_hint">Пароль</string>
     <string name="auth_input_password_repeat_hint">Подтверждение пароля</string>
     <!-- AUTH - BUTTONS -->
@@ -55,6 +55,16 @@
     <string name="verification_code_sent_description">Мы отправили код на указанный вами номер. Введите его в поле ниже.</string>
     <string name="verification_new_code_required">Мне нужен новый код</string>
     <string name="verification_send_code_again">Не пришёл код?\nОтправим ещё один через %1$s сек</string>
+
+    <!-- PIN CODE -->
+    <!-- PIN CODE -->
+    <!-- PIN CODE -->
+    <!-- PIN CODE -->
+    <!-- PIN CODE -->
+    <string name="pin_code_create">Придумайте пин код</string>
+    <string name="pin_code_enter">Введите пин код</string>
+    <string name="pin_code_repeat">Повторите пин код</string>
+    <string name="pin_code_create_new">Введите новый пин код</string>
 
     <!-- SUBSCRIPTION -->
     <!-- SUBSCRIPTION -->

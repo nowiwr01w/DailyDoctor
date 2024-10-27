@@ -39,17 +39,17 @@ import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
-import theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.resources.ic_delete
 import nowiwr01p.daily.doctor.resources.ic_fingerprint
+import nowiwr01p.daily.doctor.resources.pin_code_enter
 import nowiwr01p.daily.doctor.resources.yo
 import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
-import pin_code.PinCodeContract
-import pin_code.PinCodeContract.Effect
-import pin_code.PinCodeContract.Effect.*
+import org.jetbrains.compose.resources.stringResource
+import pin_code.PinCodeContract.Effect.NavigateBack
+import pin_code.PinCodeContract.Effect.NavigateToHome
 import pin_code.PinCodeContract.Event
 import pin_code.PinCodeContract.Listener
 import pin_code.PinCodeContract.State
@@ -57,8 +57,12 @@ import pin_code.PinCodeViewModel
 import pin_code.data.PinCodeData
 import pin_code.data.PinCodeData.PinCodeDigit
 import pin_code.data.PinCodeData.PinCodeIcon
-import pin_code.data.PinCodeIconType
+import pin_code.data.PinCodeIconType.BIOMETRIC
+import pin_code.data.PinCodeIconType.REMOVE_DIGIT
 import pin_code.data.PinCodeOperation
+import pin_code.data.PinCodeOperation.AddDigit
+import pin_code.data.PinCodeOperation.RemoveDigit
+import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
@@ -87,10 +91,7 @@ fun PinCodeMainScreenMobile(
         }
     }
 
-    BaseScreen(
-        topBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
-        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
-    ) {
+    BaseScreen {
         PinCodeMainScreenMobileContent(
             state = viewModel.viewState.value,
             listener = listener
@@ -211,7 +212,7 @@ private fun PinCodeText(
     modifier: Modifier
 ) {
     Text(
-        text = "Введите код доступа",
+        text = stringResource(Res.string.pin_code_enter),
         color = colors.textColors.blackTextColor,
         style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Medium),
         modifier = modifier
@@ -250,7 +251,7 @@ private fun DotItem(
         DEFAULT -> colors.backgroundColors.grayBackgroundColor.copy(
             alpha = if (isActive) 1f else 0.2f
         )
-        SEND_REQUEST -> Color(0xFF16A34A) // TODO
+        SEND_REQUEST -> Color(0xFF16A34A) // TODO: To colors
         SUCCESS -> Color(0xFF16A34A)
         else -> Color(0xFFE34446)
     }
@@ -306,16 +307,12 @@ private fun PinCodeViewItem(
     val onItemClicked: () -> Unit = {
         when (data) {
             is PinCodeDigit -> {
-                val operation = PinCodeOperation.AddDigit(data.value)
+                val operation = AddDigit(data.value)
                 listener.handleUserInput(operation)
             }
             is PinCodeIcon -> when (data.type) {
-                PinCodeIconType.BIOMETRIC -> {
-                    listener.requestBiometric()
-                }
-                PinCodeIconType.REMOVE_DIGIT -> {
-                    listener.handleUserInput(PinCodeOperation.RemoveDigit)
-                }
+                BIOMETRIC -> { listener.requestBiometric() }
+                REMOVE_DIGIT -> { listener.handleUserInput(RemoveDigit) }
             }
         }
     }
@@ -323,7 +320,7 @@ private fun PinCodeViewItem(
         state.pinCode.length < 4 -> when (data) {
             is PinCodeDigit -> true
             is PinCodeIcon -> {
-                data.type == PinCodeIconType.BIOMETRIC || data.type == PinCodeIconType.REMOVE_DIGIT
+                data.type == BIOMETRIC || data.type == REMOVE_DIGIT
             }
             else -> false
         }
@@ -367,12 +364,12 @@ private val pinCodeData = listOf(
     PinCodeDigit("8"),
     PinCodeDigit("9"),
     PinCodeIcon(
-        type = PinCodeIconType.BIOMETRIC,
+        type = BIOMETRIC,
         value = Res.drawable.ic_fingerprint
     ),
     PinCodeDigit("0"),
     PinCodeIcon(
-        type = PinCodeIconType.REMOVE_DIGIT,
+        type = REMOVE_DIGIT,
         value = Res.drawable.ic_delete
     )
 )
