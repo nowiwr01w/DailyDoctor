@@ -52,6 +52,10 @@ kotlin {
                  */
                 implementation(projects.appPresentation.viewModels.base)
                 /**
+                 * LOCAL DATABASE
+                 */
+                implementation(projects.localDatabase.domain)
+                /**
                  * RESOURCES
                  */
                 implementation(projects.resources)

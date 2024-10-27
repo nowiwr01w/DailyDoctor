@@ -1,7 +1,7 @@
 import com.nowiwr01p.model.settings.SettingsType
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.coroutines.SuspendSettings
 
-@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-expect class Settings {
-    fun createSettings(type: SettingsType): Settings
+@Suppress("OPT_IN_USAGE")
+interface Settings {
+    fun createSettings(type: SettingsType): SuspendSettings
 }

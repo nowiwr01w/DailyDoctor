@@ -15,6 +15,7 @@ import repository.theme.AppThemeRepository
 import repository.theme.AppThemeRepositoryImpl
 import repository.verification.AppVerificationRepository
 import repository.verification.AppVerificationRepositoryImpl
+import user.repository.LocalUserRepository
 
 internal val moduleAppSharedRepository = module {
     /**
@@ -33,7 +34,10 @@ internal val moduleAppSharedRepository = module {
      * AUTH
      */
     factory<AppAuthRepository> {
-        AppAuthRepositoryImpl(api = get<AuthApi>())
+        AppAuthRepositoryImpl(
+            api = get<AuthApi>(),
+            repository = get<LocalUserRepository>()
+        )
     }
     /**
      * VERIFICATION

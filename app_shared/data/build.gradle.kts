@@ -53,6 +53,10 @@ kotlin {
                 implementation(projects.appShared.domain)
                 implementation(projects.appShared.platform)
                 /**
+                 * LOCAL DATABASE
+                 */
+                implementation(projects.localDatabase.domain)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.bundles.base.app)

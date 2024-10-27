@@ -1,11 +1,17 @@
+import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import com.nowiwr01p.model.settings.SettingsType
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.StorageSettings
+import com.russhwolf.settings.coroutines.SuspendSettings
+import com.russhwolf.settings.coroutines.toSuspendSettings
 import kotlinx.browser.localStorage
 
-@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-actual class Settings {
-    actual fun createSettings(type: SettingsType): Settings = StorageSettings(
+@OptIn(ExperimentalSettingsApi::class)
+class SettingsWeb(
+    private val dispatchers: AppDispatchers
+): Settings {
+
+    override fun createSettings(type: SettingsType): SuspendSettings = StorageSettings(
         delegate = localStorage // TODO: Check how to use multiple nodes
-    )
+    ).toSuspendSettings(dispatchers.io)
 }

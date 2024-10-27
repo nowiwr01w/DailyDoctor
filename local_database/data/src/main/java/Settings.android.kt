@@ -1,13 +1,17 @@
 import android.content.Context
+import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import com.nowiwr01p.model.settings.SettingsType
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.SharedPreferencesSettings
+import com.russhwolf.settings.coroutines.toSuspendSettings
 
-@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-actual class Settings(
-    private val context: Context
-) {
-    actual fun createSettings(type: SettingsType): Settings = SharedPreferencesSettings(
+@OptIn(ExperimentalSettingsApi::class)
+class SettingsAndroid(
+    private val context: Context,
+    private val dispatchers: AppDispatchers
+): Settings {
+
+    override fun createSettings(type: SettingsType) = SharedPreferencesSettings(
         delegate = context.getSharedPreferences(type.fileName, Context.MODE_PRIVATE)
-    )
+    ).toSuspendSettings(dispatchers.io)
 }

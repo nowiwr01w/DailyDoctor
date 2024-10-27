@@ -1,5 +1,6 @@
 package splash
 
+import com.nowiwr01p.model.usecase.execute
 import view_model.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -9,11 +10,16 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import splash.SplashContract.Effect
+import splash.SplashContract.Effect.*
 import splash.SplashContract.Event
 import splash.SplashContract.State
 import splash.data.SplashAnimationState
+import user.usecase.GetLocalUserUseCase
 
-class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect>(scope) {
+class SplashViewModel(
+    scope: CoroutineScope,
+    private val getLocalUserUseCase: GetLocalUserUseCase
+): BaseViewModel<Event, State, Effect>(scope) {
 
     override fun setInitialState() = State()
 
@@ -42,7 +48,7 @@ class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect
             }
             .onCompletion {
                 // TODO: Send analytics with [splash_end] param
-                setEffect { Effect.NavigateToOnboarding }
+                chooseNavigationDestination()
             }
             .collect()
     }
@@ -52,5 +58,13 @@ class SplashViewModel(scope: CoroutineScope): BaseViewModel<Event, State, Effect
             millis <= item.showUntilAtMillis
         }
         copy(animationState = animationState)
+    }
+
+    private suspend fun chooseNavigationDestination() {
+        val effect = when {
+            getLocalUserUseCase.execute() != null -> NavigateToHome
+            else -> NavigateToOnboarding
+        }
+        setEffect { effect }
     }
 }

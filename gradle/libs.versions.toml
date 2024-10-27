@@ -46,6 +46,8 @@ koin-android = { module = "io.insert-koin:koin-androidx-compose", version.ref = 
 ### DATASTORE ###
 #################
 datastore = { module = "com.russhwolf:multiplatform-settings", version.ref = "datastore" }
+datastore-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "datastore" }
+datastore-serialization = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "datastore" }
 ##################
 ### COROUTINES ###
 ##################
@@ -170,6 +172,8 @@ database = [
 ]
 local-database = [
     "datastore",
+    "datastore-coroutines",
+    "datastore-serialization",
     "koin",
     "coroutines",
     "kotlin-date-time",
@@ -218,7 +222,7 @@ koin-compose = "4.0.0"
 #################
 ### DATASTORE ###
 #################
-datastore = "1.1.1"
+datastore = "1.2.0"
 ##################
 ### COROUTINES ###
 ##################

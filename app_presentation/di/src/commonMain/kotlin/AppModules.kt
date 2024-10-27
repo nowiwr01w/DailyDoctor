@@ -1,6 +1,6 @@
 package di
 
 import getAppSharedModules
-import getLocalDatabaseModule
+import moduleLocalDatabase
 
-val appModules = getLocalDatabaseModule() + getAppSharedModules() + getAppPresentationModules()
+val appModules = moduleLocalDatabase + getAppSharedModules() + getAppPresentationModules()

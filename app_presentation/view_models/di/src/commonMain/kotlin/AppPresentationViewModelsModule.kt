@@ -17,6 +17,7 @@ import usecase.pin.AppCheckPinCodeUseCase
 import usecase.pin.AppCreatePinCodeUseCase
 import usecase.pin.AppDeletePinCodeUseCase
 import usecase.verification.AppCheckVerificationCodeUseCase
+import user.usecase.GetLocalUserUseCase
 import verification.VerificationViewModel
 
 val moduleAppPresentationViewModels = module {
@@ -24,7 +25,10 @@ val moduleAppPresentationViewModels = module {
      * SPLASH
      */
     factory { (scope: CoroutineScope) ->
-        SplashViewModel(scope)
+        SplashViewModel(
+            scope = scope,
+            getLocalUserUseCase = get<GetLocalUserUseCase>()
+        )
     }
     /**
      * ONBOARDING

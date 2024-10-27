@@ -17,6 +17,7 @@ interface SplashContract {
     ): BaseState
 
     sealed interface Effect: BaseEffect {
+        data object NavigateToHome: Effect
         data object NavigateToOnboarding: Effect
     }
 }

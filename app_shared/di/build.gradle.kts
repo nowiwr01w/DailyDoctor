@@ -52,6 +52,10 @@ kotlin {
                 implementation(projects.appShared.works.di)
                 implementation(projects.appShared.config.di)
                 /**
+                 * LOCAL DATABASE
+                 */
+                implementation(projects.localDatabase.domain)
+                /**
                  * BASE API CLIENT
                  */
                 implementation(projects.baseApiClient)

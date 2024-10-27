@@ -53,9 +53,6 @@ kotlin {
                 implementation(libs.bundles.local.database)
             }
         }
-        androidMain.dependencies {
-            implementation(libs.koin.android)
-        }
     }
 
     /**

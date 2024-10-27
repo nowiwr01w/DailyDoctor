@@ -58,6 +58,10 @@ kotlin {
                 implementation(projects.appPresentation.viewModels.web)
                 implementation(projects.appPresentation.navigation) // TODO: navigation.model
                 /**
+                 * LOCAL DATABASE
+                 */
+                implementation(projects.localDatabase.domain)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.koin)

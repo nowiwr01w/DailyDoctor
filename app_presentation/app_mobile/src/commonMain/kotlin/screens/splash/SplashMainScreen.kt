@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import extensions.BaseScreen
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import theme.CustomTheme.colors
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.app_name
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
@@ -34,7 +33,9 @@ import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import splash.SplashContract.Effect
+import screens.onboarding.getMobileOnboardingItems
+import splash.SplashContract.Effect.NavigateToHome
+import splash.SplashContract.Effect.NavigateToOnboarding
 import splash.SplashContract.Event
 import splash.SplashContract.State
 import splash.SplashViewModel
@@ -43,8 +44,8 @@ import splash.data.SplashAnimationState.FIRST_TEXT
 import splash.data.SplashAnimationState.ICON
 import splash.data.SplashAnimationState.PROGRESS
 import splash.data.SplashAnimationState.SECOND_TEXT
-import screens.onboarding.getMobileOnboardingItems
 import theme.AppTheme
+import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
@@ -58,7 +59,10 @@ internal fun SplashMainScreenMobile(
 
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
-            is Effect.NavigateToOnboarding -> {
+            is NavigateToHome -> {
+                navigator.homeNavigator.navigateToHome()
+            }
+            is NavigateToOnboarding -> {
                 val onboardingItem = getMobileOnboardingItems().first()
                 navigator.onboardingNavigator.navigateToOnboarding(onboardingItem)
             }
