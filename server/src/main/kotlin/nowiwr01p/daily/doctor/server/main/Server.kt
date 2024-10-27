@@ -5,7 +5,6 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import nowiwr01p.daily.doctor.database.connectDatabase
 import nowiwr01p.daily.doctor.server.main.plugins.configureAuthentication
-import nowiwr01p.daily.doctor.server.main.plugins.configureCookies
 import nowiwr01p.daily.doctor.server.main.plugins.configureHeaders
 import nowiwr01p.daily.doctor.server.main.plugins.configureKoin
 import nowiwr01p.daily.doctor.server.main.plugins.configureLogging
@@ -37,7 +36,7 @@ fun Application.setApplicationModule() {
     configureKoin()
     configureRouting()
     configureAuthentication()
-    configureCookies()
+//    configureCookies()
     configureHeaders()
     configureLogging()
     configureSerialization()

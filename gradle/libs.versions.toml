@@ -213,8 +213,8 @@ essenty = "2.0.0-alpha07"
 ##############
 ### KOIN ###
 ##############
-koin = "3.6.0-Beta4"
-koin-compose = "1.2.0-Beta4"
+koin = "4.0.0"
+koin-compose = "4.0.0"
 #################
 ### DATASTORE ###
 #################
@@ -235,8 +235,8 @@ coil = "3.0.0-rc01"
 ############
 ### KTOR ###
 ############
-ktor-client = "3.0.0-wasm2"
-ktor-server = "2.3.12"
+ktor-client = "3.0.0"
+ktor-server = "3.0.0"
 ##############
 ### BACKEND ###
 ##############

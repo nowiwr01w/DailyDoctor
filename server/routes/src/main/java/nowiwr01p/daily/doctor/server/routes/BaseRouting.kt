@@ -4,11 +4,9 @@ import com.nowiwr01p.model.api.errors.RouteError
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.ApplicationCall
-import io.ktor.server.application.call
 import io.ktor.server.response.header
 import io.ktor.server.response.respondText
-import io.ktor.util.pipeline.PipelineContext
+import io.ktor.server.routing.RoutingContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
@@ -86,5 +84,3 @@ abstract class BaseRouting: KoinComponent {
 
     private data class RoutingSuccessModel(val message: String = OK)
 }
-
-private typealias RoutingContext = PipelineContext<Unit, ApplicationCall>
