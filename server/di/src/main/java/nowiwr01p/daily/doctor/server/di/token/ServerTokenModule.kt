@@ -20,7 +20,7 @@ internal val moduleServerToken = module {
      */
     factory<UserTokenConfig> {
         UserTokenConfigImpl(
-            issuer = "https://dailydoctor.ge/",
+            issuer = "https://dailydoctor.ge/", // TODO: Buy a new "calldoctor.ge" domain
             audience = "https://dailydoctor.ge/api",
             expiredAfter = 2 * 60 * 1000L,
             secretKey = "v5qM9ll8QRdV81WpFcgzci1UNcY2vKm6c+yYNKMg6Zw+GjLevrMGtGBRNq7897npI7LBsu9T43F+E/Jmg26vRw=="

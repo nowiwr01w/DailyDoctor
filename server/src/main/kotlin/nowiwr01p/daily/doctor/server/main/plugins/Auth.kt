@@ -14,7 +14,7 @@ fun Application.configureAuthentication() {
     val config by inject<UserTokenConfig>()
     install(Authentication) {
         jwt {
-            realm = "DailyDoctor Main API"
+            realm = "Call Doctor Main API"
             verifier(
                 issuer = config.issuer,
                 audience = config.audience,

@@ -1,4 +1,4 @@
-rootProject.name = "DailyDoctor"
+rootProject.name = "CallDoctor"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

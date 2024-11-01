@@ -6,7 +6,7 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "DailyDoctor"
+        title = "Call Doctor"
     ) {
         val defaultComponentContext = DefaultComponentContext(lifecycle = LifecycleRegistry())
         App().initApplicationUI(defaultComponentContext)

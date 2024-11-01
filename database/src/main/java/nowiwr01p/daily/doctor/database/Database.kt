@@ -8,10 +8,10 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun connectDatabase() {
-    DailyDoctorDatabase().connect()
+    CallDoctorDatabase().connect()
 }
 
-private class DailyDoctorDatabase {
+private class CallDoctorDatabase {
 
     fun connect() = Database.connect(
         url = "jdbc:postgresql://localhost:5432/postgres",
