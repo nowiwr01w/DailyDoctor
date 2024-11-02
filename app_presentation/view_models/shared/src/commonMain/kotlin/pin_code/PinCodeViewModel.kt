@@ -25,6 +25,7 @@ import pin_code.PinCodeContract.Effect
 import pin_code.PinCodeContract.Event
 import pin_code.PinCodeContract.State
 import pin_code.data.PinCodeOperation
+import pin_code.data.PinCodeOperation.*
 import usecase.pin.AppChangePinCodeUseCase
 import usecase.pin.AppCheckPinCodeUseCase
 import usecase.pin.AppCreatePinCodeUseCase
@@ -58,8 +59,8 @@ class PinCodeViewModel(
 
     private fun updateUserInput(operation: PinCodeOperation) = with(viewState.value) {
         val updatedPinCode = when (operation) {
-            is PinCodeOperation.AddDigit -> "$pinCode${operation.digit}"
-            is PinCodeOperation.RemoveDigit -> pinCode.dropLast(1)
+            is AddDigit -> "$pinCode${operation.digit}"
+            is RemoveDigit -> pinCode.dropLast(1)
         }
         setState { copy(pinCode = updatedPinCode) }
     }
@@ -135,7 +136,7 @@ class PinCodeViewModel(
     private suspend fun onSuccess(navigationEffect: Effect) {
         val params = SnackBarParams.TopFloatingParams(
             type = SnackBarType.SUCCESS,
-            message = AppMessage.AppMessageText("Блят понедельник") // TODO
+            message = AppMessage.AppMessageText("Добро пожаловать!") // TODO
         )
         setState { copy(buttonState = SUCCESS) }
         snackBarHelper.showSnackBar(params)
@@ -144,8 +145,13 @@ class PinCodeViewModel(
     }
 
     private suspend fun onError(message: String) {
+        val params = SnackBarParams.TopFloatingParams(
+            type = SnackBarType.ERROR,
+            message = AppMessage.AppMessageText(message) // TODO
+        )
         setState { copy(buttonState = ERROR) }
+        snackBarHelper.showSnackBar(params)
         delay(3000)
-        setState { copy(buttonState = DEFAULT) }
+        setState { copy(buttonState = DEFAULT, pinCode = "") }
     }
 }

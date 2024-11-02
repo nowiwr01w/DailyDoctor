@@ -257,7 +257,7 @@ private fun DotItem(
     }
     val backgroundColor by animateColorAsState(
         targetValue = color,
-        animationSpec = tween(durationMillis = 150, easing = LinearEasing)
+        animationSpec = tween()
     )
     Box(
         modifier = modifier
