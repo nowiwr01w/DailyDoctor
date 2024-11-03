@@ -1,7 +1,7 @@
-package core.model.color.data.border.classic
+package model.color.data.border.classic
 
 import androidx.compose.ui.graphics.Color
-import core.model.color.data.border.AppBorderColors
+import model.color.data.border.AppBorderColors
 
 data class ClassicLightBorderColors(
     override val lightGrayColor: Color = Color(0xFFCFD1DB),

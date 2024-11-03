@@ -1,8 +1,8 @@
 package theme
 
 import androidx.compose.runtime.Composable
-import core.model.color.AppColorsData
-import core.model.color.LocalAppColorsData
+import model.color.data.AppColorsData
+import model.color.data.LocalAppColorsData
 
 object CustomTheme {
     val colors: AppColorsData

@@ -1,49 +1,28 @@
-import config.AppBuildType.*
-import config.AppConfig
-import config.AppConfigImpl
-import config.app.AppSettings
-import config.app.DebugAppSettings
-import config.app.ReleaseAppSettings
-import config.server.DebugServerSettings
-import config.server.ReleaseServerSettings
-import config.server.ServerSettings
-import org.koin.core.qualifier.named
+import calldoctor.app_shared.config.data.api.AppConfigApiImpl
+import calldoctor.app_shared.config.data.repository.AppConfigRepositoryImpl
+import calldoctor.app_shared.config.data.usecase.GetAppConfigUseCaseImpl
+import calldoctor.app_shared.config.domain.api.AppConfigApi
+import calldoctor.app_shared.config.domain.repository.AppConfigRepository
+import calldoctor.app_shared.config.domain.usecase.GetAppConfigUseCase
 import org.koin.dsl.module
 
 val moduleAppSharedConfig = module {
     /**
-     * APP CONFIG
+     * API
      */
-    single<AppConfig>(named(LOCAL)) {
-        AppConfigImpl(
-            appSettings = get<AppSettings>(named(LOCAL)),
-            serverSettings = get<ServerSettings>(named(LOCAL))
-        )
+    factory<AppConfigApi> {
+        AppConfigApiImpl()
     }
-    single<AppConfig>(named(REMOTE)) {
-        AppConfigImpl(
-            appSettings = get<AppSettings>(named(REMOTE)),
-            serverSettings = get<ServerSettings>(named(REMOTE))
-        )
-    }
-
     /**
-     * APP SETTINGS
+     * REPOSITORY
      */
-    single<AppSettings>(named(LOCAL)) {
-        DebugAppSettings()
+    factory<AppConfigRepository> {
+        AppConfigRepositoryImpl(api = get<AppConfigApi>())
     }
-    single<AppSettings>(named(REMOTE)) {
-        ReleaseAppSettings()
-    }
-
     /**
-     * SERVER SETTINGS
+     * USE CASE
      */
-    single<ServerSettings>(named(LOCAL)) {
-        DebugServerSettings()
-    }
-    single<ServerSettings>(named(REMOTE)) {
-        ReleaseServerSettings()
+    factory<GetAppConfigUseCase> {
+        GetAppConfigUseCaseImpl(get())
     }
 }

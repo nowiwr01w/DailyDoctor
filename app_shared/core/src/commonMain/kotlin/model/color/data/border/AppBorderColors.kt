@@ -1,4 +1,4 @@
-package core.model.color.data.border
+package model.color.data.border
 
 import androidx.compose.ui.graphics.Color
 

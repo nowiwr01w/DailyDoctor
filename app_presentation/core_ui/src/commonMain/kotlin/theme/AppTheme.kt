@@ -13,24 +13,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
+import calldoctor.app_shared.config.config.AppConfig
+import calldoctor.app_shared.config.config.currentAppConfig
+import calldoctor.app_shared.config.domain.usecase.GetAppConfigUseCase
 import com.nowiwr01p.model.usecase.execute
 import components.LocalWindowInsetsData
 import components.ProviderLocalWindowInsets
-import model.brand.AppBrand
-import model.brand.AppBrand.AppBrandClassic
-import core.model.color.AppColorsData
-import core.model.color.ProvideCustomColors
-import model.color.classic.AppClassicColors
-import core.model.theme.AppTheme
-import core.model.theme.AppTheme.DARK
-import core.model.theme.AppTheme.LIGHT
+import model.color.AppColorTheme
+import model.color.allAppColorThemes
+import model.color.classic.AppClassicColorThemeLight
+import model.color.data.ProvideCustomColors
 import org.koin.compose.koinInject
 import org.koin.core.qualifier.named
 import platform.currentPlatform
 import theme.shape.AppShapes
 import theme.typography.AppTypography
-import usecase.brand.AppGetBrandUseCase
-import usecase.theme.AppGetThemeModeUseCase
 
 @Composable
 fun AppTheme(
@@ -38,13 +35,8 @@ fun AppTheme(
     typography: AppTypography = koinInject(named(currentPlatform)),
     content: @Composable () -> Unit
 ) {
-    val appThemedColors = getAppColors(
-        theme = getAppTheme().value,
-        brand = getAppBrand().value
-    )
-
     ProviderLocalWindowInsets(insetsData = getWindowInsets().value) {
-        ProvideCustomColors(colors = appThemedColors.value) {
+        ProvideCustomColors(colors = getAppColorTheme().value.appColorsData) {
             MaterialTheme(
                 typography = typography.getTypography(FontFamily.Default), // TODO: Change dynamically
                 shapes = shapes.shapes,
@@ -54,42 +46,29 @@ fun AppTheme(
     }
 }
 
+/**
+ * APP CONFIG
+ */
 @Composable
-private fun getAppBrand(
-    getAppBrandUseCase: AppGetBrandUseCase = koinInject()
-): State<AppBrand> {
-    val appBrand: MutableState<AppBrand> = remember { mutableStateOf(AppBrandClassic()) }
+private fun getAppColorTheme(
+    getAppConfigUseCase: GetAppConfigUseCase = koinInject()
+): State<AppColorTheme> {
+    val appColorTheme: MutableState<AppColorTheme> = remember {
+        mutableStateOf(AppClassicColorThemeLight())
+    }
     LaunchedEffect(Unit) {
-        appBrand.value = getAppBrandUseCase.execute()
+        val defaultAppThemeType = getAppConfigUseCase.execute().appBrand.appSettings
+            .availableColorThemes
+            .first()
+        appColorTheme.value = allAppColorThemes
+            .find { it.type == defaultAppThemeType } ?: AppClassicColorThemeLight()
     }
-    return appBrand
+    return appColorTheme
 }
 
-@Composable
-private fun getAppTheme(
-    appGetThemeModeUseCase: AppGetThemeModeUseCase = koinInject()
-): State<AppTheme> {
-    val appTheme = remember { mutableStateOf(LIGHT) }
-    LaunchedEffect(Unit) {
-        appGetThemeModeUseCase.execute().collect { themeMode ->
-            appTheme.value = themeMode
-        }
-    }
-    return appTheme
-}
-
-@Composable
-private fun getAppColors(theme: AppTheme, brand: AppBrand): State<AppColorsData> {
-    val appThemedColors = remember {
-        mutableStateOf(AppClassicColors().appColorsLight)
-    }
-    appThemedColors.value = when (theme) {
-        LIGHT -> brand.appColors.appColorsLight
-        DARK -> brand.appColors.appColorsDark
-    }
-    return appThemedColors
-}
-
+/**
+ * WINDOW INSETS
+ */
 @Composable
 private fun getWindowInsets(): State<LocalWindowInsetsData> {
     val data = with(LocalDensity.current) {

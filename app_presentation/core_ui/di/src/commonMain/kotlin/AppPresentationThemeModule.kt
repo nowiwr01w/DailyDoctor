@@ -1,12 +1,9 @@
-import model.color.data.background.AppBackgroundColors
-import model.color.data.background.classic.ClassicDarkBackgroundColors
-import model.color.data.background.classic.ClassicLightBackgroundColors
-import core.model.theme.AppTheme.DARK
-import core.model.theme.AppTheme.LIGHT
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import platform.Platform
-import platform.Platform.*
+import platform.Platform.ANDROID
+import platform.Platform.DESKTOP
+import platform.Platform.IOS
+import platform.Platform.WEB
 import theme.shape.AppShapes
 import theme.shape.platform.DesktopShapes
 import theme.shape.platform.MobileShapes
@@ -46,14 +43,5 @@ val moduleAppPresentationTheme = module {
     }
     factory<AppTypography>(named(WEB)) {
         WebTypography()
-    }
-    /**
-     * COLORS
-     */
-    factory<AppBackgroundColors>(named(LIGHT)) {
-        ClassicLightBackgroundColors()
-    }
-    factory<AppBackgroundColors>(named(DARK)) {
-        ClassicDarkBackgroundColors()
     }
 }

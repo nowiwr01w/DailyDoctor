@@ -1,7 +1,7 @@
-package core.model.color.data.text.classic
+package model.color.data.text.classic
 
 import androidx.compose.ui.graphics.Color
-import core.model.color.data.text.AppTextColors
+import model.color.data.text.AppTextColors
 
 data class ClassicLightTextColors(
     override val blackTextColor: Color = Color.Black,

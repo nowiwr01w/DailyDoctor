@@ -25,12 +25,8 @@ import components.button.ButtonState.ERROR
 import components.button.ButtonState.INIT_LOADING
 import components.button.ButtonState.SEND_REQUEST
 import components.button.ButtonState.SUCCESS
-import grayBackgroundColor
-import greenColor
 import platform.Platform
 import platform.currentPlatform
-import redColor
-import secondaryBackgroundColor
 
 /**
  * BUTTON
@@ -47,19 +43,19 @@ fun StateButton(
 ) {
     val successErrorColor by animateColorAsState(
         targetValue = when (state) {
-            ERROR -> MaterialTheme.colors.redColor
-            SUCCESS -> MaterialTheme.colors.greenColor
-            else -> MaterialTheme.colors.grayBackgroundColor
+            ERROR -> Color(0xFFE34446)
+            SUCCESS -> Color(0xFF16A34A)
+            else -> Color(0xFF3f4257)
         },
         animationSpec = tween(durationMillis = 500, easing = LinearEasing)
     )
     val backgroundColor = when (state) {
-        INIT_LOADING -> MaterialTheme.colors.secondaryBackgroundColor.copy(alpha = 0.9f)
+        INIT_LOADING -> Color(0xFF888CAB).copy(alpha = 0.9f)
         DEFAULT -> when {
-            enabled -> MaterialTheme.colors.grayBackgroundColor
-            else -> MaterialTheme.colors.secondaryBackgroundColor.copy(alpha = 0.9f)
+            enabled -> Color(0xFF3f4257)
+            else -> Color(0xFF888CAB).copy(alpha = 0.9f)
         }
-        SEND_REQUEST -> MaterialTheme.colors.grayBackgroundColor
+        SEND_REQUEST -> Color(0xFF3f4257)
         SUCCESS, ERROR -> successErrorColor
     }
 
@@ -109,8 +105,8 @@ private fun DefaultText(
         text = text,
         style = MaterialTheme.typography.h5,
         color = when (state) {
-            DEFAULT, INIT_LOADING -> if (enabled) Color.White else MaterialTheme.colors.secondaryBackgroundColor
-            else -> MaterialTheme.colors.secondaryBackgroundColor
+            DEFAULT, INIT_LOADING -> if (enabled) Color.White else Color(0xFF888CAB)
+            else -> Color(0xFF888CAB)
         }
     )
 }
@@ -123,7 +119,7 @@ private fun Progress(state: ButtonState) = CircularProgressIndicator(
     strokeWidth = 2.dp,
     modifier = Modifier.size(20.dp),
     color = when {
-        state == INIT_LOADING -> MaterialTheme.colors.secondaryBackgroundColor
+        state == INIT_LOADING -> Color(0xFF888CAB)
         else -> Color.White
     }
 )
