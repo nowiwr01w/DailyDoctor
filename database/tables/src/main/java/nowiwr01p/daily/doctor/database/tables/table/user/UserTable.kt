@@ -1,6 +1,6 @@
 package nowiwr01p.daily.doctor.database.tables.table.user
 
-import com.nowiwr01p.model.model.User
+import com.nowiwr01p.model.model.user.User
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

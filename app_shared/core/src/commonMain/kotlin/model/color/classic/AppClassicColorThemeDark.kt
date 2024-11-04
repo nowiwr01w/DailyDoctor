@@ -1,8 +1,8 @@
 package model.color.classic
 
 import model.color.AppColorTheme
-import model.color.data.AppColorThemeType
-import model.color.data.AppColorThemeType.CLASSIC_DARK
+import com.nowiwr01p.model.model.app_config.AppColorThemeType
+import com.nowiwr01p.model.model.app_config.AppColorThemeType.CLASSIC_DARK
 import model.color.data.AppColorsData
 import model.color.data.background.classic.ClassicLightBackgroundColors
 import model.color.data.border.classic.ClassicLightBorderColors

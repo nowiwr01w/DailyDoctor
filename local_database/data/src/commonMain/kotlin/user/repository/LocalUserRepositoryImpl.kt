@@ -1,6 +1,6 @@
 package user.repository
 
-import com.nowiwr01p.model.model.User
+import com.nowiwr01p.model.model.user.User
 import com.nowiwr01p.model.repository.BaseRepository
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings

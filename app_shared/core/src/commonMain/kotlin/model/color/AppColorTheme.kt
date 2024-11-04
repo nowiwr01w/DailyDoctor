@@ -2,7 +2,7 @@ package model.color
 
 import model.color.classic.AppClassicColorThemeDark
 import model.color.classic.AppClassicColorThemeLight
-import model.color.data.AppColorThemeType
+import com.nowiwr01p.model.model.app_config.AppColorThemeType
 import model.color.data.AppColorsData
 
 interface AppColorTheme {

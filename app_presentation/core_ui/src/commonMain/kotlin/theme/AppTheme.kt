@@ -13,9 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
-import calldoctor.app_shared.config.config.AppConfig
-import calldoctor.app_shared.config.config.currentAppConfig
-import calldoctor.app_shared.config.domain.usecase.GetAppConfigUseCase
 import com.nowiwr01p.model.usecase.execute
 import components.LocalWindowInsetsData
 import components.ProviderLocalWindowInsets
@@ -28,6 +25,7 @@ import org.koin.core.qualifier.named
 import platform.currentPlatform
 import theme.shape.AppShapes
 import theme.typography.AppTypography
+import usecase.brand_config.AppGetBrandConfigUseCase
 
 @Composable
 fun AppTheme(
@@ -51,15 +49,14 @@ fun AppTheme(
  */
 @Composable
 private fun getAppColorTheme(
-    getAppConfigUseCase: GetAppConfigUseCase = koinInject()
+    appGetBrandConfigUseCase: AppGetBrandConfigUseCase = koinInject()
 ): State<AppColorTheme> {
     val appColorTheme: MutableState<AppColorTheme> = remember {
         mutableStateOf(AppClassicColorThemeLight())
     }
     LaunchedEffect(Unit) {
-        val defaultAppThemeType = getAppConfigUseCase.execute().appBrand.appSettings
-            .availableColorThemes
-            .first()
+        val appConfig = appGetBrandConfigUseCase.execute()
+        val defaultAppThemeType = appConfig.brandSettings.availableColorThemes.first()
         appColorTheme.value = allAppColorThemes
             .find { it.type == defaultAppThemeType } ?: AppClassicColorThemeLight()
     }

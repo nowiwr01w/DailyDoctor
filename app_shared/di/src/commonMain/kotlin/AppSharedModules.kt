@@ -13,8 +13,7 @@ private val allAppSharedModules = listOf(
     moduleAppSharedRepository,
     moduleAppSharedUseCase,
     moduleAppSharedValidators,
-    moduleAppSharedWorks,
-    moduleAppSharedConfig
+    moduleAppSharedWorks
 )
 
 fun getAppSharedModules() = allAppSharedModules

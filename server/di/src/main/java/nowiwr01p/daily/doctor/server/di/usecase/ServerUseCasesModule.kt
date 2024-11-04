@@ -2,6 +2,7 @@ package nowiwr01p.daily.doctor.server.di.usecase
 
 import nowiwr01p.daily.doctor.server.data.usecase.auth.ServerSignInUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.auth.ServerSignUpUseCaseImpl
+import nowiwr01p.daily.doctor.server.data.usecase.brand_config.ServerGetBrandConfigUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.pin.ServerChangePinCodeUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.pin.ServerCheckPinCodeUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.pin.ServerCreatePinCodeUseCaseImpl
@@ -10,10 +11,12 @@ import nowiwr01p.daily.doctor.server.data.usecase.verification.ServerCheckVerifi
 import nowiwr01p.daily.doctor.server.data.usecase.verification.ServerDeleteExpiredVerificationCodesUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.verification.ServerSendVerificationCodeUseCaseImpl
 import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
+import nowiwr01p.daily.doctor.server.domain.repository.brand_config.ServerBrandConfigRepository
 import nowiwr01p.daily.doctor.server.domain.repository.pin.ServerPinCodeRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignInUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignUpUseCase
+import nowiwr01p.daily.doctor.server.domain.usecase.brand_config.ServerGetBrandConfigUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerChangePinCodeUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerCheckPinCodeUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerCreatePinCodeUseCase
@@ -24,6 +27,12 @@ import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerSendVerif
 import org.koin.dsl.module
 
 internal val moduleServerUseCases = module {
+    /**
+     * BRAND CONFIG
+     */
+    factory<ServerGetBrandConfigUseCase> {
+        ServerGetBrandConfigUseCaseImpl(repository = get<ServerBrandConfigRepository>())
+    }
     /**
      * AUTH
      */

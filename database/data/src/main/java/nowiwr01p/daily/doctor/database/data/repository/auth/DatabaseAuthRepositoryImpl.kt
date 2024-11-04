@@ -2,7 +2,7 @@ package nowiwr01p.daily.doctor.database.data.repository.auth
 
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
-import com.nowiwr01p.model.model.User
+import com.nowiwr01p.model.model.user.User
 import com.nowiwr01p.model.repository.BaseRepository
 import nowiwr01p.daily.doctor.database.domain.repository.auth.DatabaseAuthRepository
 import nowiwr01p.daily.doctor.database.domain.storage.user.DatabaseUserStorage

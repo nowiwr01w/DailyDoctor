@@ -2,6 +2,8 @@ package api
 
 import api.auth.AuthApi
 import api.auth.AuthApiImpl
+import api.brand_config.BrandConfigApi
+import api.brand_config.BrandConfigApiImpl
 import api.pin.PinApi
 import api.pin.PinApiImpl
 import api.verification.VerificationApi
@@ -9,6 +11,12 @@ import api.verification.VerificationApiImpl
 import org.koin.dsl.module
 
 internal val moduleAppSharedApi = module {
+    /**
+     * BRAND CONFIG
+     */
+    factory<BrandConfigApi> {
+        BrandConfigApiImpl()
+    }
     /**
      * AUTH
      */

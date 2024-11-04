@@ -2,12 +2,15 @@ package usecase
 
 import org.koin.dsl.module
 import repository.auth.AppAuthRepository
+import repository.brand_config.AppBrandConfigRepository
 import repository.pin.AppPinRepository
 import repository.verification.AppVerificationRepository
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignInUseCaseImpl
 import usecase.auth.AppSignUpUseCase
 import usecase.auth.AppSignUpUseCaseImpl
+import usecase.brand_config.AppGetBrandConfigUseCase
+import usecase.brand_config.AppGetBrandConfigUseCaseImpl
 import usecase.pin.AppChangePinCodeUseCase
 import usecase.pin.AppChangePinCodeUseCaseImpl
 import usecase.pin.AppCheckPinCodeUseCase
@@ -22,6 +25,12 @@ import usecase.verification.AppSendVerificationCodeUseCase
 import usecase.verification.AppSendVerificationCodeUseCaseImpl
 
 internal val moduleAppSharedUseCase = module {
+    /**
+     * BRAND CONFIG
+     */
+    factory<AppGetBrandConfigUseCase> {
+        AppGetBrandConfigUseCaseImpl(repository = get<AppBrandConfigRepository>())
+    }
     /**
      * AUTH
      */

@@ -5,6 +5,15 @@ interface Route {
 }
 
 /**
+ * BRAND CONFIG
+ */
+sealed class BrantConfigRoutes(
+    override val route: String
+): Route {
+    data object GetBrandConfigRoute: BrantConfigRoutes("v1/config")
+}
+
+/**
  * AUTH
  */
 sealed class AuthRoutes(
