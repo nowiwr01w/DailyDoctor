@@ -85,7 +85,7 @@ import subscription.data.BenefitData
 import subscription.data.SubscriptionType.Base
 import subscription.data.SubscriptionType.Free
 import subscription.data.getSubscriptionItems
-import theme.AppTheme
+import theme.AppThemePreview
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
@@ -559,7 +559,7 @@ private fun MonthlyYearlySwitch(
  */
 @Preview
 @Composable
-private fun Preview() = AppTheme {
+private fun Preview() = AppThemePreview {
     Content(
         state = State(),
         listener = null

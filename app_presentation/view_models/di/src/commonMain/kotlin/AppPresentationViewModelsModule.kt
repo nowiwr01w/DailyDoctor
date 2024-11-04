@@ -1,7 +1,9 @@
+import app.AppViewModel
 import auth.AuthViewModel
 import helpers.snack_bar.SnackBarHelper
 import home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
+import manager.AppBrandConfigManager
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import onboarding.OnboardingViewModel
 import onboarding.data.OnboardingItem
@@ -21,6 +23,15 @@ import user.usecase.GetLocalUserUseCase
 import verification.VerificationViewModel
 
 val moduleAppPresentationViewModels = module {
+    /**
+     * APP
+     */
+    single { (scope: CoroutineScope) ->
+        AppViewModel(
+            scope = scope,
+            appBrandConfigManager = get<AppBrandConfigManager>()
+        )
+    }
     /**
      * SPLASH
      */

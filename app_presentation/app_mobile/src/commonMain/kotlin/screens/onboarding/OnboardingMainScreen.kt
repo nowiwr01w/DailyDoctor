@@ -47,7 +47,7 @@ import onboarding.data.getOnboardingItems
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import theme.AppTheme
+import theme.AppThemePreview
 import view_model.rememberViewModel
 
 @Composable
@@ -203,7 +203,7 @@ private fun OnboardingItemView(
  */
 @Preview
 @Composable
-private fun Preview() = AppTheme {
+private fun Preview() = AppThemePreview {
     OnboardingMainScreenContent(
         state = State(),
         listener = null

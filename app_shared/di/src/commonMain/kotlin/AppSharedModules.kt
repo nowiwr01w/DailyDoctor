@@ -1,5 +1,6 @@
 import api.moduleAppSharedApi
 import di.works.moduleAppSharedWorks
+import manager.moduleAppSharedManager
 import network.moduleAppSharedNetwork
 import nowiwr01p.daily.doctor.base_api_client.di.moduleBaseApiClient
 import repository.moduleAppSharedRepository
@@ -12,6 +13,7 @@ private val allAppSharedModules = listOf(
     moduleAppSharedNetwork,
     moduleAppSharedRepository,
     moduleAppSharedUseCase,
+    moduleAppSharedManager,
     moduleAppSharedValidators,
     moduleAppSharedWorks
 )

@@ -1,6 +1,5 @@
 package com.nowiwr01p.model.model.app_config.config
 
-import com.nowiwr01p.model.model.app_config.AppColorThemeType.CLASSIC_DARK
 import com.nowiwr01p.model.model.app_config.AppColorThemeType.CLASSIC_LIGHT
 import com.nowiwr01p.model.model.app_config.settings.app.BrandSettings
 import com.nowiwr01p.model.model.app_config.settings.server.ServerSettings
@@ -27,6 +26,6 @@ private val callDoctorServerSettings = ServerSettings(
 
 private val callDoctorBrandSettings = BrandSettings(
     brandConfigType = BrandConfigType.CALL_DOCTOR_CONFIG_TYPE,
-    availableColorThemes = listOf(CLASSIC_DARK),
+    availableColorThemes = listOf(CLASSIC_LIGHT),
     isOnboardingEnabled = true
 )

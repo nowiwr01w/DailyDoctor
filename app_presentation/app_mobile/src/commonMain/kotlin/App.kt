@@ -16,6 +16,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import app.AppContract.Event
+import app.AppViewModel
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
@@ -41,15 +43,21 @@ import screens.splash.SplashMainScreenMobile
 import screens.subscription.SubscriptionMainScreen
 import screens.verification.VerificationMainScreenMobile
 import theme.AppTheme
+import view_model.rememberViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun App(
     context: ComponentContext,
+    viewModel: AppViewModel = rememberViewModel(),
     snackBarHelper: SnackBarHelper = koinInject(),
     showBottomSheetHelper: ShowBottomSheetHelper = koinInject(),
     navigator: MainNavigator = koinInject { parametersOf(context) }
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.setEvent(Event.Init)
+    }
+
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(
         initialValue = Hidden,
@@ -65,7 +73,10 @@ fun App(
             }
     }
 
-    AppTheme {
+    val appState = viewModel.viewState.value
+    AppTheme(
+        appColorTheme = appState.appColorTheme
+    ) {
         val subscribeOnBottomSheet: @Composable () -> Unit = {
             showBottomSheetHelper.content.collectAsState(null).value?.let { params ->
                 BottomSheet(params)
