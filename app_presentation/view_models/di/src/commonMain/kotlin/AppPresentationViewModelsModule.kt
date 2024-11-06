@@ -1,12 +1,14 @@
 import app.AppViewModel
 import auth.AuthViewModel
+import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import helpers.snack_bar.SnackBarHelper
 import home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
-import manager.AppBrandConfigManager
+import manager.brand_config.AppBrandConfigManager
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import onboarding.OnboardingViewModel
-import onboarding.data.OnboardingItem
+import com.nowiwr01p.model.model.onboarding.brand_onboardings.OnboardingItem
+import manager.onboarding.AppOnboardingManager
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel
 import splash.SplashViewModel
@@ -38,16 +40,19 @@ val moduleAppPresentationViewModels = module {
     factory { (scope: CoroutineScope) ->
         SplashViewModel(
             scope = scope,
-            getLocalUserUseCase = get<GetLocalUserUseCase>()
+            appScope = get<AppScope>(),
+            getLocalUserUseCase = get<GetLocalUserUseCase>(),
+            appBrandConfigManager = get<AppBrandConfigManager>(),
+            appOnboardingManager = get<AppOnboardingManager>()
         )
     }
     /**
      * ONBOARDING
      */
-    factory { (scope: CoroutineScope, onboardingItems: List<OnboardingItem>) ->
+    factory { (scope: CoroutineScope) ->
         OnboardingViewModel(
             scope = scope,
-            onboardingItems = onboardingItems
+            appOnboardingManager = get<AppOnboardingManager>()
         )
     }
     /**

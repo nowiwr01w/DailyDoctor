@@ -28,22 +28,15 @@ import androidx.compose.ui.unit.times
 import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
+import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
 import theme.CustomTheme.colors
-import nowiwr01p.daily.doctor.resources.Res
-import nowiwr01p.daily.doctor.resources.ic_onboarding_always_online
-import nowiwr01p.daily.doctor.resources.ic_onboarding_chat_with_doctor
-import nowiwr01p.daily.doctor.resources.ic_onboarding_for_whole_family
-import nowiwr01p.daily.doctor.resources.ic_onboarding_notifications
-import nowiwr01p.daily.doctor.resources.ic_onboarding_save_with_us
 import observers.EffectObserver
 import onboarding.OnboardingContract.Effect
 import onboarding.OnboardingContract.Event
 import onboarding.OnboardingContract.Listener
 import onboarding.OnboardingContract.State
 import onboarding.OnboardingViewModel
-import onboarding.data.OnboardingItem.NotificationsOnboardingItem
-import onboarding.data.getOnboardingItems
+import com.nowiwr01p.model.model.onboarding.brand_onboardings.OnboardingItem.NotificationsOnboardingItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -52,9 +45,8 @@ import view_model.rememberViewModel
 
 @Composable
 internal fun OnboardingMainScreenMobile(
-    onboardingItem: OnboardingItemModel,
     navigator: MainNavigator,
-    viewModel: OnboardingViewModel = rememberViewModel(getMobileOnboardingItems())
+    viewModel: OnboardingViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
         override fun showNextOnboardingItem() {
@@ -64,9 +56,9 @@ internal fun OnboardingMainScreenMobile(
             navigator.authNavigator.navigateToAuth()
         }
     }
-    
+
     LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init(onboardingItem))
+        viewModel.setEvent(Event.Init)
     }
     
     EffectObserver(viewModel.effect) { effect ->
@@ -78,15 +70,12 @@ internal fun OnboardingMainScreenMobile(
 
             }
             is Effect.NavigateToNextOnboardingItem -> {
-                navigator.onboardingNavigator.navigateToOnboarding(effect.onboardingItem)
+                navigator.onboardingNavigator.navigateToOnboarding()
             }
         }
     }
 
-    BaseScreen(
-        topBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
-        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
-    ) {
+    BaseScreen {
         OnboardingMainScreenContent(
             state = viewModel.viewState.value,
             listener = listener
@@ -209,14 +198,3 @@ private fun Preview() = AppThemePreview {
         listener = null
     )
 }
-
-/**
- * ONBOARDING ITEMS // TODO: Do with expect/actual because of different images
- */
-internal fun getMobileOnboardingItems() = getOnboardingItems(
-    remoteMeetingOnboardingImage = Res.drawable.ic_onboarding_always_online,
-    unlimitedCommunicationOnboardingImage = Res.drawable.ic_onboarding_chat_with_doctor,
-    forWholeFamilyOnboardingImage = Res.drawable.ic_onboarding_for_whole_family,
-    savingsOnboardingImage = Res.drawable.ic_onboarding_save_with_us,
-    notificationsOnboardingImage = Res.drawable.ic_onboarding_notifications,
-)

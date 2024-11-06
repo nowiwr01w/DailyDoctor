@@ -5,14 +5,14 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.pushNew
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppNavigationConfig.Onboarding
-import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
+import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
 
 class OnboardingNavigatorImpl(
     override val navigation: StackNavigation<AppNavigationConfig>
 ): OnboardingNavigator() {
     
     @OptIn(ExperimentalDecomposeApi::class)
-    override fun navigateToOnboarding(onboardingItem: OnboardingItemModel) {
-        navigation.pushNew(Onboarding(onboardingItem))
+    override fun navigateToOnboarding() {
+        navigation.pushNew(Onboarding)
     }
 }

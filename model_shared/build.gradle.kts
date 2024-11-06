@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -38,9 +40,21 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                /**
+                 * PROJECT MODULES
+                 */
+                implementation(projects.resources)
+                /**
+                 * DEPENDENCIES
+                 */
                 implementation(libs.koin)
                 implementation(libs.coroutines)
                 implementation(libs.kotlin.serialization.json)
+                /**
+                 * COMPOSE
+                 */
+                implementation(compose.runtime)
+                implementation(compose.components.resources)
             }
         }
     }

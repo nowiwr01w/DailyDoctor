@@ -2,6 +2,7 @@ package repository
 
 import api.auth.AuthApi
 import api.brand_config.BrandConfigApi
+import api.onboarding.OnboardingApi
 import api.pin.PinApi
 import api.verification.VerificationApi
 import org.koin.dsl.module
@@ -9,6 +10,8 @@ import repository.auth.AppAuthRepository
 import repository.auth.AppAuthRepositoryImpl
 import repository.brand_config.AppBrandConfigRepository
 import repository.brand_config.AppBrandConfigRepositoryImpl
+import repository.onboarding.AppOnboardingRepository
+import repository.onboarding.AppOnboardingRepositoryImpl
 import repository.pin.AppPinRepository
 import repository.pin.AppPinRepositoryImpl
 import repository.verification.AppVerificationRepository
@@ -21,6 +24,12 @@ internal val moduleAppSharedRepository = module {
      */
     factory<AppBrandConfigRepository> {
         AppBrandConfigRepositoryImpl(api = get<BrandConfigApi>())
+    }
+    /**
+     * ONBOARDING
+     */
+    factory<AppOnboardingRepository> {
+        AppOnboardingRepositoryImpl(api = get<OnboardingApi>())
     }
     /**
      * AUTH

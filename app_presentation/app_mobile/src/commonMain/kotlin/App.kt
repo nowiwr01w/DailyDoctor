@@ -122,10 +122,9 @@ private fun AppContent(
                 is SplashChild -> {
                     SplashMainScreenMobile(navigator = navigator)
                 }
-                is OnboardingChild -> OnboardingMainScreenMobile(
-                    navigator = navigator,
-                    onboardingItem = child.onboardingItem
-                )
+                is OnboardingChild -> {
+                    OnboardingMainScreenMobile(navigator = navigator)
+                }
                 is AuthChild -> {
                     AuthMainScreenMobile(navigator)
                 }

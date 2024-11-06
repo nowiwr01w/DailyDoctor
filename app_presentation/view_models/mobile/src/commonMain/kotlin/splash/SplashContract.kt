@@ -1,5 +1,6 @@
 package splash
 
+import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
 import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState

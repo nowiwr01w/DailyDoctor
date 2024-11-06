@@ -47,10 +47,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 /**
-                 * MODEL SHARED
-                 */
-                implementation(projects.modelShared)
-                /**
                  * COMPOSE
                  */
                 implementation(compose.runtime)

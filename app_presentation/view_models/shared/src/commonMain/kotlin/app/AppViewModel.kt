@@ -7,7 +7,7 @@ import com.nowiwr01p.model.model.app_config.config.BrandConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import manager.AppBrandConfigManager
+import manager.brand_config.AppBrandConfigManager
 import model.color.allAppColorThemes
 import model.color.classic.AppClassicColorThemeLight
 import view_model.BaseViewModel

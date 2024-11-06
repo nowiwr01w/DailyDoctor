@@ -9,7 +9,7 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigatorImpl.AppN
 import nowiwr01p.daily.doctor.app_presentation.navigation.auth.AuthNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.home.HomeNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.OnboardingNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
+import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.PinCodeNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import nowiwr01p.daily.doctor.app_presentation.navigation.splash.SplashNavigator
@@ -34,9 +34,7 @@ interface MainNavigator {
         data object SplashChild: Child()
 
         @Serializable
-        data class OnboardingChild(
-            val onboardingItem: OnboardingItemModel
-        ): Child()
+        data object OnboardingChild: Child()
 
         @Serializable
         data object AuthChild: Child()

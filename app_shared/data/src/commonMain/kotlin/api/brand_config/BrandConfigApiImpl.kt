@@ -18,4 +18,4 @@ class BrandConfigApiImpl: BaseApi(AppApiClientSettings), BrandConfigApi {
 }
 
 // TODO: Release related
-private val currentBrandConfigType = CALL_DOCTOR_CONFIG_TYPE
+internal val currentBrandConfigType = CALL_DOCTOR_CONFIG_TYPE

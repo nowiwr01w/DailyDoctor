@@ -3,17 +3,18 @@ package onboarding
 import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
-import nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model.OnboardingItemModel
+import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
 
 interface OnboardingContract {
     
     sealed interface Event: BaseEvent {
-        data class Init(val onboardingItem: OnboardingItemModel): Event
+        data object Init: Event
         data object ShowNextOnboardingItem: Event
     }
     
     data class State(
-        val currentOnboardingItem: OnboardingItemModel? = null
+        val currentOnboardingItem: OnboardingItemModel? = null,
+        val onboardingItems: List<OnboardingItemModel> = listOf()
     ): BaseState
     
     sealed interface Effect: BaseEffect {

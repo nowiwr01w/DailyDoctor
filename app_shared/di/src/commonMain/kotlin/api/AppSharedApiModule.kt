@@ -4,6 +4,8 @@ import api.auth.AuthApi
 import api.auth.AuthApiImpl
 import api.brand_config.BrandConfigApi
 import api.brand_config.BrandConfigApiImpl
+import api.onboarding.OnboardingApi
+import api.onboarding.OnboardingApiImpl
 import api.pin.PinApi
 import api.pin.PinApiImpl
 import api.verification.VerificationApi
@@ -14,8 +16,14 @@ internal val moduleAppSharedApi = module {
     /**
      * BRAND CONFIG
      */
-    factory<BrandConfigApi> {
+    single<BrandConfigApi> {
         BrandConfigApiImpl()
+    }
+    /**
+     * ONBOARDING
+     */
+    single<OnboardingApi> {
+        OnboardingApiImpl()
     }
     /**
      * AUTH

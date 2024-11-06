@@ -24,6 +24,15 @@ sealed class AuthRoutes(
 }
 
 /**
+ * ONBOARDING
+ */
+sealed class OnboardingRoutes(
+    override val route: String
+): Route {
+    data object GetOnboardingDataRoute: OnboardingRoutes("v1/onboarding")
+}
+
+/**
  * VERIFICATION
  */
 sealed class VerificationRoutes(

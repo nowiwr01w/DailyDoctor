@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.app_presentation.navigation.onboarding.model
+package com.nowiwr01p.model.model.onboarding
 
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource

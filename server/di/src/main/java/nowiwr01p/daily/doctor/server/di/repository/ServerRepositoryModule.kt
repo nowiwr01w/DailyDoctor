@@ -3,14 +3,17 @@ package nowiwr01p.daily.doctor.server.di.repository
 import nowiwr01p.daily.doctor.database.domain.generator.VerificationCodeGenerator
 import nowiwr01p.daily.doctor.database.domain.repository.auth.DatabaseAuthRepository
 import nowiwr01p.daily.doctor.database.domain.repository.brand_config.DatabaseBrandConfigRepository
+import nowiwr01p.daily.doctor.database.domain.repository.onboarding.DatabaseOnboardingRepository
 import nowiwr01p.daily.doctor.database.domain.repository.pin.DatabasePinCodeRepository
 import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVerificationRepository
 import nowiwr01p.daily.doctor.server.data.repository.auth.ServerAuthRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.brand_config.ServerBrandConfigRepositoryImpl
+import nowiwr01p.daily.doctor.server.data.repository.onboarding.ServerOnboardingRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.pin.ServerPinCodeRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.verification.ServerVerificationRepositoryImpl
 import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
 import nowiwr01p.daily.doctor.server.domain.repository.brand_config.ServerBrandConfigRepository
+import nowiwr01p.daily.doctor.server.domain.repository.onboarding.ServerOnboardingRepository
 import nowiwr01p.daily.doctor.server.domain.repository.pin.ServerPinCodeRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 import nowiwr01p.daily.doctor.server.token.common.usecase.ServerGenerateCommonTokenUseCase
@@ -25,6 +28,12 @@ internal val moduleServerRepository = module {
         ServerBrandConfigRepositoryImpl(
             databaseBrandConfigRepository = get<DatabaseBrandConfigRepository>()
         )
+    }
+    /**
+     * ONBOARDING
+     */
+    factory<ServerOnboardingRepository> {
+        ServerOnboardingRepositoryImpl(repository = get<DatabaseOnboardingRepository>())
     }
     /**
      * AUTH

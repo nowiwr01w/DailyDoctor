@@ -33,7 +33,6 @@ import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import screens.onboarding.getMobileOnboardingItems
 import splash.SplashContract.Effect.NavigateToHome
 import splash.SplashContract.Effect.NavigateToOnboarding
 import splash.SplashContract.Event
@@ -63,8 +62,7 @@ internal fun SplashMainScreenMobile(
                 navigator.homeNavigator.navigateToHome()
             }
             is NavigateToOnboarding -> {
-                val onboardingItem = getMobileOnboardingItems().first()
-                navigator.onboardingNavigator.navigateToOnboarding(onboardingItem)
+                navigator.onboardingNavigator.navigateToOnboarding()
             }
         }
     }

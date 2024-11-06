@@ -1,7 +1,13 @@
 package manager
 
+import com.nowiwr01p.model.coroutines.app_scope.AppScope
+import manager.brand_config.AppBrandConfigManager
+import manager.brand_config.AppBrandConfigManagerImpl
+import manager.onboarding.AppOnboardingManager
+import manager.onboarding.AppOnboardingManagerImpl
 import org.koin.dsl.module
 import usecase.brand_config.AppGetBrandConfigUseCase
+import usecase.onboarding.AppGetOnboardingDataUseCase
 
 internal val moduleAppSharedManager = module {
     /**
@@ -9,5 +15,14 @@ internal val moduleAppSharedManager = module {
      */
     single<AppBrandConfigManager> {
         AppBrandConfigManagerImpl(appGetBrandConfigUseCase = get<AppGetBrandConfigUseCase>())
+    }
+    /**
+     * ONBOARDING
+     */
+    single<AppOnboardingManager> {
+        AppOnboardingManagerImpl(
+            appScope = get<AppScope>(),
+            appGetOnboardingDataUseCase = get<AppGetOnboardingDataUseCase>()
+        )
     }
 }
