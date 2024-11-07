@@ -54,7 +54,7 @@ class SplashViewModel(
         }
     }
 
-    private fun loadOnboardingData() = hide {
+    private fun loadOnboardingData() = appScope.scope.launch {
         appOnboardingManager.getOnboardingData(fromRemote = true)
     }
 

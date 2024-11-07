@@ -1,11 +1,8 @@
 package nowiwr01p.daily.doctor.server.routes.onboarding
 
-import com.nowiwr01p.model.api.route.BrantConfigRoutes.GetBrandConfigRoute
-import com.nowiwr01p.model.api.route.OnboardingRoutes
 import com.nowiwr01p.model.api.route.OnboardingRoutes.GetOnboardingDataRoute
 import com.nowiwr01p.model.extensions.runCatchingApp
 import com.nowiwr01p.model.model.app_config.config.BrandConfigType
-import com.nowiwr01p.model.usecase.execute
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
@@ -24,12 +21,12 @@ class OnboardingRouting(
         val brandConfigType = BrandConfigType.entries.find { it.type == type } ?: run {
             sendRoutingError(
                 code = HttpStatusCode.BadRequest,
-                message = "Wrong [type] parameter at ${GetBrandConfigRoute.route} route"
+                message = "Wrong [type] parameter at ${GetOnboardingDataRoute.route} route"
             )
             return@get
         }
         runCatchingApp {
-            serverGetOnboardingDataUseCase.execute()
+            serverGetOnboardingDataUseCase.execute(brandConfigType)
         }.onSuccess { onboardingData ->
             respondWithSuccessModel(onboardingData)
         }.onFailure { error ->

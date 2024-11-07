@@ -12,7 +12,7 @@ class OnboardingApiImpl: BaseApi(AppApiClientSettings), OnboardingApi {
     override suspend fun getOnboardingData() = getHttp<List<OnboardingItemModel>>(
         route = GetOnboardingDataRoute,
         parameters = listOf(
-            ApiParameter(name = "type", data = currentBrandConfigType)
+            ApiParameter(name = "type", data = currentBrandConfigType.type)
         )
     )
 }

@@ -12,7 +12,7 @@ class BrandConfigApiImpl: BaseApi(AppApiClientSettings), BrandConfigApi {
     override suspend fun loadBrandConfig() = getHttp<BrandConfig>(
         route = GetBrandConfigRoute,
         parameters = listOf(
-            ApiParameter("type", currentBrandConfigType.type)
+            ApiParameter(name = "type", data = currentBrandConfigType.type)
         )
     )
 }
