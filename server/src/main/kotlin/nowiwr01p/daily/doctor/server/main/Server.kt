@@ -4,6 +4,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import nowiwr01p.daily.doctor.database.connectDatabase
+import nowiwr01p.daily.doctor.database.initDatabase
 import nowiwr01p.daily.doctor.server.main.plugins.configureAuthentication
 import nowiwr01p.daily.doctor.server.main.plugins.configureHeaders
 import nowiwr01p.daily.doctor.server.main.plugins.configureKoin
@@ -26,6 +27,7 @@ private fun connectServer() = embeddedServer(
     module = {
         setApplicationModule()
         scheduleServerWorks()
+        initDatabase()
     }
 ).start(wait = true)
 

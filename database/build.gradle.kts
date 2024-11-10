@@ -13,6 +13,7 @@ dependencies {
      */
     implementation(projects.database.di)
     implementation(projects.database.tables)
+    implementation(projects.database.initValues)
     /**
      * DEPENDENCIES
      */
