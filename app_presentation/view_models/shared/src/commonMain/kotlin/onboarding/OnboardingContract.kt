@@ -9,22 +9,22 @@ interface OnboardingContract {
     
     sealed interface Event: BaseEvent {
         data object Init: Event
-        data object ShowNextOnboardingItem: Event
+        data object RequestNotifications: Event
+        data class ShowNextOnboardingItem(val currentOnboardingItem: OnboardingItem): Event
     }
     
     data class State(
-        val currentOnboardingItem: OnboardingItem? = null,
         val onboardingItems: List<OnboardingItem> = listOf()
     ): BaseState
     
     sealed interface Effect: BaseEffect {
         data object NavigateToAuth: Effect
-        data object RequestNotifications: Effect
-        data class NavigateToNextOnboardingItem(val onboardingItem: OnboardingItem): Effect
+        data object ShowEnableNotificationsDialog: Effect
+        data class SlideToNextOnboardingItem(val nextOnboardingItemIndex: Int): Effect
     }
 
     interface Listener {
-        fun showNextOnboardingItem()
+        fun showNextOnboardingItem(currentOnboardingItem: OnboardingItem)
         fun onEnableNotificationsClick()
     }
 }

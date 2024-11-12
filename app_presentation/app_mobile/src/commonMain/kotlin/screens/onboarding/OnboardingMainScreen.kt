@@ -1,7 +1,8 @@
 package screens.onboarding
 
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
@@ -18,6 +22,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,9 +33,10 @@ import com.nowiwr01p.model.model.onboarding.OnboardingItem
 import components.image.RemoteImage
 import extensions.BaseScreen
 import getScreenWidth
+import kotlinx.coroutines.launch
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import observers.EffectObserver
-import onboarding.OnboardingContract.Effect
+import onboarding.OnboardingContract.Effect.*
 import onboarding.OnboardingContract.Event
 import onboarding.OnboardingContract.Listener
 import onboarding.OnboardingContract.State
@@ -40,17 +46,22 @@ import theme.AppThemePreview
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun OnboardingMainScreenMobile(
     navigator: MainNavigator,
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
+    val state = viewModel.viewState.value
+    val scope = rememberCoroutineScope()
+    val pagerState = rememberPagerState { state.onboardingItems.size }
+
     val listener = object : Listener {
-        override fun showNextOnboardingItem() {
-            viewModel.setEvent(Event.ShowNextOnboardingItem)
+        override fun showNextOnboardingItem(currentOnboardingItem: OnboardingItem) {
+            viewModel.setEvent(Event.ShowNextOnboardingItem(currentOnboardingItem))
         }
         override fun onEnableNotificationsClick() {
-            navigator.authNavigator.navigateToAuth()
+            viewModel.setEvent(Event.RequestNotifications)
         }
     }
 
@@ -60,22 +71,26 @@ internal fun OnboardingMainScreenMobile(
     
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
-            is Effect.RequestNotifications -> {
-                // TODO
+            is ShowEnableNotificationsDialog -> {
+                navigator.authNavigator.navigateToAuth() // TODO
             }
-            is Effect.NavigateToAuth -> {
-
+            is NavigateToAuth -> {
+                navigator.authNavigator.navigateToAuth()
             }
-            is Effect.NavigateToNextOnboardingItem -> {
-                navigator.onboardingNavigator.navigateToOnboarding()
+            is SlideToNextOnboardingItem -> scope.launch {
+                pagerState.animateScrollToPage(
+                    page = effect.nextOnboardingItemIndex,
+                    animationSpec = tween()
+                )
             }
         }
     }
 
     BaseScreen {
-        OnboardingMainScreenContent(
-            state = viewModel.viewState.value,
-            listener = listener
+        Content(
+            state = state,
+            listener = listener,
+            pagerState = pagerState
         )
     }
 }
@@ -83,34 +98,59 @@ internal fun OnboardingMainScreenMobile(
 /**
  * CONTENT
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun OnboardingMainScreenContent(
+private fun Content(
     state: State,
-    listener: Listener?
+    listener: Listener?,
+    pagerState: PagerState
 ) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colors.backgroundColors.whiteBackgroundColor)
+    if (state.onboardingItems.isEmpty()) {
+        LoadingContent()
+    } else {
+        SuccessContent(
+            state = state,
+            listener = listener,
+            pagerState = pagerState
+        )
+    }
+}
+
+@Composable
+private fun LoadingContent() = Box(
+    modifier = Modifier.fillMaxSize(),
+    contentAlignment = Alignment.Center
+) {
+    CircularProgressIndicator(
+        color = colors.backgroundColors.redBackgroundColor,
+        strokeWidth = 3.dp
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun SuccessContent(
+    state: State,
+    listener: Listener?,
+    pagerState: PagerState
+) {
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        if (state.currentOnboardingItem != null) {
-            val currentOnboardingItem = state.currentOnboardingItem!!
+        HorizontalPager(
+            state = pagerState,
+            userScrollEnabled = false,
+            modifier = Modifier.fillMaxSize()
+        ) { page ->
+            val item = state.onboardingItems[page]
             OnboardingItemView(
-                item = currentOnboardingItem,
+                item = item,
                 onShowNextItemClicked = {
                     when {
-                        currentOnboardingItem.secondButtonText.isNotEmpty() -> {
-                            listener?.onEnableNotificationsClick()
-                        }
-                        else -> listener?.showNextOnboardingItem()
+                        item.secondButtonText.isNotEmpty() -> listener?.onEnableNotificationsClick()
+                        else -> listener?.showNextOnboardingItem(item)
                     }
                 }
-            )
-        } else {
-            CircularProgressIndicator(
-                modifier = Modifier.size(32.dp)
             )
         }
     }
@@ -188,11 +228,13 @@ private fun OnboardingItemView(
 /**
  * PREVIEW
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 private fun Preview() = AppThemePreview {
-    OnboardingMainScreenContent(
+    Content(
         state = State(),
-        listener = null
+        listener = null,
+        pagerState = rememberPagerState { 3 }
     )
 }

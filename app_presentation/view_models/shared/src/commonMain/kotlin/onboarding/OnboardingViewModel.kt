@@ -1,7 +1,9 @@
 package onboarding
 
+import com.nowiwr01p.model.model.onboarding.OnboardingItem
 import view_model.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.filterNot
 import onboarding.OnboardingContract.*
 import manager.onboarding.AppOnboardingManager
 import onboarding.OnboardingContract.Effect.*
@@ -17,7 +19,8 @@ class OnboardingViewModel(
     override fun handleEvents(event: Event) {
         when (event) {
             is Init -> init()
-            is ShowNextOnboardingItem -> showNextOnboardingItem()
+            is RequestNotifications -> requestNotifications()
+            is ShowNextOnboardingItem -> showNextOnboardingItem(event.currentOnboardingItem)
         }
     }
 
@@ -26,22 +29,26 @@ class OnboardingViewModel(
     }
 
     private fun getOnboardingItems() = hide {
-        appOnboardingManager.getOnboardingData(fromRemote = false).collect { items ->
-            if (items.isNotEmpty()) {
-                setState { copy(onboardingItems = items, currentOnboardingItem = items.first()) }
+        appOnboardingManager.getOnboardingData(fromRemote = false)
+            .filterNot { items -> items.isEmpty() }
+            .collect { items ->
+                setState { copy(onboardingItems = items) }
             }
+    }
+
+    private fun showNextOnboardingItem(currentOnboardingItem: OnboardingItem) {
+        with(viewState.value) {
+            val index = onboardingItems.indexOfFirst { onboardingItem ->
+                onboardingItem == currentOnboardingItem
+            }
+            val effect = if (index != -1 && index == onboardingItems.lastIndex) {
+                NavigateToAuth
+            } else {
+                SlideToNextOnboardingItem(index + 1)
+            }
+            setEffect { effect }
         }
     }
 
-    private fun showNextOnboardingItem() = with(viewState.value) {
-        val currentOnboardingItemIndex = onboardingItems.indexOfFirst { onboardingItem ->
-            onboardingItem == currentOnboardingItem
-        }
-        if (currentOnboardingItemIndex != -1 && currentOnboardingItemIndex == onboardingItems.lastIndex) {
-            setEffect { NavigateToAuth }
-        } else {
-            val nextOnboardingItem = onboardingItems[currentOnboardingItemIndex + 1]
-            setState { copy(currentOnboardingItem = nextOnboardingItem) }
-        }
-    }
+    private fun requestNotifications() = setEffect { ShowEnableNotificationsDialog }
 }
