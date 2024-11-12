@@ -1,7 +1,7 @@
 package repository.onboarding
 
-import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
+import com.nowiwr01p.model.model.onboarding.OnboardingItem
 
 interface AppOnboardingRepository {
-    suspend fun getOnboardingData(): List<OnboardingItemModel>
+    suspend fun getOnboardingData(): List<OnboardingItem>
 }

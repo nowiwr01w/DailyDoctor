@@ -2,7 +2,7 @@ package manager.onboarding
 
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import com.nowiwr01p.model.extensions.runCatchingApp
-import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
+import com.nowiwr01p.model.model.onboarding.OnboardingItem
 import com.nowiwr01p.model.usecase.execute
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,9 +14,9 @@ class AppOnboardingManagerImpl(
     private val appGetOnboardingDataUseCase: AppGetOnboardingDataUseCase
 ): AppOnboardingManager {
 
-    private val onboardingData = MutableStateFlow<List<OnboardingItemModel>>(listOf())
+    private val onboardingData = MutableStateFlow<List<OnboardingItem>>(listOf())
 
-    override suspend fun getOnboardingData(fromRemote: Boolean): Flow<List<OnboardingItemModel>> {
+    override suspend fun getOnboardingData(fromRemote: Boolean): Flow<List<OnboardingItem>> {
         if (fromRemote) {
             loadOnboardingData()
         }

@@ -1,10 +1,39 @@
 package nowiwr01p.daily.doctor.database.data.storage.onboarding
 
 import com.nowiwr01p.model.model.app_config.config.BrandConfigType
-import com.nowiwr01p.model.model.onboarding.brand_onboardings.getOnboardingItems
+import com.nowiwr01p.model.model.onboarding.OnboardingItem
 import nowiwr01p.daily.doctor.database.domain.storage.onboarding.DatabaseOnboardingStorage
+import nowiwr01p.daily.doctor.database.tables.table.brand.BrandTable
+import nowiwr01p.daily.doctor.database.tables.table.onboarding.OnboardingTable
+import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class DatabaseOnboardingStorageImpl: DatabaseOnboardingStorage {
 
-    override suspend fun getOnboardingData(type: BrandConfigType) = getOnboardingItems() // TODO: Move to PostgreSQL
+    override suspend fun getOnboardingData(type: BrandConfigType) = transaction {
+        val brandId = getBrandId(type)
+        OnboardingTable.selectAll()
+            .where {
+                val sameBrand = OnboardingTable.brand eq brandId
+                val sameLanguage = OnboardingTable.languageCode eq "ru"
+                sameBrand and sameLanguage
+            }
+            .orderBy(OnboardingTable.position to SortOrder.ASC)
+            .map { row ->
+                OnboardingItem(
+                    image = row[OnboardingTable.image],
+                    title = row[OnboardingTable.title],
+                    description = row[OnboardingTable.description],
+                    firstButtonText = row[OnboardingTable.firstButtonText],
+                    secondButtonText = row[OnboardingTable.secondButtonText]
+                )
+            }
+    }
+
+    private fun getBrandId(type: BrandConfigType) = BrandTable.selectAll()
+        .where { BrandTable.brandName eq type.type }
+        .map { row -> row[BrandTable.id] }
+        .first()
 }

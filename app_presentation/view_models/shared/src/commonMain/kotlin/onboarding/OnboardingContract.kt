@@ -3,7 +3,7 @@ package onboarding
 import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
-import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
+import com.nowiwr01p.model.model.onboarding.OnboardingItem
 
 interface OnboardingContract {
     
@@ -13,14 +13,14 @@ interface OnboardingContract {
     }
     
     data class State(
-        val currentOnboardingItem: OnboardingItemModel? = null,
-        val onboardingItems: List<OnboardingItemModel> = listOf()
+        val currentOnboardingItem: OnboardingItem? = null,
+        val onboardingItems: List<OnboardingItem> = listOf()
     ): BaseState
     
     sealed interface Effect: BaseEffect {
         data object NavigateToAuth: Effect
         data object RequestNotifications: Effect
-        data class NavigateToNextOnboardingItem(val onboardingItem: OnboardingItemModel): Effect
+        data class NavigateToNextOnboardingItem(val onboardingItem: OnboardingItem): Effect
     }
 
     interface Listener {

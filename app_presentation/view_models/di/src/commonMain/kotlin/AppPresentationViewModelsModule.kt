@@ -7,7 +7,6 @@ import kotlinx.coroutines.CoroutineScope
 import manager.brand_config.AppBrandConfigManager
 import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import onboarding.OnboardingViewModel
-import com.nowiwr01p.model.model.onboarding.brand_onboardings.OnboardingItem
 import manager.onboarding.AppOnboardingManager
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel

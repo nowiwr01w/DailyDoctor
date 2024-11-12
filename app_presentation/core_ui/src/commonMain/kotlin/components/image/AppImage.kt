@@ -14,7 +14,7 @@ fun AppImage(
     image: DrawableResource,
     modifier: Modifier = Modifier,
     color: Color? = null,
-    scale: ContentScale = ContentScale.Fit,
+    scale: ContentScale = ContentScale.Fit
 ) {
     Image(
         painter = painterResource(image),

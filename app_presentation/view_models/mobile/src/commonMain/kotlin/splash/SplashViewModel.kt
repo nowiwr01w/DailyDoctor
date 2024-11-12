@@ -1,10 +1,7 @@
 package splash
 
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
-import com.nowiwr01p.model.extensions.runCatchingApp
-import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
 import com.nowiwr01p.model.usecase.execute
-import view_model.BaseViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
@@ -15,12 +12,13 @@ import kotlinx.coroutines.launch
 import manager.brand_config.AppBrandConfigManager
 import manager.onboarding.AppOnboardingManager
 import splash.SplashContract.Effect
-import splash.SplashContract.Effect.*
+import splash.SplashContract.Effect.NavigateToHome
+import splash.SplashContract.Effect.NavigateToOnboarding
 import splash.SplashContract.Event
 import splash.SplashContract.State
 import splash.data.SplashAnimationState
-import usecase.onboarding.AppGetOnboardingDataUseCase
 import user.usecase.GetLocalUserUseCase
+import view_model.BaseViewModel
 
 class SplashViewModel(
     scope: CoroutineScope,

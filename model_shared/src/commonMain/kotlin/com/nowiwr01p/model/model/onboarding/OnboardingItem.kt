@@ -1,6 +1,9 @@
 package com.nowiwr01p.model.model.onboarding
 
-data class OnboardingItemApp(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class OnboardingItem(
     val image: String,
     val title: String,
     val description: String,

@@ -2,32 +2,6 @@
     <!-- APP NAME -->
     <string name="app_name" translatable="false">Call Doctor</string>
 
-    <!-- ONBOARDING -->
-    <!-- ONBOARDING -->
-    <!-- ONBOARDING -->
-    <!-- ONBOARDING -->
-    <!-- ONBOARDING -->
-    <string name="onboarding_remote_meeting_title">Онлайн-консультации с врачами в чате</string>
-    <string name="onboarding_remote_meeting_description">Дома, на даче, в отпуске или даже на работе</string>
-    <string name="onboarding_remote_meeting_button_text">Очень интересно!</string>
-    <!-- ONBOARDING - UNLIMITED COMMUNICATION-->
-    <string name="onboarding_unlimited_communication_title">Безлимитные обращения - мы на связи 24/7</string>
-    <string name="onboarding_unlimited_communication_description">Пишите, когда болит или когда нужно просто спросить</string>
-    <string name="onboarding_unlimited_communication_button_text">Класс, а что еще?</string>
-    <!-- ONBOARDING - FOR WHOLE FAMILY -->
-    <string name="onboarding_for_whole_family_title">Для всей семьи - себе, детям и родителям</string>
-    <string name="onboarding_for_whole_family_description">И мужу, который сам бы не пошел к врачу</string>
-    <string name="onboarding_for_whole_family_button_text">Это мне надо</string>
-    <!-- ONBOARDING - SAVINGS -->
-    <string name="onboarding_savings_title">Экономия на очных визитах к врачу</string>
-    <string name="onboarding_savings_description">А еще эксклюзивные скидки на анализы до 25%</string>
-    <string name="onboarding_savings_button_text">Отлично!</string>
-    <!-- ONBOARDING NOTIFICATIONS -->
-    <string name="onboarding_notifications_title">Не пропустите ответ врача на ваще сообщение</string>
-    <string name="onboarding_notifications_description">И спокойно занимайтесь другими делами</string>
-    <string name="onboarding_notifications_button_text_ok">Разрешить уведомления</string>
-    <string name="onboarding_notifications_button_text_no">Не сейчас</string>
-
     <!-- AUTH -->
     <!-- AUTH -->
     <!-- AUTH -->

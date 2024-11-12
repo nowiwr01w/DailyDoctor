@@ -1,6 +1,5 @@
 package screens.onboarding
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,22 +24,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.nowiwr01p.model.model.onboarding.OnboardingItem
+import components.image.RemoteImage
 import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import com.nowiwr01p.model.model.onboarding.OnboardingItemModel
-import theme.CustomTheme.colors
 import observers.EffectObserver
 import onboarding.OnboardingContract.Effect
 import onboarding.OnboardingContract.Event
 import onboarding.OnboardingContract.Listener
 import onboarding.OnboardingContract.State
 import onboarding.OnboardingViewModel
-import com.nowiwr01p.model.model.onboarding.brand_onboardings.OnboardingItem.NotificationsOnboardingItem
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import theme.AppThemePreview
+import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
@@ -103,8 +100,10 @@ private fun OnboardingMainScreenContent(
             OnboardingItemView(
                 item = currentOnboardingItem,
                 onShowNextItemClicked = {
-                    when (currentOnboardingItem) {
-                        is NotificationsOnboardingItem -> listener?.onEnableNotificationsClick()
+                    when {
+                        currentOnboardingItem.secondButtonText.isNotEmpty() -> {
+                            listener?.onEnableNotificationsClick()
+                        }
                         else -> listener?.showNextOnboardingItem()
                     }
                 }
@@ -122,7 +121,7 @@ private fun OnboardingMainScreenContent(
  */
  @Composable
 private fun OnboardingItemView(
-    item: OnboardingItemModel,
+    item: OnboardingItem,
     onShowNextItemClicked: () -> Unit
 ) {
     val iconWidth by rememberUpdatedState(0.8 * getScreenWidth())
@@ -132,15 +131,14 @@ private fun OnboardingItemView(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Image(
-            painter = painterResource(item.image),
-            contentDescription = "",
+        RemoteImage(
+            url = item.image,
             modifier = Modifier
                 .padding(top = 16.dp)
                 .size(iconWidth)
         )
         Text(
-            text = stringResource(item.title),
+            text = item.title,
             color = colors.textColors.blackTextColor,
             style = MaterialTheme.typography.h3,
             modifier = Modifier
@@ -159,7 +157,7 @@ private fun OnboardingItemView(
                 )
         ) {
             Text(
-                text = stringResource(item.description),
+                text = item.description,
                 color = colors.textColors.grayTextColor,
                 style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 64.dp)
@@ -177,12 +175,12 @@ private fun OnboardingItemView(
                 backgroundColor = colors.backgroundColors.redBackgroundColor
             ),
             modifier = Modifier
-                .padding(top = if (item.secondButtonText != null) 48.dp else 0.dp)
+                .padding(top = if (item.secondButtonText.isNotEmpty()) 48.dp else 0.dp)
                 .fillMaxWidth()
                 .height(56.dp)
                 .clip(MaterialTheme.shapes.large)
         ) {
-            Text(text = stringResource(item.firstButtonText))
+            Text(text = item.firstButtonText)
         }
     }
 }
