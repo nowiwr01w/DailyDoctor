@@ -72,6 +72,12 @@ include(":database:domain")
 include(":database:data")
 include(":database:tables")
 include(":database:di")
+include(":database:init_values")
+
+/**
+ * ENCRYPTION
+ */
+include(":encryption")
 
 /**
  * LOCAL DATABASE
@@ -106,4 +112,3 @@ include(":tg_sms")
 include(":tg_sms:domain")
 include(":tg_sms:data")
 include(":tg_sms:di")
-include(":database:init_values")
