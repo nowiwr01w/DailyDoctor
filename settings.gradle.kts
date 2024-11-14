@@ -75,11 +75,6 @@ include(":database:di")
 include(":database:init_values")
 
 /**
- * ENCRYPTION
- */
-include(":encryption")
-
-/**
  * LOCAL DATABASE
  */
 include(":local_database")
