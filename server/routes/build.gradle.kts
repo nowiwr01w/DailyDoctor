@@ -14,6 +14,11 @@ dependencies {
      */
     implementation(projects.server.domain)
     /**
+     * ENCRYPTION
+     */
+    implementation(projects.encryption.shared)
+    implementation(projects.encryption.server)
+    /**
      * DEPENDENCIES
      */
     implementation(libs.bundles.server)

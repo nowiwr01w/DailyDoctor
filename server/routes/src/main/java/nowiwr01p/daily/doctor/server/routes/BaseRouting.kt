@@ -4,17 +4,20 @@ import com.nowiwr01p.model.api.errors.RouteError
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
+import io.ktor.server.request.receiveNullable
 import io.ktor.server.response.header
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.RoutingContext
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import nowiwr01p.daily.doctor.encryption.server.EncryptionServer
+import nowiwr01p.daily.doctor.encryption.shared.data.EncryptedData
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 abstract class BaseRouting: KoinComponent {
 
     protected val json by inject<Json>()
+    protected val encryptionHelper by inject<EncryptionServer>()
 
     /**
      * SUCCESS
@@ -39,11 +42,6 @@ abstract class BaseRouting: KoinComponent {
         message = message ?: SERVER_ERROR
     )
 
-    protected suspend inline fun <reified T> RoutingContext.sendNoRequestError() = sendRoutingError(
-        code = HttpStatusCode.BadRequest,
-        message = "No ${T::class.java.simpleName} provided or it's serialized wrong."
-    )
-
     protected suspend fun RoutingContext.sendRoutingError(
         code: HttpStatusCode,
         message: String
@@ -61,16 +59,65 @@ abstract class BaseRouting: KoinComponent {
         model: T,
         code: HttpStatusCode
     ) {
-        json.encodeToString(model).let { jsonModel ->
+        encryptionHelper.encodeFromServerToClient(model).let { encryptedModel ->
             call.response.header(
                 name = HttpHeaders.ContentLength,
-                value = jsonModel.length.toString()
+                value = encryptedModel.length.toString()
+            )
+            call.response.header(
+                name = "ascii",
+                value = encryptionHelper.getPublicKey()
             )
             call.respondText(
-                text = jsonModel,
+                text = encryptedModel,
                 contentType = ContentType.Application.Json,
                 status = code
             )
+        }
+    }
+
+    protected suspend inline fun <reified T> RoutingContext.getParameter(
+        name: String,
+        paramAsType: (stringParam: String) -> T?,
+        missingParameterIsError: Boolean = true,
+        noinline validateParameterCallback: ((body: T) -> T)? = null
+    ): T? {
+        val stringParam = call.queryParameters[name] ?: run {
+            if (missingParameterIsError) {
+                sendRoutingError(
+                    code = HttpStatusCode.BadRequest,
+                    message = "No parameter with name=[$name] provided."
+                )
+            }
+            return null
+        }
+        val param = paramAsType(stringParam) ?: run {
+            if (missingParameterIsError) {
+                sendRoutingError(
+                    code = HttpStatusCode.BadRequest,
+                    message = "Cannot convert parameter with name=[$name] to type ${T::class.java.simpleName}."
+                )
+            }
+            return null
+        }
+        return validateParameterCallback?.invoke(param) ?: param
+    }
+
+    protected suspend inline fun <reified T> RoutingContext.getRequestBody(
+        noinline validateBodyCallback: ((body: T) -> T)? = null
+    ): T? {
+        val requestBodyEncryptedData = call.receiveNullable<EncryptedData>() ?: run {
+            sendRoutingError(
+                code = HttpStatusCode.BadRequest,
+                message = "No ${T::class.java.simpleName} provided or it's serialized wrong."
+            )
+            return null
+        }
+        return encryptionHelper.decodeOnServerFromClient<T>(requestBodyEncryptedData).let { data ->
+            when {
+                validateBodyCallback == null -> data
+                else -> validateBodyCallback(data)
+            }
         }
     }
 

@@ -10,6 +10,11 @@ dependencies {
      */
     implementation(projects.modelShared)
     /**
+     * ENCRYPTION
+     */
+    implementation(projects.encryption.di)
+    implementation(projects.encryption.server)
+    /**
      * SERVER
      */
     implementation(projects.server.domain)

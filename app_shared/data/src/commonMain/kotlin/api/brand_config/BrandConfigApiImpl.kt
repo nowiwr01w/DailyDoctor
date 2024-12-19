@@ -12,7 +12,8 @@ class BrandConfigApiImpl: BaseApi(AppApiClientSettings), BrandConfigApi {
     override suspend fun loadBrandConfig() = getHttp<BrandConfig>(
         route = GetBrandConfigRoute,
         parameters = listOf(
-            ApiParameter(name = "type", data = currentBrandConfigType.type)
+            ApiParameter(name = "type", data = currentBrandConfigType.type),
+            ApiParameter(name = "key", data = encryptionHelper.initPublicKey()),
         )
     )
 }

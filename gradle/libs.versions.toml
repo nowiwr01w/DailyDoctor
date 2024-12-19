@@ -98,6 +98,16 @@ exposed = { module = "org.jetbrains.exposed:exposed-spring-boot-starter", versio
 ### KOTTIE AKA LOTTIE ###
 #########################
 kottie = { module = "io.github.ismai117:kottie", version.ref = "kottie" }
+##################
+### ENCRYPTION ###
+##################
+cryptography-core = { module = "dev.whyoleg.cryptography:cryptography-core", version.ref = "encryption"}
+cryptography-random = { module = "dev.whyoleg.cryptography:cryptography-random", version.ref = "encryption" }
+cryptography-provider-jdk = { module = "dev.whyoleg.cryptography:cryptography-provider-jdk", version.ref = "encryption" }
+cryptography-provider-webcrypto = { module = "dev.whyoleg.cryptography:cryptography-provider-webcrypto", version.ref = "encryption" }
+cryptography-provider-apple = { module = "dev.whyoleg.cryptography:cryptography-provider-apple", version.ref = "encryption" }
+cryptography-provider-openssl3-shared = { module = "dev.whyoleg.cryptography:cryptography-provider-openssl3-shared", version.ref = "encryption" }
+cryptography-provider-openssl3-prebuilt = { module = "dev.whyoleg.cryptography:cryptography-provider-openssl3-prebuilt", version.ref = "encryption" }
 
 [bundles]
 base-app = [
@@ -125,11 +135,13 @@ base-app = [
 ]
 ios = [
     "napier",
-    "ktor-client-ios"
+    "ktor-client-ios",
+    "cryptography-provider-apple"
 ]
 desktop = [
     "napier",
-    "ktor-client-desktop"
+    "ktor-client-desktop",
+    "cryptography-provider-jdk"
 ]
 android = [
     "android-ktx",
@@ -141,10 +153,12 @@ android = [
     "compose-ui-tooling-preview",
     "napier",
     "koin-android",
-    "ktor-client-android"
+    "ktor-client-android",
+    "cryptography-provider-jdk"
 ]
 web = [
-    "ktor-client-js"
+    "ktor-client-js",
+    "cryptography-provider-webcrypto"
 ]
 server = [
     "coroutines",
@@ -185,6 +199,13 @@ local-database = [
 ]
 server-test = [
     "kotlin-test-junit"
+]
+encryption = [
+    "coroutines",
+    "cryptography-core",
+    "cryptography-random",
+    "koin",
+    "kotlin-serialization-json"
 ]
 
 [versions]
@@ -254,3 +275,7 @@ postgree = "42.7.3"
 ### KOTTIE AKA LOTTIE ###
 #########################
 kottie = "1.8.3"
+##################
+### ENCRYPTION ###
+##################
+encryption = "0.4.0"

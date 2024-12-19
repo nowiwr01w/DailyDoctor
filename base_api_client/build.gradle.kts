@@ -40,6 +40,8 @@ kotlin {
                  */
                 implementation(projects.modelShared)
                 implementation(projects.appShared.platform)
+                implementation(projects.encryption.client)
+                implementation(projects.encryption.shared)
                 /**
                  * KOIN
                  */
@@ -62,18 +64,16 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.bundles.android)
         }
-        iosMain.dependencies {
-            implementation(libs.bundles.ios)
-        }
         val desktopMain by getting {
             dependencies {
                 implementation(libs.bundles.desktop)
             }
         }
-        val wasmJsMain by getting {
-            dependencies {
-                implementation(libs.bundles.web)
-            }
+        iosMain.dependencies {
+            implementation(libs.bundles.ios)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.bundles.web)
         }
     }
 }

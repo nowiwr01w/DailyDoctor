@@ -2,6 +2,7 @@ package nowiwr01p.daily.doctor.server.di
 
 import com.nowiwr01p.model.di.moduleBaseCoroutines
 import nowiwr01p.daily.doctor.database.di.databaseModules
+import nowiwr01p.daily.doctor.encryption.di.moduleEncryption
 import nowiwr01p.daily.doctor.server.di.repository.moduleServerRepository
 import nowiwr01p.daily.doctor.server.di.routing.moduleServerRouting
 import nowiwr01p.daily.doctor.server.di.token.moduleServerToken
@@ -18,4 +19,4 @@ private val allServerModules = listOf(
     moduleServerWorks
 )
 
-val serverModules = allServerModules + databaseModules + tgSmsModules
+val serverModules = allServerModules + databaseModules + tgSmsModules + moduleEncryption

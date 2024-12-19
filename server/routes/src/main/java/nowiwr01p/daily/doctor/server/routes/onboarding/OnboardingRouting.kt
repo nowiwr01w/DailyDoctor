@@ -14,17 +14,12 @@ class OnboardingRouting(
 ): BaseRouting() {
 
     fun getOnboardingData(route: Route) = route.get(GetOnboardingDataRoute.route) {
-        val type = call.queryParameters["type"] ?: run {
-            sendNoRequestError<BrandConfigType>()
-            return@get
-        }
-        val brandConfigType = BrandConfigType.entries.find { it.type == type } ?: run {
-            sendRoutingError(
-                code = HttpStatusCode.BadRequest,
-                message = "Wrong [type] parameter at ${GetOnboardingDataRoute.route} route"
-            )
-            return@get
-        }
+        val brandConfigType = getParameter<BrandConfigType>(
+            name = "type",
+            paramAsType = { stringParam ->
+                BrandConfigType.entries.find { stringParam == it.type }
+            }
+        ) ?: return@get
         runCatchingApp {
             serverGetOnboardingDataUseCase.execute(brandConfigType)
         }.onSuccess { onboardingData ->

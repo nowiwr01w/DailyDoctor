@@ -25,6 +25,7 @@ import nowiwr01p.daily.doctor.base_api_client.api.base.ApiParameter
 import nowiwr01p.daily.doctor.base_api_client.api.base.ApiResult
 import nowiwr01p.daily.doctor.base_api_client.api.base.HttpRequestType
 import nowiwr01p.daily.doctor.base_api_client.api.base.HttpRequestType.*
+import nowiwr01p.daily.doctor.encryption.client.EncryptionClient
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -32,31 +33,36 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
 
     protected val json by inject<Json>()
     protected val client by inject<HttpClient>()
+    protected val encryptionHelper by inject<EncryptionClient>()
 
     /**
      * GET
      */
     protected suspend inline fun <reified T> getHttp(
         route: Route,
-        parameters: List<ApiParameter> = listOf()
+        parameters: List<ApiParameter> = listOf(),
+        crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
         return baseHttpRequest<T, NoErrorExpected>(
             type = GET,
             route = route,
-            parameters = parameters
+            parameters = parameters,
+            headers = headers
         )
     }
 
     protected suspend inline fun <reified T, reified E: ExpectedError> getHttp(
         route: Route,
         parameters: List<ApiParameter> = listOf(),
-        handleError: (E) -> Unit
+        handleError: (E) -> Unit,
+        crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
         return baseHttpRequest<T, E>(
             type = GET,
             route = route,
             parameters = parameters,
-            handleError = handleError
+            handleError = handleError,
+            headers = headers
         )
     }
 
@@ -66,30 +72,28 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
     protected suspend inline fun <reified T> postHttp(
         route: Route,
         requestBody: Any? = null,
-        crossinline headers: HeadersBuilder.() -> Unit = {},
-        parameters: List<ApiParameter> = listOf()
+        crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
         return baseHttpRequest<T, NoErrorExpected>(
             type = POST,
             route = route,
             requestBody = requestBody,
-            headers = headers,
-            parameters = parameters
+            headers = headers
         )
     }
 
     protected suspend inline fun <reified T, reified E: ExpectedError> postHttp(
         route: Route,
         requestBody: Any? = null,
-        parameters: List<ApiParameter> = listOf(),
-        handleError: (E) -> Unit
+        handleError: (E) -> Unit,
+        crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
         return baseHttpRequest<T, E>(
             type = POST,
             route = route,
-            parameters = parameters,
             requestBody = requestBody,
-            handleError = handleError
+            handleError = handleError,
+            headers = headers
         )
     }
 
@@ -99,26 +103,30 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
     protected suspend inline fun <reified T> deleteHttp(
         route: Route,
         requestBody: Any? = null,
-        parameters: List<ApiParameter> = listOf()
+        parameters: List<ApiParameter> = listOf(),
+        crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
         return baseHttpRequest<T, NoErrorExpected>(
             type = DELETE,
             route = route,
             requestBody = requestBody,
-            parameters = parameters
+            parameters = parameters,
+            headers = headers
         )
     }
 
     protected suspend inline fun <reified T, reified E: ExpectedError> deleteHttp(
         route: Route,
         body: Any? = null,
-        handleError: (E) -> Unit
+        handleError: (E) -> Unit,
+        crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
         return baseHttpRequest<T, E>(
             type = DELETE,
             route = route,
             requestBody = body,
-            handleError = handleError
+            handleError = handleError,
+            headers = headers
         )
     }
 
@@ -133,6 +141,9 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
         parameters: List<ApiParameter> = listOf(),
         handleError: (E) -> Unit = {}
     ): T {
+//        val encodedBody = requestBody?.let { body ->
+//            encryptionHelper.encodeFromClientToServer(body)
+//        }
         val httpCallback: HttpRequestBuilder.() -> Unit = {
             url("${apiClientSettings.baseUrl}/${route.route}")
             headers {
@@ -140,7 +151,7 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
                 header(HttpHeaders.Accept, ContentType.Application.Json.toString())
                 headers()
             }
-            requestBody?.let {
+            requestBody?.let { body ->
                 setBody(requestBody)
             }
             parameters.forEach { param ->
@@ -149,21 +160,15 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
                 }
             }
         }
-        val stringResponse = when (type) {
+        val httpResponse = when (type) {
             GET -> client.get(httpCallback)
             POST -> client.post(httpCallback)
             DELETE -> client.delete(httpCallback)
         }
-        val apiResult = safeApiCall<T, E>(
-            route = route,
-            bodyString = stringResponse.body<String>()
-        )
-        return when (apiResult) {
-            is ApiResult.Success -> apiResult.data
-            is ApiResult.Error -> {
-                handleError(apiResult.errorData)
-                throw ExpectedError(apiResult.errorData.message)
-            }
+        val publickey = httpResponse.headers["ascii"].orEmpty()
+        encryptionHelper.setOtherSidePublicKey(publickey)
+        return httpResponse.body<String>().let { body ->
+            encryptionHelper.decodeOnClientFromServer<T>(body)
         }
     }
 

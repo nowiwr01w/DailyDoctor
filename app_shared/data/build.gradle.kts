@@ -57,6 +57,11 @@ kotlin {
                  */
                 implementation(projects.localDatabase.domain)
                 /**
+                 * ENCRYPTION
+                 */
+                implementation(projects.encryption.shared)
+                implementation(projects.encryption.client)
+                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.bundles.base.app)

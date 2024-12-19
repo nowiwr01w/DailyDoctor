@@ -27,11 +27,8 @@ class PinCodeRouting(
 ): BaseRouting() {
 
     fun createPinCode(route: Route) = route.post(CreatePinRoute.route) {
-        val request = call.receiveNullable<CreatePinCodeRequest>() ?: run {
-            sendNoRequestError<CreatePinCodeRequest>()
-            return@post
-        }
         runCatchingApp {
+            val request = getRequestBody<CreatePinCodeRequest>() ?: return@post
             createPinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
             respondWithSuccessModel(tokenResponse)
@@ -41,11 +38,8 @@ class PinCodeRouting(
     }
 
     fun checkPinCode(route: Route) = route.post(CheckPinRoute.route) {
-        val request = call.receiveNullable<CheckPinCodeRequest>() ?: run {
-            sendNoRequestError<CheckPinCodeRequest>()
-            return@post
-        }
         runCatchingApp {
+            val request = getRequestBody<CheckPinCodeRequest>() ?: return@post
             checkPinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
             respondWithSuccessModel(tokenResponse)
@@ -55,11 +49,8 @@ class PinCodeRouting(
     }
 
     fun changePinCode(route: Route) = route.post(ChangePinRoute.route) {
-        val request = call.receiveNullable<ChangePinCodeRequest>() ?: run {
-            sendNoRequestError<ChangePinCodeRequest>()
-            return@post
-        }
         runCatchingApp {
+            val request = getRequestBody<ChangePinCodeRequest>() ?: return@post
             changePinCodeUseCase.execute(request)
         }.onSuccess { tokenResponse ->
             respondWithSuccessModel(tokenResponse)

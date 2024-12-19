@@ -20,10 +20,7 @@ class VerificationRouting(
 
     fun sendVerificationCode(route: Route) = route.post(SendVerificationCodeRoute.route) {
         runCatchingApp {
-            val request = call.receiveNullable<SendVerificationCodeRequest>() ?: run {
-                sendNoRequestError<SendVerificationCodeRequest>()
-                return@post
-            }
+            val request = getRequestBody<SendVerificationCodeRequest>() ?: return@post
             serverSendVerificationCodeUseCase.execute(request)
         }.onSuccess { sendVerificationCodeResponse ->
             respondWithSuccessModel(sendVerificationCodeResponse)
@@ -34,10 +31,7 @@ class VerificationRouting(
 
     fun checkVerificationCode(route: Route) = route.post(CheckVerificationCodeRoute.route) {
         runCatchingApp {
-            val request = call.receiveNullable<CheckVerificationCodeRequest>() ?: run {
-                sendNoRequestError<CheckVerificationCodeRequest>()
-                return@post
-            }
+            val request = getRequestBody<CheckVerificationCodeRequest>() ?: return@post
             serverCheckVerificationCodeUseCase.execute(request)
         }.onSuccess { checkVerificationCodeResponse ->
             respondWithSuccessModel(checkVerificationCodeResponse)

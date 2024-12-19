@@ -1,6 +1,7 @@
 package nowiwr01p.daily.doctor.server.di.routing
 
 import kotlinx.serialization.json.Json
+import nowiwr01p.daily.doctor.encryption.server.EncryptionServer
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignInUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignUpUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.brand_config.ServerGetBrandConfigUseCase
@@ -33,7 +34,10 @@ internal val moduleServerRouting = module {
      * BRAND CONFIG
      */
     factory {
-        BrandConfigRouting(serverGetBrandConfigUseCase = get<ServerGetBrandConfigUseCase>())
+        BrandConfigRouting(
+            serverGetBrandConfigUseCase = get<ServerGetBrandConfigUseCase>(),
+            encryptionServer = get<EncryptionServer>()
+        )
     }
     /**
      * ONBOARDING

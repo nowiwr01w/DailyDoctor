@@ -20,10 +20,7 @@ class AuthRouting(
 
     fun signIn(route: Route) = route.post(SingInRoute.route) {
         runCatchingApp {
-            val signInRequest = call.receiveNullable<SignInRequest>() ?: run {
-                sendNoRequestError<SignInRequest>()
-                return@post
-            }
+            val signInRequest = getRequestBody<SignInRequest>() ?: return@post
             serverSignInUseCase.execute(signInRequest)
         }.onSuccess { tokenResponse ->
             respondWithSuccessModel(tokenResponse)
@@ -34,10 +31,7 @@ class AuthRouting(
 
     fun signUp(route: Route) = route.post(SingUpRoute.route) {
         runCatchingApp {
-            val signUpRequest = call.receiveNullable<SignUpRequest>() ?: run {
-                sendNoRequestError<SignUpRequest>()
-                return@post
-            }
+            val signUpRequest = getRequestBody<SignUpRequest>() ?: return@post
             serverSignUpUseCase.execute(signUpRequest)
         }.onSuccess { tokenResponse ->
             respondWithSuccessModel(tokenResponse)

@@ -51,6 +51,7 @@ kotlin {
                 implementation(projects.appShared.works)
                 implementation(projects.appShared.works.di)
                 implementation(projects.appShared.config.di)
+                implementation(projects.encryption.di)
                 /**
                  * LOCAL DATABASE
                  */

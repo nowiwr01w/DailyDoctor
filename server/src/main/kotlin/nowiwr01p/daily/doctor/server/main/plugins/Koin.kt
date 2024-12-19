@@ -9,7 +9,6 @@ import org.koin.logger.slf4jLogger
 
 internal fun Application.configureKoin() {
     install(Koin) {
-        slf4jLogger(level = Level.DEBUG)
         modules(serverModules)
     }
 }
