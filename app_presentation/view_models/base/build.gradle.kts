@@ -62,6 +62,7 @@ kotlin {
                  */
                 implementation(libs.koin.compose)
                 implementation(libs.coroutines)
+                implementation(libs.bundles.base.app)
             }
         }
         androidMain.dependencies {

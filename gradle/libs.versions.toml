@@ -48,6 +48,14 @@ koin-android = { module = "io.insert-koin:koin-androidx-compose", version.ref = 
 datastore = { module = "com.russhwolf:multiplatform-settings", version.ref = "datastore" }
 datastore-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "datastore" }
 datastore-serialization = { module = "com.russhwolf:multiplatform-settings-serialization", version.ref = "datastore" }
+###########
+### MVI ###
+###########
+mvi-core = { module = "pro.respawn.flowmvi:core", version.ref = "flowmvi" }
+mvi-compose = { module = "pro.respawn.flowmvi:compose", version.ref = "flowmvi" }
+mvi-savedstate = { module = "pro.respawn.flowmvi:savedstate", version.ref = "flowmvi" }
+mvi-essenty = { module = "pro.respawn.flowmvi:essenty", version.ref = "flowmvi" }
+mvi-essenty-compose = { module = "pro.respawn.flowmvi:essenty-compose", version.ref = "flowmvi" }
 ##################
 ### COROUTINES ###
 ##################
@@ -106,12 +114,9 @@ cryptography-random = { module = "dev.whyoleg.cryptography:cryptography-random",
 cryptography-provider-jdk = { module = "dev.whyoleg.cryptography:cryptography-provider-jdk", version.ref = "encryption" }
 cryptography-provider-webcrypto = { module = "dev.whyoleg.cryptography:cryptography-provider-webcrypto", version.ref = "encryption" }
 cryptography-provider-apple = { module = "dev.whyoleg.cryptography:cryptography-provider-apple", version.ref = "encryption" }
-cryptography-provider-openssl3-shared = { module = "dev.whyoleg.cryptography:cryptography-provider-openssl3-shared", version.ref = "encryption" }
-cryptography-provider-openssl3-prebuilt = { module = "dev.whyoleg.cryptography:cryptography-provider-openssl3-prebuilt", version.ref = "encryption" }
 
 [bundles]
 base-app = [
-#    "koin",
     "koin-compose",
     "decompose",
     "decompose-extensions",
@@ -131,7 +136,12 @@ base-app = [
     "coil",
     "coil-network-images",
     "coil-network-cache-control",
-    "kottie"
+    "kottie",
+    "mvi-core",
+    "mvi-compose",
+    "mvi-savedstate",
+    "mvi-essenty",
+    "mvi-essenty-compose"
 ]
 ios = [
     "napier",
@@ -213,9 +223,9 @@ encryption = [
 ### BUILD CONFIG ###
 ####################
 android-minSdk = "26"
-android-compileSdk = "34"
-android-targetSdk = "34"
-compose-plugin = "1.6.11"
+android-compileSdk = "35"
+android-targetSdk = "35"
+compose-plugin = "1.7.0"
 ##############
 ### GRADLE ###
 ##############
@@ -223,22 +233,22 @@ agp = "8.2.2"
 ##############
 ### KOTLIN ###
 ##############
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 kotlin-date-time = "0.6.1"
 kotlin-serialization-json = "1.7.3"
 ###############
 ### COMPOSE ###
 ###############
-compose = "1.7.4"
+compose = "1.7.6"
 compose-activity = "1.9.3"
 compose-constraint = "0.3.1"
-android-ktx = "1.13.1"
+android-ktx = "1.15.0"
 android-appcompat = "1.7.0"
 ##################
 ### NAVIGATION ###
 ##################
-decompose = "3.0.0-alpha09"
-essenty = "2.0.0-alpha07"
+decompose = "3.0.0-beta01"
+essenty = "2.3.0"
 ##############
 ### KOIN ###
 ##############
@@ -248,6 +258,10 @@ koin-compose = "4.0.0"
 ### DATASTORE ###
 #################
 datastore = "1.2.0"
+###########
+### MVI ###
+###########
+flowmvi = "3.1.0-beta06"
 ##################
 ### COROUTINES ###
 ##################
@@ -260,7 +274,7 @@ logback = "1.5.7"
 ###########################
 ### LOAD NETWORK IMAGES ###
 ###########################
-coil = "3.0.2"
+coil = "3.0.4"
 ############
 ### KTOR ###
 ############

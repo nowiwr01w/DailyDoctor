@@ -1,0 +1,4 @@
+package navigation
+
+interface AppNavigator {
+}
