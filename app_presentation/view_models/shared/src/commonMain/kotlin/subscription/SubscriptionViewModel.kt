@@ -1,8 +1,8 @@
 package subscription
 
 import com.nowiwr01p.model.extensions.runCatchingApp
-import components.button.ButtonState.DEFAULT
-import components.button.ButtonState.SEND_REQUEST
+import components.button.ButtonState.DARK_GRAY_ACTIVE
+import components.button.ButtonState.DARK_GRAY_PROGRESS
 import components.button.ButtonState.SUCCESS
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -72,11 +72,11 @@ class SubscriptionViewModel(scope: CoroutineScope): BaseViewModel<Event, State, 
             // TODO: Send analytics
             setEffect { Effect.NavigateToHome }
         }
-        setState { copy(subscribeButtonState = SEND_REQUEST) }
+        setState { copy(subscribeButtonState = DARK_GRAY_PROGRESS) }
         delay(3000)
         setState { copy(subscribeButtonState = SUCCESS) }
         delay(3000)
-        setState { copy(subscribeButtonState = DEFAULT) }
+        setState { copy(subscribeButtonState = DARK_GRAY_ACTIVE) }
     }
 
     companion object {

@@ -58,7 +58,7 @@ import auth.AuthContract.State
 import auth.AuthViewModel
 import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
-import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.button.StateButton
 import components.input_field.CustomTextField
 import extensions.BaseScreen
@@ -72,7 +72,6 @@ import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import model.errors.auth.AuthTextFieldType.PHONE
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.AuthChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.*
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.auth_agree_with_policies_title
@@ -402,7 +401,7 @@ private fun AuthButton(
             stringResource(textResId)
         },
         state = state.buttonState,
-        enabled = state.buttonState == DEFAULT,
+        enabled = state.buttonState == DARK_GRAY_ACTIVE,
         onClick = {
             listener.onAuthClicked()
             focusManager.clearFocus()

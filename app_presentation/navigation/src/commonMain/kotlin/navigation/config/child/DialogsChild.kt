@@ -12,4 +12,9 @@ sealed class DialogsChild(
      * COMPONENT
      */
     override lateinit var baseComponent: BaseViewModelComponent
+    /**
+     * DIALOGS
+     */
+    @Serializable
+    data object ExitAppChild: DialogsChild()
 }

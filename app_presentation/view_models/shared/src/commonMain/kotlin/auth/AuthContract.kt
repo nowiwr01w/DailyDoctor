@@ -8,7 +8,7 @@ import model.errors.auth.AuthTextFieldType
 import auth.data.AuthType
 import auth.data.AuthType.SIGN_UP
 import components.button.ButtonState
-import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.DARK_GRAY_ACTIVE
 
 interface AuthContract {
 
@@ -28,7 +28,7 @@ interface AuthContract {
         val passwordConfirmation: String = "",
         val authError: AuthError? = null,
         val isUserInputHidden: Boolean = true,
-        val buttonState: ButtonState = DEFAULT,
+        val buttonState: ButtonState = DARK_GRAY_ACTIVE,
         val privacyPolicyUrl: String = "" // TODO
     ): BaseState
 

@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import components.button.ButtonState
-import components.button.ButtonState.DEFAULT
-import components.button.ButtonState.SEND_REQUEST
+import components.button.ButtonState.DARK_GRAY_ACTIVE
+import components.button.ButtonState.DARK_GRAY_PROGRESS
 import components.button.ButtonState.SUCCESS
 import extensions.BaseScreen
 import getScreenWidth
@@ -246,10 +246,10 @@ private fun DotItem(
     modifier: Modifier
 ) {
     val color = when (buttonState) {
-        DEFAULT -> colors.backgroundColors.grayBackgroundColor.copy(
+        DARK_GRAY_ACTIVE -> colors.backgroundColors.grayBackgroundColor.copy(
             alpha = if (isActive) 1f else 0.2f
         )
-        SEND_REQUEST -> Color(0xFF16A34A) // TODO: To colors
+        DARK_GRAY_PROGRESS -> Color(0xFF16A34A) // TODO: To colors
         SUCCESS -> Color(0xFF16A34A)
         else -> Color(0xFFE34446)
     }

@@ -22,7 +22,7 @@ interface SubscriptionContract {
     data class State(
         val plan: SubscriptionType = Base,
         val period: SubscriptionPeriod = Yearly,
-        val subscribeButtonState: ButtonState = ButtonState.DEFAULT,
+        val subscribeButtonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE,
         val closeSecondsLeft: Int = CONTINUE_BUTTON_SECONDS
     ): BaseState
 

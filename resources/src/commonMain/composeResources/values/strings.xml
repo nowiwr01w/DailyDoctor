@@ -99,4 +99,14 @@
     <string name="subscription_benefit_paid_questions_standard">Приоритет вашего диалога - высокий, выделение чата у доктора цветом. Доктор ответит в течение трёх дней</string>
     <string name="subscription_benefit_paid_questions_premium">Ваш чат находится на первых позициях, выделение чата у доктора ярким цветом. Доктор ответит в этот же день</string>
 
+    <!-- DIALOGS -->
+    <!-- DIALOGS -->
+    <!-- DIALOGS -->
+    <!-- DIALOGS -->
+    <!-- DIALOGS -->
+    <string name="close_app_title">Exit</string>
+    <string name="close_app_subtitle">Are you sure you want to close the app?</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit">Exit</string>
+
 </resources>

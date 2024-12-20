@@ -5,7 +5,7 @@ import contract.BaseEvent
 import contract.BaseState
 import verification.data.VerificationEnterCodeOperation
 import components.button.ButtonState
-import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.DARK_GRAY_ACTIVE
 
 interface VerificationContract {
 
@@ -19,7 +19,7 @@ interface VerificationContract {
     data class State(
         val code: List<String> = listOf("", "", "", "", "", ""),
         val timerSeconds: Long,
-        val buttonState: ButtonState = DEFAULT
+        val buttonState: ButtonState = DARK_GRAY_ACTIVE
     ): BaseState
 
     sealed interface Effect: BaseEffect {

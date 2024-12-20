@@ -2,6 +2,7 @@ package navigation.navigators.dialogs
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
@@ -9,6 +10,7 @@ import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import navigation.config.config.DialogsNavigationConfig
+import navigation.config.config.DialogsNavigationConfig.ExitApp
 import navigation.navigators.getDefaultBackCallback
 import view_model.BaseViewModelComponent
 
@@ -47,6 +49,12 @@ class DialogsNavigatorImpl(
             delay(DIALOG_TRANSITION_ANIMATION_DURATION.toLong())
             navigation.dismiss(onComplete = onComplete)
         }
+    }
+    /**
+     * DIALOGS
+     */
+    override fun showExitAppDialog() {
+        navigation.activate(ExitApp)
     }
 
     private companion object {

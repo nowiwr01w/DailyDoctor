@@ -16,4 +16,9 @@ interface DialogsNavigator: BaseNavigator {
      * BACK NAVIGATION
      */
     var hideDialogCallback: () -> Unit
+
+    /**
+     * DIALOGS
+     */
+    fun showExitAppDialog()
 }

@@ -11,9 +11,9 @@ import verification.VerificationContract.Effect
 import verification.VerificationContract.Event
 import verification.VerificationContract.State
 import verification.data.VerificationEnterCodeOperation
-import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.button.ButtonState.ERROR
-import components.button.ButtonState.SEND_REQUEST
+import components.button.ButtonState.DARK_GRAY_PROGRESS
 import components.button.ButtonState.SUCCESS
 import usecase.verification.AppCheckVerificationCodeUseCase
 
@@ -69,7 +69,7 @@ class VerificationViewModel(
     }
 
     private fun verify(phone: String, token: String) = hide {
-        setState { copy(buttonState = SEND_REQUEST) }
+        setState { copy(buttonState = DARK_GRAY_PROGRESS) }
         runCatchingApp {
             val checkVerificationCodeRequest = CheckVerificationCodeRequest(
                 phone = phone,
@@ -84,7 +84,7 @@ class VerificationViewModel(
         }.onFailure {
             setState { copy(buttonState = ERROR) }
             delay(3000)
-            setState { copy(buttonState = DEFAULT) }
+            setState { copy(buttonState = DARK_GRAY_ACTIVE) }
         }
     }
 }

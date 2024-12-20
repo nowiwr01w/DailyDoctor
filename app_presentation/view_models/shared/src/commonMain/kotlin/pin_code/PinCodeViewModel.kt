@@ -5,7 +5,7 @@ import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
 import com.nowiwr01p.model.extensions.runCatchingApp
 import com.nowiwr01p.model.usecase.execute
-import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.button.ButtonState.ERROR
 import components.button.ButtonState.SUCCESS
 import helpers.snack_bar.SnackBarHelper
@@ -148,6 +148,6 @@ class PinCodeViewModel(
         setState { copy(buttonState = ERROR) }
         snackBarHelper.showSnackBar(params)
         delay(3000)
-        setState { copy(buttonState = DEFAULT, pinCode = "") }
+        setState { copy(buttonState = DARK_GRAY_ACTIVE, pinCode = "") }
     }
 }

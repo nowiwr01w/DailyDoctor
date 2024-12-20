@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -11,7 +9,6 @@ plugins {
 kotlin {
     applyDefaultHierarchyTemplate()
 
-    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser {
 
@@ -33,7 +30,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.app_mobile"
+            baseName = "app_presentation.dialogs"
         }
     }
 
@@ -54,7 +51,6 @@ kotlin {
                  * APP PRESENTATION
                  */
                 implementation(projects.appPresentation.coreUi)
-                implementation(projects.appPresentation.dialogs)
                 implementation(projects.appPresentation.platform)
                 implementation(projects.appPresentation.navigation)
                 implementation(projects.appPresentation.navigation.mobile)
@@ -62,6 +58,8 @@ kotlin {
                 implementation(projects.appPresentation.viewModels.base)
                 implementation(projects.appPresentation.viewModels.mobile)
                 implementation(projects.appPresentation.viewModels.shared)
+                implementation(projects.appPresentation.viewModels.desktop)
+                implementation(projects.appPresentation.viewModels.web)
                 /**
                  * RESOURCES
                  */
@@ -101,7 +99,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.app_mobile"
+    namespace = "nowiwr01p.daily.doctor.app_presentation.dialogs"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

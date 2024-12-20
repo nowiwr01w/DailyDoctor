@@ -28,9 +28,9 @@ import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
 import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
 import com.nowiwr01p.model.extensions.runCatchingApp
-import components.button.ButtonState.DEFAULT
+import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.button.ButtonState.ERROR
-import components.button.ButtonState.SEND_REQUEST
+import components.button.ButtonState.DARK_GRAY_PROGRESS
 import components.button.ButtonState.SUCCESS
 import helpers.snack_bar.SnackBarHelper
 import helpers.snack_bar.data.SnackBarParams.TopFloatingParams
@@ -95,7 +95,7 @@ class AuthViewModel(
     }
 
     private fun auth(userData: UserData) = hide {
-        setState { copy(buttonState = SEND_REQUEST) }
+        setState { copy(buttonState = DARK_GRAY_PROGRESS) }
         runCatchingApp {
             when (userData) {
                 is UserDataSignIn -> {
@@ -139,7 +139,7 @@ class AuthViewModel(
             message = AppMessage.AppMessageText(errorMessage)
         )
         delay(3000)
-        setState { copy(buttonState = DEFAULT) }
+        setState { copy(buttonState = DARK_GRAY_ACTIVE) }
     }
 
     private fun onPrivacyPolicyClicked() {

@@ -16,7 +16,7 @@ interface PinCodeContract {
     data class State(
         val pinCode: String = "",
         val pinCodeMode: PinCodeMode, // TODO: navigation.model
-        val buttonState: ButtonState = ButtonState.DEFAULT
+        val buttonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE
     ): BaseState
 
     sealed interface Effect: BaseEffect {
