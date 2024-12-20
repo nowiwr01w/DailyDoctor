@@ -1,7 +1,6 @@
 package screens.pin_code
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,8 +36,8 @@ import components.button.ButtonState.SEND_REQUEST
 import components.button.ButtonState.SUCCESS
 import extensions.BaseScreen
 import getScreenWidth
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.PinCodeChild
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.resources.ic_delete
@@ -66,10 +65,9 @@ import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
-fun PinCodeMainScreenMobile(
-    navigator: MainNavigator,
-    mode: PinCodeMode,
-    viewModel: PinCodeViewModel = rememberViewModel(mode)
+fun PinCodeChild.PinCodeMainScreenMobile(
+    navigator: MobileNavigator,
+    viewModel: PinCodeViewModel = rememberViewModel(pinCodeMode)
 ) {
     val listener = object : Listener {
         override fun handleUserInput(operation: PinCodeOperation) {
@@ -86,7 +84,7 @@ fun PinCodeMainScreenMobile(
                 // TODO: Use when change or delete pin code
             }
             NavigateToHome -> {
-                navigator.subscriptionNavigator.navigateToSubscription()
+                navigator.screensNavigator.subscriptionNavigator.navigateToSubscription()
             }
         }
     }

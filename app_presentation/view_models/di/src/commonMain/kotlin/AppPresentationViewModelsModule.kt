@@ -5,9 +5,9 @@ import helpers.snack_bar.SnackBarHelper
 import home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import manager.brand_config.AppBrandConfigManager
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
 import onboarding.OnboardingViewModel
 import manager.onboarding.AppOnboardingManager
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel
 import splash.SplashViewModel

@@ -3,7 +3,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue.Hidden
@@ -25,34 +24,20 @@ import components.bottom_sheet.BottomSheet
 import components.bottom_sheet.ShowBottomSheetHelper
 import components.snack_bar.SnackBar
 import helpers.snack_bar.SnackBarHelper
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.AuthChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.HomeChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.OnboardingChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.PinCodeChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.SplashChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.SubscriptionChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator.Child.VerificationChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
-import screens.auth.AuthMainScreenMobile
-import screens.home.HomeMainScreen
-import screens.onboarding.OnboardingMainScreenMobile
-import screens.pin_code.PinCodeMainScreenMobile
-import screens.splash.SplashMainScreenMobile
-import screens.subscription.SubscriptionMainScreen
-import screens.verification.VerificationMainScreenMobile
+import screens.getScreenContent
 import theme.AppTheme
 import view_model.rememberViewModel
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun App(
     context: ComponentContext,
     viewModel: AppViewModel = rememberViewModel(),
     snackBarHelper: SnackBarHelper = koinInject(),
     showBottomSheetHelper: ShowBottomSheetHelper = koinInject(),
-    navigator: MainNavigator = koinInject { parametersOf(context) }
+    navigator: MobileNavigator = koinInject { parametersOf(context) }
 ) {
     LaunchedEffect(Unit) {
         viewModel.setEvent(Event.Init)
@@ -99,10 +84,9 @@ fun App(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun AppContent(
-    navigator: MainNavigator,
+    navigator: MobileNavigator,
     bottomSheetState: ModalBottomSheetState,
     subscribeOnSnackBar: @Composable () -> Unit,
     subscribeOnBottomSheet: @Composable () -> Unit
@@ -115,36 +99,10 @@ private fun AppContent(
     ) {
         Children(
             modifier = Modifier.fillMaxSize(),
-            stack = navigator.stack,
-            animation = stackAnimation { child -> child.instance.animation }
-        ) {
-            when (val child = it.instance) {
-                is SplashChild -> {
-                    SplashMainScreenMobile(navigator = navigator)
-                }
-                is OnboardingChild -> {
-                    OnboardingMainScreenMobile(navigator = navigator)
-                }
-                is AuthChild -> {
-                    AuthMainScreenMobile(navigator)
-                }
-                is VerificationChild -> VerificationMainScreenMobile(
-                    phone = child.phone,
-                    verificationToken = child.verificationToken,
-                    navigator = navigator
-                )
-                is PinCodeChild -> PinCodeMainScreenMobile(
-                    navigator = navigator,
-                    mode = child.pinCodeMode
-                )
-                is SubscriptionChild -> {
-                    SubscriptionMainScreen(navigator)
-                }
-                is HomeChild -> {
-                    HomeMainScreen(navigator)
-                }
-            }
-        }
+            stack = navigator.screensNavigator.screensChildStack,
+            animation = stackAnimation { child -> child.instance.animation },
+            content = { child -> child.instance.getScreenContent(navigator) }
+        )
     }
     subscribeOnSnackBar()
 }

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -11,7 +9,6 @@ plugins {
 kotlin {
     applyDefaultHierarchyTemplate()
 
-    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser {
 
@@ -49,6 +46,10 @@ kotlin {
                  */
                 implementation(projects.appShared.core)
                 /**
+                 * APP PRESENTATION
+                 */
+                implementation(projects.appPresentation.viewModels.base)
+                /**
                  * COMPOSE
                  */
                 implementation(compose.material)
@@ -59,21 +60,26 @@ kotlin {
                 implementation(libs.koin)
                 implementation(libs.decompose)
                 implementation(libs.decompose.extensions)
+                implementation(libs.coroutines)
             }
         }
         androidMain.dependencies {
+            implementation(projects.appPresentation.viewModels.mobile)
             implementation(libs.bundles.android)
         }
         iosMain.dependencies {
+            implementation(projects.appPresentation.viewModels.mobile)
             implementation(libs.bundles.ios)
         }
         val desktopMain by getting {
             dependencies {
+                implementation(projects.appPresentation.viewModels.desktop)
                 implementation(libs.bundles.desktop)
             }
         }
         val wasmJsMain by getting {
             dependencies {
+                implementation(projects.appPresentation.viewModels.web)
                 implementation(libs.bundles.web)
             }
         }

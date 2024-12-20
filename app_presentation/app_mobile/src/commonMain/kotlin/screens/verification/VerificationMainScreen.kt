@@ -52,7 +52,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import observers.EffectObserver
 import view_model.rememberViewModel
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
 import theme.CustomTheme.colors
 import verification.VerificationContract.Effect
 import verification.VerificationContract.Event
@@ -66,7 +65,9 @@ import components.button.StateButton
 import components.input_field.CustomTextField
 import extensions.BaseScreen
 import getScreenWidth
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.VerificationChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.verification_code_sent_description
 import nowiwr01p.daily.doctor.resources.verification_new_code_required
@@ -77,10 +78,8 @@ import screens.auth.TopIcon
 import screens.auth.TopTitle
 
 @Composable
-internal fun VerificationMainScreenMobile(
-    phone: String,
-    verificationToken: String,
-    navigator: MainNavigator,
+internal fun VerificationChild.VerificationMainScreenMobile(
+    navigator: MobileNavigator,
     viewModel: VerificationViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
@@ -103,7 +102,7 @@ internal fun VerificationMainScreenMobile(
         when (effect) {
             is Effect.NavigateToPinCode -> {
                 val pinCodeCreateMode = PinCodeMode.Create(effect.pinCodeToken)
-               navigator.pinCodeNavigator.navigateToPinCode(pinCodeCreateMode)
+               navigator.screensNavigator.pinCodeNavigator.navigateToPinCode(pinCodeCreateMode)
             }
         }
     }

@@ -25,7 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import extensions.BaseScreen
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.SplashChild
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.app_name
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
@@ -48,8 +49,8 @@ import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
-internal fun SplashMainScreenMobile(
-    navigator: MainNavigator,
+internal fun SplashChild.SplashMainScreenMobile(
+    navigator: MobileNavigator,
     viewModel: SplashViewModel = rememberViewModel()
 ) {
     LaunchedEffect(Unit) {
@@ -59,10 +60,10 @@ internal fun SplashMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is NavigateToHome -> {
-                navigator.homeNavigator.navigateToHome()
+                navigator.screensNavigator.homeNavigator.navigateToHome()
             }
             is NavigateToOnboarding -> {
-                navigator.onboardingNavigator.navigateToOnboarding()
+                navigator.screensNavigator.onboardingNavigator.navigateToOnboarding()
             }
         }
     }

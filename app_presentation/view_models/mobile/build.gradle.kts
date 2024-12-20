@@ -50,6 +50,7 @@ kotlin {
                 /**
                  * APP PRESENTATION
                  */
+                implementation(projects.appPresentation.navigation.model)
                 implementation(projects.appPresentation.viewModels.base)
                 /**
                  * LOCAL DATABASE

@@ -15,12 +15,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import model.message.AppMessage
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Change
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Check
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Create
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Delete
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Repeat
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.*
 import pin_code.PinCodeContract.Effect
 import pin_code.PinCodeContract.Event
 import pin_code.PinCodeContract.State

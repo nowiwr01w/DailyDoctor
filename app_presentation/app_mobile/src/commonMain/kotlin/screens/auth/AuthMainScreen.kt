@@ -70,9 +70,10 @@ import model.errors.auth.AuthTextFieldType
 import model.errors.auth.AuthTextFieldType.PASSWORD
 import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import model.errors.auth.AuthTextFieldType.PHONE
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Check
-import nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model.PinCodeMode.Create
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.AuthChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.*
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.auth_agree_with_policies_title
 import nowiwr01p.daily.doctor.resources.auth_button_already_have_account_title
@@ -94,8 +95,8 @@ import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
-internal fun AuthMainScreenMobile(
-    navigator: MainNavigator,
+internal fun AuthChild.AuthMainScreenMobile(
+    navigator: MobileNavigator,
     viewModel: AuthViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
@@ -127,10 +128,10 @@ internal fun AuthMainScreenMobile(
                     effect.isPinCodeSet -> Check(effect.token)
                     else -> Create(effect.token)
                 }
-                navigator.pinCodeNavigator.navigateToPinCode(pinCodeMode)
+                navigator.screensNavigator.pinCodeNavigator.navigateToPinCode(pinCodeMode)
             }
             is NavigateToVerification -> {
-                navigator.authNavigator.navigateToVerification(effect.phone, effect.token)
+                navigator.screensNavigator.authNavigator.navigateToVerification(effect.phone, effect.token)
             }
             is NavigateToPrivacyPolicyInfo -> {
                 // TODO

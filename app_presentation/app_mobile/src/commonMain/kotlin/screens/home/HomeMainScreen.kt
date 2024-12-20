@@ -9,12 +9,13 @@ import androidx.compose.ui.graphics.Color
 import home.HomeContract.Listener
 import home.HomeContract.State
 import home.HomeViewModel
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.HomeChild
 import view_model.rememberViewModel
 
 @Composable
-fun HomeMainScreen(
-    navigator: MainNavigator,
+fun HomeChild.HomeMainScreen(
+    navigator: MobileNavigator,
     viewModel: HomeViewModel = rememberViewModel()
 ) {
     val listener = object : Listener {
