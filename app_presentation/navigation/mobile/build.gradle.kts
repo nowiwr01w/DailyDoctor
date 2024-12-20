@@ -49,6 +49,7 @@ kotlin {
                  * APP PRESENTATION
                  */
                 implementation(projects.appPresentation.navigation)
+                implementation(projects.appPresentation.navigation.model)
                 implementation(projects.appPresentation.viewModels.base)
                 implementation(projects.appPresentation.viewModels.mobile)
                 /**

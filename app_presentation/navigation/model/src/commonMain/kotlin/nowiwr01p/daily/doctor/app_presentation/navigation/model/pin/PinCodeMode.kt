@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.app_presentation.navigation.pin_code.model
+package nowiwr01p.daily.doctor.app_presentation.navigation.model.pin
 
 import kotlinx.serialization.Serializable
 

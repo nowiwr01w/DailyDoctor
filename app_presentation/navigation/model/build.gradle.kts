@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -31,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.view_models.mobile"
+            baseName = "app_presentation.navigation.model"
         }
     }
 
@@ -46,24 +48,17 @@ kotlin {
                  * APP SHARED
                  */
                 implementation(projects.appShared.core)
-                implementation(projects.appShared.domain)
                 /**
-                 * APP PRESENTATION
+                 * COMPOSE
                  */
-                implementation(projects.appPresentation.navigation.model)
-                implementation(projects.appPresentation.viewModels.base)
-                /**
-                 * LOCAL DATABASE
-                 */
-                implementation(projects.localDatabase.domain)
-                /**
-                 * RESOURCES
-                 */
-                implementation(projects.resources)
+                implementation(compose.material)
+                implementation(compose.components.resources)
                 /**
                  * DEPENDENCIES
                  */
                 implementation(libs.koin)
+                implementation(libs.decompose)
+                implementation(libs.decompose.extensions)
                 implementation(libs.coroutines)
             }
         }
@@ -87,7 +82,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.view_models.mobile"
+    namespace = "nowiwr01p.daily.doctor.app_presentation.navigation.model"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

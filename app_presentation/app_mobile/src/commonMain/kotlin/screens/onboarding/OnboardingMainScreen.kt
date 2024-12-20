@@ -34,7 +34,8 @@ import components.image.RemoteImage
 import extensions.BaseScreen
 import getScreenWidth
 import kotlinx.coroutines.launch
-import nowiwr01p.daily.doctor.app_presentation.navigation.MainNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.OnboardingChild
 import observers.EffectObserver
 import onboarding.OnboardingContract.Effect.*
 import onboarding.OnboardingContract.Event
@@ -46,10 +47,9 @@ import theme.AppThemePreview
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun OnboardingMainScreenMobile(
-    navigator: MainNavigator,
+internal fun OnboardingChild.OnboardingMainScreenMobile(
+    navigator: MobileNavigator,
     viewModel: OnboardingViewModel = rememberViewModel()
 ) {
     val state = viewModel.viewState.value
@@ -72,10 +72,10 @@ internal fun OnboardingMainScreenMobile(
     EffectObserver(viewModel.effect) { effect ->
         when (effect) {
             is ShowEnableNotificationsDialog -> {
-                navigator.authNavigator.navigateToAuth() // TODO
+                navigator.screensNavigator.authNavigator.navigateToAuth() // TODO
             }
             is NavigateToAuth -> {
-                navigator.authNavigator.navigateToAuth()
+                navigator.screensNavigator.authNavigator.navigateToAuth()
             }
             is SlideToNextOnboardingItem -> scope.launch {
                 pagerState.animateScrollToPage(

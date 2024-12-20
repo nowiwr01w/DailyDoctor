@@ -63,6 +63,11 @@ kotlin {
             implementation(projects.appPresentation.viewModels.shared)
             implementation(projects.appPresentation.viewModels.mobile)
             /**
+             * NAVIGATION
+             */
+            implementation(projects.appPresentation.navigation.model)
+            implementation(projects.appPresentation.navigation.mobile)
+            /**
              * DEPENDENCIES
              */
             implementation(libs.bundles.android)
@@ -78,6 +83,11 @@ kotlin {
             implementation(projects.appPresentation.di)
             implementation(projects.appPresentation.viewModels.shared)
             implementation(projects.appPresentation.viewModels.mobile)
+            /**
+             * NAVIGATION
+             */
+            implementation(projects.appPresentation.navigation.model)
+            implementation(projects.appPresentation.navigation.mobile)
             /**
              * DEPENDENCIES
              */

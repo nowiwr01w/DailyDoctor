@@ -4,7 +4,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimator
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import kotlinx.serialization.Serializable
 import navigation.config.BaseNavigationChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.navigators.screens.navigators.pin_code.model.PinCodeMode
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
 import view_model.BaseViewModelComponent
 
 @Serializable

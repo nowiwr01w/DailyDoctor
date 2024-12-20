@@ -56,6 +56,7 @@ kotlin {
                  */
                 implementation(projects.appPresentation.coreUi)
                 implementation(projects.appPresentation.navigation) // TODO: navigation.model
+                implementation(projects.appPresentation.navigation.model)
                 implementation(projects.appPresentation.viewModels.base)
                 /**
                  * COMPOSE // TODO: Remove?

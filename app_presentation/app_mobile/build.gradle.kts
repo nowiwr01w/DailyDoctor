@@ -55,7 +55,9 @@ kotlin {
                  */
                 implementation(projects.appPresentation.coreUi)
                 implementation(projects.appPresentation.platform)
-                implementation(projects.appPresentation.navigation) // TODO: navigation.model && navigation.mobile
+                implementation(projects.appPresentation.navigation)
+                implementation(projects.appPresentation.navigation.mobile)
+                implementation(projects.appPresentation.navigation.model)
                 implementation(projects.appPresentation.viewModels.base)
                 implementation(projects.appPresentation.viewModels.mobile)
                 implementation(projects.appPresentation.viewModels.shared)
