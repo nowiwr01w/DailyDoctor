@@ -58,18 +58,22 @@ kotlin {
             }
         }
         androidMain.dependencies {
+            implementation(projects.appPresentation.navigation.mobile)
             implementation(libs.bundles.android)
         }
         iosMain.dependencies {
+            implementation(projects.appPresentation.navigation.mobile)
             implementation(libs.bundles.ios)
         }
         val desktopMain by getting {
             dependencies {
+                implementation(projects.appPresentation.navigation)
                 implementation(libs.bundles.desktop)
             }
         }
         val wasmJsMain by getting {
             dependencies {
+                implementation(projects.appPresentation.navigation)
                 implementation(libs.bundles.web)
             }
         }

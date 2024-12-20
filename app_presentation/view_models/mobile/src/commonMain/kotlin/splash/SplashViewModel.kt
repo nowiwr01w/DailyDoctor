@@ -45,7 +45,7 @@ class SplashViewModel(
      * GET BRAND ONBOARDING ITEMS
      */
     private fun getBrandConfig() = appScope.scope.launch { // TODO: Check
-        appBrandConfigManager.getBrandConfig(fromRemote = true).collect { config ->
+        appBrandConfigManager.getBrandConfig(fromRemote = false).collect { config ->
             if (config.brandSettings.isOnboardingEnabled) {
                 loadOnboardingData()
             }

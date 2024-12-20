@@ -7,7 +7,7 @@ interface BaseNavigator: ComponentContext {
     fun navigateBack(onComplete: (isSuccess: Boolean) -> Unit = {})
 }
 
-internal fun BaseNavigator.getDefaultBackCallback(allowBackNavigation: Boolean) = BackCallback(
+fun BaseNavigator.getDefaultBackCallback(allowBackNavigation: Boolean) = BackCallback(
     isEnabled = true,
     onBack = {
         if (allowBackNavigation) {

@@ -63,6 +63,7 @@ kotlin {
                 implementation(libs.koin)
                 implementation(libs.decompose)
                 implementation(libs.decompose.extensions)
+                implementation(libs.coroutines)
             }
         }
         androidMain.dependencies {
