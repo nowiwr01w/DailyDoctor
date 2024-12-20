@@ -49,6 +49,10 @@ kotlin {
                  */
                 implementation(projects.appShared.core)
                 /**
+                 * APP PRESENTATION
+                 */
+                implementation(projects.appPresentation.viewModels.base)
+                /**
                  * COMPOSE
                  */
                 implementation(compose.material)
@@ -62,18 +66,22 @@ kotlin {
             }
         }
         androidMain.dependencies {
+            implementation(projects.appPresentation.viewModels.mobile)
             implementation(libs.bundles.android)
         }
         iosMain.dependencies {
+            implementation(projects.appPresentation.viewModels.mobile)
             implementation(libs.bundles.ios)
         }
         val desktopMain by getting {
             dependencies {
+                implementation(projects.appPresentation.viewModels.desktop)
                 implementation(libs.bundles.desktop)
             }
         }
         val wasmJsMain by getting {
             dependencies {
+                implementation(projects.appPresentation.viewModels.web)
                 implementation(libs.bundles.web)
             }
         }
