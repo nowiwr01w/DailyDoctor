@@ -86,7 +86,6 @@ package screens.subscription
  import subscription.data.SubscriptionType.Base
  import subscription.data.SubscriptionType.Free
  import subscription.data.getSubscriptionItems
- import theme.AppThemePreview
  import theme.CustomTheme.colors
  import view_model.rememberViewModel
 
@@ -553,16 +552,4 @@ private fun MonthlyYearlySwitch(
             modifier = Modifier.padding(start = 8.dp)
         )
     }
-}
-
-/**
- * PREVIEW
- */
-@Preview
-@Composable
-private fun Preview() = AppThemePreview {
-    Content(
-        state = State(),
-        listener = null
-    )
 }

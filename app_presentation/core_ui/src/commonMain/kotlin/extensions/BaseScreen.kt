@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import components.LocalWindowInsets
 import theme.CustomTheme.colors
+import theme.LocalWindowInsets
 
 /**
  * Should be only used on Android and iOS

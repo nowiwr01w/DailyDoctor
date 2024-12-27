@@ -34,11 +34,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.times
-import components.LocalWindowInsets
 import components.transition_component.TransitionComponentType.BottomSheet
 import components.transition_component.TransitionComponentType.Dialog
 import constants.COMPONENT_TRANSITION_ANIMATION_DURATION
 import getScreenHeight
+import theme.LocalWindowInsets
 
 private const val COMPONENT_MIN_HEIGHT = 160
 

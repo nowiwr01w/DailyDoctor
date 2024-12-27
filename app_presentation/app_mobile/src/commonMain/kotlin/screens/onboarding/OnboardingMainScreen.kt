@@ -43,7 +43,6 @@ import onboarding.OnboardingContract.Listener
 import onboarding.OnboardingContract.State
 import onboarding.OnboardingViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import theme.AppThemePreview
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
@@ -223,18 +222,4 @@ private fun OnboardingItemView(
             Text(text = item.firstButtonText)
         }
     }
-}
-
-/**
- * PREVIEW
- */
-@OptIn(ExperimentalFoundationApi::class)
-@Preview
-@Composable
-private fun Preview() = AppThemePreview {
-    Content(
-        state = State(),
-        listener = null,
-        pagerState = rememberPagerState { 3 }
-    )
 }

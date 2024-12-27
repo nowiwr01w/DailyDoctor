@@ -31,7 +31,7 @@ import helpers.snack_bar.data.SnackBarType.DEFAULT
 import helpers.snack_bar.data.SnackBarType.ERROR
 import helpers.snack_bar.data.SnackBarType.SUCCESS
 import helpers.snack_bar.data.SnackBarType.WARNING
-import components.LocalWindowInsets
+import theme.LocalWindowInsets
 
 private const val SNACK_BAR_ANIMATION_MILLIS = 500
 

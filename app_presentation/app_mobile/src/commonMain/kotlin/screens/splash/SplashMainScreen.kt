@@ -44,7 +44,6 @@ import splash.data.SplashAnimationState.FIRST_TEXT
 import splash.data.SplashAnimationState.ICON
 import splash.data.SplashAnimationState.PROGRESS
 import splash.data.SplashAnimationState.SECOND_TEXT
-import theme.AppThemePreview
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
@@ -205,15 +204,4 @@ private fun AnimatedContainer(
     ) {
         content()
     }
-}
-
-/**
- * PREVIEW
- */
-@Preview
-@Composable
-private fun Preview() = AppThemePreview {
-    SplashMainScreenContent(
-        state = State()
-    )
 }
