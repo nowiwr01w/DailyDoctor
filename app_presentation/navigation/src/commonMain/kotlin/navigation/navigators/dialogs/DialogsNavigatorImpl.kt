@@ -7,6 +7,7 @@ import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
+import constants.COMPONENT_TRANSITION_ANIMATION_DURATION
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import navigation.config.config.DialogsNavigationConfig
@@ -46,7 +47,7 @@ class DialogsNavigatorImpl(
     override fun navigateBack(onComplete: (isSuccess: Boolean) -> Unit) {
         appScope.scope.launch(dispatchers.main) {
             hideDialogCallback()
-            delay(DIALOG_TRANSITION_ANIMATION_DURATION.toLong())
+            delay(COMPONENT_TRANSITION_ANIMATION_DURATION.toLong())
             navigation.dismiss(onComplete = onComplete)
         }
     }
@@ -55,9 +56,5 @@ class DialogsNavigatorImpl(
      */
     override fun showExitAppDialog() {
         navigation.activate(ExitApp)
-    }
-
-    private companion object {
-        const val DIALOG_TRANSITION_ANIMATION_DURATION = 500
     }
 }

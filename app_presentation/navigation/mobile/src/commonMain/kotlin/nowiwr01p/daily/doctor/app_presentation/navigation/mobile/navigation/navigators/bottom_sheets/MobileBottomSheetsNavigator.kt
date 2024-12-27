@@ -16,5 +16,10 @@ interface MobileBottomSheetsNavigator: BaseNavigator {
     /**
      * BACK NAVIGATION
      */
-    var hideBottomSheetCallback: () -> Job
+    var hideBottomSheetCallback: () -> Unit
+
+    /**
+     * BOTTOM SHEETS
+     */
+    fun showTestBottomSheet()
 }

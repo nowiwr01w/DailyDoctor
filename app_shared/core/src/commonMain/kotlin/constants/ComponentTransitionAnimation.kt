@@ -1,0 +1,3 @@
+package constants
+
+const val COMPONENT_TRANSITION_ANIMATION_DURATION = 500

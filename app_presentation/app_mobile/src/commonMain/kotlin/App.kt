@@ -6,13 +6,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import app.AppContract.Event
+import app.AppContract.Event.Init
 import app.AppViewModel
+import bottom_sheets.getBottomSheetContent
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import components.dialog.AppDialog
+import components.transition_component.AppBottomSheet
+import components.transition_component.AppDialog
 import nowiwr01p.daily.doctor.app_presentation.dialogs.getDialogContent
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import org.koin.compose.koinInject
@@ -28,7 +30,7 @@ fun App(
     navigator: MobileNavigator = koinInject { parametersOf(context) }
 ) {
     LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init)
+        viewModel.setEvent(Init)
     }
 
     AppTheme(
@@ -49,6 +51,9 @@ private fun AppContent(navigator: MobileNavigator) {
     }
 }
 
+/**
+ * SCREENS
+ */
 @Composable
 private fun Screens(navigator: MobileNavigator) {
     Children(
@@ -59,6 +64,9 @@ private fun Screens(navigator: MobileNavigator) {
     )
 }
 
+/**
+ * DIALOGS
+ */
 @Composable
 private fun Dialogs(navigator: MobileNavigator) {
     val isDialogShown = remember { mutableStateOf(false) }
@@ -78,7 +86,24 @@ private fun Dialogs(navigator: MobileNavigator) {
     }
 }
 
+/**
+ * BOTTOM SHEETS
+ */
 @Composable
 private fun BottomSheets(navigator: MobileNavigator) {
-
+    val isBottomSheetShown = remember { mutableStateOf(false) }
+    navigator.bottomSheetsNavigator.hideBottomSheetCallback = {
+        isBottomSheetShown.value = false
+    }
+    val bottomSheetSlot by navigator.bottomSheetsNavigator.bottomSheetsChildSlot.subscribeAsState()
+    val bottomSheetChild = bottomSheetSlot.child?.instance
+    bottomSheetChild?.let { child ->
+        val onDismissCallback = { navigator.bottomSheetsNavigator.navigateBack() }
+        AppBottomSheet(
+            isBottomSheetShown = isBottomSheetShown,
+            isCancellable = child.isCancellable,
+            onDismissRequest = onDismissCallback,
+            content = { child.getBottomSheetContent(navigator) }
+        )
+    }
 }

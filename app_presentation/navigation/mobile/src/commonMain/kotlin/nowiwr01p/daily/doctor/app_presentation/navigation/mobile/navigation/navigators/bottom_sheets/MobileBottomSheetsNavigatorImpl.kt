@@ -2,15 +2,22 @@ package nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.nav
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
-import kotlinx.coroutines.Job
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.config.MobileBottomSheetConfig
+import com.nowiwr01p.model.coroutines.app_scope.AppScope
+import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
+import constants.COMPONENT_TRANSITION_ANIMATION_DURATION
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import navigation.navigators.getDefaultBackCallback
+import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.config.MobileBottomSheetConfig
 import view_model.BaseViewModelComponent
 
 class MobileBottomSheetsNavigatorImpl(
     appNavigationContext: ComponentContext,
+    private val appScope: AppScope,
+    private val dispatchers: AppDispatchers,
     private val navigation: SlotNavigation<MobileBottomSheetConfig>
 ): MobileBottomSheetsNavigator, ComponentContext by appNavigationContext {
     /**
@@ -33,11 +40,20 @@ class MobileBottomSheetsNavigatorImpl(
     /**
      * BACK NAVIGATION
      */
-    override lateinit var hideBottomSheetCallback: () -> Job
+    override lateinit var hideBottomSheetCallback: () -> Unit
 
     override fun navigateBack(onComplete: (isSuccess: Boolean) -> Unit) {
-        hideBottomSheetCallback().invokeOnCompletion {
+        appScope.scope.launch(dispatchers.main) {
+            hideBottomSheetCallback()
+            delay(COMPONENT_TRANSITION_ANIMATION_DURATION.toLong())
             navigation.dismiss(onComplete = onComplete)
         }
+    }
+
+    /**
+     * BOTTOM SHEETS
+     */
+    override fun showTestBottomSheet() {
+        navigation.activate(MobileBottomSheetConfig.Test)
     }
 }

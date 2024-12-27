@@ -12,4 +12,10 @@ sealed class MobileBottomSheetChild(
      * COMPONENT
      */
     override lateinit var baseComponent: BaseViewModelComponent
+
+    /**
+     * BOTTOM SHEETS
+     */
+    @Serializable
+    data object TestChild: MobileBottomSheetChild()
 }

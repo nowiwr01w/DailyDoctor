@@ -47,10 +47,12 @@ val moduleAppPresentationMobileNavigation = module {
     /**
      * BOTTOM SHEETS
      */
-    single<MobileBottomSheetsNavigator> { (appNavigationContext: ComponentContext) ->
+    single<MobileBottomSheetsNavigator> { (context: ComponentContext) ->
         val navigation = SlotNavigation<MobileBottomSheetConfig>()
         MobileBottomSheetsNavigatorImpl(
-            appNavigationContext = appNavigationContext,
+            appNavigationContext = context,
+            appScope = get<AppScope>(),
+            dispatchers = get<AppDispatchers>(),
             navigation = navigation
         )
     }
