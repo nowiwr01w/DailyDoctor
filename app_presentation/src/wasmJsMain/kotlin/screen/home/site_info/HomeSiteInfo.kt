@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -64,7 +64,7 @@ private fun SiteInfoItem(siteInfoItem: SiteInfoItem) = Column {
     Text(
         text = siteInfoItem.title,
         color = colors.textColors.blackTextColor,
-        style = MaterialTheme.typography.h4
+        style = CustomTheme.typography.headlineLarge
     )
     Spacer(
         modifier = Modifier.height(16.dp)
@@ -73,7 +73,7 @@ private fun SiteInfoItem(siteInfoItem: SiteInfoItem) = Column {
         Text(
             text = infoCategory,
             color = colors.textColors.blackTextColor,
-            style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Normal)
+            style = CustomTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal)
         )
         if (index != siteInfoItem.items.lastIndex) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -93,10 +93,10 @@ private fun LegalInfo() = Row(
 ) {
     Box(
         modifier = Modifier
-            .clip(MaterialTheme.shapes.medium)
+            .clip(CustomTheme.shapes.medium)
             .border(
                 width = 1.5.dp,
-                shape = MaterialTheme.shapes.medium,
+                shape = CustomTheme.shapes.medium,
                 color = colors.textColors.blackTextColor.copy(alpha = 0.1f)
             )
     ) {
@@ -107,7 +107,7 @@ private fun LegalInfo() = Row(
         Text(
             text = warningText,
             color = colors.textColors.blackTextColor,
-            style = MaterialTheme.typography.h6.copy(
+            style = CustomTheme.typography.headlineSmall.copy(
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
             ),
@@ -133,13 +133,13 @@ private fun CredentialsInfo() = Column(
     Text(
         text = "© OOO \"Мой Доктор\"",
         color = colors.textColors.blackTextColor,
-        style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Normal),
+        style = CustomTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
         modifier = Modifier.padding(top = 12.dp)
     )
     Text(
         text = "powered by Andrey Larionov aka nowiwr01p",
         color = colors.textColors.blackTextColor,
-        style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Normal),
+        style = CustomTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
         modifier = Modifier.padding(top = 8.dp)
     )
 }

@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -112,7 +112,7 @@ fun SnackBar(transition: Transition<SnackBarParams?>) {
         Text(
             text = snackBarMessage,
             color = Color.White,
-            style = MaterialTheme.typography.body2,
+            style = CustomTheme.typography.bodyMedium,
             modifier = Modifier
                 .fillMaxWidth()
                 .align(alignment)

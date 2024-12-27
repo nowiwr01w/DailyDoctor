@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -101,7 +101,7 @@ private fun CityPicker(modifier: Modifier) = Row(
     )
     Text(
         text = "Тбилиси",
-        style = MaterialTheme.typography.h6,
+        style = CustomTheme.typography.headlineSmall,
         color = colors.textColors.blueTextColor.copy(alpha = 0.75f),
         modifier = Modifier.padding(start = 12.dp)
     )
@@ -121,7 +121,7 @@ private fun AuthButton(modifier: Modifier) {
     ) {
         Text(
             text = "Войти",
-            style = MaterialTheme.typography.h6,
+            style = CustomTheme.typography.headlineSmall,
             color = colors.textColors.blueTextColor.copy(alpha = 0.75f),
             modifier = Modifier.padding(vertical = 6.dp, horizontal = 10.dp)
         )
@@ -134,7 +134,7 @@ private fun AuthButton(modifier: Modifier) {
 @Composable
 private fun SiteDescription() = Text(
     text = "Запись к врачу в вашем городе",
-    style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center),
+    style = CustomTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
     color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
     modifier = Modifier
         .padding(top = 32.dp)
@@ -251,12 +251,12 @@ private fun StatisticItem(
         ) {
             Text(
                 text = count,
-                style = MaterialTheme.typography.h3,
+                style = CustomTheme.typography.displaySmall,
                 color = colors.textColors.blackTextColor
             )
             Text(
                 text = description,
-                style = MaterialTheme.typography.h5.copy(lineHeight = 16.sp),
+                style = CustomTheme.typography.headlineMedium.copy(lineHeight = 16.sp),
                 color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
                 modifier = Modifier.padding(top = 4.dp)
             )
@@ -280,7 +280,7 @@ private fun StatisticItem(
             Text(
                 text = "+16 343",
                 color = colors.backgroundColors.redBackgroundColor,
-                style = MaterialTheme.typography.h6,
+                style = CustomTheme.typography.headlineSmall,
                 modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)
             )
         }

@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,13 +40,13 @@ internal fun BaseDialogContent(
         Text(
             text = stringResource(title),
             color = colors.textColors.blackTextColor,
-            style = MaterialTheme.typography.h3
+            style = CustomTheme.typography.displaySmall
         )
         /** SUBTITLE **/
         Text(
             text = stringResource(subtitle),
             color = colors.textColors.grayTextColor,
-            style = MaterialTheme.typography.body2,
+            style = CustomTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(top = 8.dp)

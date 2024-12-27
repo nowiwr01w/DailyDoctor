@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,7 +65,7 @@ internal fun HomeMobileAppInfo() = Column(
 @Composable
 private fun Title(modifier: Modifier) = Text(
     text = "Клиники и врачи всегда под рукой\nв мобильном приложении",
-    style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center),
+    style = CustomTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
     color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
     modifier = modifier
 )
@@ -82,9 +82,9 @@ private fun QrWithButton(appMarket: AppMarket) = Column(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .padding(top = 16.dp)
-            .clip(MaterialTheme.shapes.small)
+            .clip(CustomTheme.shapes.small)
             .background(
-                shape = MaterialTheme.shapes.small,
+                shape = CustomTheme.shapes.small,
                 color = colors.textColors.blackTextColor
             )
             .padding(vertical = 8.dp, horizontal = 10.dp)
@@ -103,18 +103,18 @@ private fun QrWithButton(appMarket: AppMarket) = Column(
             Text(
                 text = "Загрузите в",
                 color = colors.textColors.whiteTextColor,
-                style = MaterialTheme.typography.subtitle1.copy(letterSpacing = 1.25.sp)
+                style = CustomTheme.typography.bodySmall.copy(letterSpacing = 1.25.sp)
             )
             Text(
                 text = appMarket.name,
                 color = colors.textColors.whiteTextColor,
-                style = MaterialTheme.typography.h4.copy(letterSpacing = 1.25.sp)
+                style = CustomTheme.typography.headlineLarge.copy(letterSpacing = 1.25.sp)
             )
         }
     }
     Text(
         text = appMarket.versions,
-        style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Medium),
+        style = CustomTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
         color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
         modifier = Modifier.padding(top = 12.dp)
     )

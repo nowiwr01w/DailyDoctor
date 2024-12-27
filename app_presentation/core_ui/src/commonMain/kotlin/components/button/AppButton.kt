@@ -8,7 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -63,8 +63,8 @@ fun StateButton(
     }
 
     val shape = when (currentPlatform) {
-        Platform.WEB -> MaterialTheme.shapes.medium
-        else -> MaterialTheme.shapes.large
+        Platform.WEB -> CustomTheme.shapes.medium
+        else -> CustomTheme.shapes.large
     }
     Box(
         contentAlignment = Alignment.Center,
@@ -114,7 +114,7 @@ private fun DefaultText(
     }
     Text(
         text = text,
-        style = MaterialTheme.typography.h5,
+        style = CustomTheme.typography.headlineMedium,
         color = textColor
     )
 }
