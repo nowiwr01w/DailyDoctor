@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -125,9 +125,9 @@ private fun PopularItem(category: Category) {
         modifier = Modifier
             .widthIn(max = maxItemWidth)
             .advancedShadow()
-            .clip(MaterialTheme.shapes.medium)
+            .clip(CustomTheme.shapes.medium)
             .background(
-                shape = MaterialTheme.shapes.medium,
+                shape = CustomTheme.shapes.medium,
                 color = colors.backgroundColors.whiteBackgroundColor
             )
             .padding(horizontal = 16.dp, vertical = 20.dp)
@@ -135,21 +135,21 @@ private fun PopularItem(category: Category) {
             PopularRowItem(
                 name = category.name,
                 count = category.value,
-                textStyle = MaterialTheme.typography.h4,
+                textStyle = CustomTheme.typography.headlineLarge,
                 textColor = colors.textColors.blackTextColor
             )
             Box(modifier = Modifier
                 .padding(vertical = 20.dp)
                 .fillMaxWidth()
                 .height(2.dp)
-                .clip(MaterialTheme.shapes.small)
+                .clip(CustomTheme.shapes.small)
                 .background(colors.backgroundColors.grayBackgroundColor.copy(alpha = 0.1f))
             )
             category.categories.forEachIndexed { index, categoryData ->
                 PopularRowItem(
                     name = categoryData.name,
                     count = categoryData.value.toString(),
-                    textStyle = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Normal),
+                    textStyle = CustomTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
                     textColor = colors.textColors.blackTextColor.copy(alpha = 0.5f)
                 )
                 Spacer(

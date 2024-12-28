@@ -15,7 +15,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -212,7 +212,7 @@ private fun PinCodeText(
     Text(
         text = stringResource(Res.string.pin_code_enter),
         color = colors.textColors.blackTextColor,
-        style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Medium),
+        style = CustomTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Medium),
         modifier = modifier
     )
 }
@@ -337,7 +337,7 @@ private fun PinCodeViewItem(
             is PinCodeDigit -> Text(
                 text = data.value,
                 color = colors.textColors.blackTextColor,
-                style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Medium)
+                style = CustomTheme.typography.displayLarge.copy(fontWeight = FontWeight.Medium)
             )
             is PinCodeIcon -> Image(
                 painter = painterResource(data.value),

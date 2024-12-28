@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import components.LocalWindowInsets
+import theme.LocalWindowInsets
 
 @Composable
 fun NavigationBarSpacer() {

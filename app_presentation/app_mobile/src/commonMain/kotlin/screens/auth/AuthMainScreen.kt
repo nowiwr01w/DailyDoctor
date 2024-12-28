@@ -26,7 +26,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -237,7 +237,7 @@ private fun AuthContent(
 internal fun TopTitle(text: StringResource) = Text(
     text = stringResource(text),
     color = colors.textColors.blackTextColor,
-    style = MaterialTheme.typography.h2,
+    style = CustomTheme.typography.displayMedium,
     modifier = Modifier.padding(top = 32.dp)
 )
 
@@ -303,7 +303,7 @@ private fun InputField(
     CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
         CustomTextField(
             value = text,
-            textStyle = MaterialTheme.typography.body1,
+            textStyle = CustomTheme.typography.bodyLarge,
             onValueChange = {
                 listener?.onUserInputChanged(type, it)
             },
@@ -333,7 +333,7 @@ private fun InputField(
             placeholder = {
                 Text(
                     text = stringResource(hint),
-                    style = MaterialTheme.typography.body1
+                    style = CustomTheme.typography.bodyLarge
                 )
             },
             keyboardActions = KeyboardActions(
@@ -442,7 +442,7 @@ private fun AlreadyHaveAnAccountText(
                 }
                 stringResource(accountTextResId)
             },
-            style = MaterialTheme.typography.h5,
+            style = CustomTheme.typography.headlineMedium,
             color = colors.textColors.lightGrayTextColor,
             modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
         )
@@ -462,7 +462,7 @@ private fun PrivacyPolicyInfo(
     )
     ClickableText(
         text = annotatedString,
-        style = MaterialTheme.typography.h6.copy(
+        style = CustomTheme.typography.headlineSmall.copy(
             color = colors.textColors.lightGrayTextColor,
             textAlign = TextAlign.Center
         ),

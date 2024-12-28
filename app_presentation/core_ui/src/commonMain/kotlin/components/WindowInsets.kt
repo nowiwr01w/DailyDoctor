@@ -1,12 +1,15 @@
 package components
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 
 data class LocalWindowInsetsData(
@@ -25,18 +28,13 @@ data class LocalWindowInsetsData(
     }
 }
 
-val LocalWindowInsets = staticCompositionLocalOf<LocalWindowInsetsData> {
-    error("No LocalWindowInsetsData set")
-}
-
 @Composable
-fun ProviderLocalWindowInsets(
-    insetsData: LocalWindowInsetsData,
-    content: @Composable () -> Unit
-) {
-    val insets = remember { insetsData }
-    insets.updateInsets(insetsData)
-    CompositionLocalProvider(LocalWindowInsets provides insets) {
-        content()
+internal fun getWindowInsets(): State<LocalWindowInsetsData> {
+    val data = with(LocalDensity.current) {
+        LocalWindowInsetsData(
+            appTopPadding = WindowInsets.statusBars.getTop(this).toDp(),
+            appBottomPadding = WindowInsets.navigationBars.getBottom(this).toDp()
+        )
     }
+    return derivedStateOf { data }
 }

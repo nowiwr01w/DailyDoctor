@@ -31,7 +31,7 @@ package screens.subscription
  import androidx.compose.foundation.pager.rememberPagerState
  import androidx.compose.foundation.shape.CircleShape
  import androidx.compose.foundation.shape.RoundedCornerShape
- import androidx.compose.material.MaterialTheme
+ import theme.CustomTheme
  import androidx.compose.material.TabRow
  import androidx.compose.material.Text
  import androidx.compose.runtime.Composable
@@ -86,7 +86,6 @@ package screens.subscription
  import subscription.data.SubscriptionType.Base
  import subscription.data.SubscriptionType.Free
  import subscription.data.getSubscriptionItems
- import theme.AppThemePreview
  import theme.CustomTheme.colors
  import view_model.rememberViewModel
 
@@ -169,7 +168,7 @@ private fun SubscriptionToolbar(
         Text(
             text = stringResource(Res.string.subscription_toolbar_title),
             color = colors.textColors.blackTextColor,
-            style = MaterialTheme.typography.h4,
+            style = CustomTheme.typography.headlineLarge,
             modifier = Modifier.padding(start = 16.dp)
         )
         Spacer(
@@ -256,7 +255,7 @@ private fun SubscriptionContent(
                         Text(
                             text = stringResource(currentPlan.name),
                             color = textColor,
-                            style = MaterialTheme.typography.h6.copy(fontWeight = fontWeight),
+                            style = CustomTheme.typography.headlineSmall.copy(fontWeight = fontWeight),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
                         )
@@ -313,13 +312,13 @@ private fun SadCatPlaceholder(bottomPadding: Dp) = Column(
     Text(
         text = stringResource(Res.string.subscription_free_placeholder_title),
         color = colors.textColors.blackTextColor,
-        style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold),
+        style = CustomTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
         modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
     )
     Text(
         text = stringResource(Res.string.subscription_free_placeholder_description),
         color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
-        style = MaterialTheme.typography.h6,
+        style = CustomTheme.typography.headlineSmall,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .padding(top = 8.dp, start = 16.dp, end = 16.dp)
@@ -391,7 +390,7 @@ private fun BenefitItem(data: BenefitData) {
             Text(
                 text = stringResource(data.title),
                 color = colors.textColors.blackTextColor,
-                style = MaterialTheme.typography.h5,
+                style = CustomTheme.typography.headlineMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(end = 16.dp)
@@ -423,7 +422,7 @@ private fun BenefitItem(data: BenefitData) {
             Text(
                 text = stringResource(data.description),
                 color = colors.textColors.blackTextColor.copy(alpha = 0.75f),
-                style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Normal),
+                style = CustomTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
                 modifier = Modifier.padding(bottom = 9.dp)
             )
         }
@@ -489,7 +488,7 @@ private fun SubscribeOrSkipBox(
         Text(
             text = stringResource(Res.string.subscription_continue_accept_polices),
             color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
-            style = MaterialTheme.typography.subtitle2,
+            style = CustomTheme.typography.labelMedium,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)
         )
@@ -549,20 +548,8 @@ private fun MonthlyYearlySwitch(
         Text(
             text = stringResource(Res.string.subscription_year),
             color = colors.textColors.blackTextColor,
-            style = MaterialTheme.typography.h5,
+            style = CustomTheme.typography.headlineMedium,
             modifier = Modifier.padding(start = 8.dp)
         )
     }
-}
-
-/**
- * PREVIEW
- */
-@Preview
-@Composable
-private fun Preview() = AppThemePreview {
-    Content(
-        state = State(),
-        listener = null
-    )
 }

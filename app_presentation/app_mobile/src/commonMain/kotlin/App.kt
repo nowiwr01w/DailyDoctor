@@ -32,7 +32,6 @@ fun App(
     LaunchedEffect(Unit) {
         viewModel.setEvent(Init)
     }
-
     AppTheme(
         appColorTheme = viewModel.viewState.value.appColorTheme
     ) {

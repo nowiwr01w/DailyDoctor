@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,7 +44,6 @@ import splash.data.SplashAnimationState.FIRST_TEXT
 import splash.data.SplashAnimationState.ICON
 import splash.data.SplashAnimationState.PROGRESS
 import splash.data.SplashAnimationState.SECOND_TEXT
-import theme.AppThemePreview
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
@@ -142,7 +141,7 @@ private fun DailyText(state: State) = AnimatedContainer(
 ) {
     Text(
         text = stringResource(Res.string.app_name).split(" ")[0].uppercase(),
-        style = MaterialTheme.typography.h1,
+        style = CustomTheme.typography.displayLarge,
         color = colors.textColors.blueTextColor,
         letterSpacing = 1.5.sp,
         modifier = Modifier.padding(top = 16.dp)
@@ -159,7 +158,7 @@ private fun DoctorText(state: State) = AnimatedContainer(
 ) {
     Text(
         text = stringResource(Res.string.app_name).split(" ")[1].uppercase(),
-        style = MaterialTheme.typography.h1,
+        style = CustomTheme.typography.displayLarge,
         color = colors.textColors.redTextColor,
         letterSpacing = 1.5.sp
     )
@@ -205,15 +204,4 @@ private fun AnimatedContainer(
     ) {
         content()
     }
-}
-
-/**
- * PREVIEW
- */
-@Preview
-@Composable
-private fun Preview() = AppThemePreview {
-    SplashMainScreenContent(
-        state = State()
-    )
 }

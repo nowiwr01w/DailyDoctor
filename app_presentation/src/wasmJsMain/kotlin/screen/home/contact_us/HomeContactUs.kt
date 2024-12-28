@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,7 +44,7 @@ internal fun HomeContactUs() = Column(
 @Composable
 private fun Title() = Text(
     text = "Есть вопрос по работе сайта или хотите дать обратную связь?\nСвяжитесь с нами!",
-    style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center),
+    style = CustomTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
     color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
     modifier = Modifier
         .padding(top = 56.dp)
@@ -122,7 +122,7 @@ private fun ContactButton(
         modifier = Modifier
             .width(140.dp)
             .height(52.dp)
-            .clip(MaterialTheme.shapes.medium)
+            .clip(CustomTheme.shapes.medium)
             .then(backgroundModifier)
             .clickable { action() }
     ) {

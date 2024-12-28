@@ -22,7 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -190,7 +190,7 @@ private fun VerificationContent(
 private fun Description() = Text(
     text = stringResource(Res.string.verification_code_sent_description),
     color = colors.textColors.blackTextColor,
-    style = MaterialTheme.typography.body1,
+    style = CustomTheme.typography.bodyLarge,
     modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
 )
 
@@ -255,7 +255,7 @@ private fun VerificationCodeItem(
                     }
                 }
             },
-            textStyle = MaterialTheme.typography.h3.copy(
+            textStyle = CustomTheme.typography.displaySmall.copy(
                 lineHeight = 24.sp,
                 textAlign = TextAlign.Center,
                 color = colors.textColors.blackTextColor.copy(alpha = 0.75f)
@@ -290,11 +290,11 @@ private fun VerificationCodeItem(
             ),
             modifier = Modifier
                 .size(verificationCodeItemSize)
-                .clip(MaterialTheme.shapes.large)
+                .clip(CustomTheme.shapes.large)
                 .border(
                     width = 2.dp,
                     color = colors.borderColors.lightGrayColor,
-                    shape = MaterialTheme.shapes.large
+                    shape = CustomTheme.shapes.large
                 )
                 .onKeyEvent { keyEvent ->
                     when (keyEvent.key) {
@@ -329,13 +329,13 @@ private fun ResendText(
     }
     Text(
         text = text,
-        style = MaterialTheme.typography.h5,
+        style = CustomTheme.typography.headlineMedium,
         color = colors.textColors.lightGrayTextColor,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .padding(bottom = 16.dp)
             .wrapContentSize()
-            .clip(MaterialTheme.shapes.large)
+            .clip(CustomTheme.shapes.large)
             .clickable(enabled = state.timerSeconds == 0L) {
                 listener.onResendCodeClicked()
             }

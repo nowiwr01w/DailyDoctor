@@ -1,6 +1,6 @@
 package components.text
 
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,7 +38,7 @@ fun DashedUnderlineText(
                 append(highlightedText)
             }
         },
-        style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.Normal),
+        style = CustomTheme.typography.displaySmall.copy(fontWeight = FontWeight.Normal),
         color = colors.textColors.blackTextColor,
         onTextLayout = { layoutResult ->
             textLayoutResult = layoutResult

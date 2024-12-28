@@ -17,7 +17,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
+import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,7 +43,6 @@ import onboarding.OnboardingContract.Listener
 import onboarding.OnboardingContract.State
 import onboarding.OnboardingViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import theme.AppThemePreview
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
@@ -180,7 +179,7 @@ private fun OnboardingItemView(
         Text(
             text = item.title,
             color = colors.textColors.blackTextColor,
-            style = MaterialTheme.typography.h3,
+            style = CustomTheme.typography.displaySmall,
             modifier = Modifier
                 .padding(top = 32.dp)
                 .fillMaxWidth()
@@ -190,16 +189,16 @@ private fun OnboardingItemView(
             modifier = Modifier
                 .padding(top = 16.dp)
                 .fillMaxWidth()
-                .clip(MaterialTheme.shapes.large)
+                .clip(CustomTheme.shapes.large)
                 .background(
                     color = colors.backgroundColors.blueBackgroundColor,
-                    shape = MaterialTheme.shapes.large
+                    shape = CustomTheme.shapes.large
                 )
         ) {
             Text(
                 text = item.description,
                 color = colors.textColors.grayTextColor,
-                style = MaterialTheme.typography.body1,
+                style = CustomTheme.typography.bodyLarge,
                 modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 64.dp)
             )
         }
@@ -218,23 +217,9 @@ private fun OnboardingItemView(
                 .padding(top = if (item.secondButtonText.isNotEmpty()) 48.dp else 0.dp)
                 .fillMaxWidth()
                 .height(56.dp)
-                .clip(MaterialTheme.shapes.large)
+                .clip(CustomTheme.shapes.large)
         ) {
             Text(text = item.firstButtonText)
         }
     }
-}
-
-/**
- * PREVIEW
- */
-@OptIn(ExperimentalFoundationApi::class)
-@Preview
-@Composable
-private fun Preview() = AppThemePreview {
-    Content(
-        state = State(),
-        listener = null,
-        pagerState = rememberPagerState { 3 }
-    )
 }
