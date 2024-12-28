@@ -65,8 +65,10 @@ val moduleAppPresentationViewModels = module {
     /**
      * VERIFICATION
      */
-    factory {
+    factory { (phone: String, verificationTokenFromAuth: String) ->
         VerificationViewModel(
+            phone = phone,
+            verificationTokenFromAuth = verificationTokenFromAuth,
             checkVerificationCodeUseCode = get<AppCheckVerificationCodeUseCase>(),
             resendVerificationCodeTimerWork = get<ResendVerificationCodeTimerWork>()
         )

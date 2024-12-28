@@ -1,12 +1,18 @@
 package screens.verification
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,83 +20,73 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import components.button.StateButton
-import components.input_field.CustomTextField
 import extensions.BaseScreen
-import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.VerificationChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
 import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.confirm
 import nowiwr01p.daily.doctor.resources.verification_code_sent_description
-import nowiwr01p.daily.doctor.resources.verification_new_code_required
-import nowiwr01p.daily.doctor.resources.verification_send_code_again
 import nowiwr01p.daily.doctor.resources.verification_title
 import org.jetbrains.compose.resources.stringResource
 import screens.auth.TopIcon
 import screens.auth.TopTitle
-import theme.CustomTheme
 import theme.CustomTheme.colors
+import theme.CustomTheme.shapes
+import theme.CustomTheme.typography
 import verification.Effect.NavigateToPinCode
-import verification.Event.HandeUserInput
+import verification.Effect.OpenKeyboardToEnterCorrectCode
 import verification.Event.OnResendCodeClicked
-import verification.Event.OnVerifyClicked
+import verification.Event.VerificationCodeInputChanged
 import verification.Listener
 import verification.State
+import verification.VERIFICATION_CODE_ANIMATION_DURATION
+import verification.VERIFICATION_CODE_LENGTH
 import verification.VerificationViewModel
-import verification.data.VerificationEnterCodeOperation
-import verification.data.VerificationEnterCodeOperation.RemoveDigit
-import verification.data.VerificationEnterCodeOperation.SetDigit
 import view_model.rememberViewModel
 
 @Composable
 internal fun VerificationChild.VerificationMainScreenMobile(
     navigator: MobileNavigator,
-    viewModel: VerificationViewModel = baseComponent.rememberViewModel()
+    viewModel: VerificationViewModel = baseComponent.rememberViewModel(phone, verificationToken)
 ) {
+    val focusRequester = remember {
+        FocusRequester()
+    }
     val listener = object : Listener {
-        override fun onVerifyClicked() {
-            viewModel.setEvent(OnVerifyClicked(phone, verificationToken))
-        }
         override fun onResendCodeClicked() {
-            viewModel.setEvent(OnResendCodeClicked(phone))
+            viewModel.setEvent(OnResendCodeClicked)
         }
-        override fun handeUserInput(operation: VerificationEnterCodeOperation) {
-            viewModel.setEvent(HandeUserInput(operation))
+        override fun onVerificationCodeInputChange(code: String) {
+            viewModel.setEvent(VerificationCodeInputChanged(code))
         }
     }
     val state = viewModel.getState { effect ->
@@ -98,6 +94,9 @@ internal fun VerificationChild.VerificationMainScreenMobile(
             is NavigateToPinCode -> {
                 val pinCodeCreateMode = PinCodeMode.Create(effect.pinCodeToken)
                 navigator.screensNavigator.pinCodeNavigator.navigateToPinCode(pinCodeCreateMode)
+            }
+            is OpenKeyboardToEnterCorrectCode -> {
+                focusRequester.requestFocus()
             }
         }
     }
@@ -107,7 +106,8 @@ internal fun VerificationChild.VerificationMainScreenMobile(
     ) {
         VerificationMainScreenContent(
             state = state,
-            listener = listener
+            listener = listener,
+            focusRequester = focusRequester
         )
     }
 }
@@ -118,7 +118,8 @@ internal fun VerificationChild.VerificationMainScreenMobile(
 @Composable
 private fun VerificationMainScreenContent(
     state: State,
-    listener: Listener
+    listener: Listener,
+    focusRequester: FocusRequester
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -150,6 +151,7 @@ private fun VerificationMainScreenContent(
         VerificationContent(
             state = state,
             listener = listener,
+            focusRequester = focusRequester,
             modifier = authContentModifier
         )
     }
@@ -162,6 +164,7 @@ private fun VerificationMainScreenContent(
 private fun VerificationContent(
     state: State,
     listener: Listener,
+    focusRequester: FocusRequester,
     modifier: Modifier
 ) {
     Column(
@@ -170,10 +173,19 @@ private fun VerificationContent(
     ) {
         TopTitle(text = Res.string.verification_title)
         Description()
-        VerificationCode(state, listener)
-        Spacer(modifier = Modifier.weight(1f))
-        ResendText(state, listener)
-        VerifyButton(state, listener)
+        VerificationCode(
+            state = state,
+            listener = listener,
+            focusRequester = focusRequester
+        )
+        Spacer(
+            modifier = Modifier.weight(1f)
+        )
+        ResendText(
+            state = state,
+            listener = listener
+        )
+        VerifyButton(state)
     }
 }
 
@@ -184,126 +196,132 @@ private fun VerificationContent(
 private fun Description() = Text(
     text = stringResource(Res.string.verification_code_sent_description),
     color = colors.textColors.blackTextColor,
-    style = CustomTheme.typography.bodyLarge,
+    style = typography.bodyLarge,
     modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
 )
 
 /**
- * CODE FIELDS
+ * VERIFICATION CODE
  */
 @Composable
-private fun VerificationCode(
+fun VerificationCode(
     state: State,
-    listener: Listener
+    listener: Listener?,
+    focusRequester: FocusRequester
+) {
+    val initialCode = state.code
+    var enteredCode by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
+    val codeTextFieldValue = remember(initialCode) {
+        val value = TextFieldValue(initialCode, TextRange(initialCode.length))
+        mutableStateOf(value)
+    }
+
+    LaunchedEffect(enteredCode) {
+        listener?.onVerificationCodeInputChange(enteredCode)
+        if (enteredCode.length == VERIFICATION_CODE_LENGTH) {
+            focusManager.clearFocus()
+        }
+    }
+
+    Column(
+        modifier = Modifier.animateContentSize(
+            animationSpec = tween(durationMillis = VERIFICATION_CODE_ANIMATION_DURATION)
+        )
+    ) {
+        BasicTextField(
+            value = codeTextFieldValue.value,
+            onValueChange = { textFieldValue ->
+                enteredCode = textFieldValue.text
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Number
+            ),
+            decorationBox = {
+                CodeInputDecorationBox(
+                    code = codeTextFieldValue.value.text,
+                    isError = state.errorText != null
+                )
+            },
+            modifier = Modifier
+                .padding(start = 24.dp, end = 24.dp, top = 32.dp)
+                .fillMaxWidth()
+                .focusRequester(focusRequester)
+        )
+        state.errorText?.let { errorText ->
+            Text(
+                text = errorText,
+                color = Color(0xFFE34446),
+                style = typography.labelMedium,
+                modifier = Modifier
+                    .padding(top = 8.dp, start = 24.dp, end = 24.dp)
+                    .fillMaxWidth()
+            )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+}
+
+@Composable
+private fun CodeInputDecorationBox(
+    code: String,
+    isError: Boolean
 ) {
     Row(
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 32.dp)
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        repeat(state.code.size) { index ->
-            VerificationCodeItem(
-                index = index,
-                state = state,
-                listener = listener
+        repeat(VERIFICATION_CODE_LENGTH) { index ->
+            CodeEntry(
+                digit = if (index < code.length) code[index].toString() else "",
+                isError = isError
             )
-            if (index != state.code.lastIndex) {
-                Spacer(modifier = Modifier.width(8.dp))
-            }
         }
     }
 }
 
-/**
- * INPUT FIELD CODE ITEM
- */
 @Composable
-private fun VerificationCodeItem(
-    index: Int,
-    state: State,
-    listener: Listener
+private fun RowScope.CodeEntry(
+    digit: String,
+    isError: Boolean
 ) {
-    val verificationCodeItemSize by rememberUpdatedState(
-        newValue = (getScreenWidth() - 5 * 16.dp) / 6
+    val borderColor by animateColorAsState(
+        targetValue = if (isError) colors.borderColors.redColor else colors.borderColors.lightGrayColor,
+        animationSpec = tween(durationMillis = VERIFICATION_CODE_ANIMATION_DURATION)
     )
-    val verticalInputPadding by rememberUpdatedState(
-        newValue = (verificationCodeItemSize - 28.dp) / 2
-    )
-    val customTextSelectionColors = TextSelectionColors(
-        handleColor = colors.backgroundColors.redBackgroundColor,
-        backgroundColor = colors.backgroundColors.redBackgroundColor.copy(alpha = 0.4f)
-    )
-    CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
-        val focusManager = LocalFocusManager.current
-        var enteredDigit by remember { mutableStateOf("") }
-        CustomTextField(
-            value = if (index <= state.code.lastIndex) state.code[index] else "",
-            contentPadding = PaddingValues(top = verticalInputPadding),
-            onValueChange = { digit ->
-                enteredDigit = digit.lastOrNull()?.toString() ?: ""
-                if (enteredDigit.isNotEmpty()) {
-                    listener.handeUserInput(SetDigit(index, enteredDigit))
-                    with(focusManager) {
-                        if (index == state.code.lastIndex) clearFocus() else moveFocus(FocusDirection.Next)
-                    }
-                }
-            },
-            textStyle = CustomTheme.typography.displaySmall.copy(
-                lineHeight = 24.sp,
-                textAlign = TextAlign.Center,
-                color = colors.textColors.blackTextColor.copy(alpha = 0.75f)
-            ),
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colors.textColors.blackTextColor,
-                cursorColor = colors.backgroundColors.redBackgroundColor,
-                backgroundColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = when {
-                    index == state.code.lastIndex && enteredDigit.isNotEmpty() -> ImeAction.Done
-                    else -> ImeAction.Next
-                }
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    if (enteredDigit.isNotEmpty()) {
-                        focusManager.clearFocus()
-                    }
-                },
-                onNext = {
-                    if (enteredDigit.isNotEmpty()) {
-                        focusManager.moveFocus(FocusDirection.Next)
-                    }
-                }
-            ),
-            modifier = Modifier
-                .size(verificationCodeItemSize)
-                .clip(CustomTheme.shapes.large)
-                .border(
-                    width = 2.dp,
-                    color = colors.borderColors.lightGrayColor,
-                    shape = CustomTheme.shapes.large
-                )
-                .onKeyEvent { keyEvent ->
-                    when (keyEvent.key) {
-                        Key.Backspace -> {
-                            listener.handeUserInput(RemoveDigit(index))
-                            if (index != 0) {
-                                focusManager.moveFocus(FocusDirection.Previous)
-                            } else {
-                                false
-                            }
-                        }
-                        else -> false
-                    }
-                }
-        )
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .height(56.dp)
+            .weight(1f)
+            .background(
+                color = colors.backgroundColors.whiteBackgroundColor,
+                shape = shapes.medium
+            )
+            .border(
+                width = 1.dp,
+                color = borderColor,
+                shape = shapes.medium
+            )
+    ) {
+        androidx.compose.animation.AnimatedVisibility(
+            visible = digit.isNotEmpty(),
+            enter = fadeIn(animationSpec = tween(durationMillis = VERIFICATION_CODE_ANIMATION_DURATION)),
+            exit = fadeOut(animationSpec = tween(durationMillis = VERIFICATION_CODE_ANIMATION_DURATION))
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(10.dp)
+                    .background(
+                        color = colors.backgroundColors.grayBackgroundColor,
+                        shape = CircleShape
+                    )
+            )
+        }
     }
 }
 
@@ -315,22 +333,16 @@ private fun ResendText(
     state: State,
     listener: Listener
 ) {
-    val text = when {
-        state.timerSeconds == 0L -> stringResource(Res.string.verification_new_code_required)
-        else -> {
-            stringResource(Res.string.verification_send_code_again, state.timerSeconds.toString())
-        }
-    }
     Text(
-        text = text,
-        style = CustomTheme.typography.headlineMedium,
+        text = state.resendTimerState.text,
+        style = typography.headlineMedium,
         color = colors.textColors.lightGrayTextColor,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .padding(bottom = 16.dp)
             .wrapContentSize()
-            .clip(CustomTheme.shapes.large)
-            .clickable(enabled = state.timerSeconds == 0L) {
+            .clip(shapes.large)
+            .clickable(enabled = state.resendTimerState.isClickEnabled) {
                 listener.onResendCodeClicked()
             }
             .padding(vertical = 4.dp, horizontal = 8.dp)
@@ -341,18 +353,12 @@ private fun ResendText(
  * VERIFY BUTTON
  */
 @Composable
-private fun VerifyButton(
-    state: State,
-    listener: Listener
-) {
-    StateButton(
-        text = "Подтвердить",
-        state = state.buttonState,
-        onClick = { listener.onVerifyClicked() },
-        modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            .fillMaxWidth()
-            .height(56.dp)
-            .clip(RoundedCornerShape(24.dp))
-    )
-}
+private fun VerifyButton(state: State) = StateButton(
+    text = stringResource(Res.string.confirm),
+    state = state.buttonState,
+    modifier = Modifier
+        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        .fillMaxWidth()
+        .height(56.dp)
+        .clip(RoundedCornerShape(24.dp))
+)

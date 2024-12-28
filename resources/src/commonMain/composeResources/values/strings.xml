@@ -29,6 +29,7 @@
     <string name="verification_code_sent_description">Мы отправили код на указанный вами номер. Введите его в поле ниже.</string>
     <string name="verification_new_code_required">Мне нужен новый код</string>
     <string name="verification_send_code_again">Не пришёл код?\nОтправим ещё один через %1$s сек</string>
+    <string name="confirm">Подтвердить</string>
 
     <!-- PIN CODE -->
     <!-- PIN CODE -->

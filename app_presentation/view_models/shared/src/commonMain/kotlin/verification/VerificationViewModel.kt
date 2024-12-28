@@ -7,35 +7,40 @@ import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.button.ButtonState.DARK_GRAY_PROGRESS
 import components.button.ButtonState.ERROR
 import components.button.ButtonState.SUCCESS
+import extensions.withLeadingZero
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import nowiwr01p.daily.doctor.resources.Res
+import nowiwr01p.daily.doctor.resources.verification_new_code_required
+import nowiwr01p.daily.doctor.resources.verification_send_code_again
+import org.jetbrains.compose.resources.getString
 import pro.respawn.flowmvi.api.PipelineContext
 import usecase.verification.AppCheckVerificationCodeUseCase
-import verification.Event.HandeUserInput
+import verification.Effect.OpenKeyboardToEnterCorrectCode
 import verification.Event.OnResendCodeClicked
-import verification.Event.OnVerifyClicked
-import verification.data.VerificationEnterCodeOperation
+import verification.Event.VerificationCodeInputChanged
 import view_model.BaseViewModel
 
 private typealias Ctx = PipelineContext<State, Event, Effect>
 
 class VerificationViewModel(
+    private val phone: String,
+    private val verificationTokenFromAuth: String,
     private val checkVerificationCodeUseCode: AppCheckVerificationCodeUseCase,
     private val resendVerificationCodeTimerWork: ResendVerificationCodeTimerWork
 ): BaseViewModel<State, Event, Effect>(
-    initialValue = State(timerSeconds = resendVerificationCodeTimerWork.timerType.startValue)
+    initialValue = State()
 ) {
     private var verificationTokenFromResend = ""
     private var verificationResendTimerJob: Job? = null
-
     /**
      * INIT
      */
     override suspend fun Ctx.handleEvents(event: Event) {
         when (event) {
-            is OnVerifyClicked -> verify(event.phone, event.verificationToken)
-            is OnResendCodeClicked -> resend(event.phone)
-            is HandeUserInput -> handleUserInput(event.operation)
+            is OnResendCodeClicked -> resend()
+            is VerificationCodeInputChanged -> handleVerificationCodeInputChanges(event.code)
         }
     }
 
@@ -48,31 +53,42 @@ class VerificationViewModel(
      */
     private fun Ctx.startTimer() = io {
         verificationResendTimerJob = resendVerificationCodeTimerWork.startWork(scope = this) { secondsLeft ->
-            setState { copy(timerSeconds = secondsLeft) }
+            withState {
+                val text = when {
+                    secondsLeft == 0 -> getString(Res.string.verification_new_code_required)
+                    else -> getString(Res.string.verification_send_code_again, secondsLeft.withLeadingZero())
+                }
+                val updatedResendTimerState = resendTimerState.copy(
+                    text = text,
+                    isClickEnabled = secondsLeft == 0
+                )
+                setState { copy(resendTimerState = updatedResendTimerState) }
+            }
         }
     }
 
     /**
      * USER INPUT
      */
-    private suspend fun Ctx.handleUserInput(operation: VerificationEnterCodeOperation) = withState {
-        val updatedCode = code.toMutableList().apply {
-            set(operation.index, operation.digit)
+    private suspend fun Ctx.handleVerificationCodeInputChanges(code: String) = withState {
+        setState { copy(code = code, errorText = null) }
+        if (code.length == VERIFICATION_CODE_LENGTH) {
+            verify(code)
         }
-        setState { copy(code = updatedCode) }
     }
 
     /**
      * VERIFICATION
      */
-    private fun Ctx.verify(phone: String, token: String) = io {
+    private fun Ctx.verify(code: String) = scope.launch {
         withState {
             setState { copy(buttonState = DARK_GRAY_PROGRESS) }
+            delay(1500)
             runCatchingApp {
                 val checkVerificationCodeRequest = CheckVerificationCodeRequest(
+                    code = code,
                     phone = phone,
-                    code = code.joinToString(separator = ""),
-                    verificationToken = verificationTokenFromResend.ifEmpty { token }
+                    verificationToken = verificationTokenFromResend.ifEmpty { verificationTokenFromAuth }
                 )
                 checkVerificationCodeUseCode.execute(checkVerificationCodeRequest)
             }.onSuccess { pinCodeTokenResponse ->
@@ -80,14 +96,15 @@ class VerificationViewModel(
                 delay(3000)
                 setEffect(Effect.NavigateToPinCode(pinCodeTokenResponse.token))
             }.onFailure {
-                setState { copy(buttonState = ERROR) }
+                setState { copy(buttonState = ERROR, errorText = it.message) }
                 delay(3000)
-                setState { copy(buttonState = DARK_GRAY_ACTIVE) }
+                setState { copy(buttonState = DARK_GRAY_ACTIVE, code = "") }
+                setEffect(OpenKeyboardToEnterCorrectCode)
             }
         }
     }
 
-    private fun Ctx.resend(phone: String) = io {
+    private fun Ctx.resend() = io {
         runCatchingApp {
             resendVerificationCodeTimerWork.resendCode(phone)
         }.onSuccess { token ->
