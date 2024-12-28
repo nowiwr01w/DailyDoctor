@@ -17,10 +17,8 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
-import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
@@ -36,39 +34,35 @@ import getScreenWidth
 import kotlinx.coroutines.launch
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.OnboardingChild
-import observers.EffectObserver
-import onboarding.OnboardingContract.Effect.*
-import onboarding.OnboardingContract.Event
-import onboarding.OnboardingContract.Listener
-import onboarding.OnboardingContract.State
+import onboarding.Effect.NavigateToAuth
+import onboarding.Effect.ShowEnableNotificationsDialog
+import onboarding.Effect.SlideToNextOnboardingItem
+import onboarding.Event.RequestNotifications
+import onboarding.Event.ShowNextOnboardingItem
+import onboarding.Listener
 import onboarding.OnboardingViewModel
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import onboarding.State
+import theme.CustomTheme
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
 internal fun OnboardingChild.OnboardingMainScreenMobile(
     navigator: MobileNavigator,
-    viewModel: OnboardingViewModel = rememberViewModel()
+    viewModel: OnboardingViewModel = baseComponent.rememberViewModel()
 ) {
-    val state = viewModel.viewState.value
     val scope = rememberCoroutineScope()
-    val pagerState = rememberPagerState { state.onboardingItems.size }
+    val pagerState = rememberPagerState { 5 } // TODO: To constants
 
     val listener = object : Listener {
         override fun showNextOnboardingItem(currentOnboardingItem: OnboardingItem) {
-            viewModel.setEvent(Event.ShowNextOnboardingItem(currentOnboardingItem))
+            viewModel.setEvent(ShowNextOnboardingItem(currentOnboardingItem))
         }
         override fun onEnableNotificationsClick() {
-            viewModel.setEvent(Event.RequestNotifications)
+            viewModel.setEvent(RequestNotifications)
         }
     }
-
-    LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init)
-    }
-    
-    EffectObserver(viewModel.effect) { effect ->
+    val state = viewModel.getState { effect ->
         when (effect) {
             is ShowEnableNotificationsDialog -> {
                 navigator.screensNavigator.authNavigator.navigateToAuth() // TODO
@@ -84,7 +78,6 @@ internal fun OnboardingChild.OnboardingMainScreenMobile(
             }
         }
     }
-
     BaseScreen {
         Content(
             state = state,

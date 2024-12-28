@@ -63,6 +63,7 @@ kotlin {
                 implementation(libs.koin.compose)
                 implementation(libs.coroutines)
                 implementation(libs.bundles.base.app)
+                implementation(libs.bundles.mvi)
             }
         }
         androidMain.dependencies {

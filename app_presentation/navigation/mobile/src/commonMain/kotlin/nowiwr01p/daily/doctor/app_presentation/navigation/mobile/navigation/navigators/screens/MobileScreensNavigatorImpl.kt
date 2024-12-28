@@ -30,7 +30,7 @@ class MobileScreensNavigatorImpl(
         key = "ScreensChildStack",
         source = navigation,
         serializer = MobileScreensConfig.serializer(),
-        initialConfiguration = MobileScreensConfig.Subscription,
+        initialConfiguration = MobileScreensConfig.Splash,
         handleBackButton = true,
         childFactory = { config, childContext ->
             config.child.apply {

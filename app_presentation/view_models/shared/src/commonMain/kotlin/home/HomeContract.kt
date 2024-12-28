@@ -4,19 +4,18 @@ import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
 
-sealed interface HomeContract {
+sealed interface Event: BaseEvent {
 
-    sealed interface Event: BaseEvent {
+}
 
-    }
+sealed interface State: BaseState {
+    data object Default: State
+}
 
-    class State: BaseState
+sealed interface Effect: BaseEffect {
 
-    sealed interface Effect: BaseEffect {
+}
 
-    }
+interface Listener {
 
-    interface Listener {
-
-    }
 }

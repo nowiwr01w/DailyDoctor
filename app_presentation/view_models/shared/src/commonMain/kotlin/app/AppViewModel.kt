@@ -1,38 +1,31 @@
 package app
 
-import app.AppContract.*
-import app.AppContract.Event.*
 import com.nowiwr01p.model.extensions.runCatchingApp
 import com.nowiwr01p.model.model.app_config.config.BrandConfig
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import manager.brand_config.AppBrandConfigManager
 import model.color.allAppColorThemes
 import model.color.classic.AppClassicColorThemeLight
+import pro.respawn.flowmvi.api.PipelineContext
 import view_model.BaseViewModel
 
+private typealias Ctx = PipelineContext<State, Event, Effect>
+
 class AppViewModel(
-    scope: CoroutineScope,
     private val appBrandConfigManager: AppBrandConfigManager
-): BaseViewModel<Event, State, Effect>(scope) {
-
-    override fun setInitialState() = State()
-
-    override fun handleEvents(event: Event) {
-        when (event) {
-            is Init -> init()
-        }
-    }
-
-    private fun init() {
+): BaseViewModel<State, Event, Effect>(initialValue = State()) {
+    /**
+     * INIT
+     */
+    override suspend fun Ctx.init() {
         loadBrandConfig()
     }
 
     /**
      * BRAND CONFIG
      */
-    private fun loadBrandConfig() = hide {
+    private fun Ctx.loadBrandConfig() = io {
         runCatchingApp {
             appBrandConfigManager.getBrandConfig(fromRemote = true)
         }.onSuccess { brandConfig ->
@@ -42,7 +35,7 @@ class AppViewModel(
         }
     }
 
-    private fun subscribeOnConfigChanges(brandConfig: Flow<BrandConfig>) = hide {
+    private fun Ctx.subscribeOnConfigChanges(brandConfig: Flow<BrandConfig>) = io {
         brandConfig.collectLatest { config ->
             initAppTheme(config)
         }
@@ -51,7 +44,7 @@ class AppViewModel(
     /**
      * APP THEME
      */
-    private fun initAppTheme(config: BrandConfig) = config.brandSettings
+    private suspend fun Ctx.initAppTheme(config: BrandConfig) = config.brandSettings
         .availableColorThemes
         .firstOrNull()
         ?.let { appColorThemeType ->

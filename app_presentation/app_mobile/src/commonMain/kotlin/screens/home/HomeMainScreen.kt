@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import home.HomeContract.Listener
-import home.HomeContract.State
 import home.HomeViewModel
+import home.Listener
+import home.State
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.HomeChild
 import view_model.rememberViewModel
@@ -16,14 +16,16 @@ import view_model.rememberViewModel
 @Composable
 fun HomeChild.HomeMainScreen(
     navigator: MobileNavigator,
-    viewModel: HomeViewModel = rememberViewModel()
+    viewModel: HomeViewModel = baseComponent.rememberViewModel()
 ) {
     val listener = object : Listener {
 
     }
+    val state = viewModel.getState {
 
+    }
     Content(
-        state = viewModel.viewState.value,
+        state = state,
         listener = listener
     )
 }
@@ -33,5 +35,9 @@ private fun Content(
     state: State,
     listener: Listener?
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(Color.Red))
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Red)
+    )
 }

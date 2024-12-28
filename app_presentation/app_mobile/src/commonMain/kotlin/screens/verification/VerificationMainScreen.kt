@@ -22,12 +22,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,17 +48,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import observers.EffectObserver
-import view_model.rememberViewModel
-import theme.CustomTheme.colors
-import verification.VerificationContract.Effect
-import verification.VerificationContract.Event
-import verification.VerificationContract.Listener
-import verification.VerificationContract.State
-import verification.VerificationViewModel
-import verification.data.VerificationEnterCodeOperation
-import verification.data.VerificationEnterCodeOperation.RemoveDigit
-import verification.data.VerificationEnterCodeOperation.SetDigit
 import components.button.StateButton
 import components.input_field.CustomTextField
 import extensions.BaseScreen
@@ -76,43 +63,50 @@ import nowiwr01p.daily.doctor.resources.verification_title
 import org.jetbrains.compose.resources.stringResource
 import screens.auth.TopIcon
 import screens.auth.TopTitle
+import theme.CustomTheme
+import theme.CustomTheme.colors
+import verification.Effect.NavigateToPinCode
+import verification.Event.HandeUserInput
+import verification.Event.OnResendCodeClicked
+import verification.Event.OnVerifyClicked
+import verification.Listener
+import verification.State
+import verification.VerificationViewModel
+import verification.data.VerificationEnterCodeOperation
+import verification.data.VerificationEnterCodeOperation.RemoveDigit
+import verification.data.VerificationEnterCodeOperation.SetDigit
+import view_model.rememberViewModel
 
 @Composable
 internal fun VerificationChild.VerificationMainScreenMobile(
     navigator: MobileNavigator,
-    viewModel: VerificationViewModel = rememberViewModel()
+    viewModel: VerificationViewModel = baseComponent.rememberViewModel()
 ) {
     val listener = object : Listener {
         override fun onVerifyClicked() {
-            viewModel.setEvent(Event.OnVerifyClicked(phone, verificationToken))
+            viewModel.setEvent(OnVerifyClicked(phone, verificationToken))
         }
         override fun onResendCodeClicked() {
-            viewModel.setEvent(Event.OnResendCodeClicked(phone))
+            viewModel.setEvent(OnResendCodeClicked(phone))
         }
         override fun handeUserInput(operation: VerificationEnterCodeOperation) {
-            viewModel.setEvent(Event.HandeUserInput(operation))
+            viewModel.setEvent(HandeUserInput(operation))
         }
     }
-
-    LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init)
-    }
-
-    EffectObserver(viewModel.effect) { effect ->
+    val state = viewModel.getState { effect ->
         when (effect) {
-            is Effect.NavigateToPinCode -> {
+            is NavigateToPinCode -> {
                 val pinCodeCreateMode = PinCodeMode.Create(effect.pinCodeToken)
-               navigator.screensNavigator.pinCodeNavigator.navigateToPinCode(pinCodeCreateMode)
+                navigator.screensNavigator.pinCodeNavigator.navigateToPinCode(pinCodeCreateMode)
             }
         }
     }
-
     BaseScreen(
         topBackgroundColor = colors.backgroundColors.grayBackgroundColor,
         bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
     ) {
         VerificationMainScreenContent(
-            state = viewModel.viewState.value,
+            state = state,
             listener = listener
         )
     }

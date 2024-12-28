@@ -27,18 +27,16 @@ val moduleAppPresentationViewModels = module {
     /**
      * APP
      */
-    single { (scope: CoroutineScope) ->
+    single {
         AppViewModel(
-            scope = scope,
             appBrandConfigManager = get<AppBrandConfigManager>()
         )
     }
     /**
      * SPLASH
      */
-    factory { (scope: CoroutineScope) ->
+    factory {
         SplashViewModel(
-            scope = scope,
             appScope = get<AppScope>(),
             getLocalUserUseCase = get<GetLocalUserUseCase>(),
             appBrandConfigManager = get<AppBrandConfigManager>(),
@@ -48,18 +46,16 @@ val moduleAppPresentationViewModels = module {
     /**
      * ONBOARDING
      */
-    factory { (scope: CoroutineScope) ->
+    factory {
         OnboardingViewModel(
-            scope = scope,
             appOnboardingManager = get<AppOnboardingManager>()
         )
     }
     /**
      * AUTH
      */
-    factory { (scope: CoroutineScope) ->
+    factory {
         AuthViewModel(
-            scope = scope,
             signInUseCase = get<AppSignInUseCase>(),
             signUpUseCase = get<AppSignUpUseCase>(),
             authDataValidator = get<AppValidateAuthDataUseCase>(),
@@ -69,9 +65,8 @@ val moduleAppPresentationViewModels = module {
     /**
      * VERIFICATION
      */
-    factory { (scope: CoroutineScope) ->
+    factory {
         VerificationViewModel(
-            scope = scope,
             checkVerificationCodeUseCode = get<AppCheckVerificationCodeUseCase>(),
             resendVerificationCodeTimerWork = get<ResendVerificationCodeTimerWork>()
         )
@@ -79,9 +74,8 @@ val moduleAppPresentationViewModels = module {
     /**
      * PIN CODE
      */
-    factory { (scope: CoroutineScope, pinCodeMode: PinCodeMode) ->
+    factory { (pinCodeMode: PinCodeMode) ->
         PinCodeViewModel(
-            scope = scope,
             pinCodeMode = pinCodeMode,
             snackBarHelper = get<SnackBarHelper>(),
             checkPinCodeUseCase = get<AppCheckPinCodeUseCase>(),
@@ -93,13 +87,13 @@ val moduleAppPresentationViewModels = module {
     /**
      * SUBSCRIPTION
      */
-    factory { (scope: CoroutineScope) ->
-        SubscriptionViewModel(scope)
+    factory {
+        SubscriptionViewModel()
     }
     /**
      * HOME
      */
-    factory { (scope: CoroutineScope) ->
-        HomeViewModel(scope)
+    factory {
+        HomeViewModel()
     }
 }

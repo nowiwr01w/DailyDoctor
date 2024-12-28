@@ -73,6 +73,7 @@ kotlin {
                 implementation(libs.koin)
                 implementation(libs.coroutines)
                 implementation(libs.kotlin.serialization.json)
+                implementation(libs.bundles.mvi)
             }
         }
         androidMain.dependencies {

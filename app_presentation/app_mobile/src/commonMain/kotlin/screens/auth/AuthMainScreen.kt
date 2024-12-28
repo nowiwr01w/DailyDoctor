@@ -26,12 +26,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Icon
-import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,13 +47,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import auth.AuthContract.Effect.NavigateToPin
-import auth.AuthContract.Effect.NavigateToPrivacyPolicyInfo
-import auth.AuthContract.Effect.NavigateToVerification
-import auth.AuthContract.Event
-import auth.AuthContract.Listener
-import auth.AuthContract.State
 import auth.AuthViewModel
+import auth.Effect.NavigateToPin
+import auth.Effect.NavigateToPrivacyPolicyInfo
+import auth.Effect.NavigateToVerification
+import auth.Event.HandleUserInput
+import auth.Event.OnAuthClicked
+import auth.Event.OnPrivacyPolicyClicked
+import auth.Event.ToggleAuthMode
+import auth.Event.ToggleUserInputVisibility
+import auth.Listener
+import auth.State
 import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
 import components.button.ButtonState.DARK_GRAY_ACTIVE
@@ -72,7 +74,8 @@ import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import model.errors.auth.AuthTextFieldType.PHONE
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.AuthChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.*
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Check
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Create
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.auth_agree_with_policies_title
 import nowiwr01p.daily.doctor.resources.auth_button_already_have_account_title
@@ -86,47 +89,39 @@ import nowiwr01p.daily.doctor.resources.auth_title
 import nowiwr01p.daily.doctor.resources.ic_eye_closed
 import nowiwr01p.daily.doctor.resources.ic_eye_opened
 import nowiwr01p.daily.doctor.resources.ic_login
-import observers.EffectObserver
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import theme.CustomTheme
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
 internal fun AuthChild.AuthMainScreenMobile(
     navigator: MobileNavigator,
-    viewModel: AuthViewModel = rememberViewModel()
+    viewModel: AuthViewModel = baseComponent.rememberViewModel()
 ) {
     val listener = object : Listener {
         override fun onUserInputChanged(type: AuthTextFieldType, value: String) {
-            viewModel.setEvent(Event.HandleUserInput(type, value))
+            viewModel.setEvent(HandleUserInput(type, value))
         }
         override fun onToggleUserInputVisibilityClicked() {
-            viewModel.setEvent(Event.ToggleUserInputVisibility)
+            viewModel.setEvent(ToggleUserInputVisibility)
         }
         override fun onToggleAuthModeClicked() {
-            viewModel.setEvent(Event.ToggleAuthMode)
+            viewModel.setEvent(ToggleAuthMode)
         }
         override fun onAuthClicked() {
-            viewModel.setEvent(Event.OnAuthClicked)
+            viewModel.setEvent(OnAuthClicked)
         }
         override fun onPrivacyPolicyClicked() {
-            viewModel.setEvent(Event.OnPrivacyPolicyClicked)
+            viewModel.setEvent(OnPrivacyPolicyClicked)
         }
     }
-
-    LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init)
-    }
-
-    EffectObserver(viewModel.effect) { effect ->
+    val state = viewModel.getState { effect ->
         when (effect) {
             is NavigateToPin -> {
-                val pinCodeMode = when {
-                    effect.isPinCodeSet -> Check(effect.token)
-                    else -> Create(effect.token)
-                }
+                val pinCodeMode = if (effect.isPinCodeSet) Check(effect.token) else Create(effect.token) // TODO: Do it in ViewModel
                 navigator.screensNavigator.pinCodeNavigator.navigateToPinCode(pinCodeMode)
             }
             is NavigateToVerification -> {
@@ -137,13 +132,12 @@ internal fun AuthChild.AuthMainScreenMobile(
             }
         }
     }
-
     BaseScreen(
         topBackgroundColor = colors.backgroundColors.grayBackgroundColor,
         bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
     ) {
         AuthMainScreenContent(
-            state = viewModel.viewState.value,
+            state = state,
             listener = listener
         )
     }

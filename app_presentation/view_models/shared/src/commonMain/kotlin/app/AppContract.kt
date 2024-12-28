@@ -6,15 +6,10 @@ import contract.BaseState
 import model.color.AppColorTheme
 import model.color.classic.AppClassicColorThemeLight
 
-sealed interface AppContract {
+sealed interface Event: BaseEvent
 
-    sealed interface Event: BaseEvent {
-        data object Init: Event
-    }
+data class State(
+    val appColorTheme: AppColorTheme = AppClassicColorThemeLight()
+): BaseState
 
-    data class State(
-        val appColorTheme: AppColorTheme = AppClassicColorThemeLight()
-    ): BaseState
-
-    sealed interface Effect: BaseEffect
-}
+sealed interface Effect: BaseEffect

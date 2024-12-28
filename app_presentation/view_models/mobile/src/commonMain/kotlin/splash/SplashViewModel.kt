@@ -2,7 +2,6 @@ package splash
 
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import com.nowiwr01p.model.usecase.execute
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
@@ -11,32 +10,25 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import manager.brand_config.AppBrandConfigManager
 import manager.onboarding.AppOnboardingManager
-import splash.SplashContract.Effect
-import splash.SplashContract.Effect.NavigateToHome
-import splash.SplashContract.Effect.NavigateToOnboarding
-import splash.SplashContract.Event
-import splash.SplashContract.State
+import pro.respawn.flowmvi.api.PipelineContext
+import splash.Effect.NavigateToHome
+import splash.Effect.NavigateToOnboarding
 import splash.data.SplashAnimationState
 import user.usecase.GetLocalUserUseCase
 import view_model.BaseViewModel
 
+private typealias Ctx = PipelineContext<State, Event, Effect>
+
 class SplashViewModel(
-    scope: CoroutineScope,
     private val appScope: AppScope,
     private val getLocalUserUseCase: GetLocalUserUseCase,
     private val appOnboardingManager: AppOnboardingManager,
     private val appBrandConfigManager: AppBrandConfigManager
-): BaseViewModel<Event, State, Effect>(scope) {
-
-    override fun setInitialState() = State()
-
-    override fun handleEvents(event: Event) {
-        when (event) {
-            is Event.Init -> init()
-        }
-    }
-
-    private fun init() {
+): BaseViewModel<State, Event, Effect>(initialValue = State()) {
+    /**
+     * INIT
+     */
+    override suspend fun Ctx.init() {
         startTimer()
         getBrandConfig()
     }
@@ -59,7 +51,7 @@ class SplashViewModel(
     /**
      * ANIMATION
      */
-    private fun startTimer() = hide {
+    private fun Ctx.startTimer() = io {
         val animationDuration = SplashAnimationState.entries
             .last()
             .showUntilAtMillis
@@ -75,7 +67,7 @@ class SplashViewModel(
             .collect()
     }
 
-    private fun setAnimationState(millis: Int) = setState {
+    private suspend fun Ctx.setAnimationState(millis: Int) = setState {
         val animationState = SplashAnimationState.entries.first { item ->
             millis <= item.showUntilAtMillis
         }
@@ -85,11 +77,11 @@ class SplashViewModel(
     /**
      * NAVIGATION
      */
-    private suspend fun chooseNavigationDestination() {
+    private suspend fun Ctx.chooseNavigationDestination() {
         val effect = when {
             getLocalUserUseCase.execute() != null -> NavigateToHome
             else -> NavigateToOnboarding
         }
-        setEffect { effect }
+        setEffect(effect)
     }
 }
