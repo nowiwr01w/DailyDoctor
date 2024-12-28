@@ -2,6 +2,7 @@ package theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -22,18 +23,21 @@ object CustomTheme {
      */
     val colors: AppColorsData
         @Composable
+        @ReadOnlyComposable
         get() = LocalAppColorsData.current
     /**
      * APP SHAPES
      */
     val shapes: AppShapes
         @Composable
+        @ReadOnlyComposable
         get() = LocalShapes.current
     /**
      * APP TYPOGRAPHY
      */
     val typography: AppTypography
         @Composable
+        @ReadOnlyComposable
         get() = LocalTypography.current
 }
 
