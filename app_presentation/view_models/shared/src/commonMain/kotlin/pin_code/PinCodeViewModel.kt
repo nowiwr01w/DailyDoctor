@@ -11,49 +11,52 @@ import components.button.ButtonState.SUCCESS
 import helpers.snack_bar.SnackBarHelper
 import helpers.snack_bar.data.SnackBarParams
 import helpers.snack_bar.data.SnackBarType
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import model.message.AppMessage
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.*
-import pin_code.PinCodeContract.Effect
-import pin_code.PinCodeContract.Event
-import pin_code.PinCodeContract.State
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Change
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Check
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Create
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Delete
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Repeat
+import pin_code.Event.HandleUserInput
 import pin_code.data.PinCodeOperation
-import pin_code.data.PinCodeOperation.*
+import pin_code.data.PinCodeOperation.AddDigit
+import pin_code.data.PinCodeOperation.RemoveDigit
+import pro.respawn.flowmvi.api.PipelineContext
 import usecase.pin.AppChangePinCodeUseCase
 import usecase.pin.AppCheckPinCodeUseCase
 import usecase.pin.AppCreatePinCodeUseCase
 import usecase.pin.AppDeletePinCodeUseCase
 import view_model.BaseViewModel
 
+private typealias Ctx = PipelineContext<State, Event, Effect>
+
 class PinCodeViewModel(
-    scope: CoroutineScope,
     private val pinCodeMode: PinCodeMode,
     private val snackBarHelper: SnackBarHelper,
     private val checkPinCodeUseCase: AppCheckPinCodeUseCase,
     private val createPinCodeUseCase: AppCreatePinCodeUseCase,
     private val changePinCodeUseCase: AppChangePinCodeUseCase,
     private val deletePinCodeUseCase: AppDeletePinCodeUseCase
-): BaseViewModel<Event, State, Effect>(scope)  {
-
+): BaseViewModel<State, Event, Effect>(
+    initialValue = State(pinCodeMode = pinCodeMode)
+) {
     private var previousPinCodeMode = pinCodeMode
 
-    override fun setInitialState() = State(pinCodeMode = pinCodeMode)
-
-    override fun handleEvents(event: Event) {
+    override suspend fun Ctx.handleEvents(event: Event) {
         when (event) {
-            is Event.HandleUserInput -> handleUserInput(event.operation)
+            is HandleUserInput -> handleUserInput(event.operation)
         }
     }
 
-    private fun handleUserInput(operation: PinCodeOperation) {
+    private suspend fun Ctx.handleUserInput(operation: PinCodeOperation) {
         updateUserInput(operation)
         handleModeChanging()
     }
 
-    private fun updateUserInput(operation: PinCodeOperation) = with(viewState.value) {
+    private suspend fun Ctx.updateUserInput(operation: PinCodeOperation) = withState {
         val updatedPinCode = when (operation) {
             is AddDigit -> "$pinCode${operation.digit}"
             is RemoveDigit -> pinCode.dropLast(1)
@@ -61,7 +64,7 @@ class PinCodeViewModel(
         setState { copy(pinCode = updatedPinCode) }
     }
 
-    private fun handleModeChanging() = with(viewState.value) {
+    private suspend fun Ctx.handleModeChanging() = withState {
         if (pinCode.length == 4) {
             when (pinCodeMode) {
                 is Create, is Change -> createPinCode(pinCode) // TODO: setState { copy(pinCodeMode = Repeat) }
@@ -75,7 +78,7 @@ class PinCodeViewModel(
         }
     }
 
-    private fun createPinCode(code: String) = pinCodeOperation(
+    private fun Ctx.createPinCode(code: String) = pinCodeOperation(
         pinCodeCallback = {
             val request = CreatePinCodeRequest(
                 code = code,
@@ -86,7 +89,7 @@ class PinCodeViewModel(
         navigationEffect = Effect.NavigateToHome
     )
 
-    private fun checkPinCode(code: String) = pinCodeOperation(
+    private fun Ctx.checkPinCode(code: String) = pinCodeOperation(
         pinCodeCallback = {
             val request = CheckPinCodeRequest(
                 code = code,
@@ -97,7 +100,7 @@ class PinCodeViewModel(
         navigationEffect = Effect.NavigateToHome
     )
 
-    private fun changePinCode(code: String) = pinCodeOperation(
+    private fun Ctx.changePinCode(code: String) = pinCodeOperation(
         pinCodeCallback = {
             val request = ChangePinCodeRequest()
             changePinCodeUseCase.execute(request)
@@ -105,18 +108,18 @@ class PinCodeViewModel(
         navigationEffect = Effect.NavigateBack
     )
 
-    private fun deletePinCode() = pinCodeOperation(
+    private fun Ctx.deletePinCode() = pinCodeOperation(
         pinCodeCallback = {
             deletePinCodeUseCase.execute()
         },
         navigationEffect = Effect.NavigateBack
     )
 
-    private fun pinCodeOperation(
+    private fun Ctx.pinCodeOperation(
         pinCodeCallback: suspend () -> Unit,
         navigationEffect: Effect
     ): Job {
-        return hide {
+        return io {
             runCatchingApp {
                 pinCodeCallback()
             }.onSuccess {
@@ -129,7 +132,7 @@ class PinCodeViewModel(
         }
     }
 
-    private suspend fun onSuccess(navigationEffect: Effect) {
+    private suspend fun Ctx.onSuccess(navigationEffect: Effect) {
         val params = SnackBarParams.TopFloatingParams(
             type = SnackBarType.SUCCESS,
             message = AppMessage.AppMessageText("Добро пожаловать!") // TODO
@@ -137,10 +140,10 @@ class PinCodeViewModel(
         setState { copy(buttonState = SUCCESS) }
         snackBarHelper.showSnackBar(params)
         delay(3000)
-        setEffect { navigationEffect }
+        setEffect(navigationEffect)
     }
 
-    private suspend fun onError(message: String) {
+    private suspend fun Ctx.onError(message: String) {
         val params = SnackBarParams.TopFloatingParams(
             type = SnackBarType.ERROR,
             message = AppMessage.AppMessageText(message) // TODO

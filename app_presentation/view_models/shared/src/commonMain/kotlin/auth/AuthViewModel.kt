@@ -1,57 +1,53 @@
 package auth
 
-import view_model.BaseViewModel
-import com.nowiwr01p.model.api.request.auth.SignInRequest
-import com.nowiwr01p.model.api.request.auth.SignUpRequest
-import com.nowiwr01p.model.api.response.token.TokenResponse
-import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
-import model.message.AppMessage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import model.errors.auth.AuthTextFieldType
-import model.errors.auth.AuthTextFieldType.PHONE
-import model.errors.auth.AuthTextFieldType.PASSWORD
-import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
-import model.user.UserData
-import model.user.UserDataSignIn
-import model.user.UserDataSignUp
-import auth.AuthContract.Effect
-import auth.AuthContract.Event
-import auth.AuthContract.Event.HandleUserInput
-import auth.AuthContract.Event.Init
-import auth.AuthContract.Event.OnAuthClicked
-import auth.AuthContract.Event.OnPrivacyPolicyClicked
-import auth.AuthContract.Event.ToggleAuthMode
-import auth.AuthContract.Event.ToggleUserInputVisibility
-import auth.AuthContract.State
+import auth.Event.HandleUserInput
+import auth.Event.OnAuthClicked
+import auth.Event.OnPrivacyPolicyClicked
+import auth.Event.ToggleAuthMode
+import auth.Event.ToggleUserInputVisibility
 import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
+import com.nowiwr01p.model.api.request.auth.SignInRequest
+import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.api.response.token.PinCodeTokenResponse
+import com.nowiwr01p.model.api.response.token.TokenResponse
+import com.nowiwr01p.model.api.response.token.VerificationTokenResponse
 import com.nowiwr01p.model.extensions.runCatchingApp
 import components.button.ButtonState.DARK_GRAY_ACTIVE
-import components.button.ButtonState.ERROR
 import components.button.ButtonState.DARK_GRAY_PROGRESS
+import components.button.ButtonState.ERROR
 import components.button.ButtonState.SUCCESS
 import helpers.snack_bar.SnackBarHelper
 import helpers.snack_bar.data.SnackBarParams.TopFloatingParams
 import helpers.snack_bar.data.SnackBarType
+import kotlinx.coroutines.delay
+import model.errors.auth.AuthTextFieldType
+import model.errors.auth.AuthTextFieldType.PASSWORD
+import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
+import model.errors.auth.AuthTextFieldType.PHONE
+import model.message.AppMessage
+import model.user.UserData
+import model.user.UserDataSignIn
+import model.user.UserDataSignUp
+import pro.respawn.flowmvi.api.PipelineContext
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignUpUseCase
 import usecase.auth.AppValidateAuthDataUseCase
+import view_model.BaseViewModel
+
+private typealias Ctx = PipelineContext<State, Event, Effect>
 
 class AuthViewModel(
-    scope: CoroutineScope,
     private val signInUseCase: AppSignInUseCase,
     private val signUpUseCase: AppSignUpUseCase,
     private val authDataValidator: AppValidateAuthDataUseCase,
     private val snackBarHelper: SnackBarHelper
-): BaseViewModel<Event, State, Effect>(scope) {
-
-    override fun setInitialState() = State()
-
-    override fun handleEvents(event: Event) {
+): BaseViewModel<State, Event, Effect>(initialValue = State()) {
+    /**
+     * INIT
+     */
+    override suspend fun Ctx.handleEvents(event: Event) {
         when (event) {
-            is Init -> init()
             is HandleUserInput -> handleUserInput(event.type, event.value)
             is OnAuthClicked -> checkUserInput()
             is OnPrivacyPolicyClicked -> onPrivacyPolicyClicked()
@@ -60,11 +56,10 @@ class AuthViewModel(
         }
     }
 
-    private fun init() {
-        // TODO
-    }
-
-    private fun handleUserInput(type: AuthTextFieldType, value: String) = setState {
+    /**
+     * USER INPUT
+     */
+    private suspend fun Ctx.handleUserInput(type: AuthTextFieldType, value: String) = setState {
         when (type) {
             PHONE -> copy(phone = value, authError = null)
             PASSWORD -> copy(password = value, authError = null)
@@ -72,29 +67,34 @@ class AuthViewModel(
         }
     }
 
-    private fun checkUserInput() = hide {
-        getUserData().let { userData ->
-            val error = authDataValidator.execute(userData)
-            if (error == null) {
-                auth(userData)
-            } else {
-                showSnackBar(
-                    type = SnackBarType.ERROR,
-                    message = AppMessage.AppMessageText(error.message)
-                )
+    private fun Ctx.checkUserInput() = io {
+        withState {
+            val userData = when (authMode) {
+                SIGN_IN -> UserDataSignIn(phone, password)
+                SIGN_UP -> UserDataSignUp(phone, password, passwordConfirmation)
             }
-            setState { copy(authError = error) }
+            authDataValidator.execute(userData).let { error ->
+                if (error == null) {
+                    auth(userData)
+                } else {
+                    showSnackBar(
+                        type = SnackBarType.ERROR,
+                        message = AppMessage.AppMessageText(error.message)
+                    )
+                }
+                setState { copy(authError = error) }
+            }
         }
     }
 
-    private fun getUserData() = with(viewState.value) {
-        when (viewState.value.authMode) {
-            SIGN_IN -> UserDataSignIn(phone, password)
-            SIGN_UP -> UserDataSignUp(phone, password, passwordConfirmation)
-        }
+    private suspend fun Ctx.toggleUserInputVisibility() = setState {
+        copy(isUserInputHidden = !isUserInputHidden)
     }
 
-    private fun auth(userData: UserData) = hide {
+    /**
+     * AUTH
+     */
+    private fun Ctx.auth(userData: UserData) = io {
         setState { copy(buttonState = DARK_GRAY_PROGRESS) }
         runCatchingApp {
             when (userData) {
@@ -115,7 +115,7 @@ class AuthViewModel(
         }
     }
 
-    private suspend fun onAuthSucceed(phone: String, tokenResponse: TokenResponse) {
+    private suspend fun Ctx.onAuthSucceed(phone: String, tokenResponse: TokenResponse) {
         setState { copy(buttonState = SUCCESS) }
         delay(3000)
         val navigateToNextScreenEffect = when (tokenResponse) {
@@ -129,10 +129,10 @@ class AuthViewModel(
             )
             else -> throw IllegalStateException("Unexpected token instance.")
         }
-        setEffect { navigateToNextScreenEffect }
+        setEffect(navigateToNextScreenEffect)
     }
 
-    private suspend fun onAuthFailed(errorMessage: String) {
+    private suspend fun Ctx.onAuthFailed(errorMessage: String) {
         setState { copy(buttonState = ERROR) }
         showSnackBar(
             type = SnackBarType.ERROR,
@@ -142,19 +142,24 @@ class AuthViewModel(
         setState { copy(buttonState = DARK_GRAY_ACTIVE) }
     }
 
+    /**
+     * PRIVACY POLICY
+     */
     private fun onPrivacyPolicyClicked() {
 
     }
 
-    private fun toggleAuthMode() {
-        val authMode = if (viewState.value.authMode == SIGN_IN) SIGN_UP else SIGN_IN
+    /**
+     * AUTH MODE
+     */
+    private suspend fun Ctx.toggleAuthMode() = withState {
+        val authMode = if (authMode == SIGN_IN) SIGN_UP else SIGN_IN
         setState { copy(authMode = authMode) }
     }
 
-    private fun toggleUserInputVisibility() = setState {
-        copy(isUserInputHidden = !isUserInputHidden)
-    }
-
+    /**
+     * SNACK BAR
+     */
     private fun showSnackBar(type: SnackBarType, message: AppMessage) {
         val params = TopFloatingParams(type = type, message = message)
         snackBarHelper.showSnackBar(params)

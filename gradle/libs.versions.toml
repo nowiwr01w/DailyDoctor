@@ -217,6 +217,13 @@ encryption = [
     "koin",
     "kotlin-serialization-json"
 ]
+mvi = [
+    "mvi-core",
+    "mvi-compose",
+    "mvi-savedstate",
+    "mvi-essenty",
+    "mvi-essenty-compose"
+]
 
 [versions]
 ####################

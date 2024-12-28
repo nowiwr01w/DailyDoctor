@@ -1,3 +1,5 @@
 package contract
 
-interface BaseEvent
+import pro.respawn.flowmvi.api.MVIIntent
+
+interface BaseEvent: MVIIntent

@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,15 +43,14 @@ import nowiwr01p.daily.doctor.resources.ic_delete
 import nowiwr01p.daily.doctor.resources.ic_fingerprint
 import nowiwr01p.daily.doctor.resources.pin_code_enter
 import nowiwr01p.daily.doctor.resources.yo
-import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import pin_code.PinCodeContract.Effect.NavigateBack
-import pin_code.PinCodeContract.Effect.NavigateToHome
-import pin_code.PinCodeContract.Event
-import pin_code.PinCodeContract.Listener
-import pin_code.PinCodeContract.State
+import pin_code.Effect.NavigateBack
+import pin_code.Effect.NavigateToHome
+import pin_code.Event.HandleUserInput
+import pin_code.Listener
 import pin_code.PinCodeViewModel
+import pin_code.State
 import pin_code.data.PinCodeData
 import pin_code.data.PinCodeData.PinCodeDigit
 import pin_code.data.PinCodeData.PinCodeIcon
@@ -61,24 +59,24 @@ import pin_code.data.PinCodeIconType.REMOVE_DIGIT
 import pin_code.data.PinCodeOperation
 import pin_code.data.PinCodeOperation.AddDigit
 import pin_code.data.PinCodeOperation.RemoveDigit
+import theme.CustomTheme
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
 
 @Composable
 fun PinCodeChild.PinCodeMainScreenMobile(
     navigator: MobileNavigator,
-    viewModel: PinCodeViewModel = rememberViewModel(pinCodeMode)
+    viewModel: PinCodeViewModel = baseComponent.rememberViewModel(pinCodeMode)
 ) {
     val listener = object : Listener {
         override fun handleUserInput(operation: PinCodeOperation) {
-            viewModel.setEvent(Event.HandleUserInput(operation))
+            viewModel.setEvent(HandleUserInput(operation))
         }
         override fun requestBiometric() {
             // TODO: Some expect/actual hard things
         }
     }
-
-    EffectObserver(viewModel.effect) { effect ->
+    val state = viewModel.getState { effect ->
         when (effect) {
             NavigateBack -> {
                 // TODO: Use when change or delete pin code
@@ -88,10 +86,9 @@ fun PinCodeChild.PinCodeMainScreenMobile(
             }
         }
     }
-
     BaseScreen {
         PinCodeMainScreenMobileContent(
-            state = viewModel.viewState.value,
+            state = state,
             listener = listener
         )
     }

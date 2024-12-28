@@ -16,8 +16,9 @@ class MainActivity : ComponentActivity() {
             navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
         )
         super.onCreate(savedInstanceState)
+        val navigationContext = defaultComponentContext()
         setContent {
-            App().initApplicationUI(defaultComponentContext())
+            App().initApplicationUI(navigationContext)
         }
     }
 }

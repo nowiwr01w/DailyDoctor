@@ -10,39 +10,35 @@ import auth.data.AuthType.SIGN_UP
 import components.button.ButtonState
 import components.button.ButtonState.DARK_GRAY_ACTIVE
 
-interface AuthContract {
+sealed interface Event: BaseEvent {
+    data object ToggleAuthMode: Event
+    data object ToggleUserInputVisibility: Event
+    data object OnPrivacyPolicyClicked: Event
+    data class HandleUserInput(val type: AuthTextFieldType, val value: String): Event
+    data object OnAuthClicked: Event
+}
 
-    sealed interface Event: BaseEvent {
-        data object Init: Event
-        data object ToggleAuthMode: Event
-        data object ToggleUserInputVisibility: Event
-        data object OnPrivacyPolicyClicked: Event
-        data class HandleUserInput(val type: AuthTextFieldType, val value: String): Event
-        data object OnAuthClicked: Event
-    }
+data class State(
+    val authMode: AuthType = SIGN_UP,
+    val phone: String = "",
+    val password: String = "",
+    val passwordConfirmation: String = "",
+    val authError: AuthError? = null,
+    val isUserInputHidden: Boolean = true,
+    val buttonState: ButtonState = DARK_GRAY_ACTIVE,
+    val privacyPolicyUrl: String = "" // TODO
+): BaseState
 
-    data class State(
-        val authMode: AuthType = SIGN_UP,
-        val phone: String = "",
-        val password: String = "",
-        val passwordConfirmation: String = "",
-        val authError: AuthError? = null,
-        val isUserInputHidden: Boolean = true,
-        val buttonState: ButtonState = DARK_GRAY_ACTIVE,
-        val privacyPolicyUrl: String = "" // TODO
-    ): BaseState
+sealed interface Effect: BaseEffect {
+    data class NavigateToPin(val isPinCodeSet: Boolean, val token: String): Effect
+    data class NavigateToVerification(val phone: String, val token: String): Effect
+    data object NavigateToPrivacyPolicyInfo: Effect
+}
 
-    sealed interface Effect: BaseEffect {
-        data class NavigateToPin(val isPinCodeSet: Boolean, val token: String): Effect
-        data class NavigateToVerification(val phone: String, val token: String): Effect
-        data object NavigateToPrivacyPolicyInfo: Effect
-    }
-
-    interface Listener {
-        fun onUserInputChanged(type: AuthTextFieldType, value: String)
-        fun onToggleUserInputVisibilityClicked()
-        fun onToggleAuthModeClicked()
-        fun onAuthClicked()
-        fun onPrivacyPolicyClicked()
-    }
+interface Listener {
+    fun onUserInputChanged(type: AuthTextFieldType, value: String)
+    fun onToggleUserInputVisibilityClicked()
+    fun onToggleAuthModeClicked()
+    fun onAuthClicked()
+    fun onPrivacyPolicyClicked()
 }

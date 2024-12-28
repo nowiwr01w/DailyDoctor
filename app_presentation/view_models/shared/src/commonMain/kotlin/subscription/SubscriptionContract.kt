@@ -10,29 +10,25 @@ import subscription.data.SubscriptionPeriod.*
 import subscription.data.SubscriptionType
 import subscription.data.SubscriptionType.*
 
-interface SubscriptionContract {
+sealed interface Event: BaseEvent {
+    data object SubscribeOrSkip: Event
+    data class SelectSubscriptionPlan(val plan: SubscriptionType): Event
+    data class ToggleSubscriptionPeriod(val period: SubscriptionPeriod): Event
+}
 
-    sealed interface Event: BaseEvent {
-        data object Init: Event
-        data object SubscribeOrSkip: Event
-        data class SelectSubscriptionPlan(val plan: SubscriptionType): Event
-        data class ToggleSubscriptionPeriod(val period: SubscriptionPeriod): Event
-    }
+data class State(
+    val plan: SubscriptionType = Base,
+    val period: SubscriptionPeriod = Yearly,
+    val subscribeButtonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE,
+    val closeSecondsLeft: Int = CONTINUE_BUTTON_SECONDS
+): BaseState
 
-    data class State(
-        val plan: SubscriptionType = Base,
-        val period: SubscriptionPeriod = Yearly,
-        val subscribeButtonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE,
-        val closeSecondsLeft: Int = CONTINUE_BUTTON_SECONDS
-    ): BaseState
+sealed interface Effect: BaseEffect {
+    data object NavigateToHome: Effect
+}
 
-    sealed interface Effect: BaseEffect {
-        data object NavigateToHome: Effect
-    }
-
-    interface Listener {
-        fun selectSubscriptionPlan(plan: SubscriptionType)
-        fun toggleSubscriptionPeriod(period: SubscriptionPeriod)
-        fun subscribeOrSkip()
-    }
+interface Listener {
+    fun selectSubscriptionPlan(plan: SubscriptionType)
+    fun toggleSubscriptionPeriod(period: SubscriptionPeriod)
+    fun subscribeOrSkip()
 }

@@ -7,25 +7,22 @@ import contract.BaseState
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
 import pin_code.data.PinCodeOperation
 
-interface PinCodeContract {
+sealed interface Event: BaseEvent {
+    data class HandleUserInput(val operation: PinCodeOperation): Event
+}
 
-    sealed interface Event: BaseEvent {
-        data class HandleUserInput(val operation: PinCodeOperation): Event
-    }
+data class State(
+    val pinCode: String = "",
+    val pinCodeMode: PinCodeMode, // TODO: navigation.model
+    val buttonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE
+): BaseState
 
-    data class State(
-        val pinCode: String = "",
-        val pinCodeMode: PinCodeMode, // TODO: navigation.model
-        val buttonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE
-    ): BaseState
+sealed interface Effect: BaseEffect {
+    data object NavigateBack: Effect
+    data object NavigateToHome: Effect
+}
 
-    sealed interface Effect: BaseEffect {
-        data object NavigateBack: Effect
-        data object NavigateToHome: Effect
-    }
-
-    interface Listener {
-        fun handleUserInput(operation: PinCodeOperation)
-        fun requestBiometric()
-    }
+interface Listener {
+    fun handleUserInput(operation: PinCodeOperation)
+    fun requestBiometric()
 }

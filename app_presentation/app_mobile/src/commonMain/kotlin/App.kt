@@ -1,12 +1,10 @@
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import app.AppContract.Event.Init
 import app.AppViewModel
 import bottom_sheets.getBottomSheetContent
 import com.arkivanov.decompose.ComponentContext
@@ -26,15 +24,14 @@ import view_model.rememberViewModel
 @Composable
 fun App(
     context: ComponentContext,
-    viewModel: AppViewModel = rememberViewModel(),
+    globalInstanceKeeperOwner: GlobalInstanceKeeperOwner,
+    viewModel: AppViewModel = globalInstanceKeeperOwner.rememberViewModel(),
     navigator: MobileNavigator = koinInject { parametersOf(context) }
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.setEvent(Init)
+    val appState = viewModel.getState { effect ->
+        // TODO
     }
-    AppTheme(
-        appColorTheme = viewModel.viewState.value.appColorTheme
-    ) {
+    AppTheme(appColorTheme = appState.appColorTheme) {
         AppContent(navigator)
     }
 }

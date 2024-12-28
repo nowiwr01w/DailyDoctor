@@ -15,10 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
-import theme.CustomTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -30,33 +28,27 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.conf
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.app_name
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
-import observers.EffectObserver
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import splash.SplashContract.Effect.NavigateToHome
-import splash.SplashContract.Effect.NavigateToOnboarding
-import splash.SplashContract.Event
-import splash.SplashContract.State
+import splash.Effect.NavigateToHome
+import splash.Effect.NavigateToOnboarding
 import splash.SplashViewModel
 import splash.data.SplashAnimationState
 import splash.data.SplashAnimationState.FIRST_TEXT
 import splash.data.SplashAnimationState.ICON
 import splash.data.SplashAnimationState.PROGRESS
 import splash.data.SplashAnimationState.SECOND_TEXT
+import theme.CustomTheme
 import theme.CustomTheme.colors
+import splash.State
 import view_model.rememberViewModel
 
 @Composable
 internal fun SplashChild.SplashMainScreenMobile(
     navigator: MobileNavigator,
-    viewModel: SplashViewModel = rememberViewModel()
+    viewModel: SplashViewModel = baseComponent.rememberViewModel()
 ) {
-    LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init)
-    }
-
-    EffectObserver(viewModel.effect) { effect ->
+    val state = viewModel.getState { effect ->
         when (effect) {
             is NavigateToHome -> {
                 navigator.screensNavigator.homeNavigator.navigateToHome()
@@ -66,9 +58,8 @@ internal fun SplashChild.SplashMainScreenMobile(
             }
         }
     }
-
     BaseScreen {
-        SplashMainScreenContent(state = viewModel.viewState.value)
+        SplashMainScreenContent(state)
     }
 }
 

@@ -1,3 +1,5 @@
 package contract
 
-interface BaseState
+import pro.respawn.flowmvi.api.MVIState
+
+interface BaseState: MVIState

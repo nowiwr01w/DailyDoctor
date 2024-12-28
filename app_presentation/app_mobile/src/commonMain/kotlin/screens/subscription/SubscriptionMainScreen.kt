@@ -31,7 +31,6 @@ package screens.subscription
  import androidx.compose.foundation.pager.rememberPagerState
  import androidx.compose.foundation.shape.CircleShape
  import androidx.compose.foundation.shape.RoundedCornerShape
- import theme.CustomTheme
  import androidx.compose.material.TabRow
  import androidx.compose.material.Text
  import androidx.compose.runtime.Composable
@@ -70,13 +69,13 @@ package screens.subscription
  import nowiwr01p.daily.doctor.resources.subscription_per_year
  import nowiwr01p.daily.doctor.resources.subscription_toolbar_title
  import nowiwr01p.daily.doctor.resources.subscription_year
- import observers.EffectObserver
  import org.jetbrains.compose.resources.stringResource
- import org.jetbrains.compose.ui.tooling.preview.Preview
- import subscription.SubscriptionContract.Effect
- import subscription.SubscriptionContract.Event
- import subscription.SubscriptionContract.Listener
- import subscription.SubscriptionContract.State
+ import subscription.Effect.NavigateToHome
+ import subscription.Event.SelectSubscriptionPlan
+ import subscription.Event.SubscribeOrSkip
+ import subscription.Event.ToggleSubscriptionPeriod
+ import subscription.Listener
+ import subscription.State
  import subscription.SubscriptionViewModel
  import subscription.data.BenefitData
  import subscription.data.SubscriptionPeriod
@@ -86,41 +85,36 @@ package screens.subscription
  import subscription.data.SubscriptionType.Base
  import subscription.data.SubscriptionType.Free
  import subscription.data.getSubscriptionItems
+ import theme.CustomTheme
  import theme.CustomTheme.colors
  import view_model.rememberViewModel
 
 @Composable
 fun SubscriptionChild.SubscriptionMainScreen(
     navigator: MobileNavigator,
-    viewModel: SubscriptionViewModel = rememberViewModel()
+    viewModel: SubscriptionViewModel = baseComponent.rememberViewModel()
 ) {
     val listener = object : Listener {
         override fun selectSubscriptionPlan(plan: SubscriptionType) {
-            viewModel.setEvent(Event.SelectSubscriptionPlan(plan))
+            viewModel.setEvent(SelectSubscriptionPlan(plan))
         }
         override fun toggleSubscriptionPeriod(period: SubscriptionPeriod) {
-            viewModel.setEvent(Event.ToggleSubscriptionPeriod(period))
+            viewModel.setEvent(ToggleSubscriptionPeriod(period))
         }
         override fun subscribeOrSkip() {
-            viewModel.setEvent(Event.SubscribeOrSkip)
+            viewModel.setEvent(SubscribeOrSkip)
         }
     }
-
-    LaunchedEffect(Unit) {
-        viewModel.setEvent(Event.Init)
-    }
-
-    EffectObserver(viewModel.effect) { effect ->
+    val state = viewModel.getState { effect ->
         when (effect) {
-            is Effect.NavigateToHome -> {
+            is NavigateToHome -> {
                 navigator.screensNavigator.homeNavigator.navigateToHome()
             }
         }
     }
-
     BaseScreen {
         Content(
-            state = viewModel.viewState.value,
+            state = state,
             listener = listener
         )
     }

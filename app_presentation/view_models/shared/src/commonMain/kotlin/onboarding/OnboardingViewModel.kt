@@ -1,34 +1,39 @@
 package onboarding
 
 import com.nowiwr01p.model.model.onboarding.OnboardingItem
-import view_model.BaseViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNot
-import onboarding.OnboardingContract.*
 import manager.onboarding.AppOnboardingManager
-import onboarding.OnboardingContract.Effect.*
-import onboarding.OnboardingContract.Event.*
+import onboarding.Effect.NavigateToAuth
+import onboarding.Effect.ShowEnableNotificationsDialog
+import onboarding.Effect.SlideToNextOnboardingItem
+import onboarding.Event.RequestNotifications
+import onboarding.Event.ShowNextOnboardingItem
+import pro.respawn.flowmvi.api.PipelineContext
+import view_model.BaseViewModel
+
+private typealias Ctx = PipelineContext<State, Event, Effect>
 
 class OnboardingViewModel(
-    scope: CoroutineScope,
     private val appOnboardingManager: AppOnboardingManager
-) : BaseViewModel<Event, State, Effect>(scope) {
-
-    override fun setInitialState() = State()
-
-    override fun handleEvents(event: Event) {
+): BaseViewModel<State, Event, Effect>(initialValue = State()) {
+    /**
+     * INIT
+     */
+    override suspend fun Ctx.handleEvents(event: Event) {
         when (event) {
-            is Init -> init()
             is RequestNotifications -> requestNotifications()
             is ShowNextOnboardingItem -> showNextOnboardingItem(event.currentOnboardingItem)
         }
     }
 
-    private fun init() {
+    override suspend fun Ctx.init() {
         getOnboardingItems()
     }
 
-    private fun getOnboardingItems() = hide {
+    /**
+     * ONBOARDING ITEMS
+     */
+    private fun Ctx.getOnboardingItems() = io {
         appOnboardingManager.getOnboardingData(fromRemote = false)
             .filterNot { items -> items.isEmpty() }
             .collect { items ->
@@ -36,19 +41,20 @@ class OnboardingViewModel(
             }
     }
 
-    private fun showNextOnboardingItem(currentOnboardingItem: OnboardingItem) {
-        with(viewState.value) {
-            val index = onboardingItems.indexOfFirst { onboardingItem ->
-                onboardingItem == currentOnboardingItem
-            }
-            val effect = if (index != -1 && index == onboardingItems.lastIndex) {
-                NavigateToAuth
-            } else {
-                SlideToNextOnboardingItem(index + 1)
-            }
-            setEffect { effect }
+    private suspend fun Ctx.showNextOnboardingItem(currentOnboardingItem: OnboardingItem) = withState {
+        val index = onboardingItems.indexOfFirst { onboardingItem ->
+            onboardingItem == currentOnboardingItem
         }
+        val effect = if (index != -1 && index == onboardingItems.lastIndex) {
+            NavigateToAuth
+        } else {
+            SlideToNextOnboardingItem(index + 1)
+        }
+        setEffect(effect)
     }
 
-    private fun requestNotifications() = setEffect { ShowEnableNotificationsDialog }
+    /**
+     * NOTIFICATIONS
+     */
+    private suspend fun Ctx.requestNotifications() = setEffect(ShowEnableNotificationsDialog)
 }
