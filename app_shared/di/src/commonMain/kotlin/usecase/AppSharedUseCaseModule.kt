@@ -3,6 +3,7 @@ package usecase
 import org.koin.dsl.module
 import repository.auth.AppAuthRepository
 import repository.brand_config.AppBrandConfigRepository
+import repository.language.AppLanguageRepository
 import repository.onboarding.AppOnboardingRepository
 import repository.pin.AppPinRepository
 import repository.verification.AppVerificationRepository
@@ -12,6 +13,8 @@ import usecase.auth.AppSignUpUseCase
 import usecase.auth.AppSignUpUseCaseImpl
 import usecase.brand_config.AppGetBrandConfigUseCase
 import usecase.brand_config.AppGetBrandConfigUseCaseImpl
+import usecase.language.GetAppLanguagesUseCase
+import usecase.language.GetAppLanguagesUseCaseImpl
 import usecase.onboarding.AppGetOnboardingDataUseCase
 import usecase.onboarding.AppGetOnboardingDataUseCaseImpl
 import usecase.pin.AppChangePinCodeUseCase
@@ -80,5 +83,11 @@ internal val moduleAppSharedUseCase = module {
         AppCheckPinCodeUseCaseImpl(
             repository = get<AppPinRepository>()
         )
+    }
+    /**
+     * LANGUAGE
+     */
+    factory<GetAppLanguagesUseCase> {
+        GetAppLanguagesUseCaseImpl(repository = get<AppLanguageRepository>())
     }
 }

@@ -51,7 +51,7 @@ package screens.subscription
  import androidx.compose.ui.text.style.TextOverflow
  import androidx.compose.ui.unit.Dp
  import androidx.compose.ui.unit.dp
- import components.button.StateButton
+ import components.button.AppButton
  import components.image.AppImage
  import extensions.BaseScreen
  import extensions.advancedShadow
@@ -470,7 +470,7 @@ private fun SubscribeOrSkipBox(
                 }
             }
         }
-        StateButton(
+        AppButton(
             text = text,
             state = state.subscribeButtonState,
             onClick = { listener?.subscribeOrSkip() },

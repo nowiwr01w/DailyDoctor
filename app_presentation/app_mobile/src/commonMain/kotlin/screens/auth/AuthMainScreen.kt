@@ -61,7 +61,7 @@ import auth.State
 import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
 import components.button.ButtonState.DARK_GRAY_ACTIVE
-import components.button.StateButton
+import components.button.AppButton
 import components.input_field.CustomTextField
 import extensions.BaseScreen
 import extensions.LinkTag
@@ -386,7 +386,7 @@ private fun AuthButton(
     listener: Listener
 ) {
     val focusManager = LocalFocusManager.current
-    StateButton(
+    AppButton(
         text = run {
             val textResId = when (state.authMode) {
                 SIGN_IN -> Res.string.auth_button_sign_in_title

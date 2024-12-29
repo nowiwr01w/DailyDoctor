@@ -3,11 +3,12 @@ import auth.AuthViewModel
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import helpers.snack_bar.SnackBarHelper
 import home.HomeViewModel
-import kotlinx.coroutines.CoroutineScope
 import manager.brand_config.AppBrandConfigManager
-import onboarding.OnboardingViewModel
+import manager.language.AppLanguageManager
 import manager.onboarding.AppOnboardingManager
+import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.SelectLanguageViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import onboarding.OnboardingViewModel
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel
 import splash.SplashViewModel
@@ -97,5 +98,11 @@ val moduleAppPresentationViewModels = module {
      */
     factory {
         HomeViewModel()
+    }
+    /**
+     * CHANGE LANGUAGE DIALOG
+     */
+    factory {
+        SelectLanguageViewModel(appLanguageManager = get<AppLanguageManager>())
     }
 }

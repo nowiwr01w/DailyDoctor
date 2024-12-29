@@ -105,9 +105,20 @@
     <!-- DIALOGS -->
     <!-- DIALOGS -->
     <!-- DIALOGS -->
-    <string name="close_app_title">Exit</string>
-    <string name="close_app_subtitle">Are you sure you want to close the app?</string>
-    <string name="cancel">Cancel</string>
-    <string name="exit">Exit</string>
+    <string name="close_app_title">Выход</string>
+    <string name="close_app_subtitle">Вы уверены, что хотите выйти из приложения?</string>
+    <string name="cancel">Остаться</string>
+    <string name="exit">Выйти</string>
+
+    <!-- LANGUAGE -->
+    <!-- LANGUAGE -->
+    <!-- LANGUAGE -->
+    <!-- LANGUAGE -->
+    <!-- LANGUAGE -->
+    <string name="language_title">Язык приложения</string>
+    <string name="language_english">Английский</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_georgian">Грузинский</string>
+    <string name="language_ukrainian">Украинский</string>
 
 </resources>

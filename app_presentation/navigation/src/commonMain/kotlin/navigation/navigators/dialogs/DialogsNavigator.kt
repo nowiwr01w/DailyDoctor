@@ -21,4 +21,5 @@ interface DialogsNavigator: BaseNavigator {
      * DIALOGS
      */
     fun showExitAppDialog()
+    fun showSelectLanguageDialog(isFirstSelection: Boolean)
 }

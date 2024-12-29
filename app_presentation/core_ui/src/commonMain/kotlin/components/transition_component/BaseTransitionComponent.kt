@@ -52,7 +52,7 @@ internal fun BaseTransitionComponent(
 ) {
     val componentBounds = remember { mutableStateOf(Rect.Zero) }
     val bottomPadding = getBottomPadding(type)
-    val contentOutOfScreenOffset = getContentOffset(type, componentBounds, bottomPadding)
+    val contentOutOfScreenOffset = getBottomOffset(type)
     val containerBackgroundColor by animateColorAsState(
         targetValue = if (isComponentShown.value) Color.Black.copy(alpha = 0.6f) else Color.Transparent,
         animationSpec = tween(durationMillis = COMPONENT_TRANSITION_ANIMATION_DURATION)
@@ -61,7 +61,7 @@ internal fun BaseTransitionComponent(
         targetValue = if (isComponentShown.value) 0.dp else contentOutOfScreenOffset,
         animationSpec = tween(
             durationMillis = COMPONENT_TRANSITION_ANIMATION_DURATION,
-            easing = if (isComponentShown.value) FastOutSlowInEasing else LinearEasing
+            easing = FastOutSlowInEasing
         )
     )
     Box(
@@ -124,7 +124,6 @@ private fun BoxScope.ComponentContainer(
             .onGloballyPositioned { componentCoordinates ->
                 componentBounds.value = componentCoordinates.boundsInParent()
             }
-            .padding(horizontal = horizontalPadding)
     ) {
         content()
     }
@@ -134,31 +133,10 @@ private fun BoxScope.ComponentContainer(
  * COMPONENT UI SETTINGS
  */
 @Composable
-private fun getContentOffset(
-    type: TransitionComponentType,
-    componentBounds: MutableState<Rect>,
-    bottomPadding: Dp
-): Dp {
-    val density = LocalDensity.current
-    val componentContentHeight = componentBounds.value.height.dp / density.density
-    val adjustedComponentContentHeight = max(COMPONENT_MIN_HEIGHT.dp, componentContentHeight)
-    return getBottomOffset(
-        type = type,
-        adjustedComponentContentHeight = adjustedComponentContentHeight,
-        bottomPadding = bottomPadding
-    )
-}
-
-@Composable
-private fun getBottomOffset(
-    type: TransitionComponentType,
-    adjustedComponentContentHeight: Dp,
-    bottomPadding: Dp
-): Dp {
-    val dialogOffset = adjustedComponentContentHeight + 2 * bottomPadding
-    return when (type) {
-        is Dialog -> dialogOffset
-        is BottomSheet -> getScreenHeight()
+private fun getBottomOffset(type: TransitionComponentType) = getScreenHeight().let { screenHeight ->
+    when (type) {
+        is Dialog -> screenHeight / 2
+        is BottomSheet -> screenHeight
     }
 }
 

@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import navigation.config.config.DialogsNavigationConfig
 import navigation.config.config.DialogsNavigationConfig.ExitApp
+import navigation.config.config.DialogsNavigationConfig.SelectLanguage
 import navigation.navigators.getDefaultBackCallback
 import view_model.BaseViewModelComponent
 
@@ -56,5 +57,9 @@ class DialogsNavigatorImpl(
      */
     override fun showExitAppDialog() {
         navigation.activate(ExitApp)
+    }
+
+    override fun showSelectLanguageDialog(isFirstSelection: Boolean) {
+        navigation.activate(SelectLanguage(isFirstSelection))
     }
 }

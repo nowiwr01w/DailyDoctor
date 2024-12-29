@@ -17,4 +17,9 @@ sealed class DialogsChild(
      */
     @Serializable
     data object ExitAppChild: DialogsChild()
+
+    @Serializable
+    data class SelectLanguageChild(val isFirstSelection: Boolean): DialogsChild(
+        isCancellable = !isFirstSelection
+    )
 }

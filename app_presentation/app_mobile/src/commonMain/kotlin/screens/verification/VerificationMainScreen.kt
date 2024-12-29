@@ -47,7 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import components.button.StateButton
+import components.button.AppButton
 import extensions.BaseScreen
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.VerificationChild
@@ -353,7 +353,7 @@ private fun ResendText(
  * VERIFY BUTTON
  */
 @Composable
-private fun VerifyButton(state: State) = StateButton(
+private fun VerifyButton(state: State) = AppButton(
     text = stringResource(Res.string.confirm),
     state = state.buttonState,
     modifier = Modifier

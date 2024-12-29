@@ -56,8 +56,9 @@ kotlin {
                 implementation(projects.appPresentation.viewModels.mobile)
                 implementation(projects.appPresentation.viewModels.desktop)
                 implementation(projects.appPresentation.viewModels.web)
-                implementation(projects.appPresentation.navigation) // TODO: navigation.model
+                implementation(projects.appPresentation.navigation)
                 implementation(projects.appPresentation.navigation.model)
+                implementation(projects.appPresentation.dialogs)
                 /**
                  * LOCAL DATABASE
                  */

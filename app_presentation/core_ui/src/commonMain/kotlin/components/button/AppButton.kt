@@ -25,6 +25,7 @@ import components.button.ButtonState.ERROR
 import components.button.ButtonState.ORANGE_ACTIVE
 import components.button.ButtonState.LIGHT_GRAY_ACTIVE
 import components.button.ButtonState.DARK_GRAY_PROGRESS
+import components.button.ButtonState.ORANGE_ACTIVE_PROGRESS
 import components.button.ButtonState.SUCCESS
 import components.button.animations.errorAnimationJson
 import components.button.animations.successAnimationJson
@@ -36,7 +37,7 @@ import theme.CustomTheme.colors
  * BUTTON
  */
 @Composable
-fun StateButton(
+fun AppButton(
     text: String,
     modifier: Modifier = Modifier,
     state: ButtonState = DARK_GRAY_ACTIVE,
@@ -52,7 +53,7 @@ fun StateButton(
         animationSpec = tween(durationMillis = 500, easing = LinearEasing)
     )
     val backgroundColor = when (state) {
-        ORANGE_ACTIVE -> colors.backgroundColors.redBackgroundColor
+        ORANGE_ACTIVE, ORANGE_ACTIVE_PROGRESS -> colors.backgroundColors.redBackgroundColor
         LIGHT_GRAY_ACTIVE -> Color(0xFFF2F1F1)
         DARK_GRAY_ACTIVE -> when {
             enabled -> Color(0xFF3f4257)
@@ -91,7 +92,7 @@ fun StateButton(
                 state = state,
                 backgroundColor = backgroundColor
             )
-            DARK_GRAY_PROGRESS -> Progress()
+            DARK_GRAY_PROGRESS, ORANGE_ACTIVE_PROGRESS -> Progress()
         }
     }
 }
@@ -154,6 +155,7 @@ private fun AnimatedIcon(
  */
 enum class ButtonState {
     ORANGE_ACTIVE,
+    ORANGE_ACTIVE_PROGRESS,
     LIGHT_GRAY_ACTIVE,
     DARK_GRAY_ACTIVE,
     DARK_GRAY_PROGRESS,

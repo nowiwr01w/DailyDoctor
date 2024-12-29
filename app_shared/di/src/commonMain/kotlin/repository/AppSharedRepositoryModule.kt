@@ -10,6 +10,8 @@ import repository.auth.AppAuthRepository
 import repository.auth.AppAuthRepositoryImpl
 import repository.brand_config.AppBrandConfigRepository
 import repository.brand_config.AppBrandConfigRepositoryImpl
+import repository.language.AppLanguageRepository
+import repository.language.AppLanguageRepositoryImpl
 import repository.onboarding.AppOnboardingRepository
 import repository.onboarding.AppOnboardingRepositoryImpl
 import repository.pin.AppPinRepository
@@ -51,5 +53,11 @@ internal val moduleAppSharedRepository = module {
      */
     factory<AppPinRepository> {
         AppPinRepositoryImpl(api = get<PinApi>())
+    }
+    /**
+     * LANGUAGE
+     */
+    factory<AppLanguageRepository> {
+        AppLanguageRepositoryImpl()
     }
 }

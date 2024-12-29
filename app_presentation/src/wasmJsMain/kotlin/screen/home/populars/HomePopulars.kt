@@ -26,7 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import components.button.StateButton
+import components.button.AppButton
 import components.image.AppImage
 import components.text.DashedUnderlineText
 import extensions.advancedShadow
@@ -156,7 +156,7 @@ private fun PopularItem(category: Category) {
                     modifier = Modifier.height(if (index == category.categories.lastIndex) 32.dp else 20.dp)
                 )
             }
-            StateButton(
+            AppButton(
                 text = when (category) {
                     is DoctorsCategory -> "Все врачи"
                     is ClinicsCategory -> "Все клиники"

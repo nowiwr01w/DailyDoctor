@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import components.button.ButtonState.LIGHT_GRAY_ACTIVE
 import components.button.ButtonState.ORANGE_ACTIVE
-import components.button.StateButton
+import components.button.AppButton
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import theme.CustomTheme.colors
@@ -33,7 +33,7 @@ internal fun BaseDialogContent(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .padding(vertical = 24.dp)
+            .padding(vertical = 24.dp, horizontal = 16.dp)
             .fillMaxWidth()
     ) {
         /** TITLE **/
@@ -59,7 +59,7 @@ internal fun BaseDialogContent(
                 .fillMaxWidth()
         ) {
             /** LEFT BUTTON **/
-            StateButton(
+            AppButton(
                 text = stringResource(leftButtonText),
                 state = LIGHT_GRAY_ACTIVE,
                 onClick = onLeftButtonClick,
@@ -71,7 +71,7 @@ internal fun BaseDialogContent(
                 modifier = Modifier.width(8.dp)
             )
             /** RIGHT BUTTON **/
-            StateButton(
+            AppButton(
                 text = stringResource(rightButtonText),
                 state = ORANGE_ACTIVE,
                 onClick = onRightButtonClick,
