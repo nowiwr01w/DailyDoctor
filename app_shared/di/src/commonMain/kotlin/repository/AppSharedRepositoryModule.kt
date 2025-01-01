@@ -4,6 +4,7 @@ import api.auth.AuthApi
 import api.brand_config.BrandConfigApi
 import api.onboarding.OnboardingApi
 import api.pin.PinApi
+import api.subscription.SubscriptionApi
 import api.verification.VerificationApi
 import org.koin.dsl.module
 import repository.auth.AppAuthRepository
@@ -16,6 +17,8 @@ import repository.onboarding.AppOnboardingRepository
 import repository.onboarding.AppOnboardingRepositoryImpl
 import repository.pin.AppPinRepository
 import repository.pin.AppPinRepositoryImpl
+import repository.subscription.AppSubscriptionRepository
+import repository.subscription.AppSubscriptionRepositoryImpl
 import repository.verification.AppVerificationRepository
 import repository.verification.AppVerificationRepositoryImpl
 import user.repository.LocalUserRepository
@@ -59,5 +62,11 @@ internal val moduleAppSharedRepository = module {
      */
     factory<AppLanguageRepository> {
         AppLanguageRepositoryImpl()
+    }
+    /**
+     * SUBSCRIPTION
+     */
+    factory<AppSubscriptionRepository> {
+        AppSubscriptionRepositoryImpl(api = get<SubscriptionApi>())
     }
 }

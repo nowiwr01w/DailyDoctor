@@ -8,6 +8,7 @@ import nowiwr01p.daily.doctor.server.data.usecase.pin.ServerChangePinCodeUseCase
 import nowiwr01p.daily.doctor.server.data.usecase.pin.ServerCheckPinCodeUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.pin.ServerCreatePinCodeUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.pin.ServerDeletePinCodeUseCaseImpl
+import nowiwr01p.daily.doctor.server.data.usecase.subscription.ServerGetSubscriptionPlansUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.verification.ServerCheckVerificationCodeUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.verification.ServerDeleteExpiredVerificationCodesUseCaseImpl
 import nowiwr01p.daily.doctor.server.data.usecase.verification.ServerSendVerificationCodeUseCaseImpl
@@ -15,6 +16,7 @@ import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
 import nowiwr01p.daily.doctor.server.domain.repository.brand_config.ServerBrandConfigRepository
 import nowiwr01p.daily.doctor.server.domain.repository.onboarding.ServerOnboardingRepository
 import nowiwr01p.daily.doctor.server.domain.repository.pin.ServerPinCodeRepository
+import nowiwr01p.daily.doctor.server.domain.repository.subscription.ServerSubscriptionRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignInUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.auth.ServerSignUpUseCase
@@ -24,6 +26,7 @@ import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerChangePinCodeUseCa
 import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerCheckPinCodeUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerCreatePinCodeUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.pin.ServerDeletePinCodeUseCase
+import nowiwr01p.daily.doctor.server.domain.usecase.subscription.ServerGetSubscriptionPlansUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerCheckVerificationCodeUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerDeleteExpiredVerificationCodesUseCase
 import nowiwr01p.daily.doctor.server.domain.usecase.verification.ServerSendVerificationCodeUseCase
@@ -90,6 +93,14 @@ internal val moduleServerUseCases = module {
     factory<ServerCheckPinCodeUseCase> {
         ServerCheckPinCodeUseCaseImpl(
             repository = get<ServerPinCodeRepository>()
+        )
+    }
+    /**
+     * SUBSCRIPTION
+     */
+    factory<ServerGetSubscriptionPlansUseCase> {
+        ServerGetSubscriptionPlansUseCaseImpl(
+            repository = get<ServerSubscriptionRepository>()
         )
     }
 }

@@ -137,7 +137,6 @@ private fun LanguageItem(
             text = language.name,
             color = colors.textColors.blackTextColor.copy(alpha = 0.75f),
             style = typography.bodyMedium,
-            modifier = Modifier.padding(start = 12.dp)
         )
         Text(
             text = "(${language.code.uppercase()})",

@@ -8,6 +8,8 @@ import api.onboarding.OnboardingApi
 import api.onboarding.OnboardingApiImpl
 import api.pin.PinApi
 import api.pin.PinApiImpl
+import api.subscription.SubscriptionApi
+import api.subscription.SubscriptionApiImpl
 import api.verification.VerificationApi
 import api.verification.VerificationApiImpl
 import org.koin.dsl.module
@@ -42,5 +44,11 @@ internal val moduleAppSharedApi = module {
      */
     single<PinApi> {
         PinApiImpl()
+    }
+    /**
+     * SUBSCRIPTION
+     */
+    single<SubscriptionApi> {
+        SubscriptionApiImpl()
     }
 }
