@@ -7,14 +7,12 @@ import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.button.ButtonState.DARK_GRAY_PROGRESS
 import components.button.ButtonState.ERROR
 import components.button.ButtonState.SUCCESS
+import extensions.format
 import extensions.withLeadingZero
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import nowiwr01p.daily.doctor.resources.Res
-import nowiwr01p.daily.doctor.resources.verification_new_code_required
-import nowiwr01p.daily.doctor.resources.verification_send_code_again
-import org.jetbrains.compose.resources.getString
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationScreenResources
 import pro.respawn.flowmvi.api.PipelineContext
 import usecase.verification.AppCheckVerificationCodeUseCase
 import verification.Effect.OpenKeyboardToEnterCorrectCode
@@ -27,6 +25,7 @@ private typealias Ctx = PipelineContext<State, Event, Effect>
 class VerificationViewModel(
     private val phone: String,
     private val verificationTokenFromAuth: String,
+    private val screenResources: VerificationScreenResources,
     private val checkVerificationCodeUseCode: AppCheckVerificationCodeUseCase,
     private val resendVerificationCodeTimerWork: ResendVerificationCodeTimerWork
 ): BaseViewModel<State, Event, Effect>(
@@ -55,8 +54,8 @@ class VerificationViewModel(
         verificationResendTimerJob = resendVerificationCodeTimerWork.startWork(scope = this) { secondsLeft ->
             withState {
                 val text = when {
-                    secondsLeft == 0 -> getString(Res.string.verification_new_code_required)
-                    else -> getString(Res.string.verification_send_code_again, secondsLeft.withLeadingZero())
+                    secondsLeft == 0 -> screenResources.verificationNewCodeRequired
+                    else -> screenResources.verificationSendCodeAgain.format(secondsLeft.withLeadingZero())
                 }
                 val updatedResendTimerState = resendTimerState.copy(
                     text = text,

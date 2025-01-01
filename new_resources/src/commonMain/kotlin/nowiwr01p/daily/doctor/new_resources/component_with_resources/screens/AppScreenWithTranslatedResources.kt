@@ -7,6 +7,8 @@ import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.aut
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthScreenTranslatedResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenTranslatedResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationScreenResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationScreenTranslatedResources
 
 internal sealed class AppScreenWithTranslatedResources<T: ComponentResources>(
     override val resources: ComponentTranslatedResources<T>
@@ -23,5 +25,12 @@ internal sealed class AppScreenWithTranslatedResources<T: ComponentResources>(
      */
     data object AuthScreen: AppScreenWithTranslatedResources<AuthScreenResources>(
         resources = AuthScreenTranslatedResources()
+    )
+
+    /**
+     * VERIFICATION
+     */
+    data object VerificationScreen: AppScreenWithTranslatedResources<VerificationScreenResources>(
+        resources = VerificationScreenTranslatedResources()
     )
 }

@@ -76,7 +76,6 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.Mobi
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.AuthChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Check
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Create
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthMainScreenResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_eye_closed
@@ -90,6 +89,7 @@ import view_model.rememberViewModel
 @Composable
 internal fun AuthChild.AuthMainScreenMobile(
     navigator: MobileNavigator,
+    resources: AuthScreenResources,
     viewModel: AuthViewModel = baseComponent.rememberViewModel()
 ) {
     val listener = object : Listener {
@@ -127,9 +127,7 @@ internal fun AuthChild.AuthMainScreenMobile(
         topBackgroundColor = colors.backgroundColors.grayBackgroundColor,
         bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor
     ) {
-        AuthMainScreenResources { resources ->
-            resources.AuthMainScreenContent(state, listener)
-        }
+        resources.AuthMainScreenContent(state, listener)
     }
 }
 

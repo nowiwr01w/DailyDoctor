@@ -27,7 +27,6 @@ import navigation.screen_results.ScreenResultKey.SelectLanguageResultKey
 import navigation.screen_results.handleScreenResult
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.SplashChild
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashMainScreenResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
@@ -50,6 +49,7 @@ import view_model.rememberViewModel
 @Composable
 internal fun SplashChild.SplashMainScreenMobile(
     navigator: MobileNavigator,
+    resources: SplashScreenResources,
     viewModel: SplashViewModel = baseComponent.rememberViewModel()
 ) {
     val state = viewModel.getState { effect ->
@@ -68,10 +68,8 @@ internal fun SplashChild.SplashMainScreenMobile(
     handleScreenResult(SelectLanguageResultKey) { language ->
         viewModel.setEvent(RedirectAfterLanguageSet(language))
     }
-    SplashMainScreenResources { resources ->
-        BaseScreen {
-            resources.SplashMainScreenContent(state)
-        }
+    BaseScreen {
+        resources.SplashMainScreenContent(state)
     }
 }
 

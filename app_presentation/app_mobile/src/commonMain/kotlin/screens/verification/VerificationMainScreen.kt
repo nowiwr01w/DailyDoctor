@@ -52,11 +52,7 @@ import extensions.BaseScreen
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.VerificationChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
-import nowiwr01p.daily.doctor.resources.Res
-import nowiwr01p.daily.doctor.resources.confirm
-import nowiwr01p.daily.doctor.resources.verification_code_sent_description
-import nowiwr01p.daily.doctor.resources.verification_title
-import org.jetbrains.compose.resources.stringResource
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationScreenResources
 import screens.auth.TopIcon
 import screens.auth.TopTitle
 import theme.CustomTheme.colors
@@ -76,7 +72,8 @@ import view_model.rememberViewModel
 @Composable
 internal fun VerificationChild.VerificationMainScreenMobile(
     navigator: MobileNavigator,
-    viewModel: VerificationViewModel = baseComponent.rememberViewModel(phone, verificationToken)
+    resources: VerificationScreenResources,
+    viewModel: VerificationViewModel = baseComponent.rememberViewModel(phone, verificationToken, resources)
 ) {
     val focusRequester = remember {
         FocusRequester()
@@ -104,7 +101,7 @@ internal fun VerificationChild.VerificationMainScreenMobile(
         topBackgroundColor = colors.backgroundColors.grayBackgroundColor,
         bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
     ) {
-        VerificationMainScreenContent(
+        resources.VerificationMainScreenContent(
             state = state,
             listener = listener,
             focusRequester = focusRequester
@@ -116,7 +113,7 @@ internal fun VerificationChild.VerificationMainScreenMobile(
  * CONTENT
  */
 @Composable
-private fun VerificationMainScreenContent(
+private fun VerificationScreenResources.VerificationMainScreenContent(
     state: State,
     listener: Listener,
     focusRequester: FocusRequester
@@ -161,7 +158,7 @@ private fun VerificationMainScreenContent(
  * VERIFICATION CONTENT
  */
 @Composable
-private fun VerificationContent(
+private fun VerificationScreenResources.VerificationContent(
     state: State,
     listener: Listener,
     focusRequester: FocusRequester,
@@ -171,7 +168,7 @@ private fun VerificationContent(
         modifier = modifier.imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopTitle(text = stringResource(Res.string.verification_title))
+        TopTitle(text = verificationTitle)
         Description()
         VerificationCode(
             state = state,
@@ -193,8 +190,8 @@ private fun VerificationContent(
  * DESCRIPTION
  */
 @Composable
-private fun Description() = Text(
-    text = stringResource(Res.string.verification_code_sent_description),
+private fun VerificationScreenResources.Description() = Text(
+    text = verificationCodeSentDescription,
     color = colors.textColors.blackTextColor,
     style = typography.bodyLarge,
     modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
@@ -353,12 +350,14 @@ private fun ResendText(
  * VERIFY BUTTON
  */
 @Composable
-private fun VerifyButton(state: State) = AppButton(
-    text = stringResource(Res.string.confirm),
-    state = state.buttonState,
-    modifier = Modifier
-        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-        .fillMaxWidth()
-        .height(56.dp)
-        .clip(RoundedCornerShape(24.dp))
-)
+private fun VerificationScreenResources.VerifyButton(state: State) {
+    AppButton(
+        text = confirm,
+        state = state.buttonState,
+        modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            .fillMaxWidth()
+            .height(56.dp)
+            .clip(RoundedCornerShape(24.dp))
+    )
+}

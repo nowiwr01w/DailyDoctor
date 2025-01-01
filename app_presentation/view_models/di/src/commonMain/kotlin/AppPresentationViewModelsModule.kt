@@ -8,6 +8,7 @@ import manager.language.AppLanguageManager
 import manager.onboarding.AppOnboardingManager
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.SelectLanguageViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationScreenResources
 import onboarding.OnboardingViewModel
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel
@@ -67,10 +68,11 @@ val moduleAppPresentationViewModels = module {
     /**
      * VERIFICATION
      */
-    factory { (phone: String, verificationTokenFromAuth: String) ->
+    factory { (phone: String, verificationTokenFromAuth: String, screenResources: VerificationScreenResources) ->
         VerificationViewModel(
             phone = phone,
             verificationTokenFromAuth = verificationTokenFromAuth,
+            screenResources = screenResources,
             checkVerificationCodeUseCode = get<AppCheckVerificationCodeUseCase>(),
             resendVerificationCodeTimerWork = get<ResendVerificationCodeTimerWork>()
         )
