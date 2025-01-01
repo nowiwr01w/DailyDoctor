@@ -5,6 +5,8 @@ import nowiwr01p.daily.doctor.new_resources.component_with_resources.base.Compon
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.base.ComponentWithTranslatedResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthScreenResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthScreenTranslatedResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.pin.PinScreenResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.pin.PinScreenTranslatedResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenTranslatedResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationScreenResources
@@ -32,5 +34,11 @@ internal sealed class AppScreenWithTranslatedResources<T: ComponentResources>(
      */
     data object VerificationScreen: AppScreenWithTranslatedResources<VerificationScreenResources>(
         resources = VerificationScreenTranslatedResources()
+    )
+    /**
+     * PIN
+     */
+    data object PinScreen: AppScreenWithTranslatedResources<PinScreenResources>(
+        resources = PinScreenTranslatedResources()
     )
 }

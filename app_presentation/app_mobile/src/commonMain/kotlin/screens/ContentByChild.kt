@@ -5,6 +5,7 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.Mobi
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.*
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthMainScreenResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.pin.PinMainScreenResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashMainScreenResources
 import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationMainScreenResources
 import screens.auth.AuthMainScreenMobile
@@ -29,8 +30,8 @@ internal fun MobileScreensChild.getScreenContent(navigator: MobileNavigator) = w
     is VerificationChild -> VerificationMainScreenResources {
         VerificationMainScreenMobile(navigator = navigator, resources = it)
     }
-    is PinCodeChild -> {
-        PinCodeMainScreenMobile(navigator)
+    is PinCodeChild -> PinMainScreenResources {
+        PinCodeMainScreenMobile(navigator = navigator, resources = it)
     }
     is SubscriptionChild -> {
         SubscriptionMainScreen(navigator)

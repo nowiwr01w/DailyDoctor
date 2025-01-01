@@ -37,14 +37,14 @@ import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.PinCodeChild
+import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.pin.PinScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.resources.ic_delete
 import nowiwr01p.daily.doctor.resources.ic_fingerprint
-import nowiwr01p.daily.doctor.resources.pin_code_enter
 import nowiwr01p.daily.doctor.resources.yo
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import pin_code.Effect.NavigateBack
 import pin_code.Effect.NavigateToHome
 import pin_code.Event.HandleUserInput
@@ -66,6 +66,7 @@ import view_model.rememberViewModel
 @Composable
 fun PinCodeChild.PinCodeMainScreenMobile(
     navigator: MobileNavigator,
+    resources: PinScreenResources,
     viewModel: PinCodeViewModel = baseComponent.rememberViewModel(pinCodeMode)
 ) {
     val listener = object : Listener {
@@ -87,7 +88,7 @@ fun PinCodeChild.PinCodeMainScreenMobile(
         }
     }
     BaseScreen {
-        PinCodeMainScreenMobileContent(
+        resources.PinCodeMainScreenMobileContent(
             state = state,
             listener = listener
         )
@@ -98,7 +99,7 @@ fun PinCodeChild.PinCodeMainScreenMobile(
  * CONTENT
  */
 @Composable
-private fun PinCodeMainScreenMobileContent(
+private fun PinScreenResources.PinCodeMainScreenMobileContent(
     state: State,
     listener: Listener
 ) {
@@ -202,12 +203,16 @@ private fun UserImage(
  * ENTER OR CHANGE PIN CODE TEXT
  */
 @Composable
-private fun PinCodeText(
+private fun PinScreenResources.PinCodeText(
     state: State,
     modifier: Modifier
 ) {
+    val text = when (state.pinCodeMode) { // TODO: Do it in ViewModel
+        is PinCodeMode.Repeat -> pinCodeRepeat
+        else -> pinCodeEnter
+    }
     Text(
-        text = stringResource(Res.string.pin_code_enter),
+        text = text,
         color = colors.textColors.blackTextColor,
         style = CustomTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Medium),
         modifier = modifier

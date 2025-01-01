@@ -13,7 +13,7 @@ sealed interface Event: BaseEvent {
 
 data class State(
     val pinCode: String = "",
-    val pinCodeMode: PinCodeMode, // TODO: navigation.model
+    val pinCodeMode: PinCodeMode,
     val buttonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE
 ): BaseState
 
