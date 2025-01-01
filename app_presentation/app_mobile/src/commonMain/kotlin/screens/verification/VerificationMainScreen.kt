@@ -171,7 +171,7 @@ private fun VerificationContent(
         modifier = modifier.imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopTitle(text = Res.string.verification_title)
+        TopTitle(text = stringResource(Res.string.verification_title))
         Description()
         VerificationCode(
             state = state,
