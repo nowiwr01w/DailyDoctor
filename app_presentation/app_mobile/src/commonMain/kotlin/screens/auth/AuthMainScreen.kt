@@ -60,12 +60,12 @@ import auth.Listener
 import auth.State
 import auth.data.AuthType.SIGN_IN
 import auth.data.AuthType.SIGN_UP
-import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.button.AppButton
+import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.input_field.CustomTextField
 import extensions.BaseScreen
 import extensions.LinkTag
-import extensions.buildAnnotatedStringFromResource
+import extensions.buildAnnotatedStringFromStringWithTags
 import extensions.isKeyboardOpened
 import extensions.onTextClick
 import model.errors.auth.AuthTextFieldType
@@ -76,22 +76,12 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.Mobi
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.AuthChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Check
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Create
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthScreenResources
 import nowiwr01p.daily.doctor.resources.Res
-import nowiwr01p.daily.doctor.resources.auth_agree_with_policies_title
-import nowiwr01p.daily.doctor.resources.auth_button_already_have_account_title
-import nowiwr01p.daily.doctor.resources.auth_button_have_no_account_yet_title
-import nowiwr01p.daily.doctor.resources.auth_button_sign_in_title
-import nowiwr01p.daily.doctor.resources.auth_button_sign_up_title
-import nowiwr01p.daily.doctor.resources.auth_input_password_hint
-import nowiwr01p.daily.doctor.resources.auth_input_password_repeat_hint
-import nowiwr01p.daily.doctor.resources.auth_input_phone_hint
-import nowiwr01p.daily.doctor.resources.auth_title
 import nowiwr01p.daily.doctor.resources.ic_eye_closed
 import nowiwr01p.daily.doctor.resources.ic_eye_opened
 import nowiwr01p.daily.doctor.resources.ic_login
-import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import theme.CustomTheme
 import theme.CustomTheme.colors
 import view_model.rememberViewModel
@@ -99,6 +89,7 @@ import view_model.rememberViewModel
 @Composable
 internal fun AuthChild.AuthMainScreenMobile(
     navigator: MobileNavigator,
+    resources: AuthScreenResources,
     viewModel: AuthViewModel = baseComponent.rememberViewModel()
 ) {
     val listener = object : Listener {
@@ -134,12 +125,9 @@ internal fun AuthChild.AuthMainScreenMobile(
     }
     BaseScreen(
         topBackgroundColor = colors.backgroundColors.grayBackgroundColor,
-        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor,
+        bottomBackgroundColor = colors.backgroundColors.whiteBackgroundColor
     ) {
-        AuthMainScreenContent(
-            state = state,
-            listener = listener
-        )
+        resources.AuthMainScreenContent(state, listener)
     }
 }
 
@@ -147,7 +135,7 @@ internal fun AuthChild.AuthMainScreenMobile(
  * CONTENT
  */
 @Composable
-private fun AuthMainScreenContent(
+private fun AuthScreenResources.AuthMainScreenContent(
     state: State,
     listener: Listener
 ) {
@@ -206,7 +194,7 @@ internal fun TopIcon(modifier: Modifier) = Image(
  * AUTH CONTENT
  */
 @Composable
-private fun AuthContent(
+private fun AuthScreenResources.AuthContent(
     state: State,
     listener: Listener,
     modifier: Modifier
@@ -215,7 +203,7 @@ private fun AuthContent(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopTitle(Res.string.auth_title)
+        TopTitle(authTitle)
         InputFields(state, listener)
         AuthButton(state, listener)
         AlreadyHaveAnAccountText(state, listener)
@@ -228,8 +216,8 @@ private fun AuthContent(
  * TITLE
  */
 @Composable
-internal fun TopTitle(text: StringResource) = Text(
-    text = stringResource(text),
+internal fun TopTitle(text: String) = Text(
+    text = text,
     color = colors.textColors.blackTextColor,
     style = CustomTheme.typography.displayMedium,
     modifier = Modifier.padding(top = 32.dp)
@@ -239,7 +227,7 @@ internal fun TopTitle(text: StringResource) = Text(
  * INPUT FIELDS
  */
 @Composable
-private fun InputFields(
+private fun AuthScreenResources.InputFields(
     state: State,
     listener: Listener
 ) {
@@ -256,7 +244,7 @@ private fun InputFields(
             state = state,
             type = PHONE,
             text = state.phone,
-            hint = Res.string.auth_input_phone_hint,
+            hint = authInputPhoneHint,
             focusManager = focusManager,
             listener = listener
         )
@@ -264,7 +252,7 @@ private fun InputFields(
             state = state,
             type = PASSWORD,
             text = state.password,
-            hint = Res.string.auth_input_password_hint,
+            hint = authInputPasswordHint,
             focusManager = focusManager,
             listener = listener
         )
@@ -273,7 +261,7 @@ private fun InputFields(
                 state = state,
                 type = PASSWORD_CONFIRMATION,
                 text = state.passwordConfirmation,
-                hint = Res.string.auth_input_password_repeat_hint,
+                hint = authInputPasswordRepeatHint,
                 focusManager = focusManager,
                 listener = listener
             )
@@ -286,7 +274,7 @@ private fun InputField(
     state: State,
     type: AuthTextFieldType,
     text: String,
-    hint: StringResource,
+    hint: String,
     focusManager: FocusManager,
     listener: Listener?
 ) {
@@ -326,7 +314,7 @@ private fun InputField(
                 ),
             placeholder = {
                 Text(
-                    text = stringResource(hint),
+                    text = hint,
                     style = CustomTheme.typography.bodyLarge
                 )
             },
@@ -381,18 +369,15 @@ private fun InputField(
  * AUTH BUTTON
  */
 @Composable
-private fun AuthButton(
+private fun AuthScreenResources.AuthButton(
     state: State,
     listener: Listener
 ) {
     val focusManager = LocalFocusManager.current
     AppButton(
-        text = run {
-            val textResId = when (state.authMode) {
-                SIGN_IN -> Res.string.auth_button_sign_in_title
-                SIGN_UP -> Res.string.auth_button_sign_up_title
-            }
-            stringResource(textResId)
+        text = when (state.authMode) {
+            SIGN_IN -> authButtonSignInTitle
+            SIGN_UP -> authButtonSignUpTitle
         },
         state = state.buttonState,
         enabled = state.buttonState == DARK_GRAY_ACTIVE,
@@ -412,7 +397,7 @@ private fun AuthButton(
  * ALREADY HAVE AN ACCOUNT TOGGLE TEXT
  */
 @Composable
-private fun AlreadyHaveAnAccountText(
+private fun AuthScreenResources.AlreadyHaveAnAccountText(
     state: State,
     listener: Listener
 ) {
@@ -429,12 +414,9 @@ private fun AlreadyHaveAnAccountText(
             }
     ) {
         Text(
-            text = run {
-                val accountTextResId = when (state.authMode) {
-                    SIGN_IN -> Res.string.auth_button_have_no_account_yet_title
-                    SIGN_UP -> Res.string.auth_button_already_have_account_title
-                }
-                stringResource(accountTextResId)
+            text = when (state.authMode) {
+                SIGN_IN -> authButtonHaveNoAccountYetTitle
+                SIGN_UP -> authButtonAlreadyHaveAccountTitle
             },
             style = CustomTheme.typography.headlineMedium,
             color = colors.textColors.lightGrayTextColor,
@@ -447,13 +429,11 @@ private fun AlreadyHaveAnAccountText(
  * PRIVACY POLICY TEXT
  */
 @Composable
-private fun PrivacyPolicyInfo(
+private fun AuthScreenResources.PrivacyPolicyInfo(
     state: State,
     listener: Listener
 ) {
-    val annotatedString = buildAnnotatedStringFromResource(
-        resId = Res.string.auth_agree_with_policies_title
-    )
+    val annotatedString = buildAnnotatedStringFromStringWithTags(fullText = authAgreeWithPoliciesTitle)
     ClickableText(
         text = annotatedString,
         style = CustomTheme.typography.headlineSmall.copy(

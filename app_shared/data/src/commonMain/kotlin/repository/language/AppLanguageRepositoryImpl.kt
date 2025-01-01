@@ -1,6 +1,6 @@
 package repository.language
 
-import com.nowiwr01p.model.model.language.appLanguages
+import nowiwr01p.daily.doctor.new_resources.language.appLanguages
 
 class AppLanguageRepositoryImpl: AppLanguageRepository {
     override suspend fun getAppLanguages() = appLanguages

@@ -1,11 +1,10 @@
 package nowiwr01p.daily.doctor.app_presentation.dialogs.select_language
 
-import com.nowiwr01p.model.model.language.Language
 import components.button.ButtonState
 import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
-import model.language.AppLanguageData
+import nowiwr01p.daily.doctor.new_resources.language.Language
 
 sealed interface Event: BaseEvent {
     data object OnCloseClicked: Event
@@ -20,7 +19,7 @@ data class State(
 ): BaseState
 
 sealed interface Effect: BaseEffect {
-    data object CloseDialog: Effect
+    data class CloseDialog(val selectedLanguage: Language): Effect
 }
 
 interface Listener {

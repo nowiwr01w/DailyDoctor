@@ -1,6 +1,5 @@
 package usecase.language
 
-import com.nowiwr01p.model.model.language.Language
 import repository.language.AppLanguageRepository
 
 class GetAppLanguagesUseCaseImpl(

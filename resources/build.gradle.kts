@@ -55,6 +55,10 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
+                /**
+                 * DEPENDENCIES
+                 */
+                implementation(libs.koin)
             }
         }
         androidMain.dependencies {

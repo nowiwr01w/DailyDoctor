@@ -13,6 +13,8 @@ import manager.onboarding.AppOnboardingManager
 import pro.respawn.flowmvi.api.PipelineContext
 import splash.Effect.NavigateToHome
 import splash.Effect.NavigateToOnboarding
+import splash.Effect.ShowSelectLanguageDialog
+import splash.Event.RedirectAfterLanguageSet
 import splash.data.SplashAnimationState
 import user.usecase.GetLocalUserUseCase
 import view_model.BaseViewModel
@@ -21,9 +23,9 @@ private typealias Ctx = PipelineContext<State, Event, Effect>
 
 class SplashViewModel(
     private val appScope: AppScope,
+    private val appBrandConfigManager: AppBrandConfigManager,
     private val getLocalUserUseCase: GetLocalUserUseCase,
-    private val appOnboardingManager: AppOnboardingManager,
-    private val appBrandConfigManager: AppBrandConfigManager
+    private val appOnboardingManager: AppOnboardingManager
 ): BaseViewModel<State, Event, Effect>(initialValue = State()) {
     /**
      * INIT
@@ -31,6 +33,12 @@ class SplashViewModel(
     override suspend fun Ctx.init() {
         startTimer()
         getBrandConfig()
+    }
+
+    override suspend fun Ctx.handleEvents(event: Event) {
+        when (event) {
+            is RedirectAfterLanguageSet -> chooseNavigationDestination()
+        }
     }
 
     /**
@@ -62,7 +70,7 @@ class SplashViewModel(
                 delay(100)
             }
             .onCompletion {
-                chooseNavigationDestination()
+                showSelectLanguageDialog()
             }
             .collect()
     }
@@ -82,6 +90,12 @@ class SplashViewModel(
             getLocalUserUseCase.execute() != null -> NavigateToHome
             else -> NavigateToOnboarding
         }
+        delay(2500) // hide SelectLanguageDialog animation + extra delay
         setEffect(effect)
     }
+
+    /**
+     * SELECT LANGUAGE DIALOG
+     */
+    private suspend fun Ctx.showSelectLanguageDialog() = setEffect(ShowSelectLanguageDialog)
 }

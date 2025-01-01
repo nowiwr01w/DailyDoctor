@@ -1,36 +1,4 @@
 <resources>
-    <!-- APP NAME -->
-    <string name="app_name" translatable="false">Call Doctor</string>
-
-    <!-- AUTH -->
-    <!-- AUTH -->
-    <!-- AUTH -->
-    <!-- AUTH -->
-    <!-- AUTH -->
-    <string name="auth_title">Авторизация</string>
-    <!-- AUTH - INPUT FIELDS -->
-    <string name="auth_input_phone_hint">Номер телефона</string>
-    <string name="auth_input_password_hint">Пароль</string>
-    <string name="auth_input_password_repeat_hint">Подтверждение пароля</string>
-    <!-- AUTH - BUTTONS -->
-    <string name="auth_button_sign_in_title">Войти</string>
-    <string name="auth_button_sign_up_title">Зарегистироваться</string>
-    <string name="auth_button_have_no_account_yet_title">Ещё нет аккаунта</string>
-    <string name="auth_button_already_have_account_title">Уже есть аккаунт</string>
-    <!-- AUTH - POLICY -->
-    <string name="auth_agree_with_policies_title">Продолжая, вы соглашаетесь с нашей &lt;privacy&gt;политикой конфиденциальности&lt;/privacy&gt; и &lt;terms&gt;условиями пользования&lt;/terms&gt;</string>
-
-    <!-- VERIFICATION -->
-    <!-- VERIFICATION -->
-    <!-- VERIFICATION -->
-    <!-- VERIFICATION -->
-    <!-- VERIFICATION -->
-    <string name="verification_title">Верификация</string>
-    <string name="verification_code_sent_description">Мы отправили код на указанный вами номер. Введите его в поле ниже.</string>
-    <string name="verification_new_code_required">Мне нужен новый код</string>
-    <string name="verification_send_code_again">Не пришёл код?\nОтправим ещё один через %1$s сек</string>
-    <string name="confirm">Подтвердить</string>
-
     <!-- PIN CODE -->
     <!-- PIN CODE -->
     <!-- PIN CODE -->

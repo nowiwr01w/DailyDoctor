@@ -2,6 +2,7 @@ package navigation.config.child
 
 import kotlinx.serialization.Serializable
 import navigation.config.BaseNavigationChild
+import navigation.navigators.screen_results.ScreenResultHandler
 import view_model.BaseViewModelComponent
 
 @Serializable
@@ -12,6 +13,12 @@ sealed class DialogsChild(
      * COMPONENT
      */
     override lateinit var baseComponent: BaseViewModelComponent
+
+    /**
+     * SCREEN RESULT HANDLER
+     */
+    override lateinit var resultHandler: ScreenResultHandler
+
     /**
      * DIALOGS
      */

@@ -1,6 +1,5 @@
 package nowiwr01p.daily.doctor.app_presentation.dialogs.select_language
 
-import com.nowiwr01p.model.model.language.Language
 import components.button.ButtonState
 import kotlinx.coroutines.delay
 import manager.language.AppLanguageManager
@@ -8,6 +7,7 @@ import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Effect.Cl
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnCloseClicked
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnConfirmSelectedLanguage
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnSelectLanguageClicked
+import nowiwr01p.daily.doctor.new_resources.language.Language
 import pro.respawn.flowmvi.api.PipelineContext
 import view_model.BaseViewModel
 
@@ -25,7 +25,7 @@ class SelectLanguageViewModel(
 
     override suspend fun Ctx.handleEvents(event: Event) {
         when (event) {
-            is OnCloseClicked -> setEffect(CloseDialog)
+            is OnCloseClicked -> closeDialog()
             is OnSelectLanguageClicked -> selectLanguage(event.language)
             is OnConfirmSelectedLanguage -> confirmLanguageSelection()
         }
@@ -53,6 +53,13 @@ class SelectLanguageViewModel(
         appLanguageManager.selectLanguage(selectedLanguage)
         setState { copy(selectButtonState = ButtonState.SUCCESS) }
         delay(1500)
-        setEffect(CloseDialog)
+        closeDialog()
+    }
+
+    /**
+     * CLOSE DIALOG
+     */
+    private suspend fun Ctx.closeDialog() = withState {
+        setEffect(CloseDialog(selectedLanguage))
     }
 }

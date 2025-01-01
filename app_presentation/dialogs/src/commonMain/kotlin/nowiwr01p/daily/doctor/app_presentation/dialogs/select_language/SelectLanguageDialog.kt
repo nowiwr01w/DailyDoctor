@@ -15,25 +15,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.nowiwr01p.model.model.language.Language
 import components.button.AppButton
-import components.button.ButtonState
 import components.image.AppImage
 import navigation.config.child.DialogsChild.SelectLanguageChild
+import navigation.screen_results.ScreenResultKey.SelectLanguageResultKey
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Effect.CloseDialog
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnConfirmSelectedLanguage
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnSelectLanguageClicked
+import nowiwr01p.daily.doctor.new_resources.language.Language
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_done
 import nowiwr01p.daily.doctor.resources.language_title
 import org.jetbrains.compose.resources.stringResource
 import theme.CustomTheme.colors
-import theme.CustomTheme.shapes
 import theme.CustomTheme.typography
 import view_model.rememberViewModel
 
@@ -55,7 +52,10 @@ internal fun SelectLanguageChild.SelectLanguageDialog(
     }
     val state = viewModel.getState { effect ->
         when (effect) {
-            is CloseDialog -> onDismiss()
+            is CloseDialog -> {
+                resultHandler.setScreenResult(SelectLanguageResultKey, effect.selectedLanguage)
+                onDismiss()
+            }
         }
     }
     Content(
@@ -133,15 +133,8 @@ private fun LanguageItem(
             .clickable { onSelectLanguageClick() }
             .padding(horizontal = 16.dp)
     ) {
-        AppImage(
-            image = language.icon,
-            scale = ContentScale.Crop,
-            modifier = Modifier
-                .size(32.dp)
-                .clip(shapes.circle)
-        )
         Text(
-            text = stringResource(language.name),
+            text = language.name,
             color = colors.textColors.blackTextColor.copy(alpha = 0.75f),
             style = typography.bodyMedium,
             modifier = Modifier.padding(start = 12.dp)

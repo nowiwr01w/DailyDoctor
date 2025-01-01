@@ -23,16 +23,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import extensions.BaseScreen
+import navigation.screen_results.ScreenResultKey.SelectLanguageResultKey
+import navigation.screen_results.handleScreenResult
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.SplashChild
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenResources
 import nowiwr01p.daily.doctor.resources.Res
-import nowiwr01p.daily.doctor.resources.app_name
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import splash.Effect.NavigateToHome
 import splash.Effect.NavigateToOnboarding
+import splash.Effect.ShowSelectLanguageDialog
+import splash.Event.RedirectAfterLanguageSet
 import splash.SplashViewModel
+import splash.State
 import splash.data.SplashAnimationState
 import splash.data.SplashAnimationState.FIRST_TEXT
 import splash.data.SplashAnimationState.ICON
@@ -40,12 +44,12 @@ import splash.data.SplashAnimationState.PROGRESS
 import splash.data.SplashAnimationState.SECOND_TEXT
 import theme.CustomTheme
 import theme.CustomTheme.colors
-import splash.State
 import view_model.rememberViewModel
 
 @Composable
 internal fun SplashChild.SplashMainScreenMobile(
     navigator: MobileNavigator,
+    resources: SplashScreenResources,
     viewModel: SplashViewModel = baseComponent.rememberViewModel()
 ) {
     val state = viewModel.getState { effect ->
@@ -56,10 +60,16 @@ internal fun SplashChild.SplashMainScreenMobile(
             is NavigateToOnboarding -> {
                 navigator.screensNavigator.onboardingNavigator.navigateToOnboarding()
             }
+            is ShowSelectLanguageDialog -> {
+                navigator.dialogsNavigator.showSelectLanguageDialog(isFirstSelection = true)
+            }
         }
     }
+    handleScreenResult(SelectLanguageResultKey) { language ->
+        viewModel.setEvent(RedirectAfterLanguageSet(language))
+    }
     BaseScreen {
-        SplashMainScreenContent(state)
+        resources.SplashMainScreenContent(state)
     }
 }
 
@@ -67,7 +77,7 @@ internal fun SplashChild.SplashMainScreenMobile(
  * CONTENT
  */
 @Composable
-private fun SplashMainScreenContent(state: State) = ConstraintLayout(
+private fun SplashScreenResources.SplashMainScreenContent(state: State) = ConstraintLayout(
     modifier = Modifier
         .fillMaxSize()
         .background(colors.backgroundColors.whiteBackgroundColor)
@@ -126,12 +136,12 @@ private fun AppLogo(state: State) = AnimatedContainer(
  * DAILY TEXT
  */
 @Composable
-private fun DailyText(state: State) = AnimatedContainer(
+private fun SplashScreenResources.DailyText(state: State) = AnimatedContainer(
     expectedAnimationState = FIRST_TEXT,
     actualAnimationState = state.animationState,
 ) {
     Text(
-        text = stringResource(Res.string.app_name).split(" ")[0].uppercase(),
+        text = appName.split(" ")[0].uppercase(),
         style = CustomTheme.typography.displayLarge,
         color = colors.textColors.blueTextColor,
         letterSpacing = 1.5.sp,
@@ -143,12 +153,12 @@ private fun DailyText(state: State) = AnimatedContainer(
  * DOCTOR TEXT
  */
 @Composable
-private fun DoctorText(state: State) = AnimatedContainer(
+private fun SplashScreenResources.DoctorText(state: State) = AnimatedContainer(
     expectedAnimationState = SECOND_TEXT,
     actualAnimationState = state.animationState,
 ) {
     Text(
-        text = stringResource(Res.string.app_name).split(" ")[1].uppercase(),
+        text = appName.split(" ")[1].uppercase(),
         style = CustomTheme.typography.displayLarge,
         color = colors.textColors.redTextColor,
         letterSpacing = 1.5.sp

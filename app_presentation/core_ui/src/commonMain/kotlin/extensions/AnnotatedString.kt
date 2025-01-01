@@ -6,8 +6,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 import theme.CustomTheme.colors
 
 private val XML_TAG_REGEX = "<(\\w+)>(.*?)</\\1>".toRegex()
@@ -22,11 +20,10 @@ fun AnnotatedString.onTextClick(
 }
 
 @Composable
-fun buildAnnotatedStringFromResource(
-    resId: StringResource,
+fun buildAnnotatedStringFromStringWithTags(
+    fullText: String,
     linkStyle: SpanStyle = SpanStyle(color = colors.backgroundColors.grayBackgroundColor)
 ): AnnotatedString {
-    val fullText = stringResource(resId)
     return remember(fullText) {
         buildAnnotatedString {
             var lastIndex = 0

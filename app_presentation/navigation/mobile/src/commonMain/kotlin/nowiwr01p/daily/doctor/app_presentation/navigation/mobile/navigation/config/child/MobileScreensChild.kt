@@ -4,6 +4,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimator
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import kotlinx.serialization.Serializable
 import navigation.config.BaseNavigationChild
+import navigation.navigators.screen_results.ScreenResultHandler
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
 import view_model.BaseViewModelComponent
 
@@ -15,6 +16,12 @@ sealed class MobileScreensChild(
      * COMPONENT
      */
     override lateinit var baseComponent: BaseViewModelComponent
+
+    /**
+     * SCREEN RESULT HANDLER
+     */
+    override lateinit var resultHandler: ScreenResultHandler
+
     /**
      * SCREENS
      */
