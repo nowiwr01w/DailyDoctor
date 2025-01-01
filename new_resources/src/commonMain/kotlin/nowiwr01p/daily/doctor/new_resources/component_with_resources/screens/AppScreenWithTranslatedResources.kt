@@ -1,0 +1,18 @@
+package nowiwr01p.daily.doctor.new_resources.component_with_resources.screens
+
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.base.ComponentResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.base.ComponentTranslatedResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.base.ComponentWithTranslatedResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenResources
+import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenTranslatedResources
+
+internal sealed class AppScreenWithTranslatedResources<T: ComponentResources>(
+    override val resources: ComponentTranslatedResources<T>
+): ComponentWithTranslatedResources<T>(resources) {
+    /**
+     * SPLASH
+     */
+    data object SplashScreen: AppScreenWithTranslatedResources<SplashScreenResources>(
+        resources = SplashScreenTranslatedResources()
+    )
+}

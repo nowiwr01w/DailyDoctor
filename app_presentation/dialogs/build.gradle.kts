@@ -64,6 +64,7 @@ kotlin {
                  * RESOURCES
                  */
                 implementation(projects.resources)
+                implementation(projects.newResources)
                 /**
                  * COMPOSE
                  */

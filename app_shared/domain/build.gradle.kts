@@ -44,6 +44,7 @@ kotlin {
                  * MODEL SHARED
                  */
                 implementation(projects.modelShared)
+                implementation(projects.newResources)
                 /**
                  * APP SHARED
                  */

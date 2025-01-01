@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
+import navigation.navigators.screen_results.ScreenResultHandler
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.config.MobileScreensConfig
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.navigators.screens.navigators.auth.AuthNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.navigators.screens.navigators.home.HomeNavigator
@@ -16,6 +17,7 @@ import view_model.BaseViewModelComponent
 class MobileScreensNavigatorImpl(
     appNavigationContext: ComponentContext,
     private val navigation: StackNavigation<MobileScreensConfig>,
+    private val screenResultHandler: ScreenResultHandler,
     override val splashNavigator: SplashNavigator,
     override val onboardingNavigator: OnboardingNavigator,
     override val authNavigator: AuthNavigator,
@@ -30,10 +32,11 @@ class MobileScreensNavigatorImpl(
         key = "ScreensChildStack",
         source = navigation,
         serializer = MobileScreensConfig.serializer(),
-        initialConfiguration = MobileScreensConfig.Subscription,
+        initialConfiguration = MobileScreensConfig.Splash,
         handleBackButton = true,
         childFactory = { config, childContext ->
             config.child.apply {
+                resultHandler = screenResultHandler
                 baseComponent = BaseViewModelComponent(childContext)
             }
         }

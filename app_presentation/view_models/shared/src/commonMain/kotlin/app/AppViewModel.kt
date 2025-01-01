@@ -5,6 +5,7 @@ import com.nowiwr01p.model.model.app_config.config.BrandConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import manager.brand_config.AppBrandConfigManager
+import manager.language.AppLanguageManager
 import model.color.allAppColorThemes
 import model.color.classic.AppClassicColorThemeLight
 import pro.respawn.flowmvi.api.PipelineContext
@@ -13,13 +14,24 @@ import view_model.BaseViewModel
 private typealias Ctx = PipelineContext<State, Event, Effect>
 
 class AppViewModel(
-    private val appBrandConfigManager: AppBrandConfigManager
+    private val appBrandConfigManager: AppBrandConfigManager,
+    private val appLanguageManager: AppLanguageManager
 ): BaseViewModel<State, Event, Effect>(initialValue = State()) {
     /**
      * INIT
      */
     override suspend fun Ctx.init() {
+        initAppLanguage()
         loadBrandConfig()
+    }
+
+    /**
+     * APP LANGUAGE
+     */
+    private fun Ctx.initAppLanguage() = io {
+        appLanguageManager.getAppLanguagesData().collect { data ->
+            setState { copy(appLanguage = data.selectedLanguage) }
+        }
     }
 
     /**

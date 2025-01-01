@@ -97,6 +97,7 @@ include(":model_shared")
  * RESOURCES
  */
 include(":resources")
+include(":new_resources")
 
 /**
  * SERVER

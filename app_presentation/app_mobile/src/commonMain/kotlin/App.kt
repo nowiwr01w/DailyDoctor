@@ -15,6 +15,7 @@ import components.transition_component.AppBottomSheet
 import components.transition_component.AppDialog
 import nowiwr01p.daily.doctor.app_presentation.dialogs.getDialogContent
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.new_resources.language.AppWithLanguage
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import screens.getScreenContent
@@ -31,8 +32,12 @@ fun App(
     val appState = viewModel.getState { effect ->
         // TODO
     }
-    AppTheme(appColorTheme = appState.appColorTheme) {
-        AppContent(navigator)
+    AppWithLanguage(
+        appLanguage = appState.appLanguage
+    ) {
+        AppTheme(appColorTheme = appState.appColorTheme) {
+            AppContent(navigator)
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 package repository.language
 
-import com.nowiwr01p.model.model.language.Language
+import nowiwr01p.daily.doctor.new_resources.language.Language
 
 interface AppLanguageRepository {
     suspend fun getAppLanguages(): List<Language>

@@ -30,7 +30,8 @@ val moduleAppPresentationViewModels = module {
      */
     single {
         AppViewModel(
-            appBrandConfigManager = get<AppBrandConfigManager>()
+            appBrandConfigManager = get<AppBrandConfigManager>(),
+            appLanguageManager = get<AppLanguageManager>()
         )
     }
     /**

@@ -2,14 +2,17 @@ package navigation.screen_results
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import navigation.AppNavigator
+import navigation.config.BaseNavigationChild
 
 @Composable
-internal fun <T: Any> navigation.AppNavigator.handleScreenResult(
-    key: navigation.screen_results.ScreenResultKey<T>,
+fun <T: Any> BaseNavigationChild.handleScreenResult(
+    key: ScreenResultKey<T>,
     handleDataCallback: (T) -> Unit
 ) {
     DisposableEffect(key) {
-        onDispose {  }
+        resultHandler.getScreenResult(key, handleDataCallback)
+        onDispose {
+            resultHandler.cancelJob(key)
+        }
     }
 }

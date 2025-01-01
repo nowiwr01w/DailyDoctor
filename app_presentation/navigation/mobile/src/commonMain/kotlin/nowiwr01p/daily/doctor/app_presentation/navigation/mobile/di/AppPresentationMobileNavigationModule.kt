@@ -8,6 +8,8 @@ import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import navigation.config.config.DialogsNavigationConfig
 import navigation.navigators.dialogs.DialogsNavigator
 import navigation.navigators.dialogs.DialogsNavigatorImpl
+import navigation.navigators.screen_results.ScreenResultHandler
+import navigation.navigators.screen_results.ScreenResultHandlerImpl
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigatorImpl
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.config.MobileBottomSheetConfig
@@ -53,7 +55,8 @@ val moduleAppPresentationMobileNavigation = module {
             appNavigationContext = context,
             appScope = get<AppScope>(),
             dispatchers = get<AppDispatchers>(),
-            navigation = navigation
+            navigation = navigation,
+            screenResultHandler = get<ScreenResultHandler>()
         )
     }
     /**
@@ -65,7 +68,8 @@ val moduleAppPresentationMobileNavigation = module {
             appNavigationContext = context,
             appScope = get<AppScope>(),
             dispatchers = get<AppDispatchers>(),
-            navigation = navigation
+            navigation = navigation,
+            screenResultHandler = get<ScreenResultHandler>()
         )
     }
     /**
@@ -76,6 +80,7 @@ val moduleAppPresentationMobileNavigation = module {
         MobileScreensNavigatorImpl(
             appNavigationContext = context,
             navigation = navigation,
+            screenResultHandler = get<ScreenResultHandler>(),
             splashNavigator = get<SplashNavigator> { parametersOf(navigation) },
             onboardingNavigator = get<OnboardingNavigator> { parametersOf(navigation) },
             authNavigator = get<AuthNavigator> { parametersOf(navigation) },
@@ -119,5 +124,14 @@ val moduleAppPresentationMobileNavigation = module {
      */
     single<HomeNavigator> { (navigation: AppStackNavigation) ->
         HomeNavigatorImpl(navigation)
+    }
+    /**
+     * SCREEN RESULTS
+     */
+    single<ScreenResultHandler> {
+        ScreenResultHandlerImpl(
+            appScope = get<AppScope>(),
+            dispatchers = get<AppDispatchers>()
+        )
     }
 }

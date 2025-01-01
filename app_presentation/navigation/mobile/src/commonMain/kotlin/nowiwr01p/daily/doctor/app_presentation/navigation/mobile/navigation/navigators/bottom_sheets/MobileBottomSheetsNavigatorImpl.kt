@@ -11,6 +11,7 @@ import constants.COMPONENT_TRANSITION_ANIMATION_DURATION
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import navigation.navigators.getDefaultBackCallback
+import navigation.navigators.screen_results.ScreenResultHandler
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.config.MobileBottomSheetConfig
 import view_model.BaseViewModelComponent
 
@@ -18,7 +19,8 @@ class MobileBottomSheetsNavigatorImpl(
     appNavigationContext: ComponentContext,
     private val appScope: AppScope,
     private val dispatchers: AppDispatchers,
-    private val navigation: SlotNavigation<MobileBottomSheetConfig>
+    private val navigation: SlotNavigation<MobileBottomSheetConfig>,
+    private val screenResultHandler: ScreenResultHandler
 ): MobileBottomSheetsNavigator, ComponentContext by appNavigationContext {
     /**
      * CONFIG
@@ -29,9 +31,9 @@ class MobileBottomSheetsNavigatorImpl(
         serializer = MobileBottomSheetConfig.serializer(),
         childFactory = { config, childContext ->
             config.child.apply {
-                val backCallback = getDefaultBackCallback(isCancellable)
+                resultHandler = screenResultHandler
                 baseComponent = BaseViewModelComponent(childContext).apply {
-                    backHandler.register(backCallback)
+                    backHandler.register(getDefaultBackCallback(isCancellable))
                 }
             }
         }

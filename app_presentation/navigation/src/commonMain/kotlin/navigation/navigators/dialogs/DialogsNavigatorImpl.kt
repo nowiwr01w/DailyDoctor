@@ -14,13 +14,15 @@ import navigation.config.config.DialogsNavigationConfig
 import navigation.config.config.DialogsNavigationConfig.ExitApp
 import navigation.config.config.DialogsNavigationConfig.SelectLanguage
 import navigation.navigators.getDefaultBackCallback
+import navigation.navigators.screen_results.ScreenResultHandler
 import view_model.BaseViewModelComponent
 
 class DialogsNavigatorImpl(
     appNavigationContext: ComponentContext,
     private val appScope: AppScope,
     private val dispatchers: AppDispatchers,
-    private val navigation: SlotNavigation<DialogsNavigationConfig>
+    private val navigation: SlotNavigation<DialogsNavigationConfig>,
+    private val screenResultHandler: ScreenResultHandler
 ): DialogsNavigator, ComponentContext by appNavigationContext {
     /**
      * CONFIG
@@ -32,9 +34,9 @@ class DialogsNavigatorImpl(
         handleBackButton = true,
         childFactory = { config, childContext ->
             config.child.apply {
-                val backCallback = getDefaultBackCallback(isCancellable)
+                resultHandler = screenResultHandler
                 baseComponent = BaseViewModelComponent(childContext).apply {
-                    backHandler.register(backCallback)
+                    backHandler.register(getDefaultBackCallback(isCancellable))
                 }
             }
         }

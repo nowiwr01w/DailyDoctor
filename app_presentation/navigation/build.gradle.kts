@@ -50,6 +50,10 @@ kotlin {
                  */
                 implementation(projects.appPresentation.viewModels.base)
                 /**
+                 * RESOURCES
+                 */
+                implementation(projects.newResources)
+                /**
                  * COMPOSE
                  */
                 implementation(compose.material)

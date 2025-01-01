@@ -2,6 +2,7 @@ package nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.con
 
 import kotlinx.serialization.Serializable
 import navigation.config.BaseNavigationChild
+import navigation.navigators.screen_results.ScreenResultHandler
 import view_model.BaseViewModelComponent
 
 @Serializable
@@ -12,6 +13,11 @@ sealed class MobileBottomSheetChild(
      * COMPONENT
      */
     override lateinit var baseComponent: BaseViewModelComponent
+
+    /**
+     * SCREEN RESULT HANDLER
+     */
+    override lateinit var resultHandler: ScreenResultHandler
 
     /**
      * BOTTOM SHEETS
