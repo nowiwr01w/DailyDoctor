@@ -8,7 +8,7 @@ import manager.language.AppLanguageManager
 import manager.onboarding.AppOnboardingManager
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.SelectLanguageViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationScreenResources
 import onboarding.OnboardingViewModel
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel
@@ -21,6 +21,7 @@ import usecase.pin.AppChangePinCodeUseCase
 import usecase.pin.AppCheckPinCodeUseCase
 import usecase.pin.AppCreatePinCodeUseCase
 import usecase.pin.AppDeletePinCodeUseCase
+import usecase.subscription.AppGetSubscriptionPlansUseCase
 import usecase.verification.AppCheckVerificationCodeUseCase
 import user.usecase.GetLocalUserUseCase
 import verification.VerificationViewModel
@@ -32,7 +33,8 @@ val moduleAppPresentationViewModels = module {
     single {
         AppViewModel(
             appBrandConfigManager = get<AppBrandConfigManager>(),
-            appLanguageManager = get<AppLanguageManager>()
+            appLanguageManager = get<AppLanguageManager>(),
+            getSubscriptionPlansUseCase = get<AppGetSubscriptionPlansUseCase>()
         )
     }
     /**

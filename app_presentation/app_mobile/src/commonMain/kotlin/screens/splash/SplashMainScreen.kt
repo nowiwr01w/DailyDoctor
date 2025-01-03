@@ -27,7 +27,7 @@ import navigation.screen_results.ScreenResultKey.SelectLanguageResultKey
 import navigation.screen_results.handleScreenResult
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.SplashChild
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.splash.SplashScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import org.jetbrains.compose.resources.painterResource

@@ -2,22 +2,22 @@ package nowiwr01p.daily.doctor.database.data.storage.onboarding
 
 import com.nowiwr01p.model.model.app_config.config.BrandConfigType
 import com.nowiwr01p.model.model.onboarding.OnboardingItem
+import nowiwr01p.daily.doctor.database.data.storage.BaseDatabaseStorage
 import nowiwr01p.daily.doctor.database.domain.storage.onboarding.DatabaseOnboardingStorage
-import nowiwr01p.daily.doctor.database.tables.table.brand.BrandTable
 import nowiwr01p.daily.doctor.database.tables.table.onboarding.OnboardingTable
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class DatabaseOnboardingStorageImpl: DatabaseOnboardingStorage {
+class DatabaseOnboardingStorageImpl: BaseDatabaseStorage(), DatabaseOnboardingStorage {
 
     override suspend fun getOnboardingData(type: BrandConfigType) = transaction {
         val brandId = getBrandId(type)
         OnboardingTable.selectAll()
             .where {
                 val sameBrand = OnboardingTable.brand eq brandId
-                val sameLanguage = OnboardingTable.languageCode eq "ru"
+                val sameLanguage = OnboardingTable.languageCode eq "ru" // TODO: Add Language support
                 sameBrand and sameLanguage
             }
             .orderBy(OnboardingTable.position to SortOrder.ASC)
@@ -31,9 +31,4 @@ class DatabaseOnboardingStorageImpl: DatabaseOnboardingStorage {
                 )
             }
     }
-
-    private fun getBrandId(type: BrandConfigType) = BrandTable.selectAll()
-        .where { BrandTable.brandName eq type.type }
-        .map { row -> row[BrandTable.id] }
-        .first()
 }

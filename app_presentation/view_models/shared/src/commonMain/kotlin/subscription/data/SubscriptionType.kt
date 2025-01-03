@@ -45,7 +45,6 @@ sealed class SubscriptionType(
     val id: Int,
     val position: Int,
     val name: StringResource,
-    val icon: DrawableResource,
     val yearlyPrice: Price,
     val monthlyPrice: Price,
     val benefits: List<BenefitData>
@@ -54,7 +53,6 @@ sealed class SubscriptionType(
         id = 0,
         position = 0,
         name = Res.string.subscription_free_title,
-        icon = Res.drawable.ic_subscription_free,
         monthlyPrice = Price(
             basePrice = 0f,
             discountedPrice = 0f
@@ -70,7 +68,6 @@ sealed class SubscriptionType(
         id = 1,
         position = 1,
         name = Res.string.subscription_base_title,
-        icon = Res.drawable.ic_subscription_base,
         monthlyPrice = Price(
             basePrice = 5.49f,
             discountedPrice = 3.99f
@@ -115,7 +112,6 @@ sealed class SubscriptionType(
         id = 2,
         position = 2,
         name = Res.string.subscription_standard_title,
-        icon = Res.drawable.ic_subscription_standard,
         monthlyPrice = Price(
             basePrice = 9.99f,
             discountedPrice = 7.99f
@@ -160,7 +156,6 @@ sealed class SubscriptionType(
         id = 3,
         position = 3,
         name = Res.string.subscription_premium_title,
-        icon = Res.drawable.ic_subscription_premium,
         monthlyPrice = Price(
             basePrice = 16.99f,
             discountedPrice = 9.99f

@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.*
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthMainScreenResources
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.pin.PinMainScreenResources
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashMainScreenResources
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationMainScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.auth.AuthMainScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinMainScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.splash.SplashMainScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationMainScreenResources
 import screens.auth.AuthMainScreenMobile
 import screens.home.HomeMainScreen
 import screens.onboarding.OnboardingMainScreenMobile

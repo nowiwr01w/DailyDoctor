@@ -1,7 +1,9 @@
 package nowiwr01p.daily.doctor.server.data.repository.subscription
 
+import com.nowiwr01p.model.model.app_config.config.BrandConfigType
 import com.nowiwr01p.model.repository.BaseRepository
 import nowiwr01p.daily.doctor.database.domain.repository.subscription.DatabaseSubscriptionRepository
+import com.nowiwr01p.model.resources.language.Language
 import nowiwr01p.daily.doctor.server.domain.repository.subscription.ServerSubscriptionRepository
 
 class ServerSubscriptionRepositoryImpl(
@@ -10,7 +12,10 @@ class ServerSubscriptionRepositoryImpl(
     /**
      * PLANS
      */
-    override suspend fun getSubscriptionPlans() = io {
-        repository.getSubscriptionPlans()
+    override suspend fun getSubscriptionPlans(brand: BrandConfigType, language: Language) = io {
+        repository.getSubscriptionPlans(
+            brand = brand,
+            language = language
+        )
     }
 }

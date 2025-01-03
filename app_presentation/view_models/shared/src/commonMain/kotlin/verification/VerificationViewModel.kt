@@ -12,7 +12,7 @@ import extensions.withLeadingZero
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.verification.VerificationScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationScreenResources
 import pro.respawn.flowmvi.api.PipelineContext
 import usecase.verification.AppCheckVerificationCodeUseCase
 import verification.Effect.OpenKeyboardToEnterCorrectCode

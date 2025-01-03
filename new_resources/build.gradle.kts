@@ -45,7 +45,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.new_resources"
+    namespace = "com.nowiwr01p.model.resources"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

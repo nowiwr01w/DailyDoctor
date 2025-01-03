@@ -5,7 +5,7 @@ import contract.BaseEvent
 import contract.BaseState
 import model.color.AppColorTheme
 import model.color.classic.AppClassicColorThemeLight
-import nowiwr01p.daily.doctor.new_resources.language.Language
+import com.nowiwr01p.model.resources.language.Language
 
 sealed interface Event: BaseEvent
 
