@@ -4,7 +4,9 @@ import com.nowiwr01p.model.resources.language.Language.English
 import com.nowiwr01p.model.resources.language.Language.Georgian
 import com.nowiwr01p.model.resources.language.Language.Russian
 import com.nowiwr01p.model.resources.language.Language.Ukrainian
+import kotlinx.serialization.Serializable
 
+@Serializable
 sealed class Language(
     val code: String,
     val name: String

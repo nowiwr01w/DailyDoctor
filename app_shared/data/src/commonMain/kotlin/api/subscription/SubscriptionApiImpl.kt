@@ -2,7 +2,7 @@ package api.subscription
 
 import com.nowiwr01p.model.api.route.SubscriptionRoutes.GetSubscriptionPlansRoute
 import com.nowiwr01p.model.model.app_config.config.BrandConfigType
-import com.nowiwr01p.model.model.subscription.plan.SubscriptionPlan
+import com.nowiwr01p.model.model.subscription.SubscriptionPlan
 import nowiwr01p.daily.doctor.base_api_client.api.ApiClientSettings.AppApiClientSettings
 import nowiwr01p.daily.doctor.base_api_client.api.BaseApi
 import nowiwr01p.daily.doctor.base_api_client.api.base.ApiParameter

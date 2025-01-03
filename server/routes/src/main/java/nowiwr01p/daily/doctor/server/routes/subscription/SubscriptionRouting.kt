@@ -33,6 +33,7 @@ class SubscriptionRouting(
             val params = ServerGetSubscriptionPlansUseCase.Params(brand = brand, language = language)
             getSubscriptionPlansUseCase.execute(params)
         }.onSuccess { plans ->
+            println("Zhopa: LOADED PLANS = ${plans.map { it.subscriptionPlanData.type.name }}")
             respondWithSuccessModel(plans)
         }.onFailure { error ->
             sendInternalError(error.message)

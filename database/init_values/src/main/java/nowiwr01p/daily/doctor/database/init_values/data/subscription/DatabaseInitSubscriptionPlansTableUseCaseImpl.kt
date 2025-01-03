@@ -1,17 +1,16 @@
 package nowiwr01p.daily.doctor.database.init_values.data.subscription
 
-import com.nowiwr01p.model.model.app_config.config.BrandConfigType
-import com.nowiwr01p.model.resources.component_with_resources.screens.subscription.base.BaseSubscriptionBenefits
-import com.nowiwr01p.model.resources.component_with_resources.screens.subscription.base.BaseSubscriptionScreenResources
-import com.nowiwr01p.model.resources.component_with_resources.screens.subscription.brands.call_doctor.resources.FreePlanResources
-import com.nowiwr01p.model.resources.component_with_resources.screens.subscription.brands.getSubscriptionResourcesForAllBrands
-import com.nowiwr01p.model.resources.language.Language
+import com.nowiwr01p.model.model.subscription.SubscriptionPlanUi
+import com.nowiwr01p.model.model.subscription.allSubscriptionPlansWithTranslation
+import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefits
+import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefits.CommonSubscriptionPlanBenefits
+import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefits.FreeSubscriptionPlanBenefits
 import nowiwr01p.daily.doctor.database.init_values.domain.subscription.DatabaseInitSubscriptionPlansTableUseCase
-import nowiwr01p.daily.doctor.database.tables.table.brand.BrandEntity
-import nowiwr01p.daily.doctor.database.tables.table.brand.BrandTable
 import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionBenefitsEntity
 import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionPlanEntity
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.UUID
 
 class DatabaseInitSubscriptionPlansTableUseCaseImpl: DatabaseInitSubscriptionPlansTableUseCase {
     /**
@@ -19,7 +18,7 @@ class DatabaseInitSubscriptionPlansTableUseCaseImpl: DatabaseInitSubscriptionPla
      */
     override suspend fun execute(input: Unit) {
         removeExistingData()
-        buildRelevantData()
+        insertSubscriptionPlans(allSubscriptionPlansWithTranslation)
     }
 
     /**
@@ -31,59 +30,24 @@ class DatabaseInitSubscriptionPlansTableUseCaseImpl: DatabaseInitSubscriptionPla
     }
 
     /**
-     * RELEVANT DATA
-     */
-    private fun buildRelevantData() = getSubscriptionResourcesForAllBrands().forEach { allBrandsResources ->
-        allBrandsResources.forEach { brandResources ->
-            brandResources.getSubscriptionPlansFromBrand().forEach { brandSubscriptionPlans ->
-                when (brandSubscriptionPlans) {
-                    is FreePlanResources -> {
-                        // TODO: Handle Free plan
-                    }
-                    is BaseSubscriptionBenefits -> insertSubscriptionPlan(
-                        brandId = brandResources.brand.getBrandEntity(),
-                        language = brandResources.language,
-                        resources = brandSubscriptionPlans
-                    )
-                }
-            }
-        }
-    }
-
-    private fun BaseSubscriptionScreenResources.getSubscriptionPlansFromBrand() = listOf(
-        freePlanResources,
-        basePlanResources,
-        standardPlanResources,
-        premiumPlanResources
-    )
-
-    private fun BrandConfigType.getBrandEntity() = transaction {
-        BrandEntity.find { BrandTable.brandName eq type }.single()
-    }
-
-    /**
      * SUBSCRIPTION PLAN
      */
-    private fun insertSubscriptionPlan(
-        brandId: BrandEntity,
-        language: Language,
-        resources: BaseSubscriptionBenefits
-    ) {
-        transaction {
-            val subscriptionPlanEntity = SubscriptionPlanEntity.new {
-                brand = brandId
-                planName = resources.type.planName
-                languageCode = language.code
-                monthlyPrice = resources.type.monthlyPrice
-                monthlyPriceDiscounted = resources.type.monthlyPriceDiscounted
-                yearlyPrice = resources.type.yearlyPrice
-                yearlyPriceDiscounted = resources.type.yearlyPriceDiscounted
+    private fun insertSubscriptionPlans(allPlans: List<SubscriptionPlanUi>) = transaction {
+        allPlans.distinctBy { it.planData.type }.forEach { distinctPlan ->
+            val planData = distinctPlan.planData
+            val insertedSubscriptionPlan = SubscriptionPlanEntity.new {
+                planName = planData.type.name
+                monthlyPrice = planData.monthlyPrice
+                monthlyPriceDiscounted = planData.monthlyPriceDiscounted
+                yearlyPrice = planData.yearlyPrice
+                yearlyPriceDiscounted = planData.yearlyPriceDiscounted
             }
-            insertSubscriptionPlanBenefits(
-                subscriptionPlanEntity = subscriptionPlanEntity,
-                language = language,
-                resources = resources
-            )
+            distinctPlan.benefits.forEach { benefits ->
+                insertSubscriptionPlanBenefits(
+                    benefits = benefits,
+                    insertedSubscriptionPlanEntityId = insertedSubscriptionPlan.id
+                )
+            }
         }
     }
 
@@ -91,28 +55,32 @@ class DatabaseInitSubscriptionPlansTableUseCaseImpl: DatabaseInitSubscriptionPla
      * SUBSCRIPTION PLAN BENEFITS
      */
     private fun insertSubscriptionPlanBenefits(
-        subscriptionPlanEntity: SubscriptionPlanEntity,
-        language: Language,
-        resources: BaseSubscriptionBenefits
+        benefits: SubscriptionBenefits,
+        insertedSubscriptionPlanEntityId: EntityID<UUID>
     ) {
-        resources.getBenefitsFromSubscriptionPlan().forEach { resource ->
+        benefits.getBenefitsFromSubscriptionPlan().forEach { benefit ->
             SubscriptionBenefitsEntity.new {
-                brand = subscriptionPlanEntity.brand
-                languageCode = language.code
-                subscriptionPlanId = subscriptionPlanEntity.id
-                title = resource.title
-                description = resource.description
+                order = benefit.order
+                title = benefit.title
+                description = benefit.description
+                languageCode = benefits.language.code
+                subscriptionPlanId = insertedSubscriptionPlanEntityId
             }
         }
     }
 
-    private fun BaseSubscriptionBenefits.getBenefitsFromSubscriptionPlan() = listOf(
-        firstVisitDiscount,
-        appointmentsCount,
-        chatDescription,
-        welcomePaper,
-        favoriteClinics,
-        decodingAnalysis,
-        paidQuestions
-    )
+    private fun SubscriptionBenefits.getBenefitsFromSubscriptionPlan() = run {
+        when (this) {
+            is FreeSubscriptionPlanBenefits -> listOf(freePlanTitleDescription)
+            is CommonSubscriptionPlanBenefits -> listOf(
+                firstVisitDiscount,
+                appointmentsCount,
+                chatDescription,
+                welcomePaper,
+                favoriteClinics,
+                decodingAnalysis,
+                paidQuestions
+            )
+        }
+    }
 }
