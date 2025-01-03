@@ -9,7 +9,6 @@ dependencies {
      */
     implementation(projects.modelShared)
     implementation(projects.database.tables)
-    implementation(projects.newResources)
     /**
      * DEPENDENCIES
      */

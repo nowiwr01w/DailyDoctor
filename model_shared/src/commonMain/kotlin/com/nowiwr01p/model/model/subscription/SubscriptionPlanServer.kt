@@ -25,7 +25,7 @@ import com.nowiwr01p.model.resources.component_with_resources.screens.subscripti
 import kotlinx.serialization.Serializable
 
 @Serializable
-open class SubscriptionPlanUi(
+open class SubscriptionPlanServer(
     open val planData: SubscriptionPlanData,
     open val benefits: List<SubscriptionBenefits>
 )
@@ -33,7 +33,7 @@ open class SubscriptionPlanUi(
 /**
  * FREE
  */
-private data object FreeSubscriptionPlanUi: SubscriptionPlanUi(
+private data object FreeSubscriptionPlanServer: SubscriptionPlanServer(
     planData = Free,
     benefits = listOf(
         FreeSubscriptionPlanBenefitsGeorgian(),
@@ -46,7 +46,7 @@ private data object FreeSubscriptionPlanUi: SubscriptionPlanUi(
 /**
  * BASE
  */
-private data object BaseSubscriptionPlanUi: SubscriptionPlanUi(
+private data object BaseSubscriptionPlanServer: SubscriptionPlanServer(
     planData = Base,
     benefits = listOf(
         BasePlanBenefitsGeorgian(),
@@ -59,7 +59,7 @@ private data object BaseSubscriptionPlanUi: SubscriptionPlanUi(
 /**
  * STANDARD
  */
-private data object StandardSubscriptionPlanUi: SubscriptionPlanUi(
+private data object StandardSubscriptionPlanServer: SubscriptionPlanServer(
     planData = Standard,
     benefits = listOf(
         StandardPlanBenefitsGeorgian(),
@@ -72,7 +72,7 @@ private data object StandardSubscriptionPlanUi: SubscriptionPlanUi(
 /**
  * PREMIUM
  */
-private data object PremiumSubscriptionPlanUi: SubscriptionPlanUi(
+private data object PremiumSubscriptionPlanServer: SubscriptionPlanServer(
     planData = Premium,
     benefits = listOf(
         PremiumPlanBenefitsGeorgian(),
@@ -86,8 +86,8 @@ private data object PremiumSubscriptionPlanUi: SubscriptionPlanUi(
  * ALL
  */
 val allSubscriptionPlansWithTranslation = buildList {
-    add(FreeSubscriptionPlanUi)
-    add(BaseSubscriptionPlanUi)
-    add(StandardSubscriptionPlanUi)
-    add(PremiumSubscriptionPlanUi)
+    add(FreeSubscriptionPlanServer)
+    add(BaseSubscriptionPlanServer)
+    add(StandardSubscriptionPlanServer)
+    add(PremiumSubscriptionPlanServer)
 }

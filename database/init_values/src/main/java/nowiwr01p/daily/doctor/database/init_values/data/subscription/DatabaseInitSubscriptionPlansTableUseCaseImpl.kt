@@ -1,6 +1,6 @@
 package nowiwr01p.daily.doctor.database.init_values.data.subscription
 
-import com.nowiwr01p.model.model.subscription.SubscriptionPlanUi
+import com.nowiwr01p.model.model.subscription.SubscriptionPlanServer
 import com.nowiwr01p.model.model.subscription.allSubscriptionPlansWithTranslation
 import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefits
 import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefits.CommonSubscriptionPlanBenefits
@@ -32,7 +32,7 @@ class DatabaseInitSubscriptionPlansTableUseCaseImpl: DatabaseInitSubscriptionPla
     /**
      * SUBSCRIPTION PLAN
      */
-    private fun insertSubscriptionPlans(allPlans: List<SubscriptionPlanUi>) = transaction {
+    private fun insertSubscriptionPlans(allPlans: List<SubscriptionPlanServer>) = transaction {
         allPlans.distinctBy { it.planData.type }.forEach { distinctPlan ->
             val planData = distinctPlan.planData
             val insertedSubscriptionPlan = SubscriptionPlanEntity.new {
