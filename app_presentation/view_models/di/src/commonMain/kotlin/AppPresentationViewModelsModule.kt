@@ -24,7 +24,7 @@ import usecase.pin.AppCheckPinCodeUseCase
 import usecase.pin.AppCreatePinCodeUseCase
 import usecase.pin.AppDeletePinCodeUseCase
 import usecase.verification.AppCheckVerificationCodeUseCase
-import user.usecase.GetLocalUserUseCase
+import nowiwr01p.daily.doctor.local_database.domain.usecase.user.GetLocalUserUseCase
 import verification.VerificationViewModel
 
 val moduleAppPresentationViewModels = module {

@@ -9,6 +9,8 @@ import manager.onboarding.AppOnboardingManager
 import manager.onboarding.AppOnboardingManagerImpl
 import manager.subscription.AppSubscriptionManager
 import manager.subscription.AppSubscriptionManagerImpl
+import nowiwr01p.daily.doctor.local_database.domain.usecase.language.AppPrefsGetLanguageUseCase
+import nowiwr01p.daily.doctor.local_database.domain.usecase.language.AppPrefsSetLanguageUseCase
 import org.koin.dsl.module
 import usecase.brand_config.AppGetBrandConfigUseCase
 import usecase.language.GetAppLanguagesUseCase
@@ -35,7 +37,11 @@ internal val moduleAppSharedManager = module {
      * APP LANGUAGE
      */
     single<AppLanguageManager> {
-        AppLanguageManagerImpl(getAppLanguagesUseCase = get<GetAppLanguagesUseCase>())
+        AppLanguageManagerImpl(
+            getAppLanguagesUseCase = get<GetAppLanguagesUseCase>(),
+            appPrefsGetLanguageUseCase = get<AppPrefsGetLanguageUseCase>(),
+            appPrefsSetLanguageUseCase = get<AppPrefsSetLanguageUseCase>()
+        )
     }
     /**
      * SUBSCRIPTION

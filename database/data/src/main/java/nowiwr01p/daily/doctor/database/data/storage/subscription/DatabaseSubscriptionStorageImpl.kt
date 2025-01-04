@@ -1,14 +1,13 @@
 package nowiwr01p.daily.doctor.database.data.storage.subscription
 
-import com.nowiwr01p.model.model.app_config.config.BrandConfigType
-import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefit
 import com.nowiwr01p.model.model.subscription.SubscriptionPlan
+import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefit
+import com.nowiwr01p.model.resources.language.Language
 import nowiwr01p.daily.doctor.database.data.storage.BaseDatabaseStorage
 import nowiwr01p.daily.doctor.database.domain.storage.subscription.DatabaseSubscriptionStorage
-import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionBenefitsTable
 import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionBenefitsEntity
+import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionBenefitsTable
 import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionPlanEntity
-import com.nowiwr01p.model.resources.language.Language
 import nowiwr01p.daily.doctor.database.tables.table.subscription.toUiModel
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -17,7 +16,7 @@ class DatabaseSubscriptionStorageImpl: BaseDatabaseStorage(), DatabaseSubscripti
     /**
      * PLANS
      */
-    override suspend fun getSubscriptionPlans(brand: BrandConfigType, language: Language) = transaction {
+    override suspend fun getSubscriptionPlans(language: Language) = transaction {
         SubscriptionPlanEntity.all()
             .sortedBy { planEntity ->
                 planEntity.monthlyPrice

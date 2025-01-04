@@ -1,15 +1,15 @@
 package repository.subscription
 
 import api.subscription.SubscriptionApi
-import com.nowiwr01p.model.repository.BaseRepository
+import repository.AppBaseRepository
 
 class AppSubscriptionRepositoryImpl(
     private val api: SubscriptionApi
-): BaseRepository(), AppSubscriptionRepository {
+): AppBaseRepository(), AppSubscriptionRepository {
     /**
      * PLANS
      */
     override suspend fun loadSubscriptionPlans() = io {
-        api.loadSubscriptionPlans()
+        api.loadSubscriptionPlans(language = getAppLanguage())
     }
 }

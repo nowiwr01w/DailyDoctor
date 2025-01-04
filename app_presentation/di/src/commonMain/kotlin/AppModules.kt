@@ -1,6 +1,6 @@
 package di
 
 import getAppSharedModules
-import moduleLocalDatabase
+import nowiwr01p.daily.doctor.local_database.di.moduleLocalDatabase
 
 val appModules = moduleLocalDatabase + getAppSharedModules() + getAppPresentationModules()

@@ -1,9 +1,8 @@
 package nowiwr01p.daily.doctor.database.data.repository.subscription
 
-import com.nowiwr01p.model.model.app_config.config.BrandConfigType
+import com.nowiwr01p.model.resources.language.Language
 import nowiwr01p.daily.doctor.database.domain.repository.subscription.DatabaseSubscriptionRepository
 import nowiwr01p.daily.doctor.database.domain.storage.subscription.DatabaseSubscriptionStorage
-import com.nowiwr01p.model.resources.language.Language
 
 class DatabaseSubscriptionRepositoryImpl(
     private val storage: DatabaseSubscriptionStorage
@@ -11,10 +10,7 @@ class DatabaseSubscriptionRepositoryImpl(
     /**
      * PLANS
      */
-    override suspend fun getSubscriptionPlans(brand: BrandConfigType, language: Language) = run {
-        storage.getSubscriptionPlans(
-            brand = brand,
-            language = language
-        )
+    override suspend fun getSubscriptionPlans(language: Language) = run {
+        storage.getSubscriptionPlans(language)
     }
 }

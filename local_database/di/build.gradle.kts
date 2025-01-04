@@ -36,22 +36,24 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                /**
-                 * SHARED MODELS
-                 */
-                implementation(projects.modelShared)
-                /**
-                 * LOCAL DATABASE
-                 */
-                implementation(projects.localDatabase.data)
-                implementation(projects.localDatabase.domain)
-                /**
-                 * DEPENDENCIES
-                 */
-                implementation(libs.bundles.local.database)
-            }
+        commonMain.dependencies {
+            /**
+             * SHARED MODELS
+             */
+            implementation(projects.modelShared)
+            /**
+             * LOCAL DATABASE
+             */
+            implementation(projects.localDatabase)
+            implementation(projects.localDatabase.data)
+            implementation(projects.localDatabase.domain)
+            /**
+             * DEPENDENCIES
+             */
+            implementation(libs.bundles.local.database)
+        }
+        androidMain.dependencies {
+            implementation(libs.koin.android)
         }
     }
 

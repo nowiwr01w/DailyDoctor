@@ -6,13 +6,12 @@ import api.onboarding.OnboardingApi
 import api.pin.PinApi
 import api.subscription.SubscriptionApi
 import api.verification.VerificationApi
+import nowiwr01p.daily.doctor.local_database.domain.repository.user.LocalUserRepository
 import org.koin.dsl.module
 import repository.auth.AppAuthRepository
 import repository.auth.AppAuthRepositoryImpl
 import repository.brand_config.AppBrandConfigRepository
 import repository.brand_config.AppBrandConfigRepositoryImpl
-import repository.language.AppLanguageRepository
-import repository.language.AppLanguageRepositoryImpl
 import repository.onboarding.AppOnboardingRepository
 import repository.onboarding.AppOnboardingRepositoryImpl
 import repository.pin.AppPinRepository
@@ -21,7 +20,6 @@ import repository.subscription.AppSubscriptionRepository
 import repository.subscription.AppSubscriptionRepositoryImpl
 import repository.verification.AppVerificationRepository
 import repository.verification.AppVerificationRepositoryImpl
-import user.repository.LocalUserRepository
 
 internal val moduleAppSharedRepository = module {
     /**
@@ -56,12 +54,6 @@ internal val moduleAppSharedRepository = module {
      */
     factory<AppPinRepository> {
         AppPinRepositoryImpl(api = get<PinApi>())
-    }
-    /**
-     * LANGUAGE
-     */
-    factory<AppLanguageRepository> {
-        AppLanguageRepositoryImpl()
     }
     /**
      * SUBSCRIPTION

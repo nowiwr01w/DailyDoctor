@@ -11,18 +11,25 @@ sealed class Language(
     val code: String,
     val name: String
 ) {
+    @Serializable
     data object Georgian: Language(
         code = "ge",
         name = "ქართული"
     )
+
+    @Serializable
     data object English: Language(
         code = "en",
         name = "English"
     )
+
+    @Serializable
     data object Russian: Language(
         code = "ru",
         name = "Русский"
     )
+
+    @Serializable
     data object Ukrainian: Language(
         code = "ua",
         name = "Українська"
@@ -35,3 +42,4 @@ val appLanguages = listOf(
     Russian,
     Ukrainian
 )
+val defaultSelectedLanguage = Georgian

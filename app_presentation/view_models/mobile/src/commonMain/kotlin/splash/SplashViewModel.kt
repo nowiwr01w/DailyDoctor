@@ -1,6 +1,7 @@
 package splash
 
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
+import com.nowiwr01p.model.resources.language.Language
 import com.nowiwr01p.model.usecase.execute
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
@@ -15,7 +16,7 @@ import splash.Effect.ShowSelectLanguageDialog
 import splash.Event.InitAppDataAfterLanguageSet
 import splash.data.SplashAnimationState
 import usecase.InitAppDataUseCase
-import user.usecase.GetLocalUserUseCase
+import nowiwr01p.daily.doctor.local_database.domain.usecase.user.GetLocalUserUseCase
 import view_model.BaseViewModel
 
 private typealias Ctx = PipelineContext<State, Event, Effect>
@@ -32,22 +33,22 @@ class SplashViewModel(
         showSelectLanguageDialog()
     }
 
-    private fun Ctx.initAppData() {
-        loadAppData()
+    private fun Ctx.initAppData(language: Language) {
+        loadAppData(language)
         startTimer()
     }
 
     override suspend fun Ctx.handleEvents(event: Event) {
         when (event) {
-            is InitAppDataAfterLanguageSet -> initAppData()
+            is InitAppDataAfterLanguageSet -> initAppData(event.language)
         }
     }
 
     /**
      * APP DATA
      */
-    private fun loadAppData() = appScope.scope.launch {
-        initAppDataUseCase.execute()
+    private fun loadAppData(language: Language) = appScope.scope.launch {
+        initAppDataUseCase.execute(language)
     }
 
     /**

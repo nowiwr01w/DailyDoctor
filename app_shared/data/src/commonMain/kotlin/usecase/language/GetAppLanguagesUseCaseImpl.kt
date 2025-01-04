@@ -1,9 +1,7 @@
 package usecase.language
 
-import repository.language.AppLanguageRepository
+import com.nowiwr01p.model.resources.language.appLanguages
 
-class GetAppLanguagesUseCaseImpl(
-    private val repository: AppLanguageRepository
-): GetAppLanguagesUseCase {
-    override suspend fun execute(input: Unit) = repository.getAppLanguages()
+class GetAppLanguagesUseCaseImpl: GetAppLanguagesUseCase {
+    override suspend fun execute(input: Unit) = appLanguages
 }

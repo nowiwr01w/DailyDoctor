@@ -65,8 +65,8 @@ internal fun SplashChild.SplashMainScreenMobile(
             }
         }
     }
-    handleScreenResult(SelectLanguageResultKey) {
-        viewModel.setEvent(InitAppDataAfterLanguageSet)
+    handleScreenResult(SelectLanguageResultKey) { language ->
+        viewModel.setEvent(InitAppDataAfterLanguageSet(language))
     }
     BaseScreen {
         resources.SplashMainScreenContent(state)
