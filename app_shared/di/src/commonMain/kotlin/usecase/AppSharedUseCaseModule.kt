@@ -1,8 +1,6 @@
 package usecase
 
-import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import manager.brand_config.AppBrandConfigManager
-import manager.language.AppLanguageManager
 import manager.onboarding.AppOnboardingManager
 import manager.subscription.AppSubscriptionManager
 import org.koin.dsl.module
@@ -44,7 +42,6 @@ internal val moduleAppSharedUseCase = module {
     factory<InitAppDataUseCase> {
         InitAppDataUseCaseImpl(
             appBrandConfigManager = get<AppBrandConfigManager>(),
-            appLanguageManager = get<AppLanguageManager>(),
             appOnboardingManager = get<AppOnboardingManager>(),
             appSubscriptionManager = get<AppSubscriptionManager>()
         )

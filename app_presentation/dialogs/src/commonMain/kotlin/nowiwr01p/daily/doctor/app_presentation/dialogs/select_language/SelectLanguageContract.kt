@@ -1,11 +1,10 @@
 package nowiwr01p.daily.doctor.app_presentation.dialogs.select_language
 
-import components.button.ButtonState
+import com.nowiwr01p.model.resources.language.Language
+import com.nowiwr01p.model.resources.language.defaultSelectedLanguage
 import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
-import com.nowiwr01p.model.resources.language.Language
-import com.nowiwr01p.model.resources.language.defaultSelectedLanguage
 
 sealed interface Event: BaseEvent {
     data object OnCloseClicked: Event
@@ -15,8 +14,7 @@ sealed interface Event: BaseEvent {
 
 data class State(
     val allLanguages: List<Language> = listOf(),
-    val selectedLanguage: Language = defaultSelectedLanguage,
-    val selectButtonState: ButtonState = ButtonState.ORANGE_ACTIVE
+    val selectedLanguage: Language = defaultSelectedLanguage
 ): BaseState
 
 sealed interface Effect: BaseEffect {

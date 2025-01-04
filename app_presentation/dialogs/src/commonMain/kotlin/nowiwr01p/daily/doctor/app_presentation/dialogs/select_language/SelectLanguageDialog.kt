@@ -26,6 +26,8 @@ import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Effect.Cl
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnConfirmSelectedLanguage
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnSelectLanguageClicked
 import com.nowiwr01p.model.resources.language.Language
+import components.button.ButtonState
+import components.button.ButtonState.ORANGE_ACTIVE
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_done
 import nowiwr01p.daily.doctor.resources.language_title
@@ -74,7 +76,7 @@ private fun Content(
     ) {
         Title()
         LanguagesList(state, listener)
-        SelectButton(state, listener)
+        SelectButton(listener)
     }
 }
 
@@ -159,17 +161,12 @@ private fun LanguageItem(
  * SELECT LANGUAGE BUTTON
  */
 @Composable
-private fun SelectButton(
-    state: State,
-    listener: Listener?
-) {
-    AppButton(
-        text = "Select",
-        state = state.selectButtonState,
-        onClick = { listener?.onConfirmSelectedLanguage() },
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .height(48.dp)
-    )
-}
+private fun SelectButton(listener: Listener?) = AppButton(
+    text = "Select", // TODO: Localize
+    state = ORANGE_ACTIVE,
+    onClick = { listener?.onConfirmSelectedLanguage() },
+    modifier = Modifier
+        .padding(horizontal = 16.dp)
+        .fillMaxWidth()
+        .height(48.dp)
+)

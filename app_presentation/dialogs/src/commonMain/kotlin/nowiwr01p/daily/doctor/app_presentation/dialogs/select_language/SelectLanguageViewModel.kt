@@ -1,13 +1,12 @@
 package nowiwr01p.daily.doctor.app_presentation.dialogs.select_language
 
-import components.button.ButtonState
+import com.nowiwr01p.model.resources.language.Language
 import kotlinx.coroutines.delay
 import manager.language.AppLanguageManager
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Effect.CloseDialog
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnCloseClicked
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnConfirmSelectedLanguage
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnSelectLanguageClicked
-import com.nowiwr01p.model.resources.language.Language
 import pro.respawn.flowmvi.api.PipelineContext
 import view_model.BaseViewModel
 
@@ -48,11 +47,7 @@ class SelectLanguageViewModel(
     }
 
     private suspend fun Ctx.confirmLanguageSelection() = withState {
-        setState { copy(selectButtonState = ButtonState.ORANGE_ACTIVE_PROGRESS) }
-        delay(1500)
         appLanguageManager.selectLanguage(selectedLanguage)
-        setState { copy(selectButtonState = ButtonState.SUCCESS) }
-        delay(1500)
         closeDialog()
     }
 
