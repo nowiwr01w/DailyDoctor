@@ -1,5 +1,9 @@
 package usecase
 
+import com.nowiwr01p.model.coroutines.app_scope.AppScope
+import manager.brand_config.AppBrandConfigManager
+import manager.onboarding.AppOnboardingManager
+import manager.subscription.AppSubscriptionManager
 import org.koin.dsl.module
 import repository.auth.AppAuthRepository
 import repository.brand_config.AppBrandConfigRepository
@@ -34,6 +38,17 @@ import usecase.verification.AppSendVerificationCodeUseCase
 import usecase.verification.AppSendVerificationCodeUseCaseImpl
 
 internal val moduleAppSharedUseCase = module {
+    /**
+     * APP DATA
+     */
+    factory<InitAppDataUseCase> {
+        InitAppDataUseCaseImpl(
+            appScope = get<AppScope>(),
+            appBrandConfigManager = get<AppBrandConfigManager>(),
+            appOnboardingManager = get<AppOnboardingManager>(),
+            appSubscriptionManager = get<AppSubscriptionManager>()
+        )
+    }
     /**
      * BRAND CONFIG
      */

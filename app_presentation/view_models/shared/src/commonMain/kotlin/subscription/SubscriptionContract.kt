@@ -1,34 +1,36 @@
 package subscription
 
+import com.nowiwr01p.model.model.subscription.SubscriptionPlan
 import components.button.ButtonState
 import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
-import subscription.SubscriptionViewModel.Companion.CONTINUE_BUTTON_SECONDS
 import subscription.data.SubscriptionPeriod
-import subscription.data.SubscriptionPeriod.*
-import subscription.data.SubscriptionType
-import subscription.data.SubscriptionType.*
+import subscription.data.SubscriptionPeriod.Yearly
 
 sealed interface Event: BaseEvent {
     data object SubscribeOrSkip: Event
-    data class SelectSubscriptionPlan(val plan: SubscriptionType): Event
+    data class SelectSubscriptionPlan(val plan: SubscriptionPlan): Event
     data class ToggleSubscriptionPeriod(val period: SubscriptionPeriod): Event
 }
 
-data class State(
-    val plan: SubscriptionType = Base,
-    val period: SubscriptionPeriod = Yearly,
-    val subscribeButtonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE,
-    val closeSecondsLeft: Int = CONTINUE_BUTTON_SECONDS
-): BaseState
+sealed interface State: BaseState {
+    data object Loading: State
+    data object Error: State
+    data class Success(
+        val plans: List<SubscriptionPlan>,
+        val selectedPlans: SubscriptionPlan,
+        val period: SubscriptionPeriod = Yearly,
+        val subscribeButtonState: ButtonState = ButtonState.DARK_GRAY_ACTIVE
+    ): State
+}
 
 sealed interface Effect: BaseEffect {
     data object NavigateToHome: Effect
 }
 
 interface Listener {
-    fun selectSubscriptionPlan(plan: SubscriptionType)
+    fun selectSubscriptionPlan(plan: SubscriptionPlan)
     fun toggleSubscriptionPeriod(period: SubscriptionPeriod)
     fun subscribeOrSkip()
 }

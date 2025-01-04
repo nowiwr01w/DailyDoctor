@@ -8,14 +8,13 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import manager.brand_config.AppBrandConfigManager
-import manager.onboarding.AppOnboardingManager
 import pro.respawn.flowmvi.api.PipelineContext
 import splash.Effect.NavigateToHome
 import splash.Effect.NavigateToOnboarding
 import splash.Effect.ShowSelectLanguageDialog
-import splash.Event.RedirectAfterLanguageSet
+import splash.Event.InitAppDataAfterLanguageSet
 import splash.data.SplashAnimationState
+import usecase.InitAppDataUseCase
 import user.usecase.GetLocalUserUseCase
 import view_model.BaseViewModel
 
@@ -23,37 +22,32 @@ private typealias Ctx = PipelineContext<State, Event, Effect>
 
 class SplashViewModel(
     private val appScope: AppScope,
-    private val appBrandConfigManager: AppBrandConfigManager,
     private val getLocalUserUseCase: GetLocalUserUseCase,
-    private val appOnboardingManager: AppOnboardingManager
+    private val initAppDataUseCase: InitAppDataUseCase
 ): BaseViewModel<State, Event, Effect>(initialValue = State()) {
     /**
      * INIT
      */
     override suspend fun Ctx.init() {
+        showSelectLanguageDialog()
+    }
+
+    private fun Ctx.initAppData() {
+        loadAppData()
         startTimer()
-        getBrandConfig()
     }
 
     override suspend fun Ctx.handleEvents(event: Event) {
         when (event) {
-            is RedirectAfterLanguageSet -> chooseNavigationDestination()
+            is InitAppDataAfterLanguageSet -> initAppData()
         }
     }
 
     /**
-     * GET BRAND ONBOARDING ITEMS
+     * APP DATA
      */
-    private fun getBrandConfig() = appScope.scope.launch { // TODO: Check
-        appBrandConfigManager.getBrandConfig(fromRemote = false).collect { config ->
-            if (config.brandSettings.isOnboardingEnabled) {
-                loadOnboardingData()
-            }
-        }
-    }
-
-    private fun loadOnboardingData() = appScope.scope.launch {
-        appOnboardingManager.getOnboardingData(fromRemote = true)
+    private fun loadAppData() = appScope.scope.launch {
+        initAppDataUseCase.execute()
     }
 
     /**
@@ -70,7 +64,7 @@ class SplashViewModel(
                 delay(100)
             }
             .onCompletion {
-                showSelectLanguageDialog()
+                chooseNavigationDestination()
             }
             .collect()
     }

@@ -8,7 +8,6 @@ package screens.subscription
  import androidx.compose.animation.core.tween
  import androidx.compose.animation.fadeIn
  import androidx.compose.animation.fadeOut
- import androidx.compose.foundation.ExperimentalFoundationApi
  import androidx.compose.foundation.background
  import androidx.compose.foundation.clickable
  import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -31,6 +30,7 @@ package screens.subscription
  import androidx.compose.foundation.pager.rememberPagerState
  import androidx.compose.foundation.shape.CircleShape
  import androidx.compose.foundation.shape.RoundedCornerShape
+ import androidx.compose.material.CircularProgressIndicator
  import androidx.compose.material.TabRow
  import androidx.compose.material.Text
  import androidx.compose.runtime.Composable
@@ -51,6 +51,9 @@ package screens.subscription
  import androidx.compose.ui.text.style.TextOverflow
  import androidx.compose.ui.unit.Dp
  import androidx.compose.ui.unit.dp
+ import com.nowiwr01p.model.model.subscription.SubscriptionPlan
+ import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefit
+ import com.nowiwr01p.model.model.subscription.type.SubscriptionPlanType
  import components.button.AppButton
  import components.image.AppImage
  import extensions.BaseScreen
@@ -76,18 +79,17 @@ package screens.subscription
  import subscription.Event.ToggleSubscriptionPeriod
  import subscription.Listener
  import subscription.State
+ import subscription.State.Error
+ import subscription.State.Loading
+ import subscription.State.Success
  import subscription.SubscriptionViewModel
- import subscription.data.BenefitData
  import subscription.data.SubscriptionPeriod
  import subscription.data.SubscriptionPeriod.Monthly
  import subscription.data.SubscriptionPeriod.Yearly
- import subscription.data.SubscriptionType
- import subscription.data.SubscriptionType.Base
- import subscription.data.SubscriptionType.Free
- import subscription.data.getSubscriptionItems
  import theme.CustomTheme
  import theme.CustomTheme.colors
  import view_model.rememberViewModel
+ import kotlin.math.max
 
 @Composable
 fun SubscriptionChild.SubscriptionMainScreen(
@@ -95,7 +97,7 @@ fun SubscriptionChild.SubscriptionMainScreen(
     viewModel: SubscriptionViewModel = baseComponent.rememberViewModel()
 ) {
     val listener = object : Listener {
-        override fun selectSubscriptionPlan(plan: SubscriptionType) {
+        override fun selectSubscriptionPlan(plan: SubscriptionPlan) {
             viewModel.setEvent(SelectSubscriptionPlan(plan))
         }
         override fun toggleSubscriptionPeriod(period: SubscriptionPeriod) {
@@ -133,15 +135,50 @@ private fun Content(
             .fillMaxSize()
             .background(colors.backgroundColors.whiteBackgroundColor)
     ) {
-        SubscriptionToolbar(
-            state = state,
-            listener = listener
-        )
-        SubscriptionContent(
-            state = state,
-            listener = listener
-        )
+        when (state) {
+            is Error -> {
+                ErrorContent()
+            }
+            is Loading -> {
+                LoadingContent()
+            }
+            is Success -> SuccessContent(
+                state = state,
+                listener = listener
+            )
+        }
     }
+}
+
+@Composable
+private fun SuccessContent(
+    state: Success,
+    listener: Listener?
+) {
+    SubscriptionToolbar(
+        state = state,
+        listener = listener
+    )
+    SubscriptionContent(
+        state = state,
+        listener = listener
+    )
+}
+
+@Composable
+private fun LoadingContent() = Box(
+    contentAlignment = Alignment.Center,
+    modifier = Modifier.fillMaxSize()
+) {
+    CircularProgressIndicator(
+        color = colors.backgroundColors.redBackgroundColor,
+        strokeWidth = 3.dp
+    )
+}
+
+@Composable
+private fun ErrorContent() {
+    // TODO: Think about how should default placeholder looks like
 }
 
 /**
@@ -149,7 +186,7 @@ private fun Content(
  */
 @Composable
 private fun SubscriptionToolbar(
-    state: State,
+    state: Success,
     listener: Listener?
 ) {
     Row(
@@ -178,24 +215,24 @@ private fun SubscriptionToolbar(
 /**
  * SUBSCRIPTION CONTENT
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SubscriptionContent(
-    state: State,
+    state: Success,
     listener: Listener?
 ) {
-    val selectedPlan = state.plan
+    val selectedPlan = state.selectedPlans
     val density = LocalDensity.current
-    val tabsItems = remember { getSubscriptionItems() }
+    val tabsItems = state.plans
     var bottomPadding by remember { mutableStateOf(0.dp) }
     val pagerState = rememberPagerState(
-        initialPage = Base.position,
+        initialPage = 1,
         pageCount = { tabsItems.size }
     )
 
+    val position = max(state.plans.indexOf(selectedPlan), 0)
     LaunchedEffect(selectedPlan) {
         pagerState.animateScrollToPage(
-            page = selectedPlan.position,
+            page = position,
             animationSpec = tween(durationMillis = 500)
         )
     }
@@ -205,7 +242,7 @@ private fun SubscriptionContent(
     ) {
         Column {
             TabRow(
-                selectedTabIndex = selectedPlan.position,
+                selectedTabIndex = position,
                 backgroundColor = Color.Transparent,
                 contentColor = Color.Transparent,
                 divider = {},
@@ -247,7 +284,7 @@ private fun SubscriptionContent(
                             .clickable { listener?.selectSubscriptionPlan(currentPlan) }
                     ) {
                         Text(
-                            text = stringResource(currentPlan.name),
+                            text = currentPlan.subscriptionPlanData.type.name,
                             color = textColor,
                             style = CustomTheme.typography.headlineSmall.copy(fontWeight = fontWeight),
                             textAlign = TextAlign.Center,
@@ -263,8 +300,8 @@ private fun SubscriptionContent(
                 modifier = Modifier.fillMaxSize()
             ) { tabPosition ->
                 tabsItems[tabPosition].let { tab ->
-                    when (tab) {
-                        is Free -> {
+                    when (tab.subscriptionPlanData.type) {
+                        is SubscriptionPlanType.Free -> {
                             SadCatPlaceholder(bottomPadding)
                         }
                         else -> Benefits(
@@ -325,14 +362,14 @@ private fun SadCatPlaceholder(bottomPadding: Dp) = Column(
  */
 @Composable
 private fun Benefits(
-    item: SubscriptionType,
+    item: SubscriptionPlan,
     bottomPadding: Dp
 ) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 8.dp),
         modifier = Modifier.fillMaxSize()
     ) {
-        val items = item.benefits + item.benefits // TODO
+        val items = item.subscriptionPlanBenefits + item.subscriptionPlanBenefits
         itemsIndexed(items) { index, data ->
             if (index == 0) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -348,7 +385,7 @@ private fun Benefits(
 }
 
 @Composable
-private fun BenefitItem(data: BenefitData) {
+private fun BenefitItem(data: SubscriptionBenefit) {
     var isExpanded by remember { mutableStateOf(false) }
     val rotationDegrees by animateFloatAsState(
         targetValue = if (isExpanded) 180f else 0f,
@@ -382,7 +419,7 @@ private fun BenefitItem(data: BenefitData) {
                 .heightIn(min = 36.dp)
         ) {
             Text(
-                text = stringResource(data.title),
+                text = data.title,
                 color = colors.textColors.blackTextColor,
                 style = CustomTheme.typography.headlineMedium,
                 maxLines = 1,
@@ -414,7 +451,7 @@ private fun BenefitItem(data: BenefitData) {
             exit = fadeOut(animationSpec = tween())
         ) {
             Text(
-                text = stringResource(data.description),
+                text = data.description,
                 color = colors.textColors.blackTextColor.copy(alpha = 0.75f),
                 style = CustomTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
                 modifier = Modifier.padding(bottom = 9.dp)
@@ -428,7 +465,7 @@ private fun BenefitItem(data: BenefitData) {
  */
 @Composable
 private fun SubscribeOrSkipBox(
-    state: State,
+    state: Success,
     listener: Listener?,
     modifier: Modifier
 ) {
@@ -449,8 +486,8 @@ private fun SubscribeOrSkipBox(
             )
             .padding(vertical = 12.dp, horizontal = 16.dp)
     ) {
-        val text = when (state.plan) {
-            Free -> {
+        val text = when (state.selectedPlans?.subscriptionPlanData?.type) {
+            SubscriptionPlanType.Free -> {
                 stringResource(Res.string.subscription_continue_as_unsubscribed)
             }
             else -> with(state) {
@@ -458,8 +495,8 @@ private fun SubscribeOrSkipBox(
                     val continueText = stringResource(Res.string.subscription_continue_for)
                     append(continueText)
                     append(" ")
-                    val price = if (period is Monthly) plan.monthlyPrice else plan.yearlyPrice
-                    append(price.discountedPrice)
+                    val price = if (period is Monthly) selectedPlans?.subscriptionPlanData?.monthlyPriceDiscounted ?: 0.0 else selectedPlans?.subscriptionPlanData?.yearlyPriceDiscounted ?: 0.0
+                    append(price)
                     append("$ ")
                     val periodRes = when (period) {
                         is Monthly -> Res.string.subscription_per_month
@@ -494,7 +531,7 @@ private fun SubscribeOrSkipBox(
  */
 @Composable
 private fun MonthlyYearlySwitch(
-    state: State,
+    state: Success,
     listener: Listener?
 ) {
     val innerCirclePadding by animateDpAsState(

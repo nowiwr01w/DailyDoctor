@@ -34,7 +34,7 @@ import org.jetbrains.compose.resources.painterResource
 import splash.Effect.NavigateToHome
 import splash.Effect.NavigateToOnboarding
 import splash.Effect.ShowSelectLanguageDialog
-import splash.Event.RedirectAfterLanguageSet
+import splash.Event.InitAppDataAfterLanguageSet
 import splash.SplashViewModel
 import splash.State
 import splash.data.SplashAnimationState
@@ -58,15 +58,15 @@ internal fun SplashChild.SplashMainScreenMobile(
                 navigator.screensNavigator.homeNavigator.navigateToHome()
             }
             is NavigateToOnboarding -> {
-                navigator.screensNavigator.onboardingNavigator.navigateToOnboarding()
+                navigator.screensNavigator.subscriptionNavigator.navigateToSubscription()
             }
             is ShowSelectLanguageDialog -> {
                 navigator.dialogsNavigator.showSelectLanguageDialog(isFirstSelection = true)
             }
         }
     }
-    handleScreenResult(SelectLanguageResultKey) { language ->
-        viewModel.setEvent(RedirectAfterLanguageSet(language))
+    handleScreenResult(SelectLanguageResultKey) {
+        viewModel.setEvent(InitAppDataAfterLanguageSet)
     }
     BaseScreen {
         resources.SplashMainScreenContent(state)

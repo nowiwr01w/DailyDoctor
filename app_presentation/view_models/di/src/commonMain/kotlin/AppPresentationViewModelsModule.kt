@@ -1,19 +1,21 @@
 import app.AppViewModel
 import auth.AuthViewModel
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
+import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationScreenResources
 import helpers.snack_bar.SnackBarHelper
 import home.HomeViewModel
 import manager.brand_config.AppBrandConfigManager
 import manager.language.AppLanguageManager
 import manager.onboarding.AppOnboardingManager
+import manager.subscription.AppSubscriptionManager
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.SelectLanguageViewModel
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
-import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationScreenResources
 import onboarding.OnboardingViewModel
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel
 import splash.SplashViewModel
 import subscription.SubscriptionViewModel
+import usecase.InitAppDataUseCase
 import usecase.auth.AppSignInUseCase
 import usecase.auth.AppSignUpUseCase
 import usecase.auth.AppValidateAuthDataUseCase
@@ -21,7 +23,6 @@ import usecase.pin.AppChangePinCodeUseCase
 import usecase.pin.AppCheckPinCodeUseCase
 import usecase.pin.AppCreatePinCodeUseCase
 import usecase.pin.AppDeletePinCodeUseCase
-import usecase.subscription.AppGetSubscriptionPlansUseCase
 import usecase.verification.AppCheckVerificationCodeUseCase
 import user.usecase.GetLocalUserUseCase
 import verification.VerificationViewModel
@@ -33,8 +34,7 @@ val moduleAppPresentationViewModels = module {
     single {
         AppViewModel(
             appBrandConfigManager = get<AppBrandConfigManager>(),
-            appLanguageManager = get<AppLanguageManager>(),
-            getSubscriptionPlansUseCase = get<AppGetSubscriptionPlansUseCase>()
+            appLanguageManager = get<AppLanguageManager>()
         )
     }
     /**
@@ -44,8 +44,7 @@ val moduleAppPresentationViewModels = module {
         SplashViewModel(
             appScope = get<AppScope>(),
             getLocalUserUseCase = get<GetLocalUserUseCase>(),
-            appBrandConfigManager = get<AppBrandConfigManager>(),
-            appOnboardingManager = get<AppOnboardingManager>()
+            initAppDataUseCase = get<InitAppDataUseCase>()
         )
     }
     /**
@@ -96,7 +95,7 @@ val moduleAppPresentationViewModels = module {
      * SUBSCRIPTION
      */
     factory {
-        SubscriptionViewModel()
+        SubscriptionViewModel(appSubscriptionManager = get<AppSubscriptionManager>())
     }
     /**
      * HOME
