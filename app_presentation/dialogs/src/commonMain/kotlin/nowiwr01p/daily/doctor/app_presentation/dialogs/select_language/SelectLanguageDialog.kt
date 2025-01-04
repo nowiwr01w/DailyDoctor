@@ -25,7 +25,7 @@ import navigation.screen_results.ScreenResultKey.SelectLanguageResultKey
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Effect.CloseDialog
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnConfirmSelectedLanguage
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnSelectLanguageClicked
-import nowiwr01p.daily.doctor.new_resources.language.Language
+import com.nowiwr01p.model.resources.language.Language
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_done
 import nowiwr01p.daily.doctor.resources.language_title
@@ -137,7 +137,6 @@ private fun LanguageItem(
             text = language.name,
             color = colors.textColors.blackTextColor.copy(alpha = 0.75f),
             style = typography.bodyMedium,
-            modifier = Modifier.padding(start = 12.dp)
         )
         Text(
             text = "(${language.code.uppercase()})",

@@ -5,16 +5,19 @@ import nowiwr01p.daily.doctor.database.domain.repository.auth.DatabaseAuthReposi
 import nowiwr01p.daily.doctor.database.domain.repository.brand_config.DatabaseBrandConfigRepository
 import nowiwr01p.daily.doctor.database.domain.repository.onboarding.DatabaseOnboardingRepository
 import nowiwr01p.daily.doctor.database.domain.repository.pin.DatabasePinCodeRepository
+import nowiwr01p.daily.doctor.database.domain.repository.subscription.DatabaseSubscriptionRepository
 import nowiwr01p.daily.doctor.database.domain.repository.verification.DatabaseVerificationRepository
 import nowiwr01p.daily.doctor.server.data.repository.auth.ServerAuthRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.brand_config.ServerBrandConfigRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.onboarding.ServerOnboardingRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.pin.ServerPinCodeRepositoryImpl
+import nowiwr01p.daily.doctor.server.data.repository.subscription.ServerSubscriptionRepositoryImpl
 import nowiwr01p.daily.doctor.server.data.repository.verification.ServerVerificationRepositoryImpl
 import nowiwr01p.daily.doctor.server.domain.repository.auth.ServerAuthRepository
 import nowiwr01p.daily.doctor.server.domain.repository.brand_config.ServerBrandConfigRepository
 import nowiwr01p.daily.doctor.server.domain.repository.onboarding.ServerOnboardingRepository
 import nowiwr01p.daily.doctor.server.domain.repository.pin.ServerPinCodeRepository
+import nowiwr01p.daily.doctor.server.domain.repository.subscription.ServerSubscriptionRepository
 import nowiwr01p.daily.doctor.server.domain.repository.verification.ServerVerificationRepository
 import nowiwr01p.daily.doctor.server.token.common.usecase.ServerGenerateCommonTokenUseCase
 import nowiwr01p.daily.doctor.tg_sms.domain.usecase.TgSendVerificationCodeUseCase
@@ -63,6 +66,14 @@ internal val moduleServerRepository = module {
         ServerPinCodeRepositoryImpl(
             repository = get<DatabasePinCodeRepository>(),
             generateCommonTokenUseCase = get<ServerGenerateCommonTokenUseCase>()
+        )
+    }
+    /**
+     * SUBSCRIPTION
+     */
+    factory<ServerSubscriptionRepository> {
+        ServerSubscriptionRepositoryImpl(
+            repository = get<DatabaseSubscriptionRepository>()
         )
     }
 }

@@ -1,8 +1,7 @@
 package app
 
-import com.nowiwr01p.model.extensions.runCatchingApp
 import com.nowiwr01p.model.model.app_config.config.BrandConfig
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import manager.brand_config.AppBrandConfigManager
 import manager.language.AppLanguageManager
@@ -21,35 +20,29 @@ class AppViewModel(
      * INIT
      */
     override suspend fun Ctx.init() {
-        initAppLanguage()
-        loadBrandConfig()
+        subscribeOnAppConfigChanges()
+        subscribeOnAppLanguageChanges()
+    }
+
+    /**
+     * APP CONFIG
+     */
+    private fun Ctx.subscribeOnAppConfigChanges() = io {
+        appBrandConfigManager.getBrandConfig(fromRemote = false)
+            .catch {
+                // TODO: Show [App temporary sucks] dialog stub
+            }
+            .collectLatest { config ->
+                initAppTheme(config)
+            }
     }
 
     /**
      * APP LANGUAGE
      */
-    private fun Ctx.initAppLanguage() = io {
+    private fun Ctx.subscribeOnAppLanguageChanges() = io {
         appLanguageManager.getAppLanguagesData().collect { data ->
             setState { copy(appLanguage = data.selectedLanguage) }
-        }
-    }
-
-    /**
-     * BRAND CONFIG
-     */
-    private fun Ctx.loadBrandConfig() = io {
-        runCatchingApp {
-            appBrandConfigManager.getBrandConfig(fromRemote = true)
-        }.onSuccess { brandConfig ->
-            subscribeOnConfigChanges(brandConfig)
-        }.onFailure {
-            // TODO: Show [App temporary sucks] dialog stub
-        }
-    }
-
-    private fun Ctx.subscribeOnConfigChanges(brandConfig: Flow<BrandConfig>) = io {
-        brandConfig.collectLatest { config ->
-            initAppTheme(config)
         }
     }
 

@@ -15,7 +15,7 @@ import components.transition_component.AppBottomSheet
 import components.transition_component.AppDialog
 import nowiwr01p.daily.doctor.app_presentation.dialogs.getDialogContent
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
-import nowiwr01p.daily.doctor.new_resources.language.AppWithLanguage
+import com.nowiwr01p.model.resources.language.AppWithLanguage
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import screens.getScreenContent

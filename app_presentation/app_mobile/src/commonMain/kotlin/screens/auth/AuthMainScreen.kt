@@ -76,7 +76,7 @@ import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.Mobi
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.AuthChild
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Check
 import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Create
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.auth.AuthScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.auth.AuthScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_eye_closed
 import nowiwr01p.daily.doctor.resources.ic_eye_opened

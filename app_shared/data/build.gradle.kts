@@ -42,7 +42,6 @@ kotlin {
                  * MODEL SHARED
                  */
                 implementation(projects.modelShared)
-                implementation(projects.newResources)
                 /**
                  * BASE API CLIENT
                  */

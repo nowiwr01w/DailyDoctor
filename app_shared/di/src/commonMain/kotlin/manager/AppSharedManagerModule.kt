@@ -7,10 +7,13 @@ import manager.language.AppLanguageManager
 import manager.language.AppLanguageManagerImpl
 import manager.onboarding.AppOnboardingManager
 import manager.onboarding.AppOnboardingManagerImpl
+import manager.subscription.AppSubscriptionManager
+import manager.subscription.AppSubscriptionManagerImpl
 import org.koin.dsl.module
 import usecase.brand_config.AppGetBrandConfigUseCase
 import usecase.language.GetAppLanguagesUseCase
 import usecase.onboarding.AppGetOnboardingDataUseCase
+import usecase.subscription.AppGetSubscriptionPlansUseCase
 
 internal val moduleAppSharedManager = module {
     /**
@@ -33,5 +36,11 @@ internal val moduleAppSharedManager = module {
      */
     single<AppLanguageManager> {
         AppLanguageManagerImpl(getAppLanguagesUseCase = get<GetAppLanguagesUseCase>())
+    }
+    /**
+     * SUBSCRIPTION
+     */
+    single<AppSubscriptionManager> {
+        AppSubscriptionManagerImpl(getSubscriptionPlansUseCase = get<AppGetSubscriptionPlansUseCase>())
     }
 }

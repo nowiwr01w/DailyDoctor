@@ -7,7 +7,7 @@ import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Effect.Cl
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnCloseClicked
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnConfirmSelectedLanguage
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnSelectLanguageClicked
-import nowiwr01p.daily.doctor.new_resources.language.Language
+import com.nowiwr01p.model.resources.language.Language
 import pro.respawn.flowmvi.api.PipelineContext
 import view_model.BaseViewModel
 

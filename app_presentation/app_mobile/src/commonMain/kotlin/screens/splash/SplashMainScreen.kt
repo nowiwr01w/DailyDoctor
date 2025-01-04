@@ -27,14 +27,14 @@ import navigation.screen_results.ScreenResultKey.SelectLanguageResultKey
 import navigation.screen_results.handleScreenResult
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.SplashChild
-import nowiwr01p.daily.doctor.new_resources.component_with_resources.screens.splash.SplashScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.splash.SplashScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import org.jetbrains.compose.resources.painterResource
 import splash.Effect.NavigateToHome
 import splash.Effect.NavigateToOnboarding
 import splash.Effect.ShowSelectLanguageDialog
-import splash.Event.RedirectAfterLanguageSet
+import splash.Event.InitAppDataAfterLanguageSet
 import splash.SplashViewModel
 import splash.State
 import splash.data.SplashAnimationState
@@ -58,15 +58,15 @@ internal fun SplashChild.SplashMainScreenMobile(
                 navigator.screensNavigator.homeNavigator.navigateToHome()
             }
             is NavigateToOnboarding -> {
-                navigator.screensNavigator.onboardingNavigator.navigateToOnboarding()
+                navigator.screensNavigator.subscriptionNavigator.navigateToSubscription()
             }
             is ShowSelectLanguageDialog -> {
                 navigator.dialogsNavigator.showSelectLanguageDialog(isFirstSelection = true)
             }
         }
     }
-    handleScreenResult(SelectLanguageResultKey) { language ->
-        viewModel.setEvent(RedirectAfterLanguageSet(language))
+    handleScreenResult(SelectLanguageResultKey) {
+        viewModel.setEvent(InitAppDataAfterLanguageSet)
     }
     BaseScreen {
         resources.SplashMainScreenContent(state)

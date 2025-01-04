@@ -7,6 +7,7 @@ import nowiwr01p.daily.doctor.server.routes.auth.AuthRouting
 import nowiwr01p.daily.doctor.server.routes.brand_config.BrandConfigRouting
 import nowiwr01p.daily.doctor.server.routes.onboarding.OnboardingRouting
 import nowiwr01p.daily.doctor.server.routes.pin_code.PinCodeRouting
+import nowiwr01p.daily.doctor.server.routes.subscription.SubscriptionRouting
 import nowiwr01p.daily.doctor.server.routes.verification.VerificationRouting
 import org.koin.ktor.ext.inject
 
@@ -16,12 +17,14 @@ fun Application.configureRouting() {
     val authRouting by inject<AuthRouting>()
     val verificationRouting by inject<VerificationRouting>()
     val pinCodeRouting by inject<PinCodeRouting>()
+    val subscriptionRouting by inject<SubscriptionRouting>()
     routing {
         configureBrandConfigRouting(brandConfigRouting)
         configureOnboardingRouting(onboardingRouting)
         configureAuthRouting(authRouting)
         configureVerificationCodeRouting(verificationRouting)
         configurePinCodeRouting(pinCodeRouting)
+        configurePinCodeRouting(subscriptionRouting)
     }
 }
 
@@ -63,4 +66,11 @@ private fun Route.configurePinCodeRouting(pinCodeRouting: PinCodeRouting) {
     pinCodeRouting.checkPinCode(this)
     pinCodeRouting.changePinCode(this)
     pinCodeRouting.deletePinCode(this)
+}
+
+/**
+ * SUBSCRIPTION
+ */
+private fun Route.configurePinCodeRouting(subscriptionRouting: SubscriptionRouting) {
+    subscriptionRouting.getSubscriptionPlans(this)
 }

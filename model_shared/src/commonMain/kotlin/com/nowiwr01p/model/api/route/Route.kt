@@ -53,3 +53,12 @@ sealed class PinCodeRoutes(
     data object ChangePinRoute: PinCodeRoutes("v1/pin/change")
     data object DeletePinRoute: PinCodeRoutes("v1/pin/delete")
 }
+
+/**
+ * SUBSCRIPTION
+ */
+sealed class SubscriptionRoutes(
+    override val route: String
+): Route {
+    data object GetSubscriptionPlansRoute: SubscriptionRoutes("v1/subscription/plans")
+}

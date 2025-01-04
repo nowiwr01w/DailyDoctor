@@ -4,6 +4,8 @@ import nowiwr01p.daily.doctor.database.init_values.DatabaseInitValues
 import nowiwr01p.daily.doctor.database.tables.table.brand.BrandTable
 import nowiwr01p.daily.doctor.database.tables.table.onboarding.OnboardingTable
 import nowiwr01p.daily.doctor.database.tables.table.pin.PinCodeTable
+import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionBenefitsTable
+import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionPlanTable
 import nowiwr01p.daily.doctor.database.tables.table.user.UserTable
 import nowiwr01p.daily.doctor.database.tables.table.verification.VerificationCodeTable
 import org.jetbrains.exposed.sql.Database
@@ -35,7 +37,9 @@ private class CallDoctorDatabase {
             OnboardingTable,
             UserTable,
             VerificationCodeTable,
-            PinCodeTable
+            PinCodeTable,
+            SubscriptionPlanTable,
+            SubscriptionBenefitsTable
         )
     }
 }

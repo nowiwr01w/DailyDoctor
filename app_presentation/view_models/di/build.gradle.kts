@@ -64,10 +64,6 @@ kotlin {
                  */
                 implementation(projects.localDatabase.domain)
                 /**
-                 * RESOURCES
-                 */
-                implementation(projects.newResources)
-                /**
                  * DEPENDENCIES
                  */
                 implementation(libs.koin)

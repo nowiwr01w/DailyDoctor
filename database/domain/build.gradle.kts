@@ -4,9 +4,6 @@ plugins {
 }
 
 dependencies {
-    /**
-     * SHARED MODELS
-     */
     implementation(projects.modelShared)
     implementation(projects.database.tables)
     implementation(libs.bundles.database)

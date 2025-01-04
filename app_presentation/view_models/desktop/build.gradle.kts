@@ -55,7 +55,6 @@ kotlin {
                  * RESOURCES
                  */
                 implementation(projects.resources)
-                implementation(projects.newResources)
                 /**
                  * DEPENDENCIES
                  */

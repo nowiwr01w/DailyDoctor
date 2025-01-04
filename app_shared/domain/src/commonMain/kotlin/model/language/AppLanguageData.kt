@@ -1,6 +1,6 @@
 package model.language
 
-import nowiwr01p.daily.doctor.new_resources.language.Language
+import com.nowiwr01p.model.resources.language.Language
 
 data class AppLanguageData(
     val allLanguages: List<Language> = listOf(),
