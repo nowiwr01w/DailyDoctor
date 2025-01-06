@@ -3,10 +3,6 @@ package splash
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
 import com.nowiwr01p.model.usecase.execute
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import nowiwr01p.daily.doctor.local_database.domain.usecase.user.GetLocalUserUseCase
 import pro.respawn.flowmvi.api.PipelineContext
@@ -14,7 +10,6 @@ import splash.Effect.NavigateToHome
 import splash.Effect.NavigateToOnboarding
 import splash.Effect.ShowSelectLanguageDialog
 import splash.Event.InitAppDataAfterLanguageSet
-import splash.data.SplashAnimationState
 import usecase.InitAppDataUseCase
 import view_model.BaseViewModel
 
@@ -29,12 +24,7 @@ class SplashViewModel(
      * INIT
      */
     override suspend fun Ctx.init() {
-        showSelectLanguageDialog()
-    }
-
-    private fun Ctx.initAppData() {
-        loadAppData()
-        startTimer()
+        setEffect(ShowSelectLanguageDialog)
     }
 
     override suspend fun Ctx.handleEvents(event: Event) {
@@ -46,34 +36,10 @@ class SplashViewModel(
     /**
      * APP DATA
      */
-    private fun loadAppData() = appScope.scope.launch {
+    private fun Ctx.initAppData() = appScope.scope.launch {
+        setState { copy(showProgress = true) }
         initAppDataUseCase.execute()
-    }
-
-    /**
-     * ANIMATION
-     */
-    private fun Ctx.startTimer() = io {
-        val animationDuration = SplashAnimationState.entries
-            .last()
-            .showUntilAtMillis
-        (0..animationDuration step 100).asSequence()
-            .asFlow()
-            .onEach { millis ->
-                setAnimationState(millis)
-                delay(100)
-            }
-            .onCompletion {
-                chooseNavigationDestination()
-            }
-            .collect()
-    }
-
-    private suspend fun Ctx.setAnimationState(millis: Int) = setState {
-        val animationState = SplashAnimationState.entries.first { item ->
-            millis <= item.showUntilAtMillis
-        }
-        copy(animationState = animationState)
+        chooseNavigationDestination()
     }
 
     /**
@@ -84,12 +50,7 @@ class SplashViewModel(
             getLocalUserUseCase.execute() != null -> NavigateToHome
             else -> NavigateToOnboarding
         }
-        delay(2500) // hide SelectLanguageDialog animation + extra delay
+        delay(750) // TODO: Remove when your server will not be a "localhost"
         setEffect(effect)
     }
-
-    /**
-     * SELECT LANGUAGE DIALOG
-     */
-    private suspend fun Ctx.showSelectLanguageDialog() = setEffect(ShowSelectLanguageDialog)
 }
