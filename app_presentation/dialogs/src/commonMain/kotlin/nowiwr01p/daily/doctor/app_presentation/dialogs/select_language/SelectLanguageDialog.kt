@@ -1,7 +1,5 @@
 package nowiwr01p.daily.doctor.app_presentation.dialogs.select_language
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,22 +10,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.nowiwr01p.model.resources.language.Language
 import components.button.AppButton
+import components.button.ButtonState.DARK_GRAY_ACTIVE
 import components.image.AppImage
 import navigation.config.child.DialogsChild.SelectLanguageChild
 import navigation.screen_results.ScreenResultKey.SelectLanguageResultKey
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Effect.CloseDialog
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnConfirmSelectedLanguage
 import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.Event.OnSelectLanguageClicked
-import com.nowiwr01p.model.resources.language.Language
-import components.button.ButtonState
-import components.button.ButtonState.ORANGE_ACTIVE
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_done
 import nowiwr01p.daily.doctor.resources.language_title
@@ -77,6 +72,7 @@ private fun Content(
         Title()
         LanguagesList(state, listener)
         SelectButton(listener)
+        ChangeInSettingsText()
     }
 }
 
@@ -120,13 +116,6 @@ private fun LanguageItem(
     isSelected: Boolean,
     onSelectLanguageClick: () -> Unit
 ) {
-    val languageCheckColor by animateColorAsState(
-        targetValue = when {
-            isSelected -> colors.backgroundColors.grayBackgroundColor
-            else -> Color.Transparent
-        },
-        animationSpec = tween()
-    )
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -149,11 +138,13 @@ private fun LanguageItem(
         Spacer(
             modifier = Modifier.weight(1f)
         )
-        AppImage(
-            image = Res.drawable.ic_done,
-            color = languageCheckColor,
-            modifier = Modifier.size(16.dp)
-        )
+        if (isSelected) {
+            AppImage(
+                image = Res.drawable.ic_done,
+                color = colors.backgroundColors.redBackgroundColor,
+                modifier = Modifier.size(16.dp)
+            )
+        }
     }
 }
 
@@ -163,10 +154,24 @@ private fun LanguageItem(
 @Composable
 private fun SelectButton(listener: Listener?) = AppButton(
     text = "Select", // TODO: Localize
-    state = ORANGE_ACTIVE,
+    state = DARK_GRAY_ACTIVE,
     onClick = { listener?.onConfirmSelectedLanguage() },
     modifier = Modifier
         .padding(horizontal = 16.dp)
         .fillMaxWidth()
         .height(48.dp)
+)
+
+/**
+ * CHANGE LANGUAGE INFO
+ */
+@Composable
+private fun ChangeInSettingsText() = Text(
+    text = "You can always change it in settings", // TODO: Localize
+    color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
+    style = typography.labelMedium,
+    textAlign = TextAlign.Center,
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 8.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
 )

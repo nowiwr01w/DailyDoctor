@@ -20,6 +20,7 @@ compose-activity = { module = "androidx.activity:activity-compose", version.ref 
 compose-constraintLayout = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "compose-constraint" }
 android-ktx = { module = "androidx.core:core-ktx", version.ref = "android-ktx" }
 android-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "android-appcompat" }
+android-splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "android-splash-screen" }
 ##################
 ### NAVIGATION ###
 ##################
@@ -229,7 +230,7 @@ mvi = [
 ####################
 ### BUILD CONFIG ###
 ####################
-android-minSdk = "26"
+android-minSdk = "31"
 android-compileSdk = "35"
 android-targetSdk = "35"
 compose-plugin = "1.7.0"
@@ -251,6 +252,7 @@ compose-activity = "1.9.3"
 compose-constraint = "0.3.1"
 android-ktx = "1.15.0"
 android-appcompat = "1.7.0"
+android-splash-screen = "1.0.0"
 ##################
 ### NAVIGATION ###
 ##################
