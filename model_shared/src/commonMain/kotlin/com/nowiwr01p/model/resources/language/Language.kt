@@ -36,7 +36,7 @@ sealed class Language(
     )
 }
 
-val appLanguages = listOf(
+val appLanguages: List<Language> = listOf(
     Georgian,
     English,
     Russian,
