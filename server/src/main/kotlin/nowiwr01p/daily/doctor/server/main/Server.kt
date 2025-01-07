@@ -23,7 +23,7 @@ fun main() {
  */
 private fun connectServer() = embeddedServer(
     factory = Netty,
-    port = 8080,
+    port = 1337,
     module = {
         setApplicationModule()
         scheduleServerWorks()

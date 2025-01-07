@@ -42,6 +42,7 @@ kotlin {
                  * SHARED MODELS
                  */
                 implementation(projects.modelShared)
+                implementation(projects.localDatabase)
                 /**
                  * DEPENDENCIES
                  */

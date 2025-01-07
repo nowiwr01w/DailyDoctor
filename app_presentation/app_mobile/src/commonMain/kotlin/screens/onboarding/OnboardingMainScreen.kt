@@ -28,6 +28,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.nowiwr01p.model.model.onboarding.OnboardingItem
+import com.nowiwr01p.model.model.onboarding.item.OnboardingItemData
+import com.nowiwr01p.model.model.onboarding.type.OnboardingItemType.Notifications
 import components.image.RemoteImage
 import extensions.BaseScreen
 import getScreenWidth
@@ -136,10 +138,10 @@ private fun SuccessContent(
         ) { page ->
             val item = state.onboardingItems[page]
             OnboardingItemView(
-                item = item,
+                item = item.data,
                 onShowNextItemClicked = {
-                    when {
-                        item.secondButtonText.isNotEmpty() -> listener?.onEnableNotificationsClick()
+                    when (item.type) {
+                        is Notifications -> listener?.onEnableNotificationsClick()
                         else -> listener?.showNextOnboardingItem(item)
                     }
                 }
@@ -153,7 +155,7 @@ private fun SuccessContent(
  */
  @Composable
 private fun OnboardingItemView(
-    item: OnboardingItem,
+    item: OnboardingItemData,
     onShowNextItemClicked: () -> Unit
 ) {
     val iconWidth by rememberUpdatedState(0.8 * getScreenWidth())

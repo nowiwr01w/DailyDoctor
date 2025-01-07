@@ -71,6 +71,7 @@ kotlin {
              * DEPENDENCIES
              */
             implementation(libs.bundles.android)
+            implementation(libs.android.splash.screen)
         }
         iosMain.dependencies {
             /**

@@ -4,13 +4,13 @@ import api.auth.AuthApi
 import com.nowiwr01p.model.api.request.auth.SignInRequest
 import com.nowiwr01p.model.api.request.auth.SignUpRequest
 import com.nowiwr01p.model.model.user.User
-import com.nowiwr01p.model.repository.BaseRepository
-import user.repository.LocalUserRepository
+import nowiwr01p.daily.doctor.local_database.domain.repository.user.LocalUserRepository
+import repository.AppBaseRepository
 
 class AppAuthRepositoryImpl(
     private val api: AuthApi,
     private val repository: LocalUserRepository
-): BaseRepository(), AppAuthRepository {
+): AppBaseRepository(), AppAuthRepository {
 
     override suspend fun signUp(request: SignUpRequest) = io {
         api.signUp(request)

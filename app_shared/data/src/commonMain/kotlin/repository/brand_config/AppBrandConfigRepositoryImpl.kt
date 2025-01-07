@@ -1,10 +1,13 @@
 package repository.brand_config
 
 import api.brand_config.BrandConfigApi
+import repository.AppBaseRepository
 
 class AppBrandConfigRepositoryImpl(
     private val api: BrandConfigApi
-): AppBrandConfigRepository {
+): AppBaseRepository(), AppBrandConfigRepository {
 
-    override suspend fun loadBrandConfig() = api.loadBrandConfig()
+    override suspend fun loadBrandConfig() = io {
+        api.loadBrandConfig()
+    }
 }

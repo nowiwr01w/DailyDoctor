@@ -45,15 +45,13 @@ kotlin {
                 /**
                  * LOCAL DATABASE
                  */
+                implementation(projects.localDatabase)
                 implementation(projects.localDatabase.domain)
                 /**
                  * DEPENDENCIES
                  */
                 implementation(libs.bundles.local.database)
             }
-        }
-        androidMain.dependencies {
-            implementation(libs.koin.android)
         }
     }
 

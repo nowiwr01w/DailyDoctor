@@ -1,13 +1,13 @@
 package repository.onboarding
 
 import api.onboarding.OnboardingApi
-import com.nowiwr01p.model.repository.BaseRepository
+import repository.AppBaseRepository
 
 class AppOnboardingRepositoryImpl(
     private val api: OnboardingApi
-): BaseRepository(), AppOnboardingRepository {
+): AppBaseRepository(), AppOnboardingRepository {
 
     override suspend fun getOnboardingData() = io {
-        api.getOnboardingData()
+        api.getOnboardingData(language = getAppLanguage())
     }
 }

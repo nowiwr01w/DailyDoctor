@@ -1,6 +1,7 @@
 package com.nowiwr01p.model.resources.component_with_resources.base
 
 import androidx.compose.runtime.Composable
+import com.nowiwr01p.model.resources.language.Language
 import com.nowiwr01p.model.resources.language.Language.Georgian
 import com.nowiwr01p.model.resources.language.Language.Russian
 import com.nowiwr01p.model.resources.language.Language.Ukrainian
@@ -21,10 +22,13 @@ internal abstract class ComponentTranslatedResources<T: ComponentResources> {
      * RESOURCES
      */
     @Composable
-    fun getResourcesByLanguage() = when (LocalAppLanguage.current) {
-        is Georgian -> getGeorgianResources()
-        is Russian -> getRussianResources()
-        is Ukrainian -> getUkrainianResources()
-        else -> getEnglishResources()
+    fun getResourcesByLanguage(language: Language?): T {
+        val appLanguage = language ?: LocalAppLanguage.current
+        return when (appLanguage) {
+            is Georgian -> getGeorgianResources()
+            is Russian -> getRussianResources()
+            is Ukrainian -> getUkrainianResources()
+            else -> getEnglishResources()
+        }
     }
 }

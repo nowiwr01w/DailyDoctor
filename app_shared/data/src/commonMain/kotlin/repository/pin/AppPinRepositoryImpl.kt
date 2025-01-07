@@ -4,13 +4,11 @@ import api.pin.PinApi
 import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
-import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
-import com.nowiwr01p.model.repository.BaseRepository
-import kotlinx.coroutines.withContext
+import repository.AppBaseRepository
 
 class AppPinRepositoryImpl(
     private val api: PinApi
-): BaseRepository(), AppPinRepository {
+): AppBaseRepository(), AppPinRepository {
 
     override suspend fun createPinCode(request: CreatePinCodeRequest) = io {
         api.createPinCode(request)

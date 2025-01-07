@@ -7,21 +7,14 @@ import com.nowiwr01p.model.resources.component_with_resources.screens.auth.AuthS
 import com.nowiwr01p.model.resources.component_with_resources.screens.auth.AuthScreenTranslatedResources
 import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinScreenResources
 import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinScreenTranslatedResources
-import com.nowiwr01p.model.resources.component_with_resources.screens.splash.SplashScreenResources
-import com.nowiwr01p.model.resources.component_with_resources.screens.splash.SplashScreenTranslatedResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.subscription.screen_info.SubscriptionScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.subscription.screen_info.SubscriptionScreenTranslatedResources
 import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationScreenResources
 import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationScreenTranslatedResources
 
 internal sealed class AppScreenWithTranslatedResources<T: ComponentResources>(
     override val resources: ComponentTranslatedResources<T>
 ): ComponentWithTranslatedResources<T>(resources) {
-    /**
-     * SPLASH
-     */
-    data object SplashScreen: AppScreenWithTranslatedResources<SplashScreenResources>(
-        resources = SplashScreenTranslatedResources()
-    )
-
     /**
      * AUTH
      */
@@ -40,5 +33,11 @@ internal sealed class AppScreenWithTranslatedResources<T: ComponentResources>(
      */
     data object PinScreen: AppScreenWithTranslatedResources<PinScreenResources>(
         resources = PinScreenTranslatedResources()
+    )
+    /**
+     * SUBSCRIPTION
+     */
+    data object SubscriptionScreen: AppScreenWithTranslatedResources<SubscriptionScreenResources>(
+        resources = SubscriptionScreenTranslatedResources()
     )
 }
