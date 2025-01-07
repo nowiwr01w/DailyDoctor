@@ -1,12 +1,11 @@
 package com.nowiwr01p.model.model.onboarding
 
+import com.nowiwr01p.model.model.onboarding.item.OnboardingItemData
+import com.nowiwr01p.model.model.onboarding.type.OnboardingItemType
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class OnboardingItem(
-    val image: String,
-    val title: String,
-    val description: String,
-    val firstButtonText: String,
-    val secondButtonText: String
+    val type: OnboardingItemType,
+    val data: OnboardingItemData
 )

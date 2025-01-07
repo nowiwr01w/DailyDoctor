@@ -1,11 +1,12 @@
 package nowiwr01p.daily.doctor.database.tables.table.onboarding
 
-import nowiwr01p.daily.doctor.database.tables.table.brand.BrandTable
+import org.jetbrains.exposed.dao.UUIDEntity
+import org.jetbrains.exposed.dao.UUIDEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
+import java.util.UUID
 
 object OnboardingTable : UUIDTable("onboardings") {
-
-    val brand = reference("brand_id", BrandTable)
     val languageCode = varchar("language_code", 5)
     val position = integer("position")
     val image = varchar("image", 255)
@@ -15,6 +16,18 @@ object OnboardingTable : UUIDTable("onboardings") {
     val secondButtonText = varchar("second_button_text", 255)
 
     init {
-        uniqueIndex(brand, position, languageCode)
+        uniqueIndex(position, languageCode)
     }
+}
+
+class OnboardingEntity(id: EntityID<UUID>): UUIDEntity(id) {
+    var languageCode by OnboardingTable.languageCode
+    var position by OnboardingTable.position
+    var image by OnboardingTable.image
+    var title by OnboardingTable.title
+    var description by OnboardingTable.description
+    var firstButtonText by OnboardingTable.firstButtonText
+    var secondButtonText by OnboardingTable.secondButtonText
+
+    companion object: UUIDEntityClass<OnboardingEntity>(OnboardingTable)
 }

@@ -1,33 +1,37 @@
 package nowiwr01p.daily.doctor.database.data.storage.onboarding
 
-import com.nowiwr01p.model.model.app_config.config.BrandConfigType
 import com.nowiwr01p.model.model.onboarding.OnboardingItem
+import com.nowiwr01p.model.model.onboarding.item.OnboardingItemData
+import com.nowiwr01p.model.model.onboarding.type.OnboardingItemType.OnlineAppointment
+import com.nowiwr01p.model.model.onboarding.type.allOnboardingTypes
+import com.nowiwr01p.model.resources.language.Language
 import nowiwr01p.daily.doctor.database.data.storage.BaseDatabaseStorage
 import nowiwr01p.daily.doctor.database.domain.storage.onboarding.DatabaseOnboardingStorage
-import nowiwr01p.daily.doctor.database.tables.table.onboarding.OnboardingTable
-import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.selectAll
+import nowiwr01p.daily.doctor.database.tables.table.onboarding.OnboardingEntity
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class DatabaseOnboardingStorageImpl: BaseDatabaseStorage(), DatabaseOnboardingStorage {
-
-    override suspend fun getOnboardingData(type: BrandConfigType) = transaction {
-        val brandId = getBrandId(type)
-        OnboardingTable.selectAll()
-            .where {
-                val sameBrand = OnboardingTable.brand eq brandId
-                val sameLanguage = OnboardingTable.languageCode eq "ru" // TODO: Add Language support
-                sameBrand and sameLanguage
+    /**
+     * ONBOARDINGS
+     */
+    override suspend fun getOnboardingData(language: Language) = transaction {
+        OnboardingEntity.all()
+            .filter { entity ->
+                entity.languageCode == language.code
             }
-            .orderBy(OnboardingTable.position to SortOrder.ASC)
-            .map { row ->
+            .sortedBy { entity ->
+                entity.position
+            }
+            .map { entity ->
                 OnboardingItem(
-                    image = row[OnboardingTable.image],
-                    title = row[OnboardingTable.title],
-                    description = row[OnboardingTable.description],
-                    firstButtonText = row[OnboardingTable.firstButtonText],
-                    secondButtonText = row[OnboardingTable.secondButtonText]
+                    type = allOnboardingTypes.find { it.position == entity.position } ?: OnlineAppointment,
+                    data = OnboardingItemData(
+                        image = entity.image,
+                        title = entity.title,
+                        description = entity.description,
+                        firstButtonText = entity.firstButtonText,
+                        secondButtonText = entity.secondButtonText
+                    )
                 )
             }
     }

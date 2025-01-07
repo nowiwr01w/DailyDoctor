@@ -1,7 +1,6 @@
 package nowiwr01p.daily.doctor.database
 
 import nowiwr01p.daily.doctor.database.init_values.DatabaseInitValues
-import nowiwr01p.daily.doctor.database.tables.table.brand.BrandTable
 import nowiwr01p.daily.doctor.database.tables.table.onboarding.OnboardingTable
 import nowiwr01p.daily.doctor.database.tables.table.pin.PinCodeTable
 import nowiwr01p.daily.doctor.database.tables.table.subscription.SubscriptionBenefitsTable
@@ -33,7 +32,6 @@ private class CallDoctorDatabase {
 
     private fun createTables() = transaction {
         SchemaUtils.create(
-            BrandTable,
             OnboardingTable,
             UserTable,
             VerificationCodeTable,

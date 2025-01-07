@@ -2,8 +2,8 @@ package nowiwr01p.daily.doctor.server.routes.onboarding
 
 import com.nowiwr01p.model.api.route.OnboardingRoutes.GetOnboardingDataRoute
 import com.nowiwr01p.model.extensions.runCatchingApp
-import com.nowiwr01p.model.model.app_config.config.BrandConfigType
-import io.ktor.http.HttpStatusCode
+import com.nowiwr01p.model.resources.language.Language
+import com.nowiwr01p.model.resources.language.appLanguages
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import nowiwr01p.daily.doctor.server.domain.usecase.onboarding.ServerGetOnboardingDataUseCase
@@ -14,14 +14,14 @@ class OnboardingRouting(
 ): BaseRouting() {
 
     fun getOnboardingData(route: Route) = route.get(GetOnboardingDataRoute.route) {
-        val brandConfigType = getParameter<BrandConfigType>(
-            name = "type",
+        val language = getParameter<Language>( // TODO: Move to BaseRouting
+            name = "lang",
             paramAsType = { stringParam ->
-                BrandConfigType.entries.find { stringParam == it.type }
+                appLanguages.find { it.code == stringParam }
             }
         ) ?: return@get
         runCatchingApp {
-            serverGetOnboardingDataUseCase.execute(brandConfigType)
+            serverGetOnboardingDataUseCase.execute(language)
         }.onSuccess { onboardingData ->
             respondWithSuccessModel(onboardingData)
         }.onFailure { error ->

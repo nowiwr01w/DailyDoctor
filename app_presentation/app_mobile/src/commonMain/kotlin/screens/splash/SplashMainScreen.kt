@@ -36,7 +36,7 @@ internal fun SplashChild.SplashMainScreenMobile(
                 navigator.screensNavigator.homeNavigator.navigateToHome()
             }
             is NavigateToOnboarding -> {
-                navigator.screensNavigator.subscriptionNavigator.navigateToSubscription()
+                navigator.screensNavigator.onboardingNavigator.navigateToOnboarding()
             }
             is ShowSelectLanguageDialog -> {
                 navigator.dialogsNavigator.showSelectLanguageDialog(isFirstSelection = true)

@@ -8,6 +8,6 @@ class AppOnboardingRepositoryImpl(
 ): AppBaseRepository(), AppOnboardingRepository {
 
     override suspend fun getOnboardingData() = io {
-        api.getOnboardingData()
+        api.getOnboardingData(language = getAppLanguage())
     }
 }

@@ -7,6 +7,6 @@ sealed class ApiClientSettings(
         baseUrl = "https://gatewayapi.telegram.org/"
     )
     data object AppApiClientSettings: ApiClientSettings(
-        baseUrl = "http://127.0.0.1:8080"
+        baseUrl = "http://127.0.0.1:1337"
     )
 }
