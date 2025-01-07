@@ -1,4 +1,4 @@
-package com.nowiwr01p.model.resources.component_with_resources.screens.subscription
+package com.nowiwr01p.model.resources.component_with_resources.screens.subscription.plans
 
 import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefit
 import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefits.CommonSubscriptionPlanBenefits

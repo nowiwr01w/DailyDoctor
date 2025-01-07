@@ -54,25 +54,17 @@ package screens.subscription
  import com.nowiwr01p.model.model.subscription.SubscriptionPlan
  import com.nowiwr01p.model.model.subscription.benefits.SubscriptionBenefit
  import com.nowiwr01p.model.model.subscription.type.SubscriptionPlanType
+ import com.nowiwr01p.model.resources.component_with_resources.screens.subscription.screen_info.SubscriptionScreenResources
  import components.button.AppButton
  import components.image.AppImage
  import extensions.BaseScreen
  import extensions.advancedShadow
+ import extensions.format
  import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
  import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.SubscriptionChild
  import nowiwr01p.daily.doctor.resources.Res
  import nowiwr01p.daily.doctor.resources.ic_drop_down_arrow
  import nowiwr01p.daily.doctor.resources.ic_sad_cat_placeholder
- import nowiwr01p.daily.doctor.resources.subscription_continue_accept_polices
- import nowiwr01p.daily.doctor.resources.subscription_continue_as_unsubscribed
- import nowiwr01p.daily.doctor.resources.subscription_continue_for
- import nowiwr01p.daily.doctor.resources.subscription_free_placeholder_description
- import nowiwr01p.daily.doctor.resources.subscription_free_placeholder_title
- import nowiwr01p.daily.doctor.resources.subscription_per_month
- import nowiwr01p.daily.doctor.resources.subscription_per_year
- import nowiwr01p.daily.doctor.resources.subscription_toolbar_title
- import nowiwr01p.daily.doctor.resources.subscription_year
- import org.jetbrains.compose.resources.stringResource
  import subscription.Effect.NavigateToHome
  import subscription.Event.SelectSubscriptionPlan
  import subscription.Event.SubscribeOrSkip
@@ -94,6 +86,7 @@ package screens.subscription
 @Composable
 fun SubscriptionChild.SubscriptionMainScreen(
     navigator: MobileNavigator,
+    resources: SubscriptionScreenResources,
     viewModel: SubscriptionViewModel = baseComponent.rememberViewModel()
 ) {
     val listener = object : Listener {
@@ -115,7 +108,7 @@ fun SubscriptionChild.SubscriptionMainScreen(
         }
     }
     BaseScreen {
-        Content(
+        resources.Content(
             state = state,
             listener = listener
         )
@@ -126,7 +119,7 @@ fun SubscriptionChild.SubscriptionMainScreen(
  * CONTENT
  */
 @Composable
-private fun Content(
+private fun SubscriptionScreenResources.Content(
     state: State,
     listener: Listener?
 ) {
@@ -151,7 +144,7 @@ private fun Content(
 }
 
 @Composable
-private fun SuccessContent(
+private fun SubscriptionScreenResources.SuccessContent(
     state: Success,
     listener: Listener?
 ) {
@@ -185,7 +178,7 @@ private fun ErrorContent() {
  * TOOLBAR
  */
 @Composable
-private fun SubscriptionToolbar(
+private fun SubscriptionScreenResources.SubscriptionToolbar(
     state: Success,
     listener: Listener?
 ) {
@@ -197,7 +190,7 @@ private fun SubscriptionToolbar(
             .background(colors.backgroundColors.whiteBackgroundColor)
     ) {
         Text(
-            text = stringResource(Res.string.subscription_toolbar_title),
+            text = choosePlanTitle,
             color = colors.textColors.blackTextColor,
             style = CustomTheme.typography.headlineLarge,
             modifier = Modifier.padding(start = 16.dp)
@@ -216,7 +209,7 @@ private fun SubscriptionToolbar(
  * SUBSCRIPTION CONTENT
  */
 @Composable
-private fun SubscriptionContent(
+private fun SubscriptionScreenResources.SubscriptionContent(
     state: Success,
     listener: Listener?
 ) {
@@ -301,9 +294,10 @@ private fun SubscriptionContent(
             ) { tabPosition ->
                 tabsItems[tabPosition].let { tab ->
                     when (tab.subscriptionPlanData.type) {
-                        is SubscriptionPlanType.Free -> {
-                            SadCatPlaceholder(bottomPadding)
-                        }
+                        is SubscriptionPlanType.Free -> SadCatPlaceholder(
+                            item = tab,
+                            bottomPadding = bottomPadding
+                        )
                         else -> Benefits(
                             item = tab,
                             bottomPadding = bottomPadding
@@ -329,32 +323,42 @@ private fun SubscriptionContent(
  * SAD CAT PLACEHOLDER
  */
 @Composable
-private fun SadCatPlaceholder(bottomPadding: Dp) = Column(
-    verticalArrangement = Arrangement.Center,
-    horizontalAlignment = Alignment.CenterHorizontally,
-    modifier = Modifier
-        .padding(bottom = bottomPadding)
-        .fillMaxSize()
+private fun SadCatPlaceholder(
+    item: SubscriptionPlan,
+    bottomPadding: Dp
 ) {
-    AppImage(
-        image = Res.drawable.ic_sad_cat_placeholder,
-        modifier = Modifier.size(225.dp)
-    )
-    Text(
-        text = stringResource(Res.string.subscription_free_placeholder_title),
-        color = colors.textColors.blackTextColor,
-        style = CustomTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-        modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
-    )
-    Text(
-        text = stringResource(Res.string.subscription_free_placeholder_description),
-        color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
-        style = CustomTheme.typography.headlineSmall,
-        textAlign = TextAlign.Center,
-        modifier = Modifier
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-            .fillMaxWidth()
-    )
+    item.subscriptionPlanBenefits.firstOrNull()?.let { placeholderData ->
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(bottom = bottomPadding)
+                .fillMaxSize()
+        ) {
+            AppImage(
+                image = Res.drawable.ic_sad_cat_placeholder,
+                modifier = Modifier.size(225.dp)
+            )
+            Text(
+                text = placeholderData.title,
+                color = colors.textColors.blackTextColor,
+                style = CustomTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                    .fillMaxWidth()
+            )
+            Text(
+                text = placeholderData.description,
+                color = colors.textColors.blackTextColor.copy(alpha = 0.9f),
+                style = CustomTheme.typography.headlineSmall,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+                    .fillMaxWidth()
+            )
+        }
+    }
 }
 
 /**
@@ -464,7 +468,7 @@ private fun BenefitItem(data: SubscriptionBenefit) {
  * SUBSCRIBE BUTTON
  */
 @Composable
-private fun SubscribeOrSkipBox(
+private fun SubscriptionScreenResources.SubscribeOrSkipBox(
     state: Success,
     listener: Listener?,
     modifier: Modifier
@@ -486,24 +490,21 @@ private fun SubscribeOrSkipBox(
             )
             .padding(vertical = 12.dp, horizontal = 16.dp)
     ) {
-        val text = when (state.selectedPlans?.subscriptionPlanData?.type) {
+        val text = when (state.selectedPlans.subscriptionPlanData.type) {
             SubscriptionPlanType.Free -> {
-                stringResource(Res.string.subscription_continue_as_unsubscribed)
+                continueWithoutBenefits
             }
             else -> with(state) {
                 buildString {
-                    val continueText = stringResource(Res.string.subscription_continue_for)
-                    append(continueText)
-                    append(" ")
-                    val price = if (period is Monthly) selectedPlans?.subscriptionPlanData?.monthlyPriceDiscounted ?: 0.0 else selectedPlans?.subscriptionPlanData?.yearlyPriceDiscounted ?: 0.0
-                    append(price)
-                    append("$ ")
-                    val periodRes = when (period) {
-                        is Monthly -> Res.string.subscription_per_month
-                        is Yearly -> Res.string.subscription_per_year
+                    val continueText = when (period) {
+                        is Monthly -> continueWithMonthlyPriceText
+                        is Yearly -> continueWithYearlyPriceText
                     }
-                    val period = stringResource(periodRes).lowercase()
-                    append(period)
+                    val price = when (period) {
+                        is Monthly -> selectedPlans.subscriptionPlanData.monthlyPriceDiscounted
+                        is Yearly -> selectedPlans.subscriptionPlanData.yearlyPriceDiscounted
+                    }
+                    append(continueText.format(price))
                 }
             }
         }
@@ -517,7 +518,7 @@ private fun SubscribeOrSkipBox(
                 .clip(RoundedCornerShape(16.dp))
         )
         Text(
-            text = stringResource(Res.string.subscription_continue_accept_polices),
+            text = agreementText,
             color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
             style = CustomTheme.typography.labelMedium,
             textAlign = TextAlign.Center,
@@ -530,7 +531,7 @@ private fun SubscribeOrSkipBox(
  * MONTHLY YEARLY SWITCH
  */
 @Composable
-private fun MonthlyYearlySwitch(
+private fun SubscriptionScreenResources.MonthlyYearlySwitch(
     state: Success,
     listener: Listener?
 ) {
@@ -577,7 +578,7 @@ private fun MonthlyYearlySwitch(
             )
         }
         Text(
-            text = stringResource(Res.string.subscription_year),
+            text = year,
             color = colors.textColors.blackTextColor,
             style = CustomTheme.typography.headlineMedium,
             modifier = Modifier.padding(start = 8.dp)

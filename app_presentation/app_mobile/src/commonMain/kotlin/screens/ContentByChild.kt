@@ -3,6 +3,7 @@ package screens
 import androidx.compose.runtime.Composable
 import com.nowiwr01p.model.resources.component_with_resources.screens.auth.AuthMainScreenResources
 import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinMainScreenResources
+import com.nowiwr01p.model.resources.component_with_resources.screens.subscription.screen_info.SubscriptionMainScreenResources
 import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationMainScreenResources
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild
@@ -38,8 +39,8 @@ internal fun MobileScreensChild.getScreenContent(navigator: MobileNavigator) = w
     is PinCodeChild -> PinMainScreenResources {
         PinCodeMainScreenMobile(navigator = navigator, resources = it)
     }
-    is SubscriptionChild -> {
-        SubscriptionMainScreen(navigator)
+    is SubscriptionChild -> SubscriptionMainScreenResources {
+        SubscriptionMainScreen(navigator = navigator, resources = it)
     }
     is HomeChild -> {
         HomeMainScreen(navigator)
