@@ -26,6 +26,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.nowiwr01p.model.resources.component_with_resources.dialogs.select_language.SelectLanguageDialogResources
+import com.nowiwr01p.model.resources.component_with_resources.dialogs.select_language.SelectLanguageResources
 import com.nowiwr01p.model.resources.language.Language
 import com.nowiwr01p.model.resources.language.Language.English
 import com.nowiwr01p.model.resources.language.Language.Georgian
@@ -45,8 +47,6 @@ import nowiwr01p.daily.doctor.resources.ic_flag_georgia
 import nowiwr01p.daily.doctor.resources.ic_flag_russia
 import nowiwr01p.daily.doctor.resources.ic_flag_ukraine
 import nowiwr01p.daily.doctor.resources.ic_flag_us
-import nowiwr01p.daily.doctor.resources.language_title
-import org.jetbrains.compose.resources.stringResource
 import theme.CustomTheme.colors
 import theme.CustomTheme.shapes
 import theme.CustomTheme.typography
@@ -76,14 +76,16 @@ internal fun SelectLanguageChild.SelectLanguageDialog(
             }
         }
     }
-    Content(
-        state = state,
-        listener = listener
-    )
+    SelectLanguageDialogResources(language = state.selectedLanguage) { resources ->
+        resources.Content(
+            state = state,
+            listener = listener
+        )
+    }
 }
 
 @Composable
-private fun Content(
+private fun SelectLanguageResources.Content(
     state: State,
     listener: Listener?
 ) {
@@ -101,8 +103,8 @@ private fun Content(
  * TITLE AND CLOSE BUTTON
  */
 @Composable
-private fun Title() = Text(
-    text = stringResource(Res.string.language_title),
+private fun SelectLanguageResources.Title() = Text(
+    text = appLanguageTitle,
     color = colors.textColors.blackTextColor,
     style = typography.displaySmall,
     textAlign = TextAlign.Center,
@@ -197,8 +199,8 @@ private fun LanguageItem(
  * SELECT LANGUAGE BUTTON
  */
 @Composable
-private fun SelectButton(listener: Listener?) = AppButton(
-    text = "Select", // TODO: Localize
+private fun SelectLanguageResources.SelectButton(listener: Listener?) = AppButton(
+    text = selectButtonText,
     state = DARK_GRAY_ACTIVE,
     onClick = { listener?.onConfirmSelectedLanguage() },
     modifier = Modifier
@@ -211,12 +213,12 @@ private fun SelectButton(listener: Listener?) = AppButton(
  * CHANGE LANGUAGE INFO
  */
 @Composable
-private fun ChangeInSettingsText() = Text(
-    text = "You can always change it in settings", // TODO: Localize
+private fun SelectLanguageResources.ChangeInSettingsText() = Text(
+    text = changeInSettingsText,
     color = colors.textColors.blackTextColor.copy(alpha = 0.5f),
     style = typography.labelMedium,
     textAlign = TextAlign.Center,
     modifier = Modifier
         .fillMaxWidth()
-        .padding(top = 8.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
+        .padding(top = 8.dp, bottom = 4.dp, start = 24.dp, end = 24.dp)
 )
