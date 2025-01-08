@@ -9,8 +9,8 @@ import androidx.compose.ui.graphics.Color
 import home.HomeViewModel
 import home.Listener
 import home.State
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.HomeChild
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileScreensChild.HomeChild
 import view_model.rememberViewModel
 
 @Composable

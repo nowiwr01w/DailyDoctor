@@ -34,8 +34,8 @@ import components.image.RemoteImage
 import extensions.BaseScreen
 import getScreenWidth
 import kotlinx.coroutines.launch
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.OnboardingChild
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileScreensChild.OnboardingChild
 import onboarding.Effect.NavigateToAuth
 import onboarding.Effect.ShowEnableNotificationsDialog
 import onboarding.Effect.SlideToNextOnboardingItem

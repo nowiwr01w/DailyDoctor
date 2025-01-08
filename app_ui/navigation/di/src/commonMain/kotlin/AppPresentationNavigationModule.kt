@@ -1,4 +1,4 @@
-package nowiwr01p.daily.doctor.app_presentation.navigation.di
+package nowiwr01p.daily.doctor.app_ui.navigation.di
 
 import org.koin.core.module.Module
 

@@ -12,8 +12,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import components.image.AppImage
 import navigation.screen_results.ScreenResultKey.SelectLanguageResultKey
 import navigation.screen_results.handleScreenResult
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.SplashChild
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileScreensChild.SplashChild
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_launcher_foreground
 import splash.Effect.NavigateToHome

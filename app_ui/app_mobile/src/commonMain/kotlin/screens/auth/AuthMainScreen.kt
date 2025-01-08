@@ -72,10 +72,10 @@ import model.errors.auth.AuthTextFieldType
 import model.errors.auth.AuthTextFieldType.PASSWORD
 import model.errors.auth.AuthTextFieldType.PASSWORD_CONFIRMATION
 import model.errors.auth.AuthTextFieldType.PHONE
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.AuthChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Check
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode.Create
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileScreensChild.AuthChild
+import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode.Check
+import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode.Create
 import com.nowiwr01p.model.resources.component_with_resources.screens.auth.AuthScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_eye_closed

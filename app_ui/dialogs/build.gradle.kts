@@ -30,7 +30,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.dialogs"
+            baseName = "app_ui.dialogs"
         }
     }
 
@@ -99,7 +99,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.dialogs"
+    namespace = "nowiwr01p.daily.doctor.app_ui.dialogs"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

@@ -33,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.core_ui"
+            baseName = "app_ui.core_ui"
         }
     }
 
@@ -94,7 +94,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.core_ui"
+    namespace = "nowiwr01p.daily.doctor.app_ui.core_ui"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

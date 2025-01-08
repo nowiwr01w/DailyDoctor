@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import getScreenHeight
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileBottomSheetChild.TestChild
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileBottomSheetChild.TestChild
 
 @Composable
 internal fun TestChild.TestBottomSheet() {

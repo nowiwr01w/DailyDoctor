@@ -60,8 +60,8 @@ package screens.subscription
  import extensions.BaseScreen
  import extensions.advancedShadow
  import extensions.format
- import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
- import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.SubscriptionChild
+ import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
+ import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileScreensChild.SubscriptionChild
  import nowiwr01p.daily.doctor.resources.Res
  import nowiwr01p.daily.doctor.resources.ic_drop_down_arrow
  import nowiwr01p.daily.doctor.resources.ic_sad_cat_placeholder

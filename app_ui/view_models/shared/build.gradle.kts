@@ -33,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.view_models.shared"
+            baseName = "app_ui.view_models.shared"
         }
     }
 
@@ -96,7 +96,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.view_models.shared"
+    namespace = "nowiwr01p.daily.doctor.app_ui.view_models.shared"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

@@ -35,9 +35,9 @@ import components.button.ButtonState.DARK_GRAY_PROGRESS
 import components.button.ButtonState.SUCCESS
 import extensions.BaseScreen
 import getScreenWidth
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.PinCodeChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileScreensChild.PinCodeChild
+import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode
 import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small

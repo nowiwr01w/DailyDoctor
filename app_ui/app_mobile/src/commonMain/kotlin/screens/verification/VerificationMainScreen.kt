@@ -49,9 +49,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import components.button.AppButton
 import extensions.BaseScreen
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.MobileNavigator
-import nowiwr01p.daily.doctor.app_presentation.navigation.mobile.navigation.config.child.MobileScreensChild.VerificationChild
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
+import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileScreensChild.VerificationChild
+import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode
 import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationScreenResources
 import screens.auth.TopIcon
 import screens.auth.TopTitle

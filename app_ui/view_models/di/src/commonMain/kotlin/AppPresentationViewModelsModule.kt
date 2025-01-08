@@ -8,8 +8,8 @@ import manager.brand_config.AppBrandConfigManager
 import manager.language.AppLanguageManager
 import manager.onboarding.AppOnboardingManager
 import manager.subscription.AppSubscriptionManager
-import nowiwr01p.daily.doctor.app_presentation.dialogs.select_language.SelectLanguageViewModel
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import nowiwr01p.daily.doctor.app_ui.dialogs.select_language.SelectLanguageViewModel
+import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode
 import onboarding.OnboardingViewModel
 import org.koin.dsl.module
 import pin_code.PinCodeViewModel

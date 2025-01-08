@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "app_presentation.navigation.di"
+            baseName = "app_ui.navigation.di"
         }
     }
 
@@ -81,7 +81,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.app_presentation.navigation.di"
+    namespace = "nowiwr01p.daily.doctor.app_ui.navigation.di"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

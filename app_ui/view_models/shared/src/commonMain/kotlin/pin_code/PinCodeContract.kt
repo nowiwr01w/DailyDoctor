@@ -4,7 +4,7 @@ import components.button.ButtonState
 import contract.BaseEffect
 import contract.BaseEvent
 import contract.BaseState
-import nowiwr01p.daily.doctor.app_presentation.navigation.model.pin.PinCodeMode
+import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode
 import pin_code.data.PinCodeOperation
 
 sealed interface Event: BaseEvent {
