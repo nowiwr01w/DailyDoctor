@@ -39,7 +39,7 @@ kotlin {
                  * SHARED MODULES
                  */
                 implementation(projects.shared)
-                implementation(projects.appShared.platform)
+                implementation(projects.appLogic.platform)
                 implementation(projects.shared.encryption.client)
                 implementation(projects.shared.encryption.shared)
                 /**

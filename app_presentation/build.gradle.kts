@@ -102,12 +102,12 @@ kotlin {
             /**
              * APP SHARED
              */
-            implementation(projects.appShared)
-            implementation(projects.appShared.core)
-            implementation(projects.appShared.domain)
-            implementation(projects.appShared.data)
-            implementation(projects.appShared.works)
-            implementation(projects.appShared.platform)
+            implementation(projects.appLogic)
+            implementation(projects.appLogic.core)
+            implementation(projects.appLogic.domain)
+            implementation(projects.appLogic.data)
+            implementation(projects.appLogic.works)
+            implementation(projects.appLogic.platform)
             /**
              * APP PRESENTATION
              */
@@ -121,7 +121,7 @@ kotlin {
             /**
              * LOCAL DATABASE
              */
-            implementation(projects.appShared.localDatabase)
+            implementation(projects.appLogic.localDatabase)
             /**
              * COMPOSE
              */
@@ -164,7 +164,7 @@ kotlin {
                 /**
                  * RESOURCES
                  */
-                implementation(projects.appShared.resources)
+                implementation(projects.appLogic.resources)
                 /**
                  * COMPOSE
                  */

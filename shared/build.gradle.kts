@@ -40,7 +40,7 @@ kotlin {
                 /**
                  * PROJECT MODULES
                  */
-                implementation(projects.appShared.resources)
+                implementation(projects.appLogic.resources)
                 /**
                  * DEPENDENCIES
                  */

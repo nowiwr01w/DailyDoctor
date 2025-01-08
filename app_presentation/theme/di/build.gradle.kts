@@ -47,8 +47,8 @@ kotlin {
                 /**
                  * APP SHARED
                  */
-                implementation(projects.appShared.core)
-                implementation(projects.appShared.platform)
+                implementation(projects.appLogic.core)
+                implementation(projects.appLogic.platform)
                 /**
                  * COMPOSE
                  */

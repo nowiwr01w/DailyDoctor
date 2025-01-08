@@ -51,12 +51,12 @@ kotlin {
                 /**
                  * APP SHARED
                  */
-                implementation(projects.appShared)
-                implementation(projects.appShared.core)
-                implementation(projects.appShared.di)
-                implementation(projects.appShared.domain)
-                implementation(projects.appShared.works)
-                implementation(projects.appShared.platform)
+                implementation(projects.appLogic)
+                implementation(projects.appLogic.core)
+                implementation(projects.appLogic.di)
+                implementation(projects.appLogic.domain)
+                implementation(projects.appLogic.works)
+                implementation(projects.appLogic.platform)
                 /**
                  * APP PRESENTATION
                  */
@@ -66,8 +66,8 @@ kotlin {
                 /**
                  * LOCAL DATABASE
                  */
-                implementation(projects.appShared.localDatabase.di)
-                implementation(projects.appShared.localDatabase.domain)
+                implementation(projects.appLogic.localDatabase.di)
+                implementation(projects.appLogic.localDatabase.domain)
                 /**
                  * DEPENDENCIES
                  */

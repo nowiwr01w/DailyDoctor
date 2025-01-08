@@ -44,7 +44,7 @@ kotlin {
                 /**
                  * APP SHARED
                  */
-                implementation(projects.appShared.core)
+                implementation(projects.appLogic.core)
                 /**
                  * APP PRESENTATION
                  */

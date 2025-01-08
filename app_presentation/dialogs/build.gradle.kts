@@ -44,9 +44,9 @@ kotlin {
                 /**
                  * APP SHARED
                  */
-                implementation(projects.appShared.core)
-                implementation(projects.appShared.domain)
-                implementation(projects.appShared.platform)
+                implementation(projects.appLogic.core)
+                implementation(projects.appLogic.domain)
+                implementation(projects.appLogic.platform)
                 /**
                  * APP PRESENTATION
                  */
@@ -63,7 +63,7 @@ kotlin {
                 /**
                  * RESOURCES
                  */
-                implementation(projects.appShared.resources)
+                implementation(projects.appLogic.resources)
                 /**
                  * COMPOSE
                  */

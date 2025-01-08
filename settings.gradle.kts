@@ -55,25 +55,25 @@ include(":app_presentation:dialogs")
 /**
  * APP SHARED
  */
-include(":app_shared")
-include(":app_shared:core")
-include(":app_shared:platform")
-include(":app_shared:domain")
-include(":app_shared:data")
-include(":app_shared:di")
+include(":app_logic")
+include(":app_logic:core")
+include(":app_logic:platform")
+include(":app_logic:domain")
+include(":app_logic:data")
+include(":app_logic:di")
 
-include(":app_shared:config")
-include(":app_shared:config:di")
+include(":app_logic:config")
+include(":app_logic:config:di")
 
-include(":app_shared:local_database")
-include(":app_shared:local_database:domain")
-include(":app_shared:local_database:data")
-include(":app_shared:local_database:di")
+include(":app_logic:local_database")
+include(":app_logic:local_database:domain")
+include(":app_logic:local_database:data")
+include(":app_logic:local_database:di")
 
-include(":app_shared:works")
-include(":app_shared:works:di")
+include(":app_logic:works")
+include(":app_logic:works:di")
 
-include(":app_shared:resources")
+include(":app_logic:resources")
 
 /**
  * DATABASE
