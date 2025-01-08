@@ -27,33 +27,33 @@ dependencyResolutionManagement {
 }
 
 /**
- * APP PRESENTATION
+ * APP UI
  */
-include(":app_presentation")
-include(":app_presentation:app_mobile")
-include(":app_presentation:di")
-include(":app_presentation:platform")
+include(":app_ui")
+include(":app_ui:app_mobile")
+include(":app_ui:di")
+include(":app_ui:platform")
 
-include(":app_presentation:core_ui")
-include(":app_presentation:core_ui:di")
+include(":app_ui:core_ui")
+include(":app_ui:core_ui:di")
 
-include(":app_presentation:navigation")
-include(":app_presentation:navigation:di")
-include(":app_presentation:navigation:mobile")
-include(":app_presentation:navigation:model")
+include(":app_ui:navigation")
+include(":app_ui:navigation:di")
+include(":app_ui:navigation:mobile")
+include(":app_ui:navigation:model")
 
-include(":app_presentation:view_models")
-include(":app_presentation:view_models:base")
-include(":app_presentation:view_models:shared")
-include(":app_presentation:view_models:mobile")
-include(":app_presentation:view_models:desktop")
-include(":app_presentation:view_models:web")
-include(":app_presentation:view_models:di")
+include(":app_ui:view_models")
+include(":app_ui:view_models:base")
+include(":app_ui:view_models:shared")
+include(":app_ui:view_models:mobile")
+include(":app_ui:view_models:desktop")
+include(":app_ui:view_models:web")
+include(":app_ui:view_models:di")
 
-include(":app_presentation:dialogs")
+include(":app_ui:dialogs")
 
 /**
- * APP SHARED
+ * APP LOGIC
  */
 include(":app_logic")
 include(":app_logic:core")
