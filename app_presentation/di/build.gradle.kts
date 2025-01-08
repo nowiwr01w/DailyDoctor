@@ -47,7 +47,7 @@ kotlin {
                 /**
                  * SHARED MODELS
                  */
-                implementation(projects.modelShared)
+                implementation(projects.shared)
                 /**
                  * APP SHARED
                  */

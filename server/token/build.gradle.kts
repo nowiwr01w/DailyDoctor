@@ -7,7 +7,7 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     /**
      * DEPENDENCIES
      */

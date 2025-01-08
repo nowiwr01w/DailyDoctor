@@ -8,7 +8,7 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     /**
      * SERVER
      */
@@ -16,8 +16,8 @@ dependencies {
     /**
      * ENCRYPTION
      */
-    implementation(projects.modelShared.encryption.shared)
-    implementation(projects.modelShared.encryption.server)
+    implementation(projects.shared.encryption.shared)
+    implementation(projects.shared.encryption.server)
     /**
      * DEPENDENCIES
      */

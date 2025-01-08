@@ -7,7 +7,7 @@ dependencies {
     /**
      * PROJECT MODULES
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     implementation(projects.server.database.domain)
     implementation(projects.server.database.data)
     implementation(projects.server.database.initValues)

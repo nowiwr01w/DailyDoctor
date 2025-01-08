@@ -9,7 +9,7 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     /**
      * KOIN
      */
@@ -24,5 +24,5 @@ dependencies {
     /**
      * BASE API CLIENT
      */
-    implementation(projects.modelShared.baseApiClient)
+    implementation(projects.shared.baseApiClient)
 }

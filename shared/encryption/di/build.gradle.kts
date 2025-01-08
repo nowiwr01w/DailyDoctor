@@ -1,12 +1,17 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.jetbrainsCompose)
 }
 
 kotlin {
     applyDefaultHierarchyTemplate()
 
+    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser {
 
@@ -28,38 +33,27 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "base_api_client"
+            baseName = "encryption.di"
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                /**
-                 * SHARED MODULES
-                 */
-                implementation(projects.modelShared)
-                implementation(projects.appShared.platform)
-                implementation(projects.modelShared.encryption.client)
-                implementation(projects.modelShared.encryption.shared)
-                /**
-                 * KOIN
-                 */
-                implementation(libs.koin)
-                /**
-                 * KOTLIN
-                 */
-                implementation(libs.coroutines)
-                implementation(libs.kotlin.date.time)
-                implementation(libs.kotlin.serialization.json)
-                /**
-                 * KTOR CLIENT
-                 */
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.logging)
-                implementation(libs.ktor.client.content.negotiation)
-                implementation(libs.ktor.kotlin.serialization)
-            }
+        commonMain.dependencies {
+            /**
+             * PROJECT MODULES
+             */
+            implementation(projects.shared)
+            implementation(projects.shared.encryption.shared)
+            implementation(projects.shared.encryption.client)
+            implementation(projects.shared.encryption.server)
+            /**
+             * DEPENDENCIES
+             */
+            implementation(libs.bundles.encryption)
+            /**
+             * COMPOSE
+             */
+            implementation(compose.runtime)
         }
         androidMain.dependencies {
             implementation(libs.bundles.android)
@@ -76,10 +70,16 @@ kotlin {
             implementation(libs.bundles.web)
         }
     }
+
+    /**
+     * Cannot locate tasks that match ':model_shared:testClasses'
+     * as task 'testClasses' not found in project ':model_shared'.
+     */
+    task("testClasses") // TODO
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.base_api_client"
+    namespace = "nowiwr01p.daily.doctor.encryption.di"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

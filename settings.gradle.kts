@@ -88,15 +88,15 @@ include(":server:database:init_values")
 /**
  * SHARED
  */
-include(":model_shared")
+include(":shared")
 
-include(":model_shared:base_api_client")
+include(":shared:base_api_client")
 
-include(":model_shared:encryption")
-include(":model_shared:encryption:client")
-include(":model_shared:encryption:shared")
-include(":model_shared:encryption:server")
-include(":model_shared:encryption:di")
+include(":shared:encryption")
+include(":shared:encryption:client")
+include(":shared:encryption:shared")
+include(":shared:encryption:server")
+include(":shared:encryption:di")
 
 /**
  * SERVER

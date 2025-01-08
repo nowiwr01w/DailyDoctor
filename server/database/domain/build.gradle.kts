@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     implementation(projects.server.database.tables)
     implementation(libs.bundles.database)
 }

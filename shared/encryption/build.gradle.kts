@@ -4,8 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -33,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "encryption.client"
+            baseName = "encryption"
         }
     }
 
@@ -42,8 +42,10 @@ kotlin {
             /**
              * PROJECT MODULES
              */
-            implementation(projects.modelShared)
-            implementation(projects.modelShared.encryption.shared)
+            implementation(projects.shared)
+            implementation(projects.shared.encryption.shared)
+            implementation(projects.shared.encryption.client)
+            implementation(projects.shared.encryption.server)
             /**
              * DEPENDENCIES
              */
@@ -77,7 +79,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.encryption.client"
+    namespace = "nowiwr01p.daily.doctor.encryption"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

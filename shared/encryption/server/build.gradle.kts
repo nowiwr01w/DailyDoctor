@@ -1,15 +1,17 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
     applyDefaultHierarchyTemplate()
 
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser {
 
@@ -31,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "encryption.shared"
+            baseName = "encryption.server"
         }
     }
 
@@ -40,7 +42,8 @@ kotlin {
             /**
              * PROJECT MODULES
              */
-            implementation(projects.modelShared)
+            implementation(projects.shared)
+            implementation(projects.shared.encryption.shared)
             /**
              * DEPENDENCIES
              */
@@ -74,7 +77,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.encryption.shared"
+    namespace = "nowiwr01p.daily.doctor.encryption.server"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

@@ -41,7 +41,7 @@ kotlin {
                 /**
                  * MODEL SHARED
                  */
-                implementation(projects.modelShared)
+                implementation(projects.shared)
                 /**
                  * APP SHARED
                  */
@@ -51,7 +51,7 @@ kotlin {
                 implementation(projects.appShared.works)
                 implementation(projects.appShared.works.di)
                 implementation(projects.appShared.config.di)
-                implementation(projects.modelShared.encryption.di)
+                implementation(projects.shared.encryption.di)
                 /**
                  * LOCAL DATABASE
                  */
@@ -59,7 +59,7 @@ kotlin {
                 /**
                  * BASE API CLIENT
                  */
-                implementation(projects.modelShared.baseApiClient)
+                implementation(projects.shared.baseApiClient)
                 /**
                  * DEPENDENCIES
                  */

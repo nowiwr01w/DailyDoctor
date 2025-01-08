@@ -9,8 +9,8 @@ dependencies {
     /**
      * PROJECT MODULES
      */
-    implementation(projects.modelShared.baseApiClient)
-    implementation(projects.modelShared)
+    implementation(projects.shared.baseApiClient)
+    implementation(projects.shared)
     implementation(projects.server.tgSms.domain)
     /**
      * KOIN

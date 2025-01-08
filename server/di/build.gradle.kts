@@ -8,12 +8,12 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     /**
      * ENCRYPTION
      */
-    implementation(projects.modelShared.encryption.di)
-    implementation(projects.modelShared.encryption.server)
+    implementation(projects.shared.encryption.di)
+    implementation(projects.shared.encryption.server)
     /**
      * SERVER
      */

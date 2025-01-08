@@ -33,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "encryption.di"
+            baseName = "encryption.client"
         }
     }
 
@@ -42,10 +42,8 @@ kotlin {
             /**
              * PROJECT MODULES
              */
-            implementation(projects.modelShared)
-            implementation(projects.modelShared.encryption.shared)
-            implementation(projects.modelShared.encryption.client)
-            implementation(projects.modelShared.encryption.server)
+            implementation(projects.shared)
+            implementation(projects.shared.encryption.shared)
             /**
              * DEPENDENCIES
              */
@@ -79,7 +77,7 @@ kotlin {
 }
 
 android {
-    namespace = "nowiwr01p.daily.doctor.encryption.di"
+    namespace = "nowiwr01p.daily.doctor.encryption.client"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

@@ -43,7 +43,7 @@ kotlin {
                 /**
                  * MODEL SHARED
                  */
-                implementation(projects.modelShared)
+                implementation(projects.shared)
                 /**
                  * APP SHARED
                  */
@@ -51,7 +51,7 @@ kotlin {
                 /**
                  * BASE API CLIENT
                  */
-                implementation(projects.modelShared.baseApiClient)
+                implementation(projects.shared.baseApiClient)
                 /**
                  * DEPENDENCIES
                  */

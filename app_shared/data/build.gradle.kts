@@ -41,11 +41,11 @@ kotlin {
                 /**
                  * MODEL SHARED
                  */
-                implementation(projects.modelShared)
+                implementation(projects.shared)
                 /**
                  * BASE API CLIENT
                  */
-                implementation(projects.modelShared.baseApiClient)
+                implementation(projects.shared.baseApiClient)
                 /**
                  * APP SHARED
                  */
@@ -59,8 +59,8 @@ kotlin {
                 /**
                  * ENCRYPTION
                  */
-                implementation(projects.modelShared.encryption.shared)
-                implementation(projects.modelShared.encryption.client)
+                implementation(projects.shared.encryption.shared)
+                implementation(projects.shared.encryption.client)
                 /**
                  * DEPENDENCIES
                  */

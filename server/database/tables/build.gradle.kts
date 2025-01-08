@@ -7,6 +7,6 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     implementation(libs.bundles.database)
 }
