@@ -1,6 +1,6 @@
 package com.nowiwr01p.model.repository
 
-import com.nowiwr01p.model.api.errors.AppUiError
+import com.nowiwr01p.model.api.errors.AppError
 import com.nowiwr01p.model.coroutines.dispatchers.AppDispatchers
 import com.nowiwr01p.model.extensions.runCatchingApp
 import kotlinx.coroutines.CoroutineScope
@@ -10,7 +10,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 abstract class BaseRepository: KoinComponent {
-
     protected val json by inject<Json>()
     protected val dispatchers by inject<AppDispatchers>()
 
@@ -27,7 +26,7 @@ abstract class BaseRepository: KoinComponent {
     }
 
     protected fun buildError(message: String? = null): Nothing {
-        throw AppUiError(message ?: SERVER_ERROR)
+        throw AppError(message ?: SERVER_ERROR)
     }
 
     private companion object {

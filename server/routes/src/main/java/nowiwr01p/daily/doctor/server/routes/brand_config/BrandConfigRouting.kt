@@ -2,8 +2,7 @@ package nowiwr01p.daily.doctor.server.routes.brand_config
 
 import com.nowiwr01p.model.api.route.BrantConfigRoutes.GetBrandConfigRoute
 import com.nowiwr01p.model.extensions.runCatchingApp
-import com.nowiwr01p.model.model.app_config.config.BrandConfigType
-import io.ktor.http.HttpStatusCode
+import com.nowiwr01p.model.usecase.execute
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import nowiwr01p.daily.doctor.encryption.server.EncryptionServer
@@ -17,19 +16,13 @@ class BrandConfigRouting(
 
     fun getBrandConfig(route: Route) = route.get(GetBrandConfigRoute.route) {
         encryptionServer.initPublicKey()
-        val brandConfigType = getParameter<BrandConfigType>(
-            name = "type",
-            paramAsType = { stringParam ->
-                BrandConfigType.entries.find { stringParam == it.type }
-            }
-        ) ?: return@get
         val publicKey = getParameter<String>(
             name = "key",
             paramAsType = { stringParam -> stringParam }
         ) ?: return@get
         encryptionServer.setOtherSidePublicKey(publicKey)
         runCatchingApp {
-            serverGetBrandConfigUseCase.execute(brandConfigType)
+            serverGetBrandConfigUseCase.execute()
         }.onSuccess { brandConfig ->
             respondWithSuccessModel(brandConfig)
         }.onFailure { error ->

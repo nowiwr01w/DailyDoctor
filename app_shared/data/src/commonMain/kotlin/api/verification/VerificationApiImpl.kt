@@ -1,5 +1,8 @@
 package api.verification
 
+import com.nowiwr01p.model.api.errors.verification.VerificationApiError
+import com.nowiwr01p.model.api.errors.verification.VerificationApiError.CheckVerificationCodeApiError
+import com.nowiwr01p.model.api.errors.verification.VerificationApiError.SendVerificationCodeApiError
 import com.nowiwr01p.model.api.request.verification.CheckVerificationCodeRequest
 import com.nowiwr01p.model.api.request.verification.SendVerificationCodeRequest
 import com.nowiwr01p.model.api.response.token.TokenResponse
@@ -8,19 +11,26 @@ import com.nowiwr01p.model.api.route.VerificationRoutes.SendVerificationCodeRout
 import nowiwr01p.daily.doctor.base_api_client.api.ApiClientSettings.*
 import nowiwr01p.daily.doctor.base_api_client.api.BaseApi
 
-class VerificationApiImpl: BaseApi(AppApiClientSettings), VerificationApi {
-
-    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest): TokenResponse {
-        return postHttp<TokenResponse>(
+class VerificationApiImpl: BaseApi<VerificationApiError>(AppApiClientSettings), VerificationApi {
+    /**
+     * SEND
+     */
+    override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) = run {
+        postHttp<TokenResponse, SendVerificationCodeApiError>(
             route = SendVerificationCodeRoute,
-            requestBody = request
+            requestBodyString = request.encodeDataToString(),
+            error = { message -> SendVerificationCodeApiError(message) }
         )
     }
 
-    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest): TokenResponse {
-        return postHttp<TokenResponse>(
+    /**
+     * CHECK
+     */
+    override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) = run {
+        postHttp<TokenResponse, CheckVerificationCodeApiError>(
             route = CheckVerificationCodeRoute,
-            requestBody = request
+            requestBodyString = request.encodeDataToString(),
+            error = { message -> CheckVerificationCodeApiError(message) }
         )
     }
 }

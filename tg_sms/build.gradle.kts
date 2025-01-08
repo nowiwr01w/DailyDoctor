@@ -16,6 +16,7 @@ dependencies {
     /**
      * SHARED MODELS
      */
+    implementation(projects.encryption)
     implementation(projects.baseApiClient)
     implementation(projects.modelShared)
     implementation(projects.tgSms.di)
@@ -25,6 +26,8 @@ dependencies {
      */
     implementation(libs.koin)
     implementation(libs.koin.ktor)
+    implementation(libs.koin.ktor.logger)
+    implementation(libs.logback)
     /**
      * KOTLIN
      */

@@ -1,5 +1,7 @@
 package nowiwr01p.daily.doctor.tg_sms.data.api
 
+import com.nowiwr01p.model.api.errors.tg_sms.TgSmsApiError
+import com.nowiwr01p.model.api.errors.tg_sms.TgSmsApiError.SendVerificationCodeApiError
 import io.ktor.http.HttpHeaders.Authorization
 import nowiwr01p.daily.doctor.base_api_client.api.ApiClientSettings.TelegramApiClientSettings
 import nowiwr01p.daily.doctor.base_api_client.api.BaseApi
@@ -10,13 +12,19 @@ import nowiwr01p.daily.doctor.tg_sms.domain.routes.TelegramRoutes.SendVerificati
 
 class TgSmsApiImpl(
     private val apiKey: String
-): BaseApi(TelegramApiClientSettings), TgSmsApi {
-
+): BaseApi<TgSmsApiError>(TelegramApiClientSettings), TgSmsApi {
+    /**
+     * VERIFICATION CODE
+     */
     override suspend fun sendVerificationCode(request: VerificationRequest) = run {
-        postHttp<VerificationResponseWrap>(
+        postHttp<VerificationResponseWrap, SendVerificationCodeApiError>(
             route = SendVerificationMessage,
-            requestBody = request,
-            headers = { append(Authorization, "Bearer $apiKey") }
+            useEncryption = false,
+            requestBodyString = request.encodeDataToString(),
+            headers = {
+                append(Authorization, "Bearer $apiKey")
+            },
+            error = { message -> SendVerificationCodeApiError(message) }
         )
     }
 }

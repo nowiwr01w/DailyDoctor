@@ -5,7 +5,6 @@ import dev.whyoleg.cryptography.CryptographyProvider
 import dev.whyoleg.cryptography.DelicateCryptographyApi
 import dev.whyoleg.cryptography.algorithms.AES
 import dev.whyoleg.cryptography.random.CryptographyRandom
-import kotlinx.serialization.encodeToString
 import nowiwr01p.daily.doctor.encryption.shared.EncryptionHelper
 import nowiwr01p.daily.doctor.encryption.shared.data.EncryptedData
 import kotlin.io.encoding.Base64
@@ -15,8 +14,8 @@ import kotlin.random.Random
 @OptIn(ExperimentalEncodingApi::class, DelicateCryptographyApi::class)
 class EncryptionClient(provider: CryptographyProvider) : EncryptionHelper(provider) {
 
-    suspend inline fun <reified T> encodeFromClientToServer(data: T): String {
-        val plaintext = json.encodeToString(data).encodeToByteArray()
+    suspend inline fun encodeFromClientToServer(dataString: String): String {
+        val plaintext = dataString.encodeToByteArray()
         val salt = Random.nextBytes(16)
         val info = "encryption:client-server".encodeToByteArray()
 
