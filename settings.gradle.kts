@@ -65,6 +65,11 @@ include(":app_shared:di")
 include(":app_shared:config")
 include(":app_shared:config:di")
 
+include(":app_shared:local_database")
+include(":app_shared:local_database:domain")
+include(":app_shared:local_database:data")
+include(":app_shared:local_database:di")
+
 include(":app_shared:works")
 include(":app_shared:works:di")
 
@@ -115,14 +120,6 @@ include(":server:tg_sms")
 include(":server:tg_sms:domain")
 include(":server:tg_sms:data")
 include(":server:tg_sms:di")
-
-/**
- * SHARED PREFERENCES
- */
-include(":local_database")
-include(":local_database:domain")
-include(":local_database:data")
-include(":local_database:di")
 
 /**
  * BASE API CLIENT

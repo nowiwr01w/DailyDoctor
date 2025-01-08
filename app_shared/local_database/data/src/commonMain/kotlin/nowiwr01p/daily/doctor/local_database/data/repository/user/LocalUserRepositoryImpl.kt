@@ -4,7 +4,6 @@ import com.nowiwr01p.model.model.user.User
 import com.nowiwr01p.model.repository.BaseRepository
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
-import kotlinx.serialization.encodeToString
 import nowiwr01p.daily.doctor.local_database.domain.repository.user.LocalUserRepository
 
 @OptIn(ExperimentalSettingsApi::class)

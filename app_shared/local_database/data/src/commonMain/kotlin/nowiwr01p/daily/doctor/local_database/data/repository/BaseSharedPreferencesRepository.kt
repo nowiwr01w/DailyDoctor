@@ -4,7 +4,6 @@ import nowiwr01p.daily.doctor.local_database.SettingsKey
 import com.nowiwr01p.model.extensions.runCatchingApp
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

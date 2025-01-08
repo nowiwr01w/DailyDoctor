@@ -121,7 +121,7 @@ kotlin {
             /**
              * LOCAL DATABASE
              */
-            implementation(projects.localDatabase)
+            implementation(projects.appShared.localDatabase)
             /**
              * COMPOSE
              */

@@ -1,6 +1,5 @@
 package manager.language
 
-import com.nowiwr01p.model.extensions.runCatchingApp
 import com.nowiwr01p.model.usecase.execute
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

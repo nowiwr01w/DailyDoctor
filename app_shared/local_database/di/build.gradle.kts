@@ -44,9 +44,9 @@ kotlin {
             /**
              * LOCAL DATABASE
              */
-            implementation(projects.localDatabase)
-            implementation(projects.localDatabase.data)
-            implementation(projects.localDatabase.domain)
+            implementation(projects.appShared.localDatabase)
+            implementation(projects.appShared.localDatabase.data)
+            implementation(projects.appShared.localDatabase.domain)
             /**
              * DEPENDENCIES
              */
