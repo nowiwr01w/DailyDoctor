@@ -40,8 +40,8 @@ kotlin {
                  */
                 implementation(projects.modelShared)
                 implementation(projects.appShared.platform)
-                implementation(projects.encryption.client)
-                implementation(projects.encryption.shared)
+                implementation(projects.modelShared.encryption.client)
+                implementation(projects.modelShared.encryption.shared)
                 /**
                  * KOIN
                  */

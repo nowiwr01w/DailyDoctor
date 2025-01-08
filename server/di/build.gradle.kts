@@ -12,8 +12,8 @@ dependencies {
     /**
      * ENCRYPTION
      */
-    implementation(projects.encryption.di)
-    implementation(projects.encryption.server)
+    implementation(projects.modelShared.encryption.di)
+    implementation(projects.modelShared.encryption.server)
     /**
      * SERVER
      */

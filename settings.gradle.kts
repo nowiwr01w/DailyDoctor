@@ -84,19 +84,17 @@ include(":server:database:di")
 include(":server:database:init_values")
 
 /**
- * ENCRYPTION
- */
-include(":encryption")
-include(":encryption:client")
-include(":encryption:shared")
-include(":encryption:server")
-include(":encryption:di")
-
-/**
  * SHARED
  */
 include(":model_shared")
+/** API CLIENT **/
 include(":model_shared:base_api_client")
+/** ENCRYPTION **/
+include(":model_shared:encryption")
+include(":model_shared:encryption:client")
+include(":model_shared:encryption:shared")
+include(":model_shared:encryption:server")
+include(":model_shared:encryption:di")
 
 /**
  * RESOURCES

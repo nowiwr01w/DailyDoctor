@@ -43,7 +43,7 @@ kotlin {
              * PROJECT MODULES
              */
             implementation(projects.modelShared)
-            implementation(projects.encryption.shared)
+            implementation(projects.modelShared.encryption.shared)
             /**
              * DEPENDENCIES
              */

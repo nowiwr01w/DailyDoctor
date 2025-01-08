@@ -9,7 +9,7 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.encryption.di)
+    implementation(projects.modelShared.encryption.di)
     implementation(projects.modelShared.baseApiClient)
     implementation(projects.modelShared)
     implementation(projects.server.tgSms.domain)

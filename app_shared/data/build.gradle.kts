@@ -59,8 +59,8 @@ kotlin {
                 /**
                  * ENCRYPTION
                  */
-                implementation(projects.encryption.shared)
-                implementation(projects.encryption.client)
+                implementation(projects.modelShared.encryption.shared)
+                implementation(projects.modelShared.encryption.client)
                 /**
                  * DEPENDENCIES
                  */
