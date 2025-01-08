@@ -73,6 +73,8 @@ include(":app_shared:local_database:di")
 include(":app_shared:works")
 include(":app_shared:works:di")
 
+include(":app_shared:resources")
+
 /**
  * DATABASE
  */
@@ -87,19 +89,14 @@ include(":server:database:init_values")
  * SHARED
  */
 include(":model_shared")
-/** API CLIENT **/
+
 include(":model_shared:base_api_client")
-/** ENCRYPTION **/
+
 include(":model_shared:encryption")
 include(":model_shared:encryption:client")
 include(":model_shared:encryption:shared")
 include(":model_shared:encryption:server")
 include(":model_shared:encryption:di")
-
-/**
- * RESOURCES
- */
-include(":resources")
 
 /**
  * SERVER

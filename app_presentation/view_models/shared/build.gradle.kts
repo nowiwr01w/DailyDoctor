@@ -66,7 +66,7 @@ kotlin {
                 /**
                  * RESOURCES
                  */
-                implementation(projects.resources)
+                implementation(projects.appShared.resources)
                 /**
                  * DEPENDENCIES
                  */
