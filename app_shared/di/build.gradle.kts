@@ -59,7 +59,7 @@ kotlin {
                 /**
                  * BASE API CLIENT
                  */
-                implementation(projects.baseApiClient)
+                implementation(projects.modelShared.baseApiClient)
                 /**
                  * DEPENDENCIES
                  */

@@ -93,9 +93,10 @@ include(":encryption:server")
 include(":encryption:di")
 
 /**
- * MODEL SHARED
+ * SHARED
  */
 include(":model_shared")
+include(":model_shared:base_api_client")
 
 /**
  * RESOURCES
@@ -120,8 +121,3 @@ include(":server:tg_sms")
 include(":server:tg_sms:domain")
 include(":server:tg_sms:data")
 include(":server:tg_sms:di")
-
-/**
- * BASE API CLIENT
- */
-include(":base_api_client")

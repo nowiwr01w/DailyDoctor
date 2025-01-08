@@ -9,7 +9,7 @@ dependencies {
     /**
      * PROJECT MODULES
      */
-    implementation(projects.baseApiClient)
+    implementation(projects.modelShared.baseApiClient)
     implementation(projects.modelShared)
     implementation(projects.server.tgSms.domain)
     /**
