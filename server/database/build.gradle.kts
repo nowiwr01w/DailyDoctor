@@ -5,10 +5,15 @@ plugins {
 
 dependencies {
     /**
-     * PROJECT MODULES
+     * SHARED MODELS
      */
     implementation(projects.modelShared)
-    implementation(projects.database.tables)
+    /**
+     * DATABASE
+     */
+    implementation(projects.server.database.di)
+    implementation(projects.server.database.tables)
+    implementation(projects.server.database.initValues)
     /**
      * DEPENDENCIES
      */

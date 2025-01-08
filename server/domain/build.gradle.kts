@@ -12,7 +12,7 @@ dependencies {
     /**
      * DATABASE
      */
-    implementation(projects.database)
+    implementation(projects.server.database)
     /**
      * DEPENDENCIES
      */

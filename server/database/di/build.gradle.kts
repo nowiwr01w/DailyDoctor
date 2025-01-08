@@ -8,9 +8,9 @@ dependencies {
      * PROJECT MODULES
      */
     implementation(projects.modelShared)
-    implementation(projects.database.domain)
-    implementation(projects.database.data)
-    implementation(projects.database.initValues)
+    implementation(projects.server.database.domain)
+    implementation(projects.server.database.data)
+    implementation(projects.server.database.initValues)
     /**
      * DEPENDENCIES
      */

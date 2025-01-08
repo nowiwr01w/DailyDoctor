@@ -1,7 +1,6 @@
 package nowiwr01p.daily.doctor.database.data.storage.verification
 
 import com.nowiwr01p.model.time.TimeInSeconds
-import nowiwr01p.daily.doctor.database.domain.generator.VerificationCodeGenerator
 import nowiwr01p.daily.doctor.database.domain.storage.verification.DatabaseVerificationStorage
 import nowiwr01p.daily.doctor.database.tables.table.verification.VerificationCodeEntity
 import nowiwr01p.daily.doctor.database.tables.table.verification.VerificationCodeTable

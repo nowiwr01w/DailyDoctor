@@ -25,8 +25,8 @@ dependencies {
     /**
      * DATABASE
      */
-    implementation(projects.database.di)
-    implementation(projects.database.domain)
+    implementation(projects.server.database.di)
+    implementation(projects.server.database.domain)
     /**
      * TELEGRAM
      */

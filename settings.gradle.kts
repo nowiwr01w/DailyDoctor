@@ -71,12 +71,12 @@ include(":app_shared:works:di")
 /**
  * DATABASE
  */
-include(":database")
-include(":database:domain")
-include(":database:data")
-include(":database:tables")
-include(":database:di")
-include(":database:init_values")
+include(":server:database")
+include(":server:database:domain")
+include(":server:database:data")
+include(":server:database:tables")
+include(":server:database:di")
+include(":server:database:init_values")
 
 /**
  * ENCRYPTION
@@ -86,11 +86,6 @@ include(":encryption:client")
 include(":encryption:shared")
 include(":encryption:server")
 include(":encryption:di")
-
-/**
- * LOCAL DATABASE
- */
-include(":local_database")
 
 /**
  * MODEL SHARED
@@ -110,13 +105,26 @@ include(":server:di")
 include(":server:data")
 include(":server:domain")
 include(":server:routes")
+include(":server:token")
+include(":server:works")
+
+/**
+ * TELEGRAM VERIFICATION
+ */
 include(":server:tg_sms")
 include(":server:tg_sms:domain")
 include(":server:tg_sms:data")
 include(":server:tg_sms:di")
-include(":server:token")
-include(":server:works")
+
+/**
+ * SHARED PREFERENCES
+ */
+include(":local_database")
 include(":local_database:domain")
 include(":local_database:data")
 include(":local_database:di")
+
+/**
+ * BASE API CLIENT
+ */
 include(":base_api_client")

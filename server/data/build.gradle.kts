@@ -17,7 +17,7 @@ dependencies {
     /**
      * DATABASE
      */
-    implementation(projects.database.domain)
+    implementation(projects.server.database.domain)
     /**
      * TELEGRAM SMS
      */
