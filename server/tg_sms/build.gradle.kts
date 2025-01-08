@@ -5,10 +5,10 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
-group = "nowiwr01p.daily.doctor.tg_sms"
+group = "nowiwr01p.daily.doctor.server.tg_sms"
 version = "1.0.0"
 application {
-    mainClass.set("nowiwr01p.daily.doctor.tg_sms.TgSmsMainKt")
+    mainClass.set("nowiwr01p.daily.doctor.server.tg_sms.TgSmsMainKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["development"] ?: "false"}")
 }
 
@@ -19,8 +19,8 @@ dependencies {
     implementation(projects.encryption)
     implementation(projects.baseApiClient)
     implementation(projects.modelShared)
-    implementation(projects.tgSms.di)
-    implementation(projects.tgSms.domain)
+    implementation(projects.server.tgSms.di)
+    implementation(projects.server.tgSms.domain)
     /**
      * KOIN
      */

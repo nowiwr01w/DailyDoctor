@@ -21,7 +21,7 @@ dependencies {
     /**
      * TELEGRAM SMS
      */
-    implementation(projects.tgSms.domain)
+    implementation(projects.server.tgSms.domain)
     /**
      * DEPENDENCIES
      */

@@ -7,13 +7,11 @@ plugins {
 
 dependencies {
     /**
-     * SHARED MODELS
+     * PROJECT MODULES
      */
-    implementation(projects.encryption.di)
     implementation(projects.baseApiClient)
     implementation(projects.modelShared)
-    implementation(projects.tgSms.domain)
-    implementation(projects.tgSms.data)
+    implementation(projects.server.tgSms.domain)
     /**
      * KOIN
      */
