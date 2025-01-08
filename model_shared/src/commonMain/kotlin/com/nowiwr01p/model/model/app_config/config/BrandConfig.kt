@@ -15,7 +15,7 @@ sealed interface BrandConfig {
  * CALL DOCTOR
  */
 @Serializable
-data class CallDoctorBrandConfig(
+data class AppConfig(
     override val brandSettings: BrandSettings = callDoctorBrandSettings,
     override val serverSettings: ServerSettings = callDoctorServerSettings
 ): BrandConfig

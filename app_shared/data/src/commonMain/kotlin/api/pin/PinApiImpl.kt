@@ -1,5 +1,10 @@
 package api.pin
 
+import com.nowiwr01p.model.api.errors.pin.PinApiError
+import com.nowiwr01p.model.api.errors.pin.PinApiError.ChangePinApiError
+import com.nowiwr01p.model.api.errors.pin.PinApiError.CheckPinApiError
+import com.nowiwr01p.model.api.errors.pin.PinApiError.CreatePinApiError
+import com.nowiwr01p.model.api.errors.pin.PinApiError.DeletePinApiError
 import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
@@ -11,22 +16,45 @@ import com.nowiwr01p.model.api.route.PinCodeRoutes.DeletePinRoute
 import nowiwr01p.daily.doctor.base_api_client.api.ApiClientSettings.AppApiClientSettings
 import nowiwr01p.daily.doctor.base_api_client.api.BaseApi
 
-class PinApiImpl: BaseApi(AppApiClientSettings), PinApi {
+class PinApiImpl: BaseApi<PinApiError>(AppApiClientSettings), PinApi {
+    /**
+     * CREATE
+     */
+    override suspend fun createPinCode(request: CreatePinCodeRequest) = run {
+        postHttp<TokenResponse, CreatePinApiError>(
+            route = CreatePinRoute,
+            requestBody = request,
+            error = { message -> CreatePinApiError(message) }
+        )
+    }
 
-    override suspend fun createPinCode(request: CreatePinCodeRequest) = postHttp<TokenResponse>(
-        route = CreatePinRoute,
-        requestBody = request
+    /**
+     * CHECK
+     */
+    override suspend fun checkPinCode(request: CheckPinCodeRequest) = run {
+        postHttp<TokenResponse, CheckPinApiError>(
+            route = CheckPinRoute,
+            requestBody = request,
+            error = { message -> CheckPinApiError(message) }
+        )
+    }
+
+    /**
+     * CHANGE
+     */
+    override suspend fun changePinCode(request: ChangePinCodeRequest) = run {
+        postHttp<TokenResponse, ChangePinApiError>(
+            route = ChangePinRoute,
+            requestBody = request,
+            error = { message -> ChangePinApiError(message) }
+        )
+    }
+
+    /**
+     * DELETE
+     */
+    override suspend fun deletePinCode() = deleteHttp<Unit, DeletePinApiError>(
+        route = DeletePinRoute,
+        error = { message -> DeletePinApiError(message) }
     )
-
-    override suspend fun checkPinCode(request: CheckPinCodeRequest) = postHttp<TokenResponse>(
-        route = CheckPinRoute,
-        requestBody = request
-    )
-
-    override suspend fun changePinCode(request: ChangePinCodeRequest) = postHttp<TokenResponse>(
-        route = ChangePinRoute,
-        requestBody = request
-    )
-
-    override suspend fun deletePinCode() = deleteHttp<Unit>(route = DeletePinRoute)
 }

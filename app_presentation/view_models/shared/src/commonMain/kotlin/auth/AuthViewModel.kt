@@ -71,7 +71,8 @@ class AuthViewModel(
         withState {
             val userData = when (authMode) {
                 SIGN_IN -> UserDataSignIn(phone, password)
-                SIGN_UP -> UserDataSignUp(phone, password, passwordConfirmation)
+//                SIGN_UP -> UserDataSignUp(phone, password, passwordConfirmation)
+                SIGN_UP -> UserDataSignUp("+995595016690", "Darina01!", "Darina01!") // TODO
             }
             authDataValidator.execute(userData).let { error ->
                 if (error == null) {

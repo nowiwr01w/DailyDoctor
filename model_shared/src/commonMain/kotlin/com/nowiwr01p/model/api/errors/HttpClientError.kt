@@ -1,22 +1,45 @@
 package com.nowiwr01p.model.api.errors
 
-import kotlinx.serialization.Serializable
+import com.nowiwr01p.model.api.route.Route
 
-sealed interface HttpClientError {
+sealed class HttpClientError(
+    override val message: String
+): Throwable(message) {
+    data class ApiRequestError(
+        val route: Route,
+        val error: Throwable
+    ): HttpClientError(message = buildApiRequestErrorMessage(route, error))
 
-    @Serializable
-    data class NoErrorExpected(
-        val route: String,
-        val errorMessage: String,
-    ): ExpectedError("Unexpected error, please contact us.")
+    data class ParsingApiResponseError(
+        val route: Route,
+        val error: Throwable,
+        val responseBodyString: String
+    ): HttpClientError(
+        message = buildParsingApiRequestErrorMessage(route, error, responseBodyString)
+    )
+}
 
-    @Serializable
-    open class ExpectedError(
-        override val message: String
-    ): HttpClientError, Throwable(message)
+/**
+ * API REQUEST ERROR
+ */
+private fun buildApiRequestErrorMessage(route: Route, error: Throwable): String {
+    return """
+        There is an API error on a route = ${route.route}. 
+        Error message = ${error.message}
+    """.trimIndent()
+}
 
-    @Serializable
-    data class UnexpectedError(
-        override val message: String
-    ): HttpClientError, Throwable(message)
+/**
+ * PARSING API REQUEST ERROR
+ */
+private fun buildParsingApiRequestErrorMessage(
+    route: Route,
+    error: Throwable,
+    responseBodyString: String
+): String {
+    return """
+        We can't parse ResponseJson on a route = ${route.route}.
+        Error message = ${error.message}
+        ResponseBodyString = $responseBodyString
+    """.trimIndent()
 }

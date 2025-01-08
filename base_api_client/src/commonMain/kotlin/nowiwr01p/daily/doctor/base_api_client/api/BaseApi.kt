@@ -1,10 +1,11 @@
 package nowiwr01p.daily.doctor.base_api_client.api
 
-import com.nowiwr01p.model.api.errors.AppUiError
-import com.nowiwr01p.model.api.errors.HttpClientError.ExpectedError
-import com.nowiwr01p.model.api.errors.HttpClientError.NoErrorExpected
-import com.nowiwr01p.model.api.errors.HttpClientError.UnexpectedError
+import com.nowiwr01p.model.api.errors.AppError
+import com.nowiwr01p.model.api.errors.HttpClientError.ApiRequestError
+import com.nowiwr01p.model.api.errors.HttpClientError.ParsingApiResponseError
+import com.nowiwr01p.model.api.route.BrantConfigRoutes
 import com.nowiwr01p.model.api.route.Route
+import com.nowiwr01p.model.extensions.runCatchingApp
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
@@ -16,21 +17,25 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.HeadersBuilder
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
+import logMessage
 import nowiwr01p.daily.doctor.base_api_client.api.base.ApiParameter
-import nowiwr01p.daily.doctor.base_api_client.api.base.ApiResult
 import nowiwr01p.daily.doctor.base_api_client.api.base.HttpRequestType
-import nowiwr01p.daily.doctor.base_api_client.api.base.HttpRequestType.*
+import nowiwr01p.daily.doctor.base_api_client.api.base.HttpRequestType.DELETE
+import nowiwr01p.daily.doctor.base_api_client.api.base.HttpRequestType.GET
+import nowiwr01p.daily.doctor.base_api_client.api.base.HttpRequestType.POST
 import nowiwr01p.daily.doctor.encryption.client.EncryptionClient
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent {
-
+abstract class BaseApi<Error: AppError>(
+    val apiClientSettings: ApiClientSettings
+): KoinComponent {
     protected val json by inject<Json>()
     protected val client by inject<HttpClient>()
     protected val encryptionHelper by inject<EncryptionClient>()
@@ -38,30 +43,17 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
     /**
      * GET
      */
-    protected suspend inline fun <reified T> getHttp(
+    protected suspend inline fun <reified T, reified E: Error> getHttp(
         route: Route,
+        error: (message: String) -> E,
         parameters: List<ApiParameter> = listOf(),
         crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
-        return baseHttpRequest<T, NoErrorExpected>(
+        return makeHttpRequest<T, E>(
             type = GET,
             route = route,
+            error = error,
             parameters = parameters,
-            headers = headers
-        )
-    }
-
-    protected suspend inline fun <reified T, reified E: ExpectedError> getHttp(
-        route: Route,
-        parameters: List<ApiParameter> = listOf(),
-        handleError: (E) -> Unit,
-        crossinline headers: HeadersBuilder.() -> Unit = {}
-    ): T {
-        return baseHttpRequest<T, E>(
-            type = GET,
-            route = route,
-            parameters = parameters,
-            handleError = handleError,
             headers = headers
         )
     }
@@ -69,30 +61,17 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
     /**
      * POST
      */
-    protected suspend inline fun <reified T> postHttp(
+    protected suspend inline fun <reified T, reified E: Error> postHttp(
         route: Route,
+        error: (message: String) -> E,
         requestBody: Any? = null,
         crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
-        return baseHttpRequest<T, NoErrorExpected>(
+        return makeHttpRequest<T, E>(
             type = POST,
             route = route,
+            error = error,
             requestBody = requestBody,
-            headers = headers
-        )
-    }
-
-    protected suspend inline fun <reified T, reified E: ExpectedError> postHttp(
-        route: Route,
-        requestBody: Any? = null,
-        handleError: (E) -> Unit,
-        crossinline headers: HeadersBuilder.() -> Unit = {}
-    ): T {
-        return baseHttpRequest<T, E>(
-            type = POST,
-            route = route,
-            requestBody = requestBody,
-            handleError = handleError,
             headers = headers
         )
     }
@@ -100,32 +79,19 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
     /**
      * DELETE
      */
-    protected suspend inline fun <reified T> deleteHttp(
+    protected suspend inline fun <reified T, reified E: Error> deleteHttp(
         route: Route,
+        error: (message: String) -> E,
         requestBody: Any? = null,
         parameters: List<ApiParameter> = listOf(),
         crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
-        return baseHttpRequest<T, NoErrorExpected>(
+        return makeHttpRequest<T, E>(
             type = DELETE,
             route = route,
+            error = error,
             requestBody = requestBody,
             parameters = parameters,
-            headers = headers
-        )
-    }
-
-    protected suspend inline fun <reified T, reified E: ExpectedError> deleteHttp(
-        route: Route,
-        body: Any? = null,
-        handleError: (E) -> Unit,
-        crossinline headers: HeadersBuilder.() -> Unit = {}
-    ): T {
-        return baseHttpRequest<T, E>(
-            type = DELETE,
-            route = route,
-            requestBody = body,
-            handleError = handleError,
             headers = headers
         )
     }
@@ -133,17 +99,23 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
     /**
      * BASE API REQUEST
      */
-    protected suspend inline fun <reified T, reified E: ExpectedError> baseHttpRequest(
-        type: HttpRequestType,
+    protected suspend inline fun <reified T, reified E: Error> makeHttpRequest(
         route: Route,
+        type: HttpRequestType,
+        error: (message: String) -> E,
         requestBody: Any? = null,
-        crossinline headers: HeadersBuilder.() -> Unit = {},
         parameters: List<ApiParameter> = listOf(),
-        handleError: (E) -> Unit = {}
+        crossinline headers: HeadersBuilder.() -> Unit = {},
     ): T {
-//        val encodedBody = requestBody?.let { body ->
-//            encryptionHelper.encodeFromClientToServer(body)
-//        }
+        val encodedBody = runCatchingApp {
+            requestBody?.let { body ->
+                encryptionHelper.encodeFromClientToServer(body)
+            }
+        }.onSuccess {
+            logMessage("makeHttpRequest, onSuccess = $it")
+        }.onFailure {
+            logMessage("makeHttpRequest, fail = ${it.message}")
+        }.getOrNull()
         val httpCallback: HttpRequestBuilder.() -> Unit = {
             url("${apiClientSettings.baseUrl}/${route.route}")
             headers {
@@ -151,8 +123,8 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
                 header(HttpHeaders.Accept, ContentType.Application.Json.toString())
                 headers()
             }
-            requestBody?.let { body ->
-                setBody(requestBody)
+            encodedBody?.let { body ->
+                setBody(body)
             }
             parameters.forEach { param ->
                 if (param.data != null) {
@@ -160,56 +132,96 @@ abstract class BaseApi(val apiClientSettings: ApiClientSettings): KoinComponent 
                 }
             }
         }
-        val httpResponse = when (type) {
-            GET -> client.get(httpCallback)
-            POST -> client.post(httpCallback)
-            DELETE -> client.delete(httpCallback)
-        }
-        val publickey = httpResponse.headers["ascii"].orEmpty()
-        encryptionHelper.setOtherSidePublicKey(publickey)
-        return httpResponse.body<String>().let { body ->
-            encryptionHelper.decodeOnClientFromServer<T>(body)
-        }
+        return makeApiCall(
+            route = route,
+            type = type,
+            httpCallback = httpCallback,
+            error = error
+        )
     }
 
     /**
-     * SAFE API CALL
+     * BUILD API RESULT
      */
-    protected inline fun <reified T, reified E> safeApiCall(route: Route, bodyString: String) = try {
-        val response = json.decodeFromString<T>(bodyString)
-        ApiResult.Success(response)
-    } catch (error: Throwable) {
-        val appUiError = try {
-            json.decodeFromString<AppUiError>(bodyString)
-        } catch (notAppUiError: Throwable) {
-            null
-        }
-        when {
-            appUiError != null -> {
-                throw appUiError // UI error with only [message] field, must be shown
-            }
-            else -> if (E::class == NoErrorExpected::class) {
-                val noErrorExpected = NoErrorExpected(
-                    route = route.route,
-                    errorMessage = bodyString
-                )
-                sendAnalyticUnexpectedError(noErrorExpected)
-                throw noErrorExpected
-            } else {
-                try {
-                    val decodedExpectedError = json.decodeFromString<E>(bodyString)
-                    ApiResult.Error(decodedExpectedError)
-                } catch (unexpectedError: Throwable) {
-                    throw UnexpectedError(unexpectedError.message.orEmpty())
-                }
+    protected suspend inline fun <reified T, reified E: Error> makeApiCall(
+        route: Route,
+        type: HttpRequestType,
+        error: (message: String) -> E,
+        httpCallback: HttpRequestBuilder.() -> Unit
+    ): T {
+        return runCatching {
+            executeHttpCallback<T>(
+                route = route,
+                type = type,
+                httpCallback = httpCallback
+            )
+        }.mapCatching { parsedResponseModel ->
+            parsedResponseModel
+        }.getOrElse { safeApiCallError ->
+            safeApiCallError.message.orEmpty().let { errorMessage ->
+                logMessage("BaseApi, makeApiCall error = $errorMessage")
+                throw error(errorMessage)
             }
         }
     }
 
     /**
-     * SEND ANALYTICS IF UNEXPECTED ERROR IN PROD
+     * EXECUTE API CALL AND PARSE RESPONSE MODEL
      */
-    protected fun sendAnalyticUnexpectedError(error: NoErrorExpected) {
-        // TODO: Send analytics and Telegram message
+    protected suspend inline fun <reified T> executeHttpCallback(
+        route: Route,
+        type: HttpRequestType,
+        httpCallback: HttpRequestBuilder.() -> Unit
+    ): T {
+        return runCatching {
+            when (type) {
+                GET -> client.get(httpCallback)
+                POST -> client.post(httpCallback)
+                DELETE -> client.delete(httpCallback)
+            }
+        }.onFailure { error ->
+            logMessage("executeHttpCallback onFailure error = ${error.message}")
+            throw ApiRequestError(route, error)
+        }.mapCatching { response ->
+            handleSecretKeyFromBackend(route, response)
+            val stringResponse = response.body<String>()
+            parseModelFromStringResponse<T>(
+                route = route,
+                responseBodyString = stringResponse
+            )
+        }.getOrElse { error ->
+            logMessage("executeHttpCallback getOrElse error = ${error.message}")
+            throw error
+        }
+    }
+
+    protected suspend inline fun <reified T> parseModelFromStringResponse(
+        route: Route,
+        responseBodyString: String
+    ): T {
+        return runCatching {
+            encryptionHelper.decodeOnClientFromServer<T>(responseBodyString)
+        }.mapCatching { model ->
+            model
+        }.getOrElse { error ->
+            logMessage("parseModelFromStringResponse error = ${error.message}")
+            throw ParsingApiResponseError(
+                route = route,
+                error = error,
+                responseBodyString = responseBodyString
+            )
+        }
+    }
+
+    /**
+     * HANDLE SECRET KEY FROM BACKEND
+     */
+    protected suspend fun handleSecretKeyFromBackend(route: Route, response: HttpResponse) {
+        val isInitAppConfigRoute = route is BrantConfigRoutes.GetBrandConfigRoute
+        val publicKey = response.headers["ascii"].orEmpty()
+        val isHeaderWithKeyNotEmpty = publicKey.isNotEmpty()
+        if (isInitAppConfigRoute && isHeaderWithKeyNotEmpty) {
+            encryptionHelper.setOtherSidePublicKey(publicKey)
+        }
     }
 }

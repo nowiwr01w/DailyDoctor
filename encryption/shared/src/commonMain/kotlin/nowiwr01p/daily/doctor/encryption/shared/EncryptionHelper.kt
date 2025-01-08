@@ -55,12 +55,14 @@ abstract class EncryptionHelper(
      * OTHER SIDE PUBLIC KEY
      */
     suspend fun setOtherSidePublicKey(publicKey: String) {
-        commonSecretKeyForBoth = provider.get(ECDH)
-            .publicKeyDecoder(EC.Curve.P256)
-            .decodeFromByteArrayBlocking(EC.PublicKey.Format.RAW, publicKey.decodeBase64ToByteArray())
-            .sharedSecretGenerator()
-            .generateSharedSecret(keyPairForThisSide.privateKey)
-            .toByteArray()
+        if (publicKey.isNotEmpty()) {
+            commonSecretKeyForBoth = provider.get(ECDH)
+                .publicKeyDecoder(EC.Curve.P256)
+                .decodeFromByteArrayBlocking(EC.PublicKey.Format.RAW, publicKey.decodeBase64ToByteArray())
+                .sharedSecretGenerator()
+                .generateSharedSecret(keyPairForThisSide.privateKey)
+                .toByteArray()
+        }
     }
 
     /**

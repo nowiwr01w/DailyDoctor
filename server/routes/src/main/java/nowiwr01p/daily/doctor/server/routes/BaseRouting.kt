@@ -1,6 +1,6 @@
 package nowiwr01p.daily.doctor.server.routes
 
-import com.nowiwr01p.model.api.errors.RouteError
+import com.nowiwr01p.model.api.errors.AppError
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
@@ -48,7 +48,7 @@ abstract class BaseRouting: KoinComponent {
     ) {
         respondWithModel(
             code = code,
-            model = RouteError(code = code.value, errorMessage = message)
+            model = AppError(message)
         )
     }
 
