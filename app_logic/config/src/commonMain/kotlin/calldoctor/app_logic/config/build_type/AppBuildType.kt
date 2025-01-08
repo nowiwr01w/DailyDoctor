@@ -1,4 +1,4 @@
-package calldoctor.app_shared.config.build_type
+package calldoctor.app_logic.config.build_type
 
 sealed interface AppBuildType {
     data object Debug: AppBuildType
