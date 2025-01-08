@@ -17,7 +17,7 @@ class AuthApiImpl: BaseApi<AuthApiError>(AppApiClientSettings), AuthApi {
      */
     override suspend fun signIn(request: SignInRequest) = postHttp<TokenResponse, SignInApiError>(
         route = SingInRoute,
-        requestBody = request,
+        requestBodyString = request.encodeDataToString(),
         error = { message -> SignInApiError(message) }
     )
 
@@ -26,7 +26,7 @@ class AuthApiImpl: BaseApi<AuthApiError>(AppApiClientSettings), AuthApi {
      */
     override suspend fun signUp(request: SignUpRequest) = postHttp<TokenResponse, SignUpApiError>(
         route = SingUpRoute,
-        requestBody = request,
+        requestBodyString = request.encodeDataToString(),
         error = { message -> SignUpApiError(message) }
     )
 }

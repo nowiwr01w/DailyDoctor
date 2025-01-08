@@ -18,7 +18,7 @@ class VerificationApiImpl: BaseApi<VerificationApiError>(AppApiClientSettings), 
     override suspend fun sendVerificationCode(request: SendVerificationCodeRequest) = run {
         postHttp<TokenResponse, SendVerificationCodeApiError>(
             route = SendVerificationCodeRoute,
-            requestBody = request,
+            requestBodyString = request.encodeDataToString(),
             error = { message -> SendVerificationCodeApiError(message) }
         )
     }
@@ -29,7 +29,7 @@ class VerificationApiImpl: BaseApi<VerificationApiError>(AppApiClientSettings), 
     override suspend fun checkVerificationCode(request: CheckVerificationCodeRequest) = run {
         postHttp<TokenResponse, CheckVerificationCodeApiError>(
             route = CheckVerificationCodeRoute,
-            requestBody = request,
+            requestBodyString = request.encodeDataToString(),
             error = { message -> CheckVerificationCodeApiError(message) }
         )
     }

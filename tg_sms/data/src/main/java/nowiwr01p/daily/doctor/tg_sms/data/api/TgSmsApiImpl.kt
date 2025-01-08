@@ -19,7 +19,8 @@ class TgSmsApiImpl(
     override suspend fun sendVerificationCode(request: VerificationRequest) = run {
         postHttp<VerificationResponseWrap, SendVerificationCodeApiError>(
             route = SendVerificationMessage,
-            requestBody = request,
+            useEncryption = false,
+            requestBodyString = request.encodeDataToString(),
             headers = {
                 append(Authorization, "Bearer $apiKey")
             },

@@ -46,6 +46,7 @@ abstract class BaseApi<Error: AppError>(
     protected suspend inline fun <reified T, reified E: Error> getHttp(
         route: Route,
         error: (message: String) -> E,
+        useEncryption: Boolean = true,
         parameters: List<ApiParameter> = listOf(),
         crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
@@ -53,6 +54,7 @@ abstract class BaseApi<Error: AppError>(
             type = GET,
             route = route,
             error = error,
+            useEncryption = useEncryption,
             parameters = parameters,
             headers = headers
         )
@@ -64,14 +66,16 @@ abstract class BaseApi<Error: AppError>(
     protected suspend inline fun <reified T, reified E: Error> postHttp(
         route: Route,
         error: (message: String) -> E,
-        requestBody: Any? = null,
+        useEncryption: Boolean = true,
+        requestBodyString: String? = null,
         crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
         return makeHttpRequest<T, E>(
             type = POST,
             route = route,
             error = error,
-            requestBody = requestBody,
+            useEncryption = useEncryption,
+            requestBodyString = requestBodyString,
             headers = headers
         )
     }
@@ -82,7 +86,8 @@ abstract class BaseApi<Error: AppError>(
     protected suspend inline fun <reified T, reified E: Error> deleteHttp(
         route: Route,
         error: (message: String) -> E,
-        requestBody: Any? = null,
+        useEncryption: Boolean = true,
+        requestBodyString: String? = null,
         parameters: List<ApiParameter> = listOf(),
         crossinline headers: HeadersBuilder.() -> Unit = {}
     ): T {
@@ -90,7 +95,8 @@ abstract class BaseApi<Error: AppError>(
             type = DELETE,
             route = route,
             error = error,
-            requestBody = requestBody,
+            useEncryption = useEncryption,
+            requestBodyString = requestBodyString,
             parameters = parameters,
             headers = headers
         )
@@ -103,18 +109,19 @@ abstract class BaseApi<Error: AppError>(
         route: Route,
         type: HttpRequestType,
         error: (message: String) -> E,
-        requestBody: Any? = null,
+        useEncryption: Boolean = true,
+        requestBodyString: String? = null,
         parameters: List<ApiParameter> = listOf(),
         crossinline headers: HeadersBuilder.() -> Unit = {},
     ): T {
         val encodedBody = runCatchingApp {
-            requestBody?.let { body ->
-                encryptionHelper.encodeFromClientToServer(body)
+            if (useEncryption) {
+                requestBodyString?.let { body ->
+                    encryptionHelper.encodeFromClientToServer(body)
+                }
+            } else {
+                requestBodyString
             }
-        }.onSuccess {
-            logMessage("makeHttpRequest, onSuccess = $it")
-        }.onFailure {
-            logMessage("makeHttpRequest, fail = ${it.message}")
         }.getOrNull()
         val httpCallback: HttpRequestBuilder.() -> Unit = {
             url("${apiClientSettings.baseUrl}/${route.route}")
@@ -134,6 +141,7 @@ abstract class BaseApi<Error: AppError>(
         }
         return makeApiCall(
             route = route,
+            useEncryption = useEncryption,
             type = type,
             httpCallback = httpCallback,
             error = error
@@ -145,6 +153,7 @@ abstract class BaseApi<Error: AppError>(
      */
     protected suspend inline fun <reified T, reified E: Error> makeApiCall(
         route: Route,
+        useEncryption: Boolean,
         type: HttpRequestType,
         error: (message: String) -> E,
         httpCallback: HttpRequestBuilder.() -> Unit
@@ -152,6 +161,7 @@ abstract class BaseApi<Error: AppError>(
         return runCatching {
             executeHttpCallback<T>(
                 route = route,
+                useEncryption = useEncryption,
                 type = type,
                 httpCallback = httpCallback
             )
@@ -170,6 +180,7 @@ abstract class BaseApi<Error: AppError>(
      */
     protected suspend inline fun <reified T> executeHttpCallback(
         route: Route,
+        useEncryption: Boolean,
         type: HttpRequestType,
         httpCallback: HttpRequestBuilder.() -> Unit
     ): T {
@@ -187,6 +198,7 @@ abstract class BaseApi<Error: AppError>(
             val stringResponse = response.body<String>()
             parseModelFromStringResponse<T>(
                 route = route,
+                useEncryption = useEncryption,
                 responseBodyString = stringResponse
             )
         }.getOrElse { error ->
@@ -197,10 +209,15 @@ abstract class BaseApi<Error: AppError>(
 
     protected suspend inline fun <reified T> parseModelFromStringResponse(
         route: Route,
+        useEncryption: Boolean,
         responseBodyString: String
     ): T {
         return runCatching {
-            encryptionHelper.decodeOnClientFromServer<T>(responseBodyString)
+            if (useEncryption) {
+                encryptionHelper.decodeOnClientFromServer<T>(responseBodyString)
+            } else {
+                json.decodeFromString<T>(responseBodyString)
+            }
         }.mapCatching { model ->
             model
         }.getOrElse { error ->
@@ -223,5 +240,11 @@ abstract class BaseApi<Error: AppError>(
         if (isInitAppConfigRoute && isHeaderWithKeyNotEmpty) {
             encryptionHelper.setOtherSidePublicKey(publicKey)
         }
+    }
+
+    protected inline fun <reified T> T.encodeDataToString(): String = runCatchingApp {
+        json.encodeToString(this)
+    }.getOrElse {
+        ""
     }
 }

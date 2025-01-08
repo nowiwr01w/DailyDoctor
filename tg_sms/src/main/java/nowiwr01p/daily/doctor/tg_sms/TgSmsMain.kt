@@ -29,6 +29,6 @@ private fun KoinApplication.sendVerificationMessage() {
 
 private fun getVerificationRequest(phoneNumber: String) = VerificationRequest(
     phoneNumber = phoneNumber,
-    code = "2281337",
-    expiredAfterSeconds = 60
+    code = "228133",
+    expiredAfterSeconds = 900
 )

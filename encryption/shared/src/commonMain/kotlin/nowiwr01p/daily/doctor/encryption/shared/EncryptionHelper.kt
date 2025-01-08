@@ -49,7 +49,6 @@ abstract class EncryptionHelper(
     fun getPublicKey() = keyPairForThisSide.publicKey
         .encodeToByteArrayBlocking(EC.PublicKey.Format.RAW)
         .toBase64()
-        .also { println("Zhopa: getPublicKey = $it") }
 
     /**
      * OTHER SIDE PUBLIC KEY

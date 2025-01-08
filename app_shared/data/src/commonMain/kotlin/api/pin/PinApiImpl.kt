@@ -23,7 +23,7 @@ class PinApiImpl: BaseApi<PinApiError>(AppApiClientSettings), PinApi {
     override suspend fun createPinCode(request: CreatePinCodeRequest) = run {
         postHttp<TokenResponse, CreatePinApiError>(
             route = CreatePinRoute,
-            requestBody = request,
+            requestBodyString = request.encodeDataToString(),
             error = { message -> CreatePinApiError(message) }
         )
     }
@@ -34,7 +34,7 @@ class PinApiImpl: BaseApi<PinApiError>(AppApiClientSettings), PinApi {
     override suspend fun checkPinCode(request: CheckPinCodeRequest) = run {
         postHttp<TokenResponse, CheckPinApiError>(
             route = CheckPinRoute,
-            requestBody = request,
+            requestBodyString = request.encodeDataToString(),
             error = { message -> CheckPinApiError(message) }
         )
     }
@@ -45,7 +45,7 @@ class PinApiImpl: BaseApi<PinApiError>(AppApiClientSettings), PinApi {
     override suspend fun changePinCode(request: ChangePinCodeRequest) = run {
         postHttp<TokenResponse, ChangePinApiError>(
             route = ChangePinRoute,
-            requestBody = request,
+            requestBodyString = request.encodeDataToString(),
             error = { message -> ChangePinApiError(message) }
         )
     }

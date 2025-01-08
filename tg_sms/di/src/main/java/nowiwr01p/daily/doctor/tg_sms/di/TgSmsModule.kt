@@ -1,6 +1,7 @@
 package nowiwr01p.daily.doctor.tg_sms.di
 
 import nowiwr01p.daily.doctor.base_api_client.di.moduleBaseApiClient
+import nowiwr01p.daily.doctor.encryption.di.moduleEncryption
 import nowiwr01p.daily.doctor.tg_sms.data.api.TgSmsApiImpl
 import nowiwr01p.daily.doctor.tg_sms.data.repository.TgSmsRepositoryImpl
 import nowiwr01p.daily.doctor.tg_sms.data.usecase.TgSendVerificationCodeUseCaseImpl
@@ -48,5 +49,6 @@ private val moduleTelegramSms = module {
 
 val tgSmsModules = listOf(
     moduleTelegramSms,
-    moduleBaseApiClient
+    moduleBaseApiClient,
+    moduleEncryption
 )

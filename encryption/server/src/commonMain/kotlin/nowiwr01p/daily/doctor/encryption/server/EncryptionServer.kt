@@ -5,7 +5,6 @@ import dev.whyoleg.cryptography.CryptographyProvider
 import dev.whyoleg.cryptography.DelicateCryptographyApi
 import dev.whyoleg.cryptography.algorithms.AES
 import dev.whyoleg.cryptography.random.CryptographyRandom
-import kotlinx.serialization.encodeToString
 import nowiwr01p.daily.doctor.encryption.shared.EncryptionHelper
 import nowiwr01p.daily.doctor.encryption.shared.data.EncryptedData
 import kotlin.io.encoding.Base64
@@ -17,7 +16,6 @@ class EncryptionServer(provider: CryptographyProvider) : EncryptionHelper(provid
 
     @OptIn(DelicateCryptographyApi::class)
     suspend inline fun <reified T> encodeFromServerToClient(data: T): String {
-        println("Zhopa: encodeFromServerToClient")
         val plaintext = json.encodeToString(data).encodeToByteArray()
 
         val salt = Random.nextBytes(16)
@@ -46,7 +44,6 @@ class EncryptionServer(provider: CryptographyProvider) : EncryptionHelper(provid
 
     @OptIn(DelicateCryptographyApi::class)
     suspend inline fun <reified T> decodeOnServerFromClient(encryptedData: EncryptedData): T {
-        println("Zhopa: encodeFromServerToClient")
         val iv = Base64.decode(encryptedData.iv)
         val ciphertext = Base64.decode(encryptedData.ciphertext)
         val salt = Base64.decode(encryptedData.salt)
