@@ -30,7 +30,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -77,6 +82,8 @@ import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.M
 import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode.Check
 import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode.Create
 import com.nowiwr01p.model.resources.component_with_resources.screens.auth.AuthScreenResources
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_eye_closed
 import nowiwr01p.daily.doctor.resources.ic_eye_opened
@@ -243,7 +250,6 @@ private fun AuthScreenResources.InputFields(
         InputField(
             state = state,
             type = PHONE,
-            text = state.phone,
             hint = authInputPhoneHint,
             focusManager = focusManager,
             listener = listener
@@ -251,7 +257,6 @@ private fun AuthScreenResources.InputFields(
         InputField(
             state = state,
             type = PASSWORD,
-            text = state.password,
             hint = authInputPasswordHint,
             focusManager = focusManager,
             listener = listener
@@ -260,7 +265,6 @@ private fun AuthScreenResources.InputFields(
             InputField(
                 state = state,
                 type = PASSWORD_CONFIRMATION,
-                text = state.passwordConfirmation,
                 hint = authInputPasswordRepeatHint,
                 focusManager = focusManager,
                 listener = listener
@@ -273,21 +277,30 @@ private fun AuthScreenResources.InputFields(
 private fun InputField(
     state: State,
     type: AuthTextFieldType,
-    text: String,
     hint: String,
     focusManager: FocusManager,
     listener: Listener?
 ) {
+    var inputValue by remember { mutableStateOf("") }
+    var searchWasTriggered by remember { mutableStateOf(false) } // to avoid first onEach{} call
+
+    LaunchedEffect(Unit) {
+        snapshotFlow { inputValue }.onEach { value ->
+            if (searchWasTriggered) listener?.onUserInputChanged(type, value)
+        }.launchIn(this)
+    }
+
     val customTextSelectionColors = TextSelectionColors(
         handleColor = colors.textColors.redTextColor,
         backgroundColor = colors.textColors.redTextColor.copy(alpha = 0.4f)
     )
     CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
         CustomTextField(
-            value = text,
+            value = inputValue,
             textStyle = CustomTheme.typography.bodyLarge,
-            onValueChange = {
-                listener?.onUserInputChanged(type, it)
+            onValueChange = { newValue ->
+                searchWasTriggered = true
+                inputValue = newValue
             },
             colors = TextFieldDefaults.textFieldColors(
                 cursorColor = colors.textColors.redTextColor,
