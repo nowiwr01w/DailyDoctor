@@ -8,12 +8,12 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     /**
      * ENCRYPTION
      */
-    implementation(projects.encryption.di)
-    implementation(projects.encryption.server)
+    implementation(projects.shared.encryption.di)
+    implementation(projects.shared.encryption.server)
     /**
      * SERVER
      */
@@ -25,13 +25,13 @@ dependencies {
     /**
      * DATABASE
      */
-    implementation(projects.database.di)
-    implementation(projects.database.domain)
+    implementation(projects.server.database.di)
+    implementation(projects.server.database.domain)
     /**
      * TELEGRAM
      */
-    implementation(projects.tgSms.di)
-    implementation(projects.tgSms.domain)
+    implementation(projects.server.tgSms.di)
+    implementation(projects.server.tgSms.domain)
     /**
      * DEPENDENCIES
      */

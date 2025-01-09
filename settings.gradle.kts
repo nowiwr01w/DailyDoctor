@@ -27,76 +27,76 @@ dependencyResolutionManagement {
 }
 
 /**
- * APP PRESENTATION
+ * APP UI
  */
-include(":app_presentation")
-include(":app_presentation:app_mobile")
-include(":app_presentation:di")
-include(":app_presentation:platform")
+include(":app_ui")
+include(":app_ui:app_mobile")
+include(":app_ui:di")
+include(":app_ui:platform")
 
-include(":app_presentation:core_ui")
-include(":app_presentation:core_ui:di")
+include(":app_ui:core_ui")
+include(":app_ui:core_ui:di")
 
-include(":app_presentation:navigation")
-include(":app_presentation:navigation:di")
+include(":app_ui:navigation")
+include(":app_ui:navigation:di")
+include(":app_ui:navigation:mobile")
+include(":app_ui:navigation:model")
 
-include(":app_presentation:view_models")
-include(":app_presentation:view_models:base")
-include(":app_presentation:view_models:shared")
-include(":app_presentation:view_models:mobile")
-include(":app_presentation:view_models:desktop")
-include(":app_presentation:view_models:web")
-include(":app_presentation:view_models:di")
+include(":app_ui:view_models")
+include(":app_ui:view_models:base")
+include(":app_ui:view_models:shared")
+include(":app_ui:view_models:mobile")
+include(":app_ui:view_models:desktop")
+include(":app_ui:view_models:web")
+include(":app_ui:view_models:di")
+
+include(":app_ui:dialogs")
 
 /**
- * APP SHARED
+ * APP LOGIC
  */
-include(":app_shared")
-include(":app_shared:core")
-include(":app_shared:platform")
-include(":app_shared:domain")
-include(":app_shared:data")
-include(":app_shared:di")
+include(":app_logic")
+include(":app_logic:core")
+include(":app_logic:platform")
+include(":app_logic:domain")
+include(":app_logic:data")
+include(":app_logic:di")
 
-include(":app_shared:config")
-include(":app_shared:config:di")
+include(":app_logic:config")
+include(":app_logic:config:di")
 
-include(":app_shared:works")
-include(":app_shared:works:di")
+include(":app_logic:local_database")
+include(":app_logic:local_database:domain")
+include(":app_logic:local_database:data")
+include(":app_logic:local_database:di")
+
+include(":app_logic:works")
+include(":app_logic:works:di")
+
+include(":app_logic:resources")
 
 /**
  * DATABASE
  */
-include(":database")
-include(":database:domain")
-include(":database:data")
-include(":database:tables")
-include(":database:di")
-include(":database:init_values")
+include(":server:database")
+include(":server:database:domain")
+include(":server:database:data")
+include(":server:database:tables")
+include(":server:database:di")
+include(":server:database:init_values")
 
 /**
- * ENCRYPTION
+ * SHARED
  */
-include(":encryption")
-include(":encryption:client")
-include(":encryption:shared")
-include(":encryption:server")
-include(":encryption:di")
+include(":shared")
 
-/**
- * LOCAL DATABASE
- */
-include(":local_database")
+include(":shared:base_api_client")
 
-/**
- * MODEL SHARED
- */
-include(":model_shared")
-
-/**
- * RESOURCES
- */
-include(":resources")
+include(":shared:encryption")
+include(":shared:encryption:client")
+include(":shared:encryption:shared")
+include(":shared:encryption:server")
+include(":shared:encryption:di")
 
 /**
  * SERVER
@@ -108,14 +108,11 @@ include(":server:domain")
 include(":server:routes")
 include(":server:token")
 include(":server:works")
-include(":local_database:domain")
-include(":local_database:data")
-include(":local_database:di")
-include(":base_api_client")
-include(":tg_sms")
-include(":tg_sms:domain")
-include(":tg_sms:data")
-include(":tg_sms:di")
-include(":app_presentation:navigation:mobile")
-include(":app_presentation:navigation:model")
-include(":app_presentation:dialogs")
+
+/**
+ * TELEGRAM VERIFICATION
+ */
+include(":server:tg_sms")
+include(":server:tg_sms:domain")
+include(":server:tg_sms:data")
+include(":server:tg_sms:di")

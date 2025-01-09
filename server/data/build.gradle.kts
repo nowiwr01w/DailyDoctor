@@ -8,7 +8,7 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     /**
      * SERVER
      */
@@ -17,11 +17,11 @@ dependencies {
     /**
      * DATABASE
      */
-    implementation(projects.database.domain)
+    implementation(projects.server.database.domain)
     /**
      * TELEGRAM SMS
      */
-    implementation(projects.tgSms.domain)
+    implementation(projects.server.tgSms.domain)
     /**
      * DEPENDENCIES
      */

@@ -16,7 +16,7 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     /**
      * SERVER
      */
@@ -27,8 +27,8 @@ dependencies {
     /**
      * DATABASE
      */
-    implementation(projects.database)
-    implementation(projects.database.domain)
+    implementation(projects.server.database)
+    implementation(projects.server.database.domain)
     /**
      * DEPENDENCIES
      */

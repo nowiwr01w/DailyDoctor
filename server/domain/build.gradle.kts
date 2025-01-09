@@ -8,11 +8,11 @@ dependencies {
     /**
      * SHARED MODELS
      */
-    implementation(projects.modelShared)
+    implementation(projects.shared)
     /**
      * DATABASE
      */
-    implementation(projects.database)
+    implementation(projects.server.database)
     /**
      * DEPENDENCIES
      */
