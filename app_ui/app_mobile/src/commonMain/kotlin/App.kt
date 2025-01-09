@@ -1,3 +1,4 @@
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -6,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import app.AppViewModel
+import app.State
 import bottom_sheets.getBottomSheetContent
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
@@ -16,6 +18,7 @@ import components.transition_component.AppDialog
 import nowiwr01p.daily.doctor.app_ui.dialogs.getDialogContent
 import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
 import com.nowiwr01p.model.resources.language.AppWithLanguage
+import components.snack_bar.SnackBar
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import screens.getScreenContent
@@ -36,19 +39,26 @@ fun App(
         appLanguage = appState.appLanguage
     ) {
         AppTheme(appColorTheme = appState.appColorTheme) {
-            AppContent(navigator)
+            AppContent(
+                appState = appState,
+                navigator = navigator
+            )
         }
     }
 }
 
 @Composable
-private fun AppContent(navigator: MobileNavigator) {
+private fun AppContent(
+    appState: State,
+    navigator: MobileNavigator
+) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         Screens(navigator)
         BottomSheets(navigator)
         Dialogs(navigator)
+        SnackBars(appState)
     }
 }
 
@@ -107,4 +117,13 @@ private fun BottomSheets(navigator: MobileNavigator) {
             content = { child.getBottomSheetContent(navigator) }
         )
     }
+}
+
+/**
+ * SNACK BARS
+ */
+@Composable
+private fun SnackBars(state: State) {
+    val transition = updateTransition(state.snackBarParams)
+    SnackBar(transition)
 }

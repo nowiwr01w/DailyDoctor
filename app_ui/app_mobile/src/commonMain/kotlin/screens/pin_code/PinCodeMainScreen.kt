@@ -29,16 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import components.button.ButtonState
-import components.button.ButtonState.DARK_GRAY_ACTIVE
-import components.button.ButtonState.DARK_GRAY_PROGRESS
-import components.button.ButtonState.SUCCESS
+import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinScreenResources
 import extensions.BaseScreen
 import getScreenWidth
 import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.MobileNavigator
 import nowiwr01p.daily.doctor.app_ui.navigation.mobile.navigation.config.child.MobileScreensChild.PinCodeChild
-import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode
-import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinScreenResources
 import nowiwr01p.daily.doctor.resources.Res
 import nowiwr01p.daily.doctor.resources.ic_app_logo_small
 import nowiwr01p.daily.doctor.resources.ic_delete
@@ -49,6 +44,11 @@ import pin_code.Effect.NavigateBack
 import pin_code.Effect.NavigateToHome
 import pin_code.Event.HandleUserInput
 import pin_code.Listener
+import pin_code.PinCodeState
+import pin_code.PinCodeState.Default
+import pin_code.PinCodeState.Error
+import pin_code.PinCodeState.SendRequest
+import pin_code.PinCodeState.Success
 import pin_code.PinCodeViewModel
 import pin_code.State
 import pin_code.data.PinCodeData
@@ -67,7 +67,7 @@ import view_model.rememberViewModel
 fun PinCodeChild.PinCodeMainScreenMobile(
     navigator: MobileNavigator,
     resources: PinScreenResources,
-    viewModel: PinCodeViewModel = baseComponent.rememberViewModel(pinCodeMode)
+    viewModel: PinCodeViewModel = baseComponent.rememberViewModel(resources, pinCodeMode)
 ) {
     val listener = object : Listener {
         override fun handleUserInput(operation: PinCodeOperation) {
@@ -191,28 +191,26 @@ private fun UserImage(
     state: State,
     modifier: Modifier
 ) {
-    Image(
-        painter = painterResource(Res.drawable.yo),
-        contentDescription = "User profile image",
-        contentScale = ContentScale.Crop,
-        modifier = modifier
-    )
+    if (state.isUserProfileImageVisible) {
+        Image(
+            painter = painterResource(Res.drawable.yo),
+            contentDescription = "User profile image",
+            contentScale = ContentScale.Crop,
+            modifier = modifier
+        )
+    }
 }
 
 /**
  * ENTER OR CHANGE PIN CODE TEXT
  */
 @Composable
-private fun PinScreenResources.PinCodeText(
+private fun PinCodeText(
     state: State,
     modifier: Modifier
 ) {
-    val text = when (state.pinCodeMode) { // TODO: Do it in ViewModel
-        is PinCodeMode.Repeat -> pinCodeRepeat
-        else -> pinCodeEnter
-    }
     Text(
-        text = text,
+        text = state.title,
         color = colors.textColors.blackTextColor,
         style = CustomTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Medium),
         modifier = modifier
@@ -234,7 +232,7 @@ private fun Dots(
         repeat(4) { index ->
             DotItem(
                 isActive = index + 1 <= state.pinCode.length,
-                buttonState = state.buttonState,
+                pinCodeState = state.pinCodeState,
                 modifier = Modifier.padding(start = if (index == 0) 0.dp else 18.dp)
             )
         }
@@ -244,16 +242,16 @@ private fun Dots(
 @Composable
 private fun DotItem(
     isActive: Boolean,
-    buttonState: ButtonState,
+    pinCodeState: PinCodeState,
     modifier: Modifier
 ) {
-    val color = when (buttonState) {
-        DARK_GRAY_ACTIVE -> colors.backgroundColors.grayBackgroundColor.copy(
+    val color = when (pinCodeState) {
+        is Default -> colors.backgroundColors.grayBackgroundColor.copy(
             alpha = if (isActive) 1f else 0.2f
         )
-        DARK_GRAY_PROGRESS -> Color(0xFF16A34A) // TODO: To colors
-        SUCCESS -> Color(0xFF16A34A)
-        else -> Color(0xFFE34446)
+        is SendRequest -> Color(0xFF16A34A) // TODO: To colors
+        is Success -> Color(0xFF16A34A)
+        is Error -> Color(0xFFE34446)
     }
     val backgroundColor by animateColorAsState(
         targetValue = color,

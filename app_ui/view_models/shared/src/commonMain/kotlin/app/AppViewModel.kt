@@ -1,6 +1,7 @@
 package app
 
 import com.nowiwr01p.model.model.app_config.config.BrandConfig
+import helpers.snack_bar.SnackBarHelper
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import manager.brand_config.AppBrandConfigManager
@@ -14,7 +15,8 @@ private typealias Ctx = PipelineContext<State, Event, Effect>
 
 class AppViewModel(
     private val appBrandConfigManager: AppBrandConfigManager,
-    private val appLanguageManager: AppLanguageManager
+    private val appLanguageManager: AppLanguageManager,
+    private val snackBarHelper: SnackBarHelper
 ): BaseViewModel<State, Event, Effect>(initialValue = State()) {
     /**
      * INIT
@@ -22,6 +24,7 @@ class AppViewModel(
     override suspend fun Ctx.init() {
         subscribeOnAppConfigChanges()
         subscribeOnAppLanguageChanges()
+        subscribeOnAppSnackBar()
     }
 
     /**
@@ -37,6 +40,15 @@ class AppViewModel(
             }
     }
 
+    private suspend fun Ctx.initAppTheme(config: BrandConfig) = config.brandSettings
+        .availableColorThemes
+        .firstOrNull()
+        ?.let { appColorThemeType ->
+            val appColorTheme = allAppColorThemes.find { it.type == appColorThemeType }
+            val appColorThemeNotNull = appColorTheme ?: AppClassicColorThemeLight()
+            setState { copy(appColorTheme = appColorThemeNotNull) }
+        }
+
     /**
      * APP LANGUAGE
      */
@@ -47,14 +59,11 @@ class AppViewModel(
     }
 
     /**
-     * APP THEME
+     * SNACK BAR
      */
-    private suspend fun Ctx.initAppTheme(config: BrandConfig) = config.brandSettings
-        .availableColorThemes
-        .firstOrNull()
-        ?.let { appColorThemeType ->
-            val appColorTheme = allAppColorThemes.find { it.type == appColorThemeType }
-            val appColorThemeNotNull = appColorTheme ?: AppClassicColorThemeLight()
-            setState { copy(appColorTheme = appColorThemeNotNull) }
+    private fun Ctx.subscribeOnAppSnackBar() = io {
+        snackBarHelper.params.collect { snackBarParams ->
+            setState { copy(snackBarParams = snackBarParams) }
         }
+    }
 }

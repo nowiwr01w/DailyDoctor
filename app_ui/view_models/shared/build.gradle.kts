@@ -59,6 +59,10 @@ kotlin {
                 implementation(projects.appUi.navigation.model)
                 implementation(projects.appUi.viewModels.base)
                 /**
+                 * SHARED PREFERENCES
+                 */
+                implementation(projects.appLogic.localDatabase.domain)
+                /**
                  * COMPOSE // TODO: Remove?
                  */
                 implementation(compose.runtime)

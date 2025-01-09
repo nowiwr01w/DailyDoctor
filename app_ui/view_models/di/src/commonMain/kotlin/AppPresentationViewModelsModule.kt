@@ -1,6 +1,7 @@
 import app.AppViewModel
 import auth.AuthViewModel
 import com.nowiwr01p.model.coroutines.app_scope.AppScope
+import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinScreenResources
 import com.nowiwr01p.model.resources.component_with_resources.screens.verification.VerificationScreenResources
 import helpers.snack_bar.SnackBarHelper
 import home.HomeViewModel
@@ -34,7 +35,8 @@ val moduleAppPresentationViewModels = module {
     single {
         AppViewModel(
             appBrandConfigManager = get<AppBrandConfigManager>(),
-            appLanguageManager = get<AppLanguageManager>()
+            appLanguageManager = get<AppLanguageManager>(),
+            snackBarHelper = get<SnackBarHelper>()
         )
     }
     /**
@@ -81,14 +83,16 @@ val moduleAppPresentationViewModels = module {
     /**
      * PIN CODE
      */
-    factory { (pinCodeMode: PinCodeMode) ->
+    factory { (resources: PinScreenResources, pinCodeMode: PinCodeMode) ->
         PinCodeViewModel(
+            resources = resources,
             pinCodeMode = pinCodeMode,
             snackBarHelper = get<SnackBarHelper>(),
             checkPinCodeUseCase = get<AppCheckPinCodeUseCase>(),
             createPinCodeUseCase = get<AppCreatePinCodeUseCase>(),
             changePinCodeUseCase = get<AppChangePinCodeUseCase>(),
-            deletePinCodeUseCase = get<AppDeletePinCodeUseCase>()
+            deletePinCodeUseCase = get<AppDeletePinCodeUseCase>(),
+            getLocalUserUseCase = get<GetLocalUserUseCase>()
         )
     }
     /**

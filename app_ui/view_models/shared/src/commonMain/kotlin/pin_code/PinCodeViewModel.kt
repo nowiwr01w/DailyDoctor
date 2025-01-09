@@ -4,10 +4,8 @@ import com.nowiwr01p.model.api.request.pin.ChangePinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CheckPinCodeRequest
 import com.nowiwr01p.model.api.request.pin.CreatePinCodeRequest
 import com.nowiwr01p.model.extensions.runCatchingApp
+import com.nowiwr01p.model.resources.component_with_resources.screens.pin.PinScreenResources
 import com.nowiwr01p.model.usecase.execute
-import components.button.ButtonState.DARK_GRAY_ACTIVE
-import components.button.ButtonState.ERROR
-import components.button.ButtonState.SUCCESS
 import helpers.snack_bar.SnackBarHelper
 import helpers.snack_bar.data.SnackBarParams
 import helpers.snack_bar.data.SnackBarType
@@ -20,7 +18,13 @@ import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode.Check
 import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode.Create
 import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode.Delete
 import nowiwr01p.daily.doctor.app_ui.navigation.model.pin.PinCodeMode.Repeat
+import nowiwr01p.daily.doctor.local_database.domain.usecase.user.GetLocalUserUseCase
 import pin_code.Event.HandleUserInput
+import pin_code.PinCodeError.PasscodesDoNotMatch
+import pin_code.PinCodeError.UnexpectedError
+import pin_code.PinCodeState.Default
+import pin_code.PinCodeState.Error
+import pin_code.PinCodeState.Success
 import pin_code.data.PinCodeOperation
 import pin_code.data.PinCodeOperation.AddDigit
 import pin_code.data.PinCodeOperation.RemoveDigit
@@ -34,40 +38,74 @@ import view_model.BaseViewModel
 private typealias Ctx = PipelineContext<State, Event, Effect>
 
 class PinCodeViewModel(
+    private val resources: PinScreenResources,
     private val pinCodeMode: PinCodeMode,
     private val snackBarHelper: SnackBarHelper,
     private val checkPinCodeUseCase: AppCheckPinCodeUseCase,
     private val createPinCodeUseCase: AppCreatePinCodeUseCase,
     private val changePinCodeUseCase: AppChangePinCodeUseCase,
-    private val deletePinCodeUseCase: AppDeletePinCodeUseCase
+    private val deletePinCodeUseCase: AppDeletePinCodeUseCase,
+    private val getLocalUserUseCase: GetLocalUserUseCase
 ): BaseViewModel<State, Event, Effect>(
-    initialValue = State(pinCodeMode = pinCodeMode)
+    initialValue = State(mode = pinCodeMode)
 ) {
     private var previousPinCodeMode = pinCodeMode
+    private var previousEnteredPinCode = ""
 
+    /**
+     * INIT
+     */
     override suspend fun Ctx.handleEvents(event: Event) {
         when (event) {
             is HandleUserInput -> handleUserInput(event.operation)
         }
     }
 
-    private suspend fun Ctx.handleUserInput(operation: PinCodeOperation) {
-        updateUserInput(operation)
-        handleModeChanging()
+    override suspend fun Ctx.init() {
+        updateTitleAndProfileImage()
     }
 
-    private suspend fun Ctx.updateUserInput(operation: PinCodeOperation) = withState {
+    /**
+     * TITLE BY MODE
+     */
+    private suspend fun Ctx.updateTitleAndProfileImage() = withState {
+        val title = with(resources) {
+            when (mode) {
+                is Create -> pinCodeCreate
+                is Check, Delete -> pinCodeEnter
+                is Repeat -> pinCodeRepeat
+                is Change -> pinCodeCreateNew
+            }
+        }
+        val isUserProfileImageVisible = pinCodeMode !is Create && previousPinCodeMode !is Create
+        setState { copy(title = title, isUserProfileImageVisible = isUserProfileImageVisible) }
+    }
+
+    /**
+     * PIN CODE INPUT
+     */
+    private suspend fun Ctx.handleUserInput(operation: PinCodeOperation) = withState {
         val updatedPinCode = when (operation) {
             is AddDigit -> "$pinCode${operation.digit}"
             is RemoveDigit -> pinCode.dropLast(1)
         }
         setState { copy(pinCode = updatedPinCode) }
+        handleModeChanging()
     }
 
+    /**
+     * MODE CHANGING
+     */
     private suspend fun Ctx.handleModeChanging() = withState {
         if (pinCode.length == 4) {
-            when (pinCodeMode) {
-                is Create, is Change -> createPinCode(pinCode) // TODO: setState { copy(pinCodeMode = Repeat) }
+            when (mode) {
+                is Create, is Change -> {
+                    previousPinCodeMode = mode
+                    previousEnteredPinCode = pinCode
+                    delay(500) // last pin color animation
+                    setState { copy(mode = Repeat, pinCode = "") }
+                    updateTitleAndProfileImage()
+                }
                 is Check -> checkPinCode(pinCode)
                 is Delete -> deletePinCode()
                 is Repeat -> when (previousPinCodeMode) {
@@ -78,8 +116,12 @@ class PinCodeViewModel(
         }
     }
 
+    /**
+     * API
+     */
     private fun Ctx.createPinCode(code: String) = pinCodeOperation(
         pinCodeCallback = {
+            checkArePasscodesMatch(code)
             val request = CreatePinCodeRequest(
                 code = code,
                 pinCodeToken = previousPinCodeMode.pinCodeToken
@@ -102,6 +144,7 @@ class PinCodeViewModel(
 
     private fun Ctx.changePinCode(code: String) = pinCodeOperation(
         pinCodeCallback = {
+            checkArePasscodesMatch(code)
             val request = ChangePinCodeRequest()
             changePinCodeUseCase.execute(request)
         },
@@ -125,32 +168,47 @@ class PinCodeViewModel(
             }.onSuccess {
                 onSuccess(navigationEffect)
             }.onFailure { error ->
-                if (!error.message.isNullOrEmpty()) {
-                    onError(error.message!!)
-                }
+                onError(error)
             }
         }
     }
 
+    /**
+     * SUCCESS
+     */
     private suspend fun Ctx.onSuccess(navigationEffect: Effect) {
         val params = SnackBarParams.TopFloatingParams(
             type = SnackBarType.SUCCESS,
             message = AppMessage.AppMessageText("Добро пожаловать!") // TODO
         )
-        setState { copy(buttonState = SUCCESS) }
+        setState { copy(pinCodeState = Success) }
         snackBarHelper.showSnackBar(params)
         delay(3000)
         setEffect(navigationEffect)
     }
 
-    private suspend fun Ctx.onError(message: String) {
+    /**
+     * FAIL
+     */
+    private suspend fun Ctx.onError(error: Throwable) {
+        val pinCodeError = when (error) {
+            is PinCodeError -> error
+            else -> UnexpectedError(error.message.orEmpty())
+        }
         val params = SnackBarParams.TopFloatingParams(
             type = SnackBarType.ERROR,
-            message = AppMessage.AppMessageText(message) // TODO
+            message = AppMessage.AppMessageText(pinCodeError.message)
         )
-        setState { copy(buttonState = ERROR) }
         snackBarHelper.showSnackBar(params)
+        setState { copy(pinCodeState = Error(pinCodeError)) }
         delay(3000)
-        setState { copy(buttonState = DARK_GRAY_ACTIVE, pinCode = "") }
+        setState { copy(mode = previousPinCodeMode, pinCodeState = Default, pinCode = "") }
+        updateTitleAndProfileImage()
+    }
+
+    private fun checkArePasscodesMatch(code: String) {
+        if (code != previousEnteredPinCode) {
+            throw PasscodesDoNotMatch("Passcodes don't match :c")
+        }
     }
 }
