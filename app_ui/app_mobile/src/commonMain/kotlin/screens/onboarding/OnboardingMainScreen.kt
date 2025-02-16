@@ -117,7 +117,8 @@ private fun LoadingContent() = Box(
 ) {
     CircularProgressIndicator(
         color = colors.backgroundColors.redBackgroundColor,
-        strokeWidth = 3.dp
+        strokeWidth = 2.dp,
+        modifier = Modifier.size(20.dp)
     )
 }
 

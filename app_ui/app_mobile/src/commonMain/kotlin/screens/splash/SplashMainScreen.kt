@@ -74,9 +74,9 @@ private fun SplashMainScreenContent(state: State) = ConstraintLayout(
     if (state.showProgress) {
         CircularProgressIndicator(
             color = colors.backgroundColors.whiteBackgroundColor,
-            strokeWidth = 3.dp,
+            strokeWidth = 2.dp,
             modifier = Modifier
-                .size(24.dp)
+                .size(20.dp)
                 .constrainAs(progress) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
